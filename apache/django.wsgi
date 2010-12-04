@@ -3,7 +3,7 @@
 import os
 import sys
 
-ROOT_PATH = '/home/rlafuente/Dropbox/hacklaviva/transparencia/'
+ROOT_PATH = '/home/rlafuente/code/transparencia/repo/'
 PROJECT_NAME = 'dptd'
 
 if ROOT_PATH not in sys.path:

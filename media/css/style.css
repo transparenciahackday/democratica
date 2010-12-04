@@ -1,0 +1,401 @@
+* {
+margin: 0;
+padding: 0;
+}
+
+@font-face {
+font-family: "League";
+src: local("League"), url("../fonts/League-Gothic.otf") format("opentype");
+}
+
+@font-face {
+font-family: "Titillium";
+src: local("Titillium"), url("../fonts/titillium/TitilliumText1.otf") format("opentype");
+}
+
+img {
+border: 0;
+}
+
+html {
+height: 100%;
+background: #eeffaa url(../img/content-bg.png) repeat 0 0;
+}
+
+body {
+min-height: 100%;
+font-size: 70%;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+line-height: 1.6em;
+color: #333;
+}
+
+#header-box,
+#content-box,
+#menu-box,
+#footer-box {
+width: 950px;
+overflow: auto;
+margin: 0 auto;
+padding: 20px 0;
+position: relative;
+}
+
+a:focus {
+outline: none;
+}
+
+h1 {
+font-size: 220%;
+}
+
+h2 {
+font-size: 180%;
+}
+
+h3 {
+font-size: 160%;
+}
+
+h4 {
+font-size: 120%;
+margin: 0 0 10px 0;
+}
+
+h5 {
+font-size: 100%
+}
+
+/* ------------------------ header
+--------------------------------*/
+
+#header {
+background: #00aa88 url(img/header-shadow.png) repeat-x 0 bottom;
+}
+
+#header h1 {
+font: 68px "League", Arial,sans-serif;
+}
+
+#header h1 a {
+color: #fff;
+text-decoration: none;
+}
+
+/* ------------------------ top-search
+--------------------------------*/
+
+#top-search {
+position: absolute;
+top: 10px;
+right: 0;
+}
+
+#top-search input.searchbox {
+width: 150px;
+padding: 2px;
+background: #fff;
+vertical-align: middle;
+}
+
+#top-search .searchicon {
+margin-left: -2px;
+vertical-align: middle;
+padding: 4px 6px;
+background-color: #ccc;
+border: 1px solid #999;
+
+border-top-right-radius: 3px;
+border-bottom-right-radius: 3px;
+-moz-border-radius-topright: 3px;
+-moz-border-radius-bottomright: 3px;
+-webkit-border-top-right-radius: 3px;
+-webkit-border-bottom-right-radius: 3px;
+}
+
+/* ------------------------ menu
+--------------------------------*/
+
+#menu {
+background: #666;
+}
+
+#menu-box {
+padding: 8px 0;
+}
+
+#menu-box li {
+list-style-type: none;
+}
+
+#menu-box li a {
+color: #fff;
+text-decoration: none;
+}
+
+/* ------------------------ content
+--------------------------------*/
+
+#content {
+min-height: 300px;
+}
+
+#content h2 {
+margin: 0 0 10px;
+}
+
+/* ------------------------ homepage
+--------------------------------*/
+
+#main-search {
+background: rgba(0,170,136,.5);
+padding: 20px;
+margin: 0 0 10px;
+}
+
+#main-search h2 {
+margin: 0 0 10px;
+}
+
+#main-search form {
+display: block;
+}
+
+#main-search input.searchbox {
+width: 300px;
+padding: 8px 3px;
+background: #fff;
+vertical-align: middle;
+}
+
+#main-search input.search-btn {
+
+}
+
+#content #main a.box {
+padding: 20px;
+margin: 0 20px 10px 0;
+width: 420px;
+min-height: 60px;
+float: left;
+background: rgba(255,255,255,.5);
+text-decoration: none;
+color: #00aa88;
+}
+
+  #content #main a.right {
+  margin-right: 0;
+  }
+
+#content #main a.box:hover {
+background: rgba(0,170,136,.5);
+color: #fff;
+}
+
+#content #main a.box h2 {
+margin-bottom: 10px;
+padding-bottom: 5px;
+border-bottom: 3px solid #00aa88;
+}
+
+#content #secondary h2 {
+margin-bottom: 10px;
+padding-bottom: 5px;
+color: #333;
+}
+
+#content #secondary a {
+color: #fff;
+background: red;
+padding: 10px;
+}
+
+/* ------------------------ mp list
+--------------------------------*/
+
+#content table#mp {
+
+}
+
+#content table#mp {
+width: 100%;
+border-collapse: collapse;
+border-spacing: 0;
+background: #fff;
+margin: 10px 0;
+border: 1px solid #ddd;
+font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+text-align: left;
+color: #555;
+}
+
+#content table#mp thead {
+background: #ccc url(../img/thead-bg.png) repeat-x scroll 0 0;
+}
+
+#content table#mp thead th,
+#content table#mp tbody th {
+padding: 3px 8px;
+vertical-align: middle;
+border-bottom: 1px solid #ccc;
+border-left: 1px solid #ccc;
+text-shadow: 0 1px 0 #fff;
+}
+
+#content table#mp tbody th {
+background: #d1ff50 url(../img/thead-bg.png) repeat-x 0 0;
+border-bottom: 1px solid #d1ff50;
+}
+
+#content table#mp tbody th a {
+display: block;
+}
+
+#content table#mp thead th:first-child,
+#content table#mp tbody th:first-child {
+border-left: 0;
+}
+
+#content table#mp th.checkbox-col {
+width: 15px;
+border-left: 0;
+text-align: center;
+}
+
+#content table#mp thead th.sortable {
+padding: 0;
+}
+
+#content table#mp thead th.sortable a {
+display: block;
+padding: 3px 8px;
+}
+
+#content table#mp thead th.selected {
+background: #999 url(../img/thead-bg.png) repeat-x scroll 0 0;
+text-shadow: 0 1px 0 #ccc;
+}
+
+#content table#mp thead th.selected a {
+color: #333;
+}
+
+#content table#mp thead th.sortable a:hover,
+#content table#mp th.sortable:hover {
+color: #333;
+background: #999 url(../img/thead-bg.png) repeat-x scroll 0 0;
+}
+
+#content table#mp thead a {
+color: #555;
+}
+
+#content table#mp thead a:hover {
+text-decoration: none;
+}
+
+#content table#mp td {
+padding: 7px 8px;
+text-align: left;
+vertical-align: top;
+}
+
+#content table#mp tr.even td {
+background: #eeffaa;
+}
+
+/* ------------------------ mp details
+--------------------------------*/
+
+#mp-details {
+list-style-type: none;
+margin: 10px 0 30px;
+}
+
+#mp-details > li {
+margin: 10px 0 0;
+}
+
+#mp-details > li:first-child {
+margin: 10px 0 0;
+}
+
+
+/* ------------------------ pagination
+--------------------------------*/
+
+#content .pagination {
+clear: both;
+position: relative;
+margin: 0;
+padding: 5px 0;
+font-size: 90%;
+border-top: 1px solid #ddd;
+}
+
+#content .pagination ul {
+list-style-type: none;
+padding: 0;
+overflow: auto;
+}
+
+#content .pagination li,
+#content .pagination li#pg-nav ul {
+display: inline;
+padding: 4px 0;
+margin: 0;
+}
+
+#content .pagination a {
+display: inline;
+padding: 2px 5px 3px;
+text-decoration: none;
+color: #666;
+}
+
+#content .pagination a:hover,
+#content .pagination a:focus {
+background: #ddd;
+color: #444;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+}
+
+#content .pagination a.on {
+background: #666;
+color: #fff;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+}
+
+#content .pagination li#previous {
+position: absolute;
+left: 0px;
+text-align: left;
+}
+
+#content .pagination li#next {
+position: absolute;
+right: 0px;
+text-align: right;
+}
+
+#content .pagination li#previous a:hover,
+#content .pagination li#next a:hover {
+background: #ddd;
+color: #444;
+}
+
+#content .pagination li#pg-nav {
+text-align: center;
+float: left;
+width: 640px;
+margin: 0 30px;
+overflow: hidden;
+}
+
+
+
+
