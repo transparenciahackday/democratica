@@ -4,16 +4,16 @@
     <meta charset="utf-8" />
     <title>Transparência Porto :: Deputados</title>
 
-    <link rel="stylesheet" href="js/uniform/css/uniform.default.css" type="text/css" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
+    <link rel="stylesheet" href="/media/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
   
     <link rel="shortcut icon" href="img/favicon.ico" />
   
-    <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="js/css_browser_selector.js"></script>
-    <script type="text/javascript" src="js/uniform/jquery.uniform.js"></script>
-    <script type="text/javascript" src="js/jquery.clear-on-focus.js"></script>
+    <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
+    <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
     
     <script type="text/javascript">
       $(document).ready(function(){  
@@ -40,7 +40,7 @@
   <div id="menu">
     <div id="menu-box">
       <ul>
-        <li><a href="index.html">Home</a></li>
+        <li><a href="/">Home</a></li>
       </ul>
     </div> <!-- /#menu-box -->
   </div> <!-- /#menu -->
@@ -59,22 +59,14 @@
           </thead>
           
           <tbody>
-            <tr class="odd">
-              <td><a href="mp-details.html">Manuel Xxx</a></td>
-              <td>Bomba</td>
-              <td>Uma e duas</td>
+            {% for mp in object_list %}
+            <tr class="{% cycle odd even %}">
+              <td><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></td>
+              <td>{{ mp.caucus.party.abbrev }}</td>
+              <td>{{ mp.caucus.session }}</td>
             </tr>
             </a>
-            <tr class="even">
-              <td><a href="mp-details.html">Ruizinho Xxx</a></td>
-              <td>Bomba</td>
-              <td>Uma e duas</td>
-            </tr>
-            <tr class="odd">
-              <td><a href="mp-details.html">Gualdina Xxx</a></td>
-              <td>Bomba</td>
-              <td>Uma e duas</td>
-            </tr>
+             {% endfor %}
           </tbody>
         </table>
         
