@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from dptd.deputados.models import MP
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
