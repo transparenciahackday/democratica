@@ -42,9 +42,13 @@
   
   <div id="content">
     <div id="content-box">
-      <h2>{{ object.shortname }}</h2> <!-- nome abreviado -->
-      <p><img src="{{ object.photo_url }}" alt="{{ mp.shortname }}" /></p>
-        <ul id="mp-details">
+      
+      <div id="mp-header">
+        <p><img src="{{ object.photo_url }}" alt="{{ mp.shortname }}" /></p>
+        <h2>{{ object.shortname }} <small>{{ object.current_party }}</small></h2> <!-- nome abreviado -->
+      </div>
+      
+        <ul class="mp-details mp-details-left">
           <li class="single-field">
             <h4>Nome Completo:</h4>
             <p>{{ object.name }}</p>
@@ -112,7 +116,9 @@
             </ul>
           {% endif %}
           </li>
-
+        </ul>
+        
+        <ul class="mp-details">
           <li>
             <h4>Notícias recentes:</h4>
             <ul>
