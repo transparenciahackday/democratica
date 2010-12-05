@@ -14,6 +14,8 @@
     <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
     <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
     <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
+    
+    <!-- este script é da pesquisa rápida na lista de deputados, para já só é usado nesta página -->
     <script type="text/javascript" src="/media/js/jquery.quicksearch.js"></script>
     
     <script type="text/javascript">
@@ -21,9 +23,11 @@
         $(".searchbox").search();
         $("input, textarea, select, button").uniform();
         
-        $("#all-mp").quicksearch({
+        //este pedaço é usado para chamar a pesquisa rápida
+        //só neste template
+        $(".mp-list > li").quicksearch({
         position: 'prepend',
-        attached: '.mp-filters',
+        attached: '#content-box',
         labelText: null,
         loaderImg: '/media/img/icons/loading-16px.gif',
         inputText: 'Pesquisar na lista...'
@@ -53,6 +57,7 @@
     <div id="menu-box">
       <ul>
         <li><a href="/">Home</a></li>
+        <li><a href="about.html">Sobre</a></li>
       </ul>
     </div> <!-- /#menu-box -->
   </div> <!-- /#menu -->
