@@ -25,6 +25,7 @@ class MP(models.Model):
     def has_activities(self):
         return bool(self.activity_set.all())
 
+    @property
     def photo_url(self):
         return 'http://localhost:8000/media/fotos/%d.jpg' % (int(self.id))
 

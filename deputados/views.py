@@ -18,11 +18,13 @@ def mp_detail(request, object_id):
     # get Google News feed
     import feedparser
     import urllib
-    name = "Francisco Louçã"
+    name = mp.shortname
     values = {'q': name, 'output': 'rss'}
 
     url = 'http://news.google.com/news?%s' % urllib.urlencode(values)
     channels = feedparser.parse(url)
+
+    news = []
 
     for entry in channels.entries:
         try:
@@ -36,9 +38,11 @@ def mp_detail(request, object_id):
             summary = entry.description
             title = entry.title
 
-            print title
-            print url
+        item = (url, title)
+        news.append(item)
 
-    return object_detail(request, queryset, object_id)
+    return object_detail(request, queryset, object_id,
+            extra_context={'news': news,
+                })
 
 
