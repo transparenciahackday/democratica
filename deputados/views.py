@@ -22,12 +22,9 @@ def mp_detail(request, object_id):
     import urllib
     name = mp.shortname
     values = {'q': name, 'output': 'rss'}
-
     url = 'http://news.google.com/news?%s' % urllib.urlencode(values)
     channels = feedparser.parse(url)
-
     news = []
-
     for entry in channels.entries:
         try:
             url = unicode(entry.link, channels.encoding)
@@ -39,12 +36,21 @@ def mp_detail(request, object_id):
             url = entry.link
             summary = entry.description
             title = entry.title
-
         item = (url, title)
         news.append(item)
 
+    # get Twitter posts
+    if mp.linkset.twitter_url:
+        username = mp.linkset.twitter_url.strip('/').split('/')[-1]
+        import twitter
+        c = twitter.Api()
+        tweets = [s.text for s in c.GetUserTimeline(username)]
+    else:
+        tweets = []
+
+
     return object_detail(request, queryset, object_id,
-            extra_context={'news': news,
+            extra_context={'news': news, 'tweets': tweets,
                 })
 
 

@@ -103,7 +103,7 @@ class Activity(models.Model):
         verbose_name = 'actividade'
 
 class LinkSet(models.Model):
-    mp = models.ForeignKey(MP)
+    mp = models.OneToOneField(MP)
     email = models.EmailField('E-mail', blank=True)
     wikipedia_url = models.URLField('Wikipedia', blank=True)
     facebook_url = models.URLField('Facebook', blank=True)

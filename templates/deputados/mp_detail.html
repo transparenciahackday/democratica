@@ -120,6 +120,36 @@
               <li><a href="{{ newsurl }}">{{ newstitle }}</a></li>
               {% endfor %}
             </ul>
+          </li>
+
+          <li>
+            <h4>Ligações:</h4>
+            <ul>
+              {% with object.linkset as l %}
+              {% if l.email %}<li><a href="mailto:{{ l.email }}">Enviar e-mail</a></li>{% endif %}
+              {% if l.website_url %}<li><a href="http://{{ l.website_url }}">Website</a></li>{% endif %}
+              {% if l.blog_url %}<li><a href="http://{{ l.blog_url }}">Blog</a></li>{% endif %}
+
+              {% if l.wikipedia_url %}<li><a href="http://{{ l.wikipedia_url }}">Wikipedia</a></li>{% endif %}
+              {% if l.twitter_url %}<li><a href="http://{{ l.twitter_url }}">Twitter</a></li>{% endif %}
+              {% if l.facebook_url %}<li><a href="http://{{ l.facebook_url }}">Facebook</a></li>{% endif %}
+              {% if l.twitica_url %}<li><a href="http://{{ l.twitica_url }}">Twitica</a></li>{% endif %}
+              {% if l.linkedin_url %}<li><a href="http://{{ l.linkedin_url }}">LinkedIn</a></li>{% endif %}
+              {% endwith %}
+            </ul>
+          </li>
+
+          {% if tweets %}
+          <li>
+            <h4>Últimos tweets:</h4>
+            <ul>
+              {% for t in tweets %}
+              <li>{{ t }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endif %}
+
         </ul>
         
     </div><!-- /#content-box -->
