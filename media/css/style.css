@@ -74,7 +74,7 @@ background: #00aa88 url(img/header-shadow.png) repeat-x 0 bottom;
 }
 
 #header h1 {
-font: 68px "League", Arial,sans-serif;
+font: 42px "League", Arial,sans-serif;
 }
 
 #header h1 a {
@@ -131,6 +131,7 @@ list-style-type: none;
 #menu-box li a {
 color: #fff;
 text-decoration: none;
+font-size: 120%;
 }
 
 /* ------------------------ content
@@ -147,40 +148,16 @@ margin: 0 0 10px;
 /* ------------------------ homepage
 --------------------------------*/
 
-#main-search {
-background: rgba(0,170,136,.5);
-padding: 20px;
-margin: 0 0 10px;
-}
-
-#main-search h2 {
-margin: 0 0 10px;
-}
-
-#main-search form {
-display: block;
-}
-
-#main-search input.searchbox {
-width: 300px;
-padding: 8px 3px;
-background: #fff;
-vertical-align: middle;
-}
-
-#main-search input.search-btn {
-
-}
-
 #content #main a.box {
 padding: 20px;
 margin: 0 20px 10px 0;
 width: 420px;
 min-height: 60px;
 float: left;
-background: rgba(255,255,255,.5);
+background: #fff;
 text-decoration: none;
 color: #00aa88;
+display: block;
 }
 
   #content #main a.right {
@@ -188,8 +165,8 @@ color: #00aa88;
   }
 
 #content #main a.box:hover {
-background: rgba(0,170,136,.5);
-color: #fff;
+color: #333;
+border-color: #333;
 }
 
 #content #main a.box h2 {
@@ -206,16 +183,13 @@ color: #333;
 
 #content #secondary a {
 color: #fff;
-background: red;
 padding: 10px;
+display: block;
+background: #00aa88;
 }
 
-/* ------------------------ mp list
+/* ------------------------ mp list - tabela
 --------------------------------*/
-
-#content table#mp {
-
-}
 
 #content table#mp {
 width: 100%;
@@ -302,6 +276,83 @@ vertical-align: top;
 
 #content table#mp tr.even td {
 background: #eeffaa;
+}
+
+/* ------------------------ mp-list list
+--------------------------------*/
+
+ul.mp-filters {
+background: #fff;
+padding: 8px 5px;
+margin-bottom: 5px;
+overflow: auto;
+border-top: 3px solid #00aa88;
+}
+
+ul.mp-filters li {
+display: block;
+float: left;
+margin: 0 15px 0 0;
+}
+
+ul.mp-filters a {
+display: block;
+float: left;
+text-decoration: none;
+padding: 5px 3px;
+margin: 0 2px;
+}
+
+ul.mp-list {
+font-size: 120%;
+margin: 0 25px 20px 0;
+width: 300px;
+float: left;
+}
+
+ul.last {
+margin: 0 0 20px;
+}
+
+ul.mp-list li {
+list-style-type: none;
+display: block;
+margin: 4px 0;
+padding: 8px 0;
+overflow: auto;
+border-bottom: 1px solid #ccc;
+}
+
+ul.mp-list a {
+text-decoration: none;
+color: #333;
+}
+
+ul.mp-list li:first-child a {
+border-top: 0;
+}
+
+ul.mp-list a:hover {
+color: #00aa88;
+}
+
+  ul.mp-list li:hover {
+  background: rgba(255,255,255,.5);
+  }
+
+ul.mp-list .name {
+font-weight: bold;
+}
+
+ul.mp-list .photo {
+background: #e4f081;
+margin-right: 3px;
+}
+
+ul.mp-list .party {
+background: transparent url(../img/party-icons/mdpcde.png) no-repeat right 0;
+padding: 0 20px 0;
+font-size: 90%;
 }
 
 /* ------------------------ mp details

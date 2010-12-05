@@ -14,11 +14,20 @@
     <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
     <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
     <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.quicksearch.js"></script>
     
     <script type="text/javascript">
       $(document).ready(function(){  
         $(".searchbox").search();
         $("input, textarea, select, button").uniform();
+        
+        $(".mp-list li").quicksearch({
+        position: 'append',
+        attached: '.mp-filters',
+        labelText: null,
+        loaderImg: '/media/img/icons/loading-16px.gif',
+        inputText: 'Pesquisar na lista...'
+      });
 	    });
     </script>
   </head>
@@ -27,13 +36,16 @@
 
   <div id="header">
     <div id="header-box">
-      <h1><a href="index.html">Transparência Hackday Porto</a></h1>
+      <h1><a href="/">TRANSPARÊNCIA HACKDAY PORTO</a></h1>
       
-      <div id="top-search">
-          <form action="/search/" method="get">
-	          <input class="searchbox" name="q" value="Pesquisar..." /><input type="image" class="searchicon" src="img/icons/search.png" alt="Pesquisar" />
-	        </form>
+      {% comment %}
+        <div id="top-search">
+            <form action="/search/" method="get">
+	            <input class="searchbox" name="q" value="Pesquisar..." /><input type="image" class="searchicon" src="/media/img/icons/search.png" alt="Pesquisar" />
+	          </form>
 	      </div>
+	    {% endcomment %}
+	    
     </div> <!-- /#header-box -->
   </div> <!-- /#header -->
   
@@ -49,41 +61,55 @@
     <div id="content-box">
         <h2>Deputados</h2>
         
-        <table id="mp">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Partido</th>
-              <th>Legislaturas</th>
-            </tr>
-          </thead>
-          
-          <tbody>
-            {% for mp in object_list %}
-            <tr class="{% cycle odd even %}">
-              <td><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></td>
-              <td>{{ mp.caucus.party.abbrev }}</td>
-              <td>{{ mp.caucus.session }}</td>
-            </tr>
-            </a>
-             {% endfor %}
-          </tbody>
-        </table>
-        
-        <div class="pagination">
-          <ul>
-            <li id="previous"><a href="">&laquo; Anterior</a></li>
-            <li id="pg-nav">
-              <ul>
-                <li class="first"><a href="" class="on">1</a></li>
-                <li><a href="">2</a></li>
-                <li><a href="">3</a></li>
-                <li>...</li>
-                <li class="last"><a href="">12</a></li>
-              </ul></li>
-            <li id="next"><a href="">Próximo &raquo;</a></li>
+        <form>
+          <ul class="mp-filters">
+            <li><strong>Legislatura:</strong>
+              <select name="legislatura">
+                <option value="legislatura-all" selected="selected">Todas</option>
+                <option value="legislatura-1">X</option>
+                <option value="legislatura-2">IX</option>
+                <option value="legislatura-3">VIII</option>
+              </select>
+            </li>
+            <li><strong>Partido:</strong>
+              <select name="party">
+                <option value="party-all" selected="selected">Todas</option>
+                <option value="party-1">PSD</option>
+                <option value="party-2">PS</option>
+                <option value="party-3">CDU</option>
+              </select>
+            </li>
           </ul>
-        </div> <!-- /pagination-->
+        
+        <!-- o que eu queria: para ter três colunas precisamos de três uls,
+        a última ul tem de ter o seguinte class="mp-list last"-->
+        
+        <ul class="mp-list">
+          {% for mp in object_list %}   
+            <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
+              <span class="photo"><img src="{{ object.photo_url}}" alt="Manuel Vasconcelos" /></span>
+              <span class="name">{{ mp.shortname }}</span>
+              <span class="party">{{ mp.caucus.party.abbrev }}</span>
+            </a></li>
+          {% endfor %}
+        </ul>
+        
+        {% comment %}
+          <div class="pagination">
+            <ul>
+              <li id="previous"><a href="">&laquo; Anterior</a></li>
+              <li id="pg-nav">
+                <ul>
+                  <li class="first"><a href="" class="on">1</a></li>
+                  <li><a href="">2</a></li>
+                  <li><a href="">3</a></li>
+                  <li>...</li>
+                  <li class="last"><a href="">12</a></li>
+                </ul></li>
+              <li id="next"><a href="">Próximo &raquo;</a></li>
+            </ul>
+          </div> <!-- /pagination-->
+        {% endcomment %}
         
     </div><!-- /#content-box -->
   </div> <!-- /#content -->
