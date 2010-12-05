@@ -92,29 +92,35 @@
         <ul class="mp-list">
           {% for mp in object_list %}   
             <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
-              <span class="photo"><img src="{{ object.photo_url}}" alt="{{ mp.shortname }}" /></span>
+              <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
               <span class="name">{{ mp.shortname }}</span>
               <span class="party">{{ mp.caucus.party.abbrev }}</span>
             </a></li>
           {% endfor %}
         </ul>
         
-        {% comment %}
-          <div class="pagination">
-            <ul>
-              <li id="previous"><a href="">&laquo; Anterior</a></li>
-              <li id="pg-nav">
-                <ul>
-                  <li class="first"><a href="" class="on">1</a></li>
-                  <li><a href="">2</a></li>
-                  <li><a href="">3</a></li>
-                  <li>...</li>
-                  <li class="last"><a href="">12</a></li>
-                </ul></li>
-              <li id="next"><a href="">Próximo &raquo;</a></li>
-            </ul>
-          </div> <!-- /pagination-->
-        {% endcomment %}
+        <div class="pagination">
+          <ul>
+            <li id="previous"><a href="">&laquo; Anterior</a></li>
+            <li id="pg-nav">
+              <ul>
+                {% for p in page_range %}
+                {% if forloop.first %} <li class="first"> {% else %} <li> {% endif %}
+                <a href='&page={{ p }}'{% if p == page %} class="on"{% endif %}>{{ p }}</a>
+                </li>
+                {% endfor %}
+
+                {% comment %}
+                <li class="first"><a href="" class="on">1</a></li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li>...</li>
+                <li class="last"><a href="">12</a></li>
+                {% endcomment %}
+              </ul></li>
+            <li id="next"><a href="">Próximo &raquo;</a></li>
+          </ul>
+        </div> <!-- /pagination-->
         
     </div><!-- /#content-box -->
   </div> <!-- /#content -->
