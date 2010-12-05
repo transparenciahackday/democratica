@@ -9,11 +9,13 @@ def index(request):
 
 def mp_list(request):
     queryset = MP.objects.all()
-    return object_list(request, queryset) 
+    return object_list(request, queryset,
+                       paginate_by=60,
+                       ) 
 
 def mp_detail(request, object_id):
     queryset = MP.objects.all()
-    mp = MP.objects.get(id=object.id)
+    mp = MP.objects.get(id=object_id)
 
     # get Google News feed
     import feedparser
