@@ -101,3 +101,16 @@ class Activity(models.Model):
     def __unicode__(self): return self.mp.shortname
     class Meta:
         verbose_name = 'actividade'
+
+class LinkSet(models.Model):
+    mp = models.ForeignKey(MP)
+    email = models.EmailField('E-mail', blank=True)
+    wikipedia_url = models.URLField('Wikipedia', blank=True)
+    facebook_url = models.URLField('Facebook', blank=True)
+    twitter_url = models.URLField('Twitter', blank=True)
+    blog_url = models.URLField('Blog', blank=True)
+    website_url = models.URLField('Website', blank=True)
+    linkedin_url = models.URLField('LinkedIn', blank=True)
+    twitica_url = models.URLField('Twitica', blank=True)
+    radio_url = models.CharField('Programa de rádio', max_length=200, blank=True)
+    tv_url = models.CharField('Programa de televisão', max_length=200, blank=True)
