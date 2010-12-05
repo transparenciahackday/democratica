@@ -188,98 +188,26 @@ display: block;
 background: #00aa88;
 }
 
-/* ------------------------ mp list - tabela
+/* ------------------------ mp-list
 --------------------------------*/
 
-#content table#mp {
-width: 100%;
-border-collapse: collapse;
-border-spacing: 0;
-background: #fff;
-margin: 10px 0;
-border: 1px solid #ddd;
-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
-text-align: left;
-color: #555;
+form#quicksearch {
+position: absolute;
+top: 10px;
+right: 0;
+padding: 6px 0 6px 10px;
 }
 
-#content table#mp thead {
-background: #ccc url(../img/thead-bg.png) repeat-x scroll 0 0;
+form#quicksearch input[type="text"] {
+width: 180px;
 }
 
-#content table#mp thead th,
-#content table#mp tbody th {
-padding: 3px 8px;
-vertical-align: middle;
-border-bottom: 1px solid #ccc;
-border-left: 1px solid #ccc;
-text-shadow: 0 1px 0 #fff;
+form#quicksearch #loader {
+position: absolute;
+top: 10px;
+right: 18px;
+z-index: 20;
 }
-
-#content table#mp tbody th {
-background: #d1ff50 url(../img/thead-bg.png) repeat-x 0 0;
-border-bottom: 1px solid #d1ff50;
-}
-
-#content table#mp tbody th a {
-display: block;
-}
-
-#content table#mp thead th:first-child,
-#content table#mp tbody th:first-child {
-border-left: 0;
-}
-
-#content table#mp th.checkbox-col {
-width: 15px;
-border-left: 0;
-text-align: center;
-}
-
-#content table#mp thead th.sortable {
-padding: 0;
-}
-
-#content table#mp thead th.sortable a {
-display: block;
-padding: 3px 8px;
-}
-
-#content table#mp thead th.selected {
-background: #999 url(../img/thead-bg.png) repeat-x scroll 0 0;
-text-shadow: 0 1px 0 #ccc;
-}
-
-#content table#mp thead th.selected a {
-color: #333;
-}
-
-#content table#mp thead th.sortable a:hover,
-#content table#mp th.sortable:hover {
-color: #333;
-background: #999 url(../img/thead-bg.png) repeat-x scroll 0 0;
-}
-
-#content table#mp thead a {
-color: #555;
-}
-
-#content table#mp thead a:hover {
-text-decoration: none;
-}
-
-#content table#mp td {
-padding: 7px 8px;
-text-align: left;
-vertical-align: top;
-}
-
-#content table#mp tr.even td {
-background: #eeffaa;
-}
-
-/* ------------------------ mp-list list
---------------------------------*/
 
 ul.mp-filters {
 background: #fff;
