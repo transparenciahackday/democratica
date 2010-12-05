@@ -26,7 +26,7 @@ class MP(models.Model):
         return bool(self.activity_set.all())
 
     def photo_url(self):
-        return 'http://localhost:8000/media/%d.jpg' % (int(self.id))
+        return 'http://localhost:8000/media/fotos/%d.jpg' % (int(self.id))
 
     def facts_by_type(self, verbose_type):
         fact_type = FactType.objects.get(name=verbose_type)
