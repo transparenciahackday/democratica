@@ -121,7 +121,11 @@ background: #666;
 }
 
 #menu-box {
-padding: 8px 0;
+padding: 0;
+}
+
+#menu-box ul {
+overflow: auto;
 }
 
 #menu-box li {
@@ -132,6 +136,10 @@ list-style-type: none;
 color: #fff;
 text-decoration: none;
 font-size: 120%;
+display: block;
+float: left;
+padding: 8px 4px;
+margin: 0 2px 0;
 }
 
 /* ------------------------ content
@@ -143,6 +151,22 @@ min-height: 300px;
 
 #content h2 {
 margin: 0 0 10px;
+}
+
+/* ------------------------ footer
+--------------------------------*/
+
+#footer-box {
+border-top: 1px dotted #999;
+}
+
+#footer a {
+color: #00aa88;
+text-decoration: none;
+}
+
+#footer a:hover {
+color: #333;
 }
 
 /* ------------------------ homepage
@@ -277,6 +301,10 @@ background: #e4f081;
 margin-right: 3px;
 }
 
+ul.mp-list .photo img {
+height: 25px;
+}
+
 ul.mp-list .party {
 background: transparent url(../img/party-icons/mdpcde.png) no-repeat right 0;
 padding: 0 20px 0;
@@ -289,16 +317,23 @@ font-size: 90%;
 #mp-details {
 list-style-type: none;
 margin: 10px 0 30px;
+width: 400px;
 }
 
 #mp-details > li {
 margin: 10px 0 0;
+overflow: auto;
+padding: 2px 0;
+background: yellow;
 }
 
 #mp-details > li:first-child {
 margin: 10px 0 0;
 }
 
+#mp-details .single-field h4 {
+float: left;
+}
 
 /* ------------------------ pagination
 --------------------------------*/

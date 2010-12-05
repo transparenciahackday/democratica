@@ -43,21 +43,22 @@
   <div id="content">
     <div id="content-box">
       <h2>{{ object.shortname }}</h2> <!-- nome abreviado -->
+      <p><img src="{{ object.photo_url }}" alt="{{ mp.shortname }}" /></p>
         <ul id="mp-details">
-          <li>
+          <li class="single-field">
             <h4>Nome Completo:</h4>
             <p>{{ object.name }}</p>
           </li>
 
-          <li>
+          <li class="single-field">
             <h4>Partido:</h4> <p>{{ object.current_party }}</p>
           </li>
 
-          <li>
+          <li class="single-field">
             <h4>Data de nascimento:</h4> <p>{{ object.dob }}</p>
           </li>
 
-          <li>
+          <li class="single-field">
             <h4>Profissão:</h4>
             <p>{{ object.occupation }}</p>
           </li>
