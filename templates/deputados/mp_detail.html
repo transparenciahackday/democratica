@@ -47,7 +47,9 @@
       
       <div id="mp-header">
         <p><img src="{{ object.photo_url }}" alt="{{ mp.shortname }}" /></p>
-        <h2>{{ object.shortname }} <small>{{ object.current_party }}</small></h2> <!-- nome abreviado -->
+        <h2>{{ object.shortname }}
+        <small> <img src="/media/img/adim.png" alt="" /> {{ object.current_party }}</small>
+        </h2> <!-- nome abreviado -->
       </div>
       
         <ul class="mp-details mp-details-left">
@@ -122,7 +124,7 @@
         
         <ul class="mp-details">
           <li>
-            <h4>Notícias recentes:</h4>
+            <h4>Notícias recentes</h4>
             <ul>
               {% for newsobj in news %}
               <li>{{ newsobj|filter_news_tuple }}</li>
@@ -132,7 +134,7 @@
 
           {% with object.linkset as l %}
           <li>
-            <h4>Ligações:</h4>
+            <h4>Ligações</h4>
             <ul>
               {% if l.email %}<li><a href="mailto:{{ l.email }}">Enviar e-mail</a><small> {{ l.email }}</small></li>{% endif %}
               {% if l.website_url %}<li><a href="http://{{ l.website_url }}">Website</a></li>{% endif %}
@@ -147,8 +149,8 @@
           </li>
 
           {% if tweets %}
-          <li>
-            <h4>Últimos tweets:</h4>
+          <li class="twitter">
+            <h4>Últimos tweets</h4>
             <ul>
               {% for t in tweets %}
               <li><a href="http://{{ l.twitter_url }}/statuses/{{ t.id }}">#</a> {{ t.text }} <small>há {{ t.created_at|filter_timestring|timesince }}</small></li>
