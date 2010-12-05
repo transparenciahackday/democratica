@@ -21,8 +21,8 @@
         $(".searchbox").search();
         $("input, textarea, select, button").uniform();
         
-        $(".mp-list li").quicksearch({
-        position: 'append',
+        $("#all-mp").quicksearch({
+        position: 'prepend',
         attached: '.mp-filters',
         labelText: null,
         loaderImg: '/media/img/icons/loading-16px.gif',
@@ -61,7 +61,7 @@
     <div id="content-box">
         <h2>Deputados</h2>
         
-        <form>
+        <form id="all-mp">
           <ul class="mp-filters">
             <li><strong>Legislatura:</strong>
               <select name="legislatura">
@@ -87,7 +87,7 @@
         <ul class="mp-list">
           {% for mp in object_list %}   
             <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
-              <span class="photo"><img src="{{ object.photo_url}}" alt="Manuel Vasconcelos" /></span>
+              <span class="photo"><img src="{{ object.photo_url}}" alt="{{ mp.shortname }}" /></span>
               <span class="name">{{ mp.shortname }}</span>
               <span class="party">{{ mp.caucus.party.abbrev }}</span>
             </a></li>
