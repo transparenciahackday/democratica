@@ -107,8 +107,8 @@ def insert_activities(csvfile=os.path.join(DATASET_DIR, 'Activities.csv')):
                             )
 
 if __name__ == '__main__':
-    # insert_mps()
-    # insert_facts()
+    insert_mps()
+    insert_facts()
     insert_caucus()
-    # insert_activities()
+    insert_activities()
 
