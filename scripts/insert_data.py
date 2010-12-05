@@ -113,6 +113,8 @@ def insert_linksets(csvfile=os.path.join(DATASET_DIR, 'redes_sociais.csv')):
         # ignorar primeira linha
         if "MPID" in id:
             continue
+        wikipedia_url = wikipedia_url.replace('http//', '')
+        blog_url = blog_url.replace('http//', '')
         LinkSet.objects.create(mp = MP.objects.get(id=int(id)),
                                email = email,
                                wikipedia_url = wikipedia_url,

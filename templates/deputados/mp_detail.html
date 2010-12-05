@@ -124,8 +124,8 @@
           <li>
             <h4>Notícias recentes:</h4>
             <ul>
-              {% for newsurl, newstitle in news %}
-              <li><a href="{{ newsurl }}">{{ newstitle }}</a></li>
+              {% for newsobj in news %}
+              <li>{{ newsobj|filter_news_tuple }}</li>
               {% endfor %}
             </ul>
           </li>
@@ -134,7 +134,7 @@
           <li>
             <h4>Ligações:</h4>
             <ul>
-              {% if l.email %}<li><a href="mailto:{{ l.email }}">Enviar e-mail</a></li>{% endif %}
+              {% if l.email %}<li><a href="mailto:{{ l.email }}">Enviar e-mail</a><small> {{ l.email }}</small></li>{% endif %}
               {% if l.website_url %}<li><a href="http://{{ l.website_url }}">Website</a></li>{% endif %}
               {% if l.blog_url %}<li><a href="http://{{ l.blog_url }}">Blog</a></li>{% endif %}
 
