@@ -35,12 +35,7 @@ LANGUAGE_CODE = 'pt-PT'
 
 SITE_ID = 1
 
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
 USE_I18N = True
-
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
 USE_L10N = True
 
 # Absolute path to the directory that holds media.
@@ -50,7 +45,7 @@ MEDIA_ROOT = '/home/rlafuente/code/transparencia/repo/dptd/media/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://127.0.0.1:8000/media'
+MEDIA_URL = 'http://localhost/media'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.

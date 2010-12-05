@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from dptd import settings
 from dptd.deputados.models import MP
+import dptd.deputados.views as views
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -13,10 +14,8 @@ urlpatterns = patterns('',
     (r'^$', 
         'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
 
-    (r'^deputados/$', 
-        'django.views.generic.list_detail.object_list', info_dict),
-    (r'^deputados/(?P<object_id>\d+)/$', 
-        'django.views.generic.list_detail.object_detail', info_dict),
+    (r'^deputados/$', views.mp_list),
+    (r'^deputados/(?P<object_id>\d+)/$', views.mp_detail),
 
     # url(r'^(?P<object_id>\d+)/results/$', 'django.views.generic.list_detail.object_detail', dict(info_dict, template_name='polls/results.html'), 'poll_results'),
 

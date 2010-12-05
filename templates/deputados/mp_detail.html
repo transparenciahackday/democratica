@@ -40,46 +40,81 @@
   <div id="menu">
     <div id="menu-box">
       <ul>
-        <li><a href="index.html">Home</a></li>
+        <li><a href="/">Home</a></li>
       </ul>
     </div> <!-- /#menu-box -->
   </div> <!-- /#menu -->
   
   <div id="content">
     <div id="content-box">
-        <h2>Manuel Xxx</h2> <!-- nome abreviado -->
-        
+      <h2>{{ object.shortname }}</h2> <!-- nome abreviado -->
         <ul id="mp-details">
           <li>
             <h4>Nome Completo:</h4>
-            <p>Manuel de Abraão Xxx</p>
+            <p>{{ object.name }}</p>
           </li>
+
+          <li>
+            <h4>Partido:</h4> <p>{{ object.current_party }}</p>
+          </li>
+
+          <li>
+            <h4>Data de nascimento:</h4> <p>{{ object.dob }}</p>
+          </li>
+
           <li>
             <h4>Profissão:</h4>
-            <p>Manuel de Abraão Xxx</p>
+            <p>{{ object.occupation }}</p>
           </li>
+
           <li>
-          <li>
-            <h4>Partido:</h4>
-            <p>Xxxx</p>
-          </li>
-          <li>
-            <h4>Cargos Exercidos:</h4>
+          {% if object.has_facts %}
+            <h4>Factos:</h4>
             <ul>
-              <li>Cargo 1</li>
-              <li>Cargo 2</li>
-              <li>Cargo 3</li>
-              <li>Cargo n</li>
+              {% for fact in object.habilitacoes %}
+              {% if forloop.first %} <h5>Habilitações Literárias</h5> {% endif%}
+              <li>{{ fact.value }}</li>
+              {% endfor %}
+
+              {% for fact in object.cargos_actuais %}
+              {% if forloop.first %} <h5>Cargos Actuais</h5> {% endif%}
+              <li>{{ fact.value }}</li>
+              {% endfor %}
+
+              {% for fact in object.cargos_exercidos %}
+              {% if forloop.first %} <h5>Cargos Exercidos</h5> {% endif%}
+              <li>{{ fact.value }}</li>
+              {% endfor %}
+
+              {% for fact in object.comissoes %}
+              {% if forloop.first %} <h5>Comissões Parlamentares</h5> {% endif%}
+              <li>{{ fact.value }}</li>
+              {% endfor %}
+
+              {% for fact in object.condecoracoes %}
+              {% if forloop.first %} <h5>Condecorações</h5> {% endif%}
+              <li>{{ fact.value }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </li>
+          <li>
+            <h4>Sessão Legislativa e Círculo Eleitoral / Partido:</h4>
+            <ul>
+              {% for caucus in object.caucus_set.all %}
+              <li>{{ caucus.session }}, {{ caucus.party }}, {{ caucus.constituency }}</li>
+              {% endfor %}
             </ul>
           </li>
           <li>
-            <h4>Sessão Legislativa e Círculo Eleitoral / Partido / Actividades:</h4>
+          {% if object.has_activities %}
+            <h4>Actividades:</h4>
             <ul>
-              <li>Sessão 1, Partido X, Actividade 1</li>
-              <li>Sessão 2, Partido X, Actividade 2</li>
-              <li>Sessão 3, Partido Y, Actividade 3</li>
-              <li class="current">Sessão n, Partido Y, Actividade n</li>
+              {% for a in object.activity_set.all %}
+              <li>{{ a.tipo1 }} - {{ a.tipo2 }}: {{ a.content }}</li>
+              {% endfor %}
             </ul>
+          {% endif %}
           </li>
         </ul>
         

@@ -10,6 +10,35 @@ class MP(models.Model):
     dob = models.DateField('Data de nascimento', blank=True, null=True)
     occupation = models.CharField('Profissão', max_length=300, blank=True)
 
+    @property
+    def current_caucus(self):
+        return self.caucus_set.all()[self.caucus_set.count()-1]
+    @property
+    def current_party(self):
+        return self.current_caucus.party
+
+    def has_facts(self):
+        if self.fact_set.exclude(fact_type=FactType.objects.get(name='calculated_Occupation')):
+            return True
+        return False
+    def has_activities(self):
+        return bool(self.activity_set.all())
+
+    def facts_by_type(self, verbose_type):
+        fact_type = FactType.objects.get(name=verbose_type)
+        return self.fact_set.filter(fact_type=fact_type)
+
+    @property
+    def condecoracoes(self): return self.facts_by_type('Condecoracoes')
+    @property
+    def cargos_exercidos(self): return self.facts_by_type('CargosExercidos')
+    @property
+    def cargos_actuais(self): return self.facts_by_type('CargosDesempenha')
+    @property
+    def habilitacoes(self): return self.facts_by_type('HabilitacoesLiterarias')
+    @property
+    def comissoes(self): return self.facts_by_type('Comissoes')
+
     def __unicode__(self): return self.shortname
     class Meta:
         verbose_name = 'deputado'
@@ -40,7 +69,7 @@ class Fact(models.Model):
         verbose_name = 'facto'
 
 class Caucus(models.Model):
-    mp = models.ForeignKey(MP)
+    mp = models.ForeignKey( MP)
     session = models.CharField('Sessão legislativa', max_length=100)
     date_begin = models.DateField('Data início', blank=True, null=True)
     date_end = models.DateField('Data fim', blank=True, null=True)

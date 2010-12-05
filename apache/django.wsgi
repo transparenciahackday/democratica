@@ -3,13 +3,11 @@
 import os
 import sys
 
-ROOT_PATH = '/home/rlafuente/code/transparencia/repo/'
-PROJECT_NAME = 'dptd'
-
-if ROOT_PATH not in sys.path:
-    sys.path.append(ROOT_PATH)
-    sys.path.append(os.path.join(ROOT_PATH, PROJECT_NAME + '/'))
-os.environ['DJANGO_SETTINGS_MODULE'] = PROJECT_NAME + '.settings'
+path = '/home/rlafuente/code/transparencia/repo/dptd'
+if path not in sys.path:
+    sys.path.append(path)
+    sys.path.append(os.path.join(path, 'dptd/'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'dptd.settings'
 
 import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler()
