@@ -112,6 +112,14 @@
             </ul>
           {% endif %}
           </li>
+
+          <li>
+            <h4>Notícias recentes:</h4>
+            <ul>
+              {% for newsurl, newstitle in news %}
+              <li><a href="{{ newsurl }}">{{ newstitle }}</a></li>
+              {% endfor %}
+            </ul>
         </ul>
         
     </div><!-- /#content-box -->

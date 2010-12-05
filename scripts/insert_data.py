@@ -15,7 +15,7 @@ import csv
 import datetime, time
 from django.contrib.auth.models import User
 
-from dptd.deputados.models import MP, Caucus, FactType, Fact, Activity, Party
+from dptd.deputados.models import MP, Caucus, FactType, Fact, Activity, Party, LinkSet
 
 def insert_mps(csvfile=os.path.join(DATASET_DIR, 'MP.csv')):
     print 'A processar deputados...'
@@ -104,11 +104,32 @@ def insert_activities(csvfile=os.path.join(DATASET_DIR, 'Activities.csv')):
                             session = session,
                             content = content,
                             external_id = external_id,
-                            )
+                             )
+
+def insert_linksets(csvfile=os.path.join(DATASET_DIR, 'redes_sociais.csv')):
+    print 'A processar links...'
+    linkset = csv.reader(open(csvfile), delimiter=';', quotechar='"')
+    for id, name, post, email, wikipedia_url, facebook_url, twitter_url, blog_url, website_url, linkedin_url, twitica_url, radio_url, tv_url in linkset:
+        # ignorar primeira linha
+        if "MPID" in id:
+            continue
+        LinkSet.objects.create(mp = MP.objects.get(id=int(id)),
+                               email = email,
+                               wikipedia_url = wikipedia_url,
+                               facebook_url = facebook_url,
+                               twitter_url = twitter_url,
+                               blog_url = blog_url,
+                               website_url = website_url,
+                               linkedin_url = linkedin_url,
+                               twitica_url = twitica_url,
+                               radio_url = radio_url,
+                               tv_url = tv_url
+                )
 
 if __name__ == '__main__':
-    insert_mps()
-    insert_facts()
-    insert_caucus()
-    insert_activities()
+    # insert_mps()
+    # insert_facts()
+    # insert_caucus()
+    # insert_activities()
+    insert_linksets()
 

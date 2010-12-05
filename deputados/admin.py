@@ -25,3 +25,6 @@ class ActivityAdmin(admin.ModelAdmin):
     list_display = ['mp', 'caucus', 'type1', 'type2', 'number', 'session', 'content']
 admin.site.register(Activity, ActivityAdmin)
 
+class LinkSetAdmin(admin.ModelAdmin):
+    list_display = ['mp', 'email', 'website_url', 'twitter_url', 'facebook_url']
+admin.site.register(LinkSet, LinkSetAdmin)
