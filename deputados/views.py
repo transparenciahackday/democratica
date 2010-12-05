@@ -21,7 +21,7 @@ def mp_detail(request, object_id):
     import feedparser
     import urllib
     name = mp.shortname
-    values = {'q': name, 'output': 'rss'}
+    values = {'q': name.encode('utf-8'), 'output': 'rss'}
     url = 'http://news.google.com/news?%s' % urllib.urlencode(values)
     channels = feedparser.parse(url)
     news = []
@@ -40,6 +40,7 @@ def mp_detail(request, object_id):
         news.append(item)
 
     # get Twitter posts
+    import urllib2
     try:
         if mp.linkset.twitter_url:
             username = mp.linkset.twitter_url.strip('/').split('/')[-1]
@@ -48,8 +49,9 @@ def mp_detail(request, object_id):
             tweets = [s for s in c.GetUserTimeline(username, count=5)]
         else:
             tweets = []
-    except LinkSet.DoesNotExist:
+    except (LinkSet.DoesNotExist, urllib2.HTTPError):
             tweets = []
+
 
 
     return object_detail(request, queryset, object_id,
