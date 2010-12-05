@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from dptd import settings
 
 # Create your models here.
 
@@ -23,6 +24,9 @@ class MP(models.Model):
         return False
     def has_activities(self):
         return bool(self.activity_set.all())
+
+    def photo_url(self):
+        return '%s/%d.jpg' % (settings.MEDIA_URL, int(self.id))
 
     def facts_by_type(self, verbose_type):
         fact_type = FactType.objects.get(name=verbose_type)
