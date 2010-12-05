@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from dptd.deputados.models import MP
+from dptd.deputados.models import MP, LinkSet
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
 
@@ -40,13 +40,16 @@ def mp_detail(request, object_id):
         news.append(item)
 
     # get Twitter posts
-    if mp.linkset.twitter_url:
-        username = mp.linkset.twitter_url.strip('/').split('/')[-1]
-        import twitter
-        c = twitter.Api()
-        tweets = [s.text for s in c.GetUserTimeline(username)]
-    else:
-        tweets = []
+    try:
+        if mp.linkset.twitter_url:
+            username = mp.linkset.twitter_url.strip('/').split('/')[-1]
+            import twitter
+            c = twitter.Api()
+            tweets = [s for s in c.GetUserTimeline(username, count=5)]
+        else:
+            tweets = []
+    except LinkSet.DoesNotExist:
+            tweets = []
 
 
     return object_detail(request, queryset, object_id,
