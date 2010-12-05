@@ -331,8 +331,6 @@ font-size: 70%;
 position: absolute;
 right: 5px;
 bottom: 5px;
-padding: 50px 0 0 60px;
-background: transparent url(../img/adim.png) no-repeat 0 0;
 }
 
 #mp-header p {
@@ -340,6 +338,12 @@ display: block;
 width: 60px;
 float: left;
 margin: 0 10px 0 0;
+border: 2px solid #fff;
+line-height: 1em;
+
+box-shadow: 2px 2px 3px #ccc;
+-moz-box-shadow: 2px 2px 3px #ccc;
+-webkit-box-shadow: 2px 2px 3px #ccc;
 }
 
 #mp-header p > img {
@@ -386,6 +390,12 @@ display: block;
 border: 0;
 margin: 0 5px 0 0;
 }
+
+/*
+.mp-details .twitter h4 {
+background: transparent url(../img/services/twitter_newbird_white.png) no-repeat 0 center;
+padding-left: 18px;
+}*/
 
 /* ------------------------ pagination
 --------------------------------*/

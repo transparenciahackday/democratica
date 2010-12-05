@@ -45,7 +45,9 @@
       
       <div id="mp-header">
         <p><img src="{{ object.photo_url }}" alt="{{ mp.shortname }}" /></p>
-        <h2>{{ object.shortname }} <small>{{ object.current_party }}</small></h2> <!-- nome abreviado -->
+        <h2>{{ object.shortname }}
+        <small> <img src="/media/img/adim.png" alt="" /> {{ object.current_party }}</small>
+        </h2> <!-- nome abreviado -->
       </div>
       
         <ul class="mp-details mp-details-left">
@@ -120,7 +122,7 @@
         
         <ul class="mp-details">
           <li>
-            <h4>Notícias recentes:</h4>
+            <h4>Notícias recentes</h4>
             <ul>
               {% for newsurl, newstitle in news %}
               <li><a href="{{ newsurl }}">{{ newstitle }}</a></li>
@@ -129,7 +131,7 @@
           </li>
 
           <li>
-            <h4>Ligações:</h4>
+            <h4>Ligações</h4>
             <ul>
               {% with object.linkset as l %}
               {% if l.email %}<li><a href="mailto:{{ l.email }}">Enviar e-mail</a></li>{% endif %}
@@ -146,8 +148,8 @@
           </li>
 
           {% if tweets %}
-          <li>
-            <h4>Últimos tweets:</h4>
+          <li class="twitter">
+            <h4>Últimos tweets</h4>
             <ul>
               {% for t in tweets %}
               <li>{{ t }}</a></li>
