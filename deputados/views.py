@@ -93,18 +93,17 @@ def mp_detail(request, object_id):
                 title = entry.title
             item = (url, title)
             news.append(item)
-        # got enough?
-        if len(news) >= 10:
-            break
+            # got enough?
+            if len(news) >= 10:
+                break
 
     # get Twitter posts
     import urllib2
     try:
         if mp.linkset.twitter_url:
-            username = mp.linkset.twitter_url.strip('/').split('/')[-1]
-            import twitter
-            c = twitter.Api()
-            tweets = [s for s in c.GetUserTimeline(username, count=5)]
+            from utils import get_tweets_from_url
+            tweets = get_tweets_from_url(mp.linkset.twitter_url)
+            
         else:
             tweets = []
     except (LinkSet.DoesNotExist, urllib2.HTTPError):

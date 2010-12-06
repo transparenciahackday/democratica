@@ -70,27 +70,26 @@
           <ul class="mp-filters">
             <li><strong>Legislatura:</strong>
               <select name="session">
+                <option value="all"{% if session == 'all' %} selected="selected"{% endif %}>Todas</option>
                 {% for s in sessions %}
-                
                 <option value="{{ s.number }}"{% if s.number == session %} selected="selected"{% endif %}>{{ s }} ({{ s.number }})</option>
                 {% endfor %}
-                <option value="all"{% if session == 'all' %} selected="selected"{% endif %}>Todas</option>
               </select>
             </li>
             <li><strong>Partido:</strong>
               <select name="party">
+                <option value="all"{% if party == 'all' %} selected="selected"{% endif %}>Todos</option>
                 {% for p in parties %}
                 <option value="{{ p.abbrev }}"{% if p.abbrev == party %} selected="selected"{% endif %}>{{ p.abbrev }}</option>
                 {% endfor %}
-                <option value="all"{% if party == 'all' %} selected="selected"{% endif %}>Todos</option>
               </select>
             </li>
             <li><strong>Círculo eleitoral:</strong>
               <select name="constituency">
+                <option value="all"{% if constituency == 'all' %} selected="selected"{% endif %}>Todos</option>
                 {% for c in constituencies %}
                 <option value="{{ c.id }}"{% if c.id == constituency %} selected="selected"{% endif %}>{{ c.name }}</option>
                 {% endfor %}
-                <option value="all"{% if constituency == 'all' %} selected="selected"{% endif %}>Todos</option>
               </select>
             </li>
             <input id="mp-filter" type="submit" value="Mostrar" />
@@ -107,7 +106,7 @@
               <span class="photo"></span>
               {% endif %}
               <span class="name">{{ mp.shortname }}</span>
-              <span class="party">{{ mp.current_party.abbrev }}</span>
+              <span class="party">{{ mp.current_party.abbrev }} ({{ mp.gender }})</span>
             </a></li>
           {% endfor %}
         </ul>

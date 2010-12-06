@@ -1,0 +1,35 @@
+Coisas que precisam de ser consertadas
+======================================
+
+* Juntar a lista de shortnames do Pedro Rodrigues
+* Repartir os templates em blocos
+* Paginação da lista de deputados
+* Pesquisa simples: template e código
+* Pesquisa avançada (género, etc)
+
+Questões por resolver
+=====================
+
+* Base de dados: Postgres?
+
+* Google News: Como filtrar as notícias para mostrar apenas de Portugal? E isto é desejável? (ex. deputado mencionado em media estrangeiros) Como podemos livrar-nos de resultados brasileiros e outros não apropriados?
+
+* CDS & CDS-PP: Devíamos juntá-los?
+
+Quando o site estiver online
+============================
+
+* Fazer registo da aplicação para a API do Twitter
+  http://dev.twitter.com/apps/new
+  http://code.google.com/p/python-twitter/
+
+Ideias para novas funcionalidades
+=================================
+
+* Adicionar os links dos RSS do blog de cada deputad@, para que possamos mostrar os últimos posts
+
+* Script para a palavra preferida de cada deputado (basta ir ao CSV e extrair)
+
+* Full-text search para as transcrições
+
+

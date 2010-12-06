@@ -114,9 +114,9 @@
             <ul>
               {% for caucus in object.caucus_set.all %}
               <li>
-              Deputado na <a href="/deputados/?session={{ caucus.session.number }}">{{ caucus.session }} Legislatura</a> 
+              Deputad{{ object.article }} na <a href="/deputados/?session={{ caucus.session.number }}">{{ caucus.session }} Legislatura</a> 
               pelo <a href="/deputados/?session={{ caucus.session.number }}&party={{ caucus.party.abbrev }}">{{ caucus.party.name }}</a>, 
-              no círculo de <a href="/deputados/?session={{ caucus.session.number }}&constituency={{ caucus.constituency.id }}">{{ caucus.constituency }}</a>.
+              no círculo d{{ caucus.constituency.article }} <a href="/deputados/?session={{ caucus.session.number }}&constituency={{ caucus.constituency.id }}">{{ caucus.constituency }}</a>.
               </li>
               {% endfor %}
             </ul>

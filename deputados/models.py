@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from dptd import settings
 
-# Create your models here.
+GENDERS = [('F', 'Feminino'),
+           ('M', 'Masculino'),
+           ('X', 'Não Definido'),
+          ]
 
 class MP(models.Model):
     name = models.CharField('Nome completo', max_length=300)
+    gender = models.CharField('Género', choices=GENDERS, max_length=1, default='X')
     shortname = models.CharField('Nome abreviado', max_length=200)
     dob = models.DateField('Data de nascimento', blank=True, null=True)
     occupation = models.CharField('Profissão', max_length=300, blank=True)
@@ -29,6 +32,17 @@ class MP(models.Model):
     def facts_by_type(self, verbose_type):
         fact_type = FactType.objects.get(name=verbose_type)
         return self.fact_set.filter(fact_type=fact_type)
+
+    @property
+    def article(self):
+        if self.gender == 'M':
+            return 'o'
+        elif self.gender == 'F':
+            return 'a'
+        elif self.gender == 'X':
+            return 'x'
+        else:
+            return 'XXX'
 
     @property
     def condecoracoes(self): return self.facts_by_type('Condecoracoes')
@@ -86,6 +100,7 @@ class Session(models.Model):
 
 class Constituency(models.Model):
     name = models.CharField('Nome', max_length=100)
+    article = models.CharField('Artigo', max_length=3)
 
     def __unicode__(self): return self.name
     class Meta:

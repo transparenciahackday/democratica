@@ -15,6 +15,7 @@ import csv
 import datetime, time
 
 from dptd.deputados.models import *
+import dptd.deputados.utils as utils
 
 def insert_mps(csvfile=os.path.join(DATASET_DIR, 'MP.csv')):
     print 'A processar deputados...'
@@ -31,7 +32,9 @@ def insert_mps(csvfile=os.path.join(DATASET_DIR, 'MP.csv')):
             d = datetime.date(year=c[0], month=c[1], day=c[2])
         except ValueError:
             d = None
+        gender = utils.get_gender_from_name(first_name)
         MP.objects.create(id = int(mp_id),
+                          gender = gender,
                           name = name,
                           shortname = shortname,
                           dob = d,
@@ -111,6 +114,14 @@ def insert_caucus(csvfile=os.path.join(DATASET_DIR, 'Caucus.csv')):
                             has_activity = bool(has_activity),
                             has_registointeresses = bool(has_registointeresses),
                             )
+
+    constituency_file = csv.reader(open(os.path.join(DATASET_DIR, 'circulos_eleitorais.csv')), delimiter='|', quotechar='"')
+    print constituency_file
+    for name, article in constituency_file:
+        c = Constituency.objects.get(name=name)
+        c.article = article
+        c.save()
+
 def insert_activities(csvfile=os.path.join(DATASET_DIR, 'Activities.csv')):
     print 'A processar actividades...'
     caucus = csv.reader(open(csvfile), delimiter='|', quotechar='"')
