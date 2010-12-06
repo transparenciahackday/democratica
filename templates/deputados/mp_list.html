@@ -69,21 +69,22 @@
         <form id="all-mp">
           <ul class="mp-filters">
             <li><strong>Legislatura:</strong>
-              <select name="legislatura">
-                <option value="legislatura-all" selected="selected">Todas</option>
-                <option value="legislatura-1">X</option>
-                <option value="legislatura-2">IX</option>
-                <option value="legislatura-3">VIII</option>
+              <select name="session">
+                {% for s in sessions %}
+                <option value="{{ s.number }}"{% if s.number == session %} selected="selected"{% endif %}>{{ s }} ({{ s.number }})</option>
+                {% endfor %}
+                <option value="all"{% if session == 'all' %} selected="selected"{% endif %}>Todas</option>
               </select>
             </li>
             <li><strong>Partido:</strong>
               <select name="party">
-                <option value="party-all" selected="selected">Todas</option>
-                <option value="party-1">PSD</option>
-                <option value="party-2">PS</option>
-                <option value="party-3">CDU</option>
+                {% for p in parties %}
+                <option value="{{ p.abbrev }}"{% if p.abbrev == party %} selected="selected"{% endif %}>{{ p.abbrev }}</option>
+                {% endfor %}
+                <option value="all"{% if party == 'all' %} selected="selected"{% endif %}>Todos</option>
               </select>
             </li>
+            <input id="mp-filter" type="submit" value="Mostrar" />
           </ul>
         
         <!-- o que eu queria: para ter três colunas precisamos de três uls,
@@ -94,7 +95,7 @@
             <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
               <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
               <span class="name">{{ mp.shortname }}</span>
-              <span class="party">{{ mp.caucus.party.abbrev }}</span>
+              <span class="party">{{ mp.current_party.abbrev }}</span>
             </a></li>
           {% endfor %}
         </ul>
@@ -103,7 +104,7 @@
             <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
               <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
               <span class="name">{{ mp.shortname }}</span>
-              <span class="party">{{ mp.caucus.party.abbrev }}</span>
+              <span class="party">{{ mp.current_party.abbrev }}</span>
             </a></li>
           {% endfor %} 
         </ul>
@@ -112,7 +113,7 @@
             <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
               <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
               <span class="name">{{ mp.shortname }}</span>
-              <span class="party">{{ mp.caucus.party.abbrev }}</span>
+              <span class="party">{{ mp.current_party.abbrev }}</span>
             </a></li>
           {% endfor %}
         </ul>

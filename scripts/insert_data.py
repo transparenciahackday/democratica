@@ -111,6 +111,9 @@ def insert_activities(csvfile=os.path.join(DATASET_DIR, 'Activities.csv')):
                             content = content,
                             external_id = external_id,
                              )
+    for mp in MP.objects.all():
+        mp.has_activity = bool(mp.activity_set.all())
+        mp.save()
 
 def insert_linksets(csvfile=os.path.join(DATASET_DIR, 'redes_sociais.csv')):
     print 'A processar links...'
@@ -156,11 +159,12 @@ def insert_parties(csvfile=os.path.join(DATASET_DIR, 'listagem_partidos.csv')):
         if Party.objects.filter(abbrev=abbrev):
             p = Party.objects.get(abbrev=abbrev)
         else:
-            p = Party.objects.create(abbrev=abbrev)
+            p = Party.objects.create(abbrev=abbrev, has_mps=False)
         p.name = name
         p.tendency = tendency
         p.info = info
         p.save()
+
 
 
 if __name__ == '__main__':

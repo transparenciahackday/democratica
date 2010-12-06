@@ -63,14 +63,18 @@
             <h4>Partido:</h4> <p>{{ object.current_party }}</p>
           </li>
 
+          {% if object.dob %}
           <li class="single-field">
             <h4>Data de nascimento:</h4> <p>{{ object.dob }}</p>
           </li>
+          {% endif %}
 
+          {% if object.occupation %}
           <li class="single-field">
             <h4>Profissão:</h4>
             <p>{{ object.occupation }}</p>
           </li>
+          {% endif %}
 
           <li>
           {% if object.has_facts %}

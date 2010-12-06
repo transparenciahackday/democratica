@@ -53,6 +53,7 @@ class Party(models.Model):
     abbrev = models.CharField('Sigla', max_length=20)
     tendency = models.CharField('Orientação', max_length=50)
     info = models.TextField('Observações', max_length=2000)
+    has_mps = models.BooleanField('Tem ou teve deputados?', default=True)
 
     def __unicode__(self): return self.abbrev
     class Meta:
