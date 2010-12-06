@@ -37,6 +37,16 @@ def insert_mps(csvfile=os.path.join(DATASET_DIR, 'MP.csv')):
                           dob = d,
                           occupation = occupation
                           )
+    print 'A associar fotos dos deputados...'
+    from django.core.files.base import ContentFile
+    for mp in MP.objects.all():
+        imgfilename = os.path.join(projectpath, 'dptd/media/fotos-deputados', '%d.jpg' % mp.id)
+        if os.path.exists(imgfilename):
+            file_content = ContentFile(open(imgfilename, 'rb').read())
+            mp.photo.save(imgfilename, file_content)
+            file_content.close()
+        else:
+            pass
 
 def insert_facts(csvfile=os.path.join(DATASET_DIR, 'Facts.csv')):
     print 'A processar factos...'
@@ -87,11 +97,16 @@ def insert_caucus(csvfile=os.path.join(DATASET_DIR, 'Caucus.csv')):
                 print 'Error - End: ' + date_end
             date_end = None
 
+        if Constituency.objects.filter(name=constituency):
+            c = Constituency.objects.get(name=constituency)
+        else:
+            c = Constituency.objects.create(name=constituency)
+
         Caucus.objects.create(mp = MP.objects.get(id=mp_id),
                             session = s,
                             date_begin = date_begin,
                             date_end = date_end,
-                            constituency = constituency,
+                            constituency = c,
                             party = p,
                             has_activity = bool(has_activity),
                             has_registointeresses = bool(has_registointeresses),

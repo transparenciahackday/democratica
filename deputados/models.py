@@ -10,10 +10,11 @@ class MP(models.Model):
     shortname = models.CharField('Nome abreviado', max_length=200)
     dob = models.DateField('Data de nascimento', blank=True, null=True)
     occupation = models.CharField('Profissão', max_length=300, blank=True)
+    photo = models.ImageField('Fotografia', upload_to='photos', null=True)
 
     @property
     def current_caucus(self):
-        return self.caucus_set.all()[self.caucus_set.count()-1]
+        return self.caucus_set.all()[0]
     @property
     def current_party(self):
         return self.current_caucus.party
@@ -24,10 +25,6 @@ class MP(models.Model):
         return False
     def has_activities(self):
         return bool(self.activity_set.all())
-
-    @property
-    def photo_url(self):
-        return 'http://localhost:8000/media/fotos/%d.jpg' % (int(self.id))
 
     def facts_by_type(self, verbose_type):
         fact_type = FactType.objects.get(name=verbose_type)
@@ -47,6 +44,7 @@ class MP(models.Model):
     def __unicode__(self): return self.shortname
     class Meta:
         verbose_name = 'deputado'
+        ordering = ['shortname']
 
 class Party(models.Model):
     name = models.CharField('Nome', max_length=100, blank=True)
@@ -86,20 +84,30 @@ class Session(models.Model):
         verbose_name = 'sessão legislativa'
         verbose_name_plural = 'sessões legislativas'
 
+class Constituency(models.Model):
+    name = models.CharField('Nome', max_length=100)
+
+    def __unicode__(self): return self.name
+    class Meta:
+        verbose_name = 'círculo eleitoral'
+        verbose_name_plural = 'círculos eleitorais'
+        ordering = ['name']
+
 class Caucus(models.Model):
     mp = models.ForeignKey(MP)
     session = models.ForeignKey(Session)
     date_begin = models.DateField('Data início', blank=True, null=True)
     date_end = models.DateField('Data fim', blank=True, null=True)
-    constituency = models.CharField('Círculo eleitoral', max_length=100)
+    constituency = models.ForeignKey(Constituency)
     party = models.ForeignKey(Party)
     has_activity = models.BooleanField('Tem actividades?')
     has_registointeresses = models.BooleanField('Tem registo de interesses?')
 
     def __unicode__(self): return self.mp.shortname
     class Meta:
-        verbose_name = 'círculo eleitoral'
-        verbose_name_plural = 'círculos eleitorais'
+        verbose_name = 'caucus'
+        verbose_name_plural = 'caucuses'
+        ordering = ['-session__number']
 
 class Activity(models.Model):
     mp = models.ForeignKey(MP)

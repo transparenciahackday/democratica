@@ -47,7 +47,9 @@
     <div id="content-box">
       
       <div id="mp-header">
-        <p><img src="{{ object.photo_url }}" alt="{{ mp.shortname }}" /></p>
+        {% if object.photo %}
+        <p><img src="{{ object.photo.url }}" alt="{{ mp.shortname }}" /></p>
+        {% endif %}
         <h2>{{ object.shortname }}
         <small> <img src="/media/img/logos/be.png" alt="" /> {{ object.current_party }}</small>
         </h2> <!-- nome abreviado -->
@@ -60,7 +62,7 @@
           </li>
 
           <li class="single-field">
-            <h4>Partido:</h4> <p>{{ object.current_party }}</p>
+            <h4>Partido actual:</h4> <p>{{ object.current_party.name }}</p>
           </li>
 
           {% if object.dob %}
@@ -111,7 +113,11 @@
             <h4>Sessão Legislativa e Círculo Eleitoral / Partido:</h4>
             <ul>
               {% for caucus in object.caucus_set.all %}
-              <li>{{ caucus.session }}, {{ caucus.party }}, {{ caucus.constituency }}</li>
+              <li>
+              Deputado na <a href="/deputados/?session={{ caucus.session.number }}">{{ caucus.session }} Legislatura</a> 
+              pelo <a href="/deputados/?session={{ caucus.session.number }}&party={{ caucus.party.abbrev }}">{{ caucus.party.name }}</a>, 
+              no círculo de <a href="/deputados/?session={{ caucus.session.number }}&constituency={{ caucus.constituency.id }}">{{ caucus.constituency }}</a>.
+              </li>
               {% endfor %}
             </ul>
           </li>
