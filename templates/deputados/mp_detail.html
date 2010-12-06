@@ -37,7 +37,8 @@
     <div id="menu-box">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="about.html">Sobre</a></li>
+        <li><a href="/deputados/">Deputados</a></li>
+        <li><a href="/about/">Sobre</a></li>
       </ul>
     </div> <!-- /#menu-box -->
   </div> <!-- /#menu -->
@@ -131,8 +132,9 @@
               {% endfor %}
             </ul>
           </li>
-
+  
           {% with object.linkset as l %}
+          {% if l.active %}
           <li>
             <h4>Ligações</h4>
             <ul>
@@ -159,6 +161,7 @@
           </li>
           {% endif %}
         </ul>
+        {% endif %}
         {% endwith %}
 
     </div><!-- /#content-box -->

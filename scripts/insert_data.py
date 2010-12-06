@@ -13,9 +13,8 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'dptd.settings'
 
 import csv
 import datetime, time
-from django.contrib.auth.models import User
 
-from dptd.deputados.models import MP, Caucus, FactType, Fact, Activity, Party, LinkSet
+from dptd.deputados.models import *
 
 def insert_mps(csvfile=os.path.join(DATASET_DIR, 'MP.csv')):
     print 'A processar deputados...'
@@ -62,6 +61,13 @@ def insert_caucus(csvfile=os.path.join(DATASET_DIR, 'Caucus.csv')):
         else:
             p = Party.objects.create(abbrev=party)
 
+        from roman import fromRoman
+        session_number = fromRoman(session)
+        if Session.objects.filter(number=session_number):
+            s = Session.objects.get(number=session_number)
+        else:
+            s = Session.objects.create(number=session_number)
+
         dates = dates.split(' ')
         date_begin = dates[1].replace('[', '')
         date_end = dates[3].replace(']', '')
@@ -82,7 +88,7 @@ def insert_caucus(csvfile=os.path.join(DATASET_DIR, 'Caucus.csv')):
             date_end = None
 
         Caucus.objects.create(mp = MP.objects.get(id=mp_id),
-                            session = session,
+                            session = s,
                             date_begin = date_begin,
                             date_end = date_end,
                             constituency = constituency,
@@ -131,15 +137,36 @@ def insert_linksets(csvfile=os.path.join(DATASET_DIR, 'redes_sociais.csv')):
         if name:
             mp.shortname = name.strip()
             mp.save()
-        # if post:
-        #     mp.post = post
-            # mp.save
+
+    # criar LinkSets inactivos, senão há erros totós no databrowse
+    # e noutros sítios
+    for mp in MP.objects.all():
+        try:
+            l = MP.linkset
+        except LinkSet.DoesNotExist:
+            Linkset.objects.create(mp=mp, active=False)
+
+def insert_parties(csvfile=os.path.join(DATASET_DIR, 'listagem_partidos.csv')):
+    print 'A processar partidos...'
+    party = csv.reader(open(csvfile), delimiter='|', quotechar='"')
+    for abbrev, name, tendency, info in party:
+        # ignorar primeira linha
+        if "Sigla" in abbrev:
+            continue
+        if Party.objects.filter(abbrev=abbrev):
+            p = Party.objects.get(abbrev=abbrev)
+        else:
+            p = Party.objects.create(abbrev=abbrev)
+        p.name = name
+        p.tendency = tendency
+        p.info = info
+        p.save()
 
 
 if __name__ == '__main__':
-    # insert_mps()
-    # insert_facts()
-    # insert_caucus()
-    # insert_activities()
+    insert_mps()
+    insert_facts()
+    insert_caucus()
+    insert_activities()
     insert_linksets()
-
+    insert_parties()

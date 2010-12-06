@@ -1,13 +1,24 @@
 from django.conf.urls.defaults import *
 from dptd import settings
-from dptd.deputados.models import MP
+from dptd.deputados.models import MP, Party, Caucus, LinkSet, Session, Fact, FactType, Activity
 import dptd.deputados.views as views
 
-# Uncomment the next two lines to enable the admin:
+# Enable admin interface
 from django.contrib import admin
 admin.autodiscover()
 
-info_dict = { 'queryset': MP.objects.all(), }
+# Enable Databrowse
+from django.contrib import databrowse
+databrowse.site.register(MP)
+databrowse.site.register(Party)
+databrowse.site.register(Caucus)
+databrowse.site.register(LinkSet)
+databrowse.site.register(Fact)
+databrowse.site.register(FactType)
+databrowse.site.register(Activity)
+databrowse.site.register(Session)
+
+
 
 
 urlpatterns = patterns('',
@@ -21,6 +32,7 @@ urlpatterns = patterns('',
 
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
+    (r'^databrowse/(.*)', databrowse.site.root),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
 )

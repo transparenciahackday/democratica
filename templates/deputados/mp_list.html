@@ -90,7 +90,25 @@
         a última ul tem de ter o seguinte class="mp-list last"-->
         
         <ul class="mp-list">
-          {% for mp in object_list %}   
+          {% for mp in queryset1 %}   
+            <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
+              <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
+              <span class="name">{{ mp.shortname }}</span>
+              <span class="party">{{ mp.caucus.party.abbrev }}</span>
+            </a></li>
+          {% endfor %}
+        </ul>
+        <ul class="mp-list">
+          {% for mp in queryset2 %}   
+            <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
+              <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
+              <span class="name">{{ mp.shortname }}</span>
+              <span class="party">{{ mp.caucus.party.abbrev }}</span>
+            </a></li>
+          {% endfor %} 
+        </ul>
+        <ul class="mp-list last">
+          {% for mp in queryset3 %}   
             <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
               <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
               <span class="name">{{ mp.shortname }}</span>

@@ -8,9 +8,31 @@ def index(request):
     return direct_to_template('index.html')
 
 def mp_list(request):
-    queryset = MP.objects.all()
+    queryset = MP.objects.all()[1:60]
+
+    # divide list into 3, so that we can lay them out properly
+    # inside the template
+    cols = 3
+    row_number, remainder = divmod(queryset.count(), cols)
+    extra_row_1 = 0
+    extra_row_2 = 0
+    if remainder >= 1:
+        extra_row_1 = 1
+    if remainder == 2:
+        extra_row_2 = 1
+    rowcount1 = row_number + extra_row_1
+    rowcount2 = row_number + extra_row_2
+    queryset_1 = queryset[:rowcount1]
+    queryset_2 = queryset[rowcount1:rowcount1+rowcount2]
+    queryset_3 = queryset[rowcount1+rowcount2:]
+    extra = {}
+    extra['queryset1'] = queryset_1
+    extra['queryset2'] = queryset_2
+    extra['queryset3'] = queryset_3
+
     return object_list(request, queryset,
                        paginate_by=60,
+                       extra_context=extra,
                        ) 
 
 def mp_detail(request, object_id):

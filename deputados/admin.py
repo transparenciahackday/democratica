@@ -6,7 +6,7 @@ class MPAdmin(admin.ModelAdmin):
 admin.site.register(MP, MPAdmin)
 
 class PartyAdmin(admin.ModelAdmin):
-    list_display = ['abbrev', 'name']
+    list_display = ['abbrev', 'name', 'tendency', 'info']
 admin.site.register(Party, PartyAdmin)
 
 class FactTypeAdmin(admin.ModelAdmin):

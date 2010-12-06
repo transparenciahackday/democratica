@@ -51,6 +51,8 @@ class MP(models.Model):
 class Party(models.Model):
     name = models.CharField('Nome', max_length=100, blank=True)
     abbrev = models.CharField('Sigla', max_length=20)
+    tendency = models.CharField('Orientação', max_length=50)
+    info = models.TextField('Observações', max_length=2000)
 
     def __unicode__(self): return self.abbrev
     class Meta:
@@ -73,9 +75,19 @@ class Fact(models.Model):
     class Meta:
         verbose_name = 'facto'
 
+class Session(models.Model):
+    number = models.PositiveIntegerField('Sessão legislativa')
+
+    def __unicode__(self): 
+        from roman import toRoman
+        return toRoman(self.number)
+    class Meta:
+        verbose_name = 'sessão legislativa'
+        verbose_name_plural = 'sessões legislativas'
+
 class Caucus(models.Model):
-    mp = models.ForeignKey( MP)
-    session = models.CharField('Sessão legislativa', max_length=100)
+    mp = models.ForeignKey(MP)
+    session = models.ForeignKey(Session)
     date_begin = models.DateField('Data início', blank=True, null=True)
     date_end = models.DateField('Data fim', blank=True, null=True)
     constituency = models.CharField('Círculo eleitoral', max_length=100)
@@ -104,6 +116,7 @@ class Activity(models.Model):
 
 class LinkSet(models.Model):
     mp = models.OneToOneField(MP)
+    active = models.BooleanField(default=True)
     email = models.EmailField('E-mail', blank=True)
     wikipedia_url = models.URLField('Wikipedia', blank=True)
     facebook_url = models.URLField('Facebook', blank=True)
