@@ -366,6 +366,10 @@ color: #00aa88;
 text-decoration: none;
 }
 
+.mp-details a:hover, .mp-details a:focus {
+text-decoration: underline;
+}
+
 .mp-details > li {
 margin: 10px 0 0;
 overflow: auto;

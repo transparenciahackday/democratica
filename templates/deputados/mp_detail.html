@@ -48,7 +48,7 @@
       <div id="mp-header">
         <p><img src="{{ object.photo_url }}" alt="{{ mp.shortname }}" /></p>
         <h2>{{ object.shortname }}
-        <small> <img src="/media/img/adim.png" alt="" /> {{ object.current_party }}</small>
+        <small> <img src="/media/img/logos/be.png" alt="" /> {{ object.current_party }}</small>
         </h2> <!-- nome abreviado -->
       </div>
       
@@ -124,7 +124,7 @@
         
         <ul class="mp-details">
           <li>
-            <h4>Notícias recentes</h4>
+          <h4>Notícias recentes <small> via Google Notícias</small></h4>
             <ul>
               {% for newsobj in news %}
               <li>{{ newsobj|filter_news_tuple }}</li>

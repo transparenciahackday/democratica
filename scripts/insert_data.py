@@ -113,9 +113,10 @@ def insert_linksets(csvfile=os.path.join(DATASET_DIR, 'redes_sociais.csv')):
         # ignorar primeira linha
         if "MPID" in id:
             continue
-        wikipedia_url = wikipedia_url.replace('http//', '')
-        blog_url = blog_url.replace('http//', '')
-        LinkSet.objects.create(mp = MP.objects.get(id=int(id)),
+        wikipedia_url = wikipedia_url.replace('http://', '')
+        blog_url = blog_url.replace('http://', '')
+        mp = MP.objects.get(id=int(id))
+        LinkSet.objects.create(mp = mp,
                                email = email,
                                wikipedia_url = wikipedia_url,
                                facebook_url = facebook_url,
@@ -127,6 +128,13 @@ def insert_linksets(csvfile=os.path.join(DATASET_DIR, 'redes_sociais.csv')):
                                radio_url = radio_url,
                                tv_url = tv_url
                 )
+        if name:
+            mp.shortname = name.strip()
+            mp.save()
+        # if post:
+        #     mp.post = post
+            # mp.save
+
 
 if __name__ == '__main__':
     # insert_mps()

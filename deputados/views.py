@@ -20,9 +20,9 @@ def mp_detail(request, object_id):
     # get Google News feed
     import feedparser
     import urllib
-    name = mp.shortname
-    values = {'q': name.encode('utf-8'), 'output': 'rss'}
-    url = 'http://news.google.com/news?%s' % urllib.urlencode(values)
+    query = '"%s"' % (mp.shortname)
+    values = {'q': query.encode('utf-8'), 'output': 'rss'}
+    url = 'http://news.google.com/news?%s&ned=pt-PT_pt' % urllib.urlencode(values)
     channels = feedparser.parse(url)
     news = []
     for entry in channels.entries:
