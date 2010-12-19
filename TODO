@@ -1,6 +1,7 @@
 Coisas que precisam de ser consertadas
 ======================================
 
+* Thumbnails dos retratos para 
 * Juntar a lista de shortnames do Pedro Rodrigues
 * Repartir os templates em blocos
 * Paginação da lista de deputados
@@ -10,9 +11,13 @@ Coisas que precisam de ser consertadas
 Questões por resolver
 =====================
 
+* Como separar os deputados 'verdadeiros' dos suplentes? (ver Álvaro Cunhal)
 * Base de dados: Postgres?
 
-* Google News: Como filtrar as notícias para mostrar apenas de Portugal? E isto é desejável? (ex. deputado mencionado em media estrangeiros) Como podemos livrar-nos de resultados brasileiros e outros não apropriados?
+* Google News: 
+  Como filtrar as notícias para mostrar apenas de Portugal? 
+  E isto é desejável? (ex. deputado mencionado em media estrangeiros) 
+  Como podemos livrar-nos de resultados brasileiros e outros não apropriados?
 
 * CDS & CDS-PP: Devíamos juntá-los?
 
@@ -27,9 +32,7 @@ Ideias para novas funcionalidades
 =================================
 
 * Adicionar os links dos RSS do blog de cada deputad@, para que possamos mostrar os últimos posts
-
 * Script para a palavra preferida de cada deputado (basta ir ao CSV e extrair)
-
 * Full-text search para as transcrições
 
 

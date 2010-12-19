@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from thumbs import ImageWithThumbsField
 
 GENDERS = [('F', 'Feminino'),
            ('M', 'Masculino'),
@@ -13,7 +14,7 @@ class MP(models.Model):
     shortname = models.CharField('Nome abreviado', max_length=200)
     dob = models.DateField('Data de nascimento', blank=True, null=True)
     occupation = models.CharField('Profissão', max_length=300, blank=True)
-    photo = models.ImageField('Fotografia', upload_to='mp-photos', null=True)
+    photo = ImageWithThumbsField('Fotografia', upload_to='mp-photos', sizes=((18,25),), null=True)
 
     @property
     def current_caucus(self):

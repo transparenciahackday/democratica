@@ -101,7 +101,7 @@
           {% for mp in queryset %}   
             <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
               {% if mp.photo %}
-              <span class="photo"><img src="{{ mp.photo.url }}" alt="{{ mp.shortname }}" /></span>
+              <span class="photo"><img src="{{ mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></span>
               {% else %}
               <span class="photo"></span>
               {% endif %}

@@ -114,9 +114,9 @@
             <ul>
               {% for caucus in object.caucus_set.all %}
               <li>
-              Deputad{{ object.article }} na <a href="/deputados/?session={{ caucus.session.number }}">{{ caucus.session }} Legislatura</a> 
-              pelo <a href="/deputados/?session={{ caucus.session.number }}&party={{ caucus.party.abbrev }}">{{ caucus.party.name }}</a> 
-              no círculo d{{ caucus.constituency.article }} <a href="/deputados/?session={{ caucus.session.number }}&constituency={{ caucus.constituency.id }}">{{ caucus.constituency }}</a>.
+              Deputad{{ object.article }} na <a href="/deputados/?session={{ caucus.session.number }}" title="Ver deputados da {{ caucus.session }} Legislatura">{{ caucus.session }} Legislatura</a> 
+              pelo <a href="/deputados/?session={{ caucus.session.number }}&party={{ caucus.party.abbrev }}" title="Ver deputados eleitos pelo {{ caucus.party.abbrev }} na {{ caucus.session }} Legislatura">{{ caucus.party.name }}</a> 
+              no círculo d{{ caucus.constituency.article }} <a href="/deputados/?session={{ caucus.session.number }}&constituency={{ caucus.constituency.id }}" title="Ver deputados eleitos pelo círculo d{{ caucus.constituency.article }} {{ caucus.constituency }} na {{ caucus.session }} Legislatura">{{ caucus.constituency }}</a>.
               </li>
               {% endfor %}
             </ul>
@@ -135,6 +135,7 @@
         
         <ul class="mp-details">
           <li>
+          {% if news %}
           <h4>Notícias recentes <small> via Google Notícias</small></h4>
             <ul>
               {% for newsobj in news %}
@@ -142,6 +143,7 @@
               {% endfor %}
             </ul>
           </li>
+          {% endif %}
   
           {% with object.linkset as l %}
           {% if l.active %}
