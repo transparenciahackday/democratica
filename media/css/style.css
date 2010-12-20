@@ -591,6 +591,7 @@ width: 600px;
 float: left;
 display: block;
 font-family: 'Linux Libertine O', Georgia, Times, serif;
+font-size: 130%;
 }
 
 .intervention .right span.intro {
@@ -603,12 +604,12 @@ width: 20px;
 height: auto;
 }
 
-.mini-ntervention h3 {
+.mini-intervention h3 {
 font-size: 105%;
 }
 
 .mini-intervention .right p {
-font-size: 180%;
+font-size: 90%;
 }
 
 .mini-intervention .right .circle {

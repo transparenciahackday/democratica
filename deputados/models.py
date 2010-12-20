@@ -67,6 +67,8 @@ class Party(models.Model):
     tendency = models.CharField('Orientação', max_length=50)
     info = models.TextField('Observações', max_length=2000)
     has_mps = models.BooleanField('Tem ou teve deputados?', default=True)
+    #primary_color = models.CharField('Cor principal', max_length=10)
+    #secondary_color = models.CharField('Cor principal', max_length=10)
 
     def __unicode__(self): return self.abbrev
     class Meta:

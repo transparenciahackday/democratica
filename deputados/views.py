@@ -115,4 +115,22 @@ def mp_detail(request, object_id):
             extra_context={'news': news, 'tweets': tweets,
                 })
 
+def mp_search(request, query=''):
+    if not query:
+        query = request.GET.get('query', '')
+    queryparts = query.split(' ')
+    results = MP.objects.all()
+    for q in queryparts:
+        # "id:2479" or simply "2479" should return an MP with that id, if exists
+        if q.startswith('id:') or (MP.objects.filter(id=q) and len(queryparts) == 1):
+            id = q.split(':')[-1]
+            return mp_detail(object_id=id)
+        results = results.filter(name__icontains=q)
 
+    #relevant_results
+    #partial_results
+
+    return direct_to_template(request, 'mp_search.html',
+                              extra_context={
+                                  'results': results,
+                                  })

@@ -1,12 +1,16 @@
 Coisas que precisam de ser consertadas
 ======================================
 
-* Thumbnails dos retratos para 
-* Juntar a lista de shortnames do Pedro Rodrigues
+* Caixa de pesquisa dos deputados
+* Mudar pesquisa existente para 'filtro', abaixo dos dropdowns
 * Repartir os templates em blocos
+
+* Thumbnails dos retratos para transcrições
 * Paginação da lista de deputados
-* Pesquisa simples: template e código
 * Pesquisa avançada (género, etc)
+
+* DAR: Criar método no MP para obter o partido numa determinada legislatura
+  (necessário no template day_detail)
 
 Questões por resolver
 =====================

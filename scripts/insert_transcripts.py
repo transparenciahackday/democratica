@@ -25,7 +25,7 @@ import datetime, time
 import dateutil.parser
 
 from dptd.deputados.models import MP, Party
-from dptd.dar.models import Entry, Session
+from dptd.dar.models import Entry, Day
 
 for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
     for f in files:
@@ -45,10 +45,10 @@ for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
             print 'File %s has a strange date format. Ignoring.' % f
             continue
 
-        if Session.objects.filter(date=date):
-            s = Session.objects.get(date=date)
+        if Day.objects.filter(date=date):
+            s = Day.objects.get(date=date)
         else:
-            s = Session.objects.create(date=date)
+            s = Day.objects.create(date=date)
 
         filename = os.path.join(TRANSCRIPTS_DIR, f)
 
@@ -67,10 +67,10 @@ for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
                         mp = MP.objects.get(shortname=mpname, caucus__party=p)
                     except:
                         print 'More than 1 result for name %s in party %s. Not assigning MP instance.' % (mpname, party)
-                        Entry.objects.create(speaker=mpname, party=party, text=text, session=s)
+                        Entry.objects.create(speaker=mpname, party=party, text=text, day=s)
                 else:
                     mp = MP.objects.get(shortname=mpname)
-                Entry.objects.create(mp=mp, party=party, text=text, session=s)
+                Entry.objects.create(mp=mp, party=party, text=text, day=s)
             else:
-                Entry.objects.create(speaker=mpname, party=party, text=text, session=s)
+                Entry.objects.create(speaker=mpname, party=party, text=text, day=s)
 
