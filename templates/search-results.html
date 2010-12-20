@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <title>Unicer - Clube Autêntico</title>
+
+    <link rel="stylesheet" href="js/uniform/css/uniform.default.css" type="text/css" />
+    <link rel="stylesheet" href="css/jshowoff.css" type="text/css" />  
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
+  
+    <link rel="shortcut icon" href="img/favicon.ico" />
+  
+    <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="js/css_browser_selector.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/jquery.jshowoff.min.js"></script>
+    <script type="text/javascript" src="js/uniform/jquery.uniform.js"></script>
+    <script type="text/javascript" src="js/jquery.clear-on-focus.js"></script>
+    
+    <script type="text/javascript">
+      $(document).ready(function(){  
+        $(".searchbox").search();
+        $("input, textarea, select, button").uniform();
+      });
+    </script>
+  </head>
+
+  <body class="pesquisa">
+
+<div class="topbar">
+      <ul class="aux-menu">
+        <li id="search">
+          <div><form action="/search/" method="get">
+	          <input class="searchbox" name="q" value="Pesquisar..." /><input type="image" class="searchicon" src="img/icons/search.png" alt="Pesquisar" />
+	        </form></div>
+        </li>
+      
+    </ul>
+</div>
+
+  <div id="header">
+    <div id="header-container">
+      <h1><a href="index.html"><img src="img/logo-header.png" alt="Clube Unicer"/></a></h1>
+      
+      <ul id="top-menu">  
+        <li class="clube">
+        	<a href="clube.html"><span>O Clube</span></a>
+        </li>
+        <li class="actividades">
+	        <a href="actividades.html"><span>Actividades</span></a>
+        </li>
+        <li class="protocolos">
+	        <a href="protocolos.html"><span>Protocolos</span></a>
+        </li>
+        <li class="images">
+          <a href="galeria.html"><span>Imagens & Vídeos</span></a>
+        </li>
+        <li class="sugestoes">
+	        <a href="sugestoes.html"><span>Sugestões</span></a>
+        </li>
+      </ul>
+    </div> <!-- /#header-container -->
+
+  </div>
+
+<div id="page">
+  <div id="content" class="single">
+    
+    <div id="main-content">
+      <div id="left">
+        <h3>Resultados da pesquisa por "blá blá blá"</h3>
+        <ul class="search-results">
+          <li>
+            <h4><a href="">Título página</a></h4>
+            <p>...per inceptos himenaeos. Nam mollis faucibus velit, <span class="highlight">blá blá blá</span> eget fringilla dolor gravida nec. Nullam lobortis erat quis mauris facilisis ut feugiat est fermentum. Curabitur vestibulum neque in dolor ultrices fermentum. Suspendisse metus libero, interdum in pretium nec, sollicitudin eget libero.</p>
+          </li>
+          <li>
+            <h4><a href="">Galeria xyz</a></h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing <span class="highlight">blá blá blá</span> elit. Etiam sed tellus elit. Suspendisse mauris eros...</p>
+          </li>
+        </ul>
+      </div> <!-- /left-->
+      
+      <div id="right">
+	      <form>
+	      <h4>Refinar pesquisa:</h4>
+	        <ul>
+	          <li><input type="checkbox" id="páginas" /> <label for="páginas">Clube</label></li>
+	          <li><input type="checkbox" id="actividades" /> <label for="actividades">Actividades</label></li>
+	          <li><input type="checkbox" id="notícias" /> <label for="notícias">Protocolos</label></li>
+	          <li><input type="checkbox" id="galerias" /> <label for="galerias">Galerias</label></li>
+	        </ul>
+	        
+          <p id="new-search"><span><input class="searchbox" value="Pesquisa" /><input type="image" class="searchicon" src="img/icons/search.png" /></span></p>
+        </form>
+       </div> <!-- /right-->
+       
+       <div class="pagination">
+        <ul>
+          <li id="previous"><a href="">&laquo; Anterior</a></li>
+          <li id="pg-nav">
+            <ul>
+              <li class="first"><a href="" class="on">1</a></li>
+              <li><a href="">2</a></li>
+              <li><a href="">3</a></li>
+              <li>...</li>
+              <li class="last"><a href="">12</a></li>
+            </ul>
+          <li id="next"><a href="">Próximo &raquo;</a></li>
+        </ul>
+      </div> <!-- /pagination-->
+
+    </div> <!-- /main-content -->
+  </div> <!-- /content -->
+</div> <!-- /page -->
+  
+    <div id="footer">
+    <div id="footer-container">
+      <ul class="aux-menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Mapa do site</a></li>
+      </ul>
+      
+      <ul id="links">
+        <li><a href="">Unicer Bebidas, SA</a></li>
+        <li><a href="#">Superbock</a></li>
+        <li><a href="#">Carlsberg</a></li>
+        <li><a href="#">Vitalis</a></li>
+        <li><a href="#">Pedras</a></li>
+      </ul>
+  </div>
+  </div> <!-- /footer -->
+</body>
+
+</html>

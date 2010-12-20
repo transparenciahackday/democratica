@@ -476,6 +476,154 @@ margin: 0 30px;
 overflow: hidden;
 }
 
+/* ------------------------ search results
+--------------------------------*/
+
+ul#search-results {
+width: 600px;
+}
+
+.refine-search {
+background: rgba(255, 255, 255, .5);
+padding: 10px;
+width: 200px;
+display: block;
+position: absolute;
+top: 40px;
+right: 0;
+}
+
+.refine-search h4 {
+margin: 10px 0;
+}
+
+.refine-search ul {
+margin: 0 0 15px;
+}
+
+.refine-search ul li {
+overflow: auto;
+list-style-type: none;
+margin: 0;
+padding: 3px 0;
+border-top: 1px dotted #999;
+}
+
+.refine-search ul li:first-child {
+border-top: 0;
+}
+
+.refine-search ul li label {
+padding: 0;
+background: transparent;
+position: relative;
+vertical-align: middle;
+}
+
+.refine-search #new-search {
+padding: 5px 0;
+}
+
+.refine-search #new-search input.searchbox,
+.refine-search #new-search input.id_q {
+width: 150px;
+background: #fff;
+
+}
+
+.refine-search #new-search input.searchicon {
+margin-left: -2px;
+vertical-align: top;
+padding: 5px 6px;
+border: 1px solid #999;
+background-color: #ccc;
+
+border-top-right-radius: 3px;
+border-bottom-right-radius: 3px;
+-moz-border-radius-topright: 3px;
+-moz-border-radius-bottomright: 3px;
+-webkit-border-top-right-radius: 3px;
+-webkit-border-bottom-right-radius: 3px;
+}
+
+
+	.webkit .refine-search #new-search input.searchicon {
+		padding: 4px 6px;
+	}
+	
+	.ie .refine-search #new-search input.searchicon {
+		padding: 6px 6px 7px;
+	}
+
+/* ------------------------ transcripts
+--------------------------------*/
+
+.intervention {
+padding: 15px 0;
+clear: both;
+position: relative;
+overflow: auto;
+background: #fff;
+border-top: 1px dotted #ccc;
+border-bottom: 1px dotted #ccc;
+margin-bottom: 20px;
+}
+
+.intervention .left {
+width: 150px;
+margin-right: 15px;
+float: left;
+display: block;
+text-align: right;
+padding: 0 0 0 20px;
+}
+
+.intervention .left .mp-photo img {
+width: 70px;
+}
+
+.mini-intervention .left .mp-photo img {
+width: 25px;
+}
+
+.intervention .right {
+width: 600px;
+float: left;
+display: block;
+font-family: 'Linux Libertine O', Georgia, Times, serif;
+}
+
+.intervention .right span.intro {
+font-size: 200%;
+line-height: 1;
+}
+
+.intervention h3 img {
+width: 20px;
+height: auto;
+}
+
+.mini-ntervention h3 {
+font-size: 105%;
+}
+
+.mini-intervention .right p {
+font-size: 180%;
+}
+
+.mini-intervention .right .circle {
+font-size: 100%;
+}
+
+.mini-intervention .circle img {
+width: 12px;
+height: auto;
+}
+
+.intervention .party img {
+width: 25px;
+height: auto;
+}
 
 
 
