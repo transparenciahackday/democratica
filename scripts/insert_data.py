@@ -1,7 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-DATASET_DIR = '../../datasets/'
+'''
+Script para criar os modelos do Django a partir dos datasets
+Copyright 2010-2011 Ricardo Lafuente <r@sollec.org>
+
+Licenciado segundo a GPL v3
+http://www.gnu.org/licenses/gpl.html
+
+'''
+
 
 ### Set up Django path
 import sys, os
@@ -11,12 +19,34 @@ if projectpath not in sys.path:
     sys.path.append(os.path.join(projectpath, 'dptd/'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'dptd.settings'
 
+DATASET_DIR = '../../../datasets/'
+
+MP_FILE = 'MP.csv'
+GENDERS_FILE = 'mp_genero.csv'
+FACTS_FILE = 'Facts.csv'
+CAUCUS_FILE = 'Caucus.csv'
+ACTIVITIES_FILE = 'Activities.csv'
+LINKSETS_FILE = 'links.csv'
+PARTIES_FILE = 'partidos.csv'
+SHORTNAMES_FILE = 'short-oficial.csv'
+CONSTITUENCIES_FILE = 'circulos_eleitorais.csv'
+
+def check_for_files():
+    all_files = [MP_FILE, GENDERS_FILE, FACTS_FILE, CAUCUS_FILE, ACTIVITIES_FILE, 
+                 LINKSETS_FILE, PARTIES_FILE, CONSTITUENCIES_FILE]
+    
+    for f in all_files:
+        path = os.path.join(DATASET_DIR, f)
+        if not os.path.exists(path):
+            print 'File %s not found! Check this and try again.' % (f)
+            sys.exit()
+
 import csv
 import datetime, time
 
 from dptd.deputados.models import *
 
-def insert_mps(csvfile=os.path.join(DATASET_DIR, 'MP.csv')):
+def insert_mps(csvfile=os.path.join(DATASET_DIR, MP_FILE)):
     print 'A processar deputados...'
     mps = csv.reader(open(csvfile), delimiter='|', quotechar='"')
     for id, mp_id, name, dob, occupation, date_added  in mps:
@@ -31,6 +61,7 @@ def insert_mps(csvfile=os.path.join(DATASET_DIR, 'MP.csv')):
             d = datetime.date(year=c[0], month=c[1], day=c[2])
         except ValueError:
             d = None
+
         MP.objects.create(id = int(mp_id),
                           name = name,
                           shortname = shortname,
@@ -38,7 +69,26 @@ def insert_mps(csvfile=os.path.join(DATASET_DIR, 'MP.csv')):
                           occupation = occupation
                           )
 
-def insert_facts(csvfile=os.path.join(DATASET_DIR, 'Facts.csv')):
+    genders = csv.reader(open(os.path.join(DATASET_DIR, GENDERS_FILE)), delimiter='|', quotechar='"')
+    for mp_id, gender in genders:
+        mp = MP.objects.get(id=mp_id)
+        mp.gender = gender
+        mp.save()
+
+
+
+    print 'A associar fotos dos deputados...'
+    from django.core.files.base import ContentFile
+    for mp in MP.objects.all():
+        imgfilename = os.path.join(projectpath, 'dptd/media/fotos-deputados', '%d.jpg' % mp.id)
+        if os.path.exists(imgfilename):
+            file_content = ContentFile(open(imgfilename, 'rb').read())
+            mp.photo.save(imgfilename, file_content)
+            file_content.close()
+        else:
+            pass
+
+def insert_facts(csvfile=os.path.join(DATASET_DIR, FACTS_FILE)):
     print 'A processar factos...'
     facts = csv.reader(open(csvfile), delimiter='|', quotechar='"')
     for id, mp_id, fact_type, value, date_added in facts:
@@ -52,7 +102,7 @@ def insert_facts(csvfile=os.path.join(DATASET_DIR, 'Facts.csv')):
                             value = value,
                             )
 
-def insert_caucus(csvfile=os.path.join(DATASET_DIR, 'Caucus.csv')):
+def insert_caucus(csvfile=os.path.join(DATASET_DIR, CAUCUS_FILE)):
     print 'A processar círculos eleitorais...'
     caucus = csv.reader(open(csvfile), delimiter='|', quotechar='"')
     for id, mp_id, session, dates, constituency, party, has_activity, has_registointeresses, date_added in caucus:
@@ -87,16 +137,28 @@ def insert_caucus(csvfile=os.path.join(DATASET_DIR, 'Caucus.csv')):
                 print 'Error - End: ' + date_end
             date_end = None
 
+        if Constituency.objects.filter(name=constituency):
+            c = Constituency.objects.get(name=constituency)
+        else:
+            c = Constituency.objects.create(name=constituency)
+
         Caucus.objects.create(mp = MP.objects.get(id=mp_id),
                             session = s,
                             date_begin = date_begin,
                             date_end = date_end,
-                            constituency = constituency,
+                            constituency = c,
                             party = p,
                             has_activity = bool(has_activity),
                             has_registointeresses = bool(has_registointeresses),
                             )
-def insert_activities(csvfile=os.path.join(DATASET_DIR, 'Activities.csv')):
+
+    constituency_file = csv.reader(open(os.path.join(DATASET_DIR, CONSTITUENCIES_FILE)), delimiter='|', quotechar='"')
+    for name, article in constituency_file:
+        c = Constituency.objects.get(name=name)
+        c.article = article
+        c.save()
+
+def insert_activities(csvfile=os.path.join(DATASET_DIR, ACTIVITIES_FILE)):
     print 'A processar actividades...'
     caucus = csv.reader(open(csvfile), delimiter='|', quotechar='"')
     for id, mp_id, caucus, type1, type2, number, session, content, date_added, external_id in caucus:
@@ -115,7 +177,7 @@ def insert_activities(csvfile=os.path.join(DATASET_DIR, 'Activities.csv')):
         mp.has_activity = bool(mp.activity_set.all())
         mp.save()
 
-def insert_linksets(csvfile=os.path.join(DATASET_DIR, 'redes_sociais.csv')):
+def insert_linksets(csvfile=os.path.join(DATASET_DIR, LINKSETS_FILE)):
     print 'A processar links...'
     linkset = csv.reader(open(csvfile), delimiter=';', quotechar='"')
     for id, name, post, email, wikipedia_url, facebook_url, twitter_url, blog_url, website_url, linkedin_url, twitica_url, radio_url, tv_url in linkset:
@@ -149,7 +211,18 @@ def insert_linksets(csvfile=os.path.join(DATASET_DIR, 'redes_sociais.csv')):
         except LinkSet.DoesNotExist:
             Linkset.objects.create(mp=mp, active=False)
 
-def insert_parties(csvfile=os.path.join(DATASET_DIR, 'listagem_partidos.csv')):
+def insert_shortnames(csvfile=os.path.join(DATASET_DIR, SHORTNAMES_FILE)):
+    # usar o ficheiro do Pedro de shortnames
+    print 'A associar shortnames...'
+    shortnames = csv.reader(open(csvfile), delimiter='\t', quotechar='"')
+    for mp_id, shortname in shortnames:
+        if shortname == 'N/A' or mp_id == 'Column':
+            continue
+        mp = MP.objects.get(id=mp_id)
+        mp.shortname = shortname
+        mp.save()
+
+def insert_parties(csvfile=os.path.join(DATASET_DIR, PARTIES_FILE)):
     print 'A processar partidos...'
     party = csv.reader(open(csvfile), delimiter='|', quotechar='"')
     for abbrev, name, tendency, info in party:
@@ -166,11 +239,12 @@ def insert_parties(csvfile=os.path.join(DATASET_DIR, 'listagem_partidos.csv')):
         p.save()
 
 
-
 if __name__ == '__main__':
+    check_for_files()
     insert_mps()
     insert_facts()
     insert_caucus()
     insert_activities()
     insert_linksets()
+    insert_shortnames()
     insert_parties()

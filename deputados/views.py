@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from dptd.deputados.models import MP, LinkSet, Session, Party
+from dptd.deputados.models import MP, LinkSet, Session, Party, Constituency
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
 
@@ -8,13 +8,22 @@ def index(request):
     return direct_to_template('index.html')
 
 def mp_list(request):
-    session = int(request.GET.get('session', Session.objects.order_by('-number')[0].number))
-    session = Session.objects.get(number=session)
+    session_number = request.GET.get('session', Session.objects.order_by('-number')[0].number)
     party = request.GET.get('party', 'all')
+    constituency_id = request.GET.get('constituency', 'all')
 
-    queryset = MP.objects.filter(caucus__session=session).distinct()
+    if not session_number == 'all':
+        queryset = MP.objects.filter(caucus__session__number=int(session_number)).distinct()
+    else:
+        queryset = MP.objects.all()
+
     if not party == 'all':
         queryset = queryset.filter(caucus__party__abbrev=party)
+    if not constituency_id == 'all':
+        queryset = queryset.filter(caucus__constituency__id=int(constituency_id))
+
+    queryset = queryset.distinct()
+
     # queryset = queryset[1:60]
 
     # q1 = queryset.filter(has_mps=True)
@@ -37,14 +46,16 @@ def mp_list(request):
     queryset_2 = queryset[rowcount1:rowcount1+rowcount2]
     queryset_3 = queryset[rowcount1+rowcount2:]
     extra = {}
-    extra['queryset1'] = queryset_1
-    extra['queryset2'] = queryset_2
-    extra['queryset3'] = queryset_3
+    extra['querysets'] = [queryset_1, queryset_2, queryset_3]
 
     extra['sessions'] = Session.objects.order_by('-number')
-    extra['session'] = session
+    extra['session'] = int(session_number) if session_number != 'all' else 'all'
+
     extra['parties'] = Party.objects.filter(has_mps=True)
     extra['party'] = party
+
+    extra['constituency'] = int(constituency_id) if constituency_id != 'all' else 'all'
+    extra['constituencies'] = Constituency.objects.all()
 
     return object_list(request, queryset,
                        extra_context=extra,
@@ -82,18 +93,17 @@ def mp_detail(request, object_id):
                 title = entry.title
             item = (url, title)
             news.append(item)
-        # got something? done
-        if news:
-            break
+            # got enough?
+            if len(news) >= 10:
+                break
 
     # get Twitter posts
     import urllib2
     try:
         if mp.linkset.twitter_url:
-            username = mp.linkset.twitter_url.strip('/').split('/')[-1]
-            import twitter
-            c = twitter.Api()
-            tweets = [s for s in c.GetUserTimeline(username, count=5)]
+            from utils import get_tweets_from_url
+            tweets = get_tweets_from_url(mp.linkset.twitter_url)
+            
         else:
             tweets = []
     except (LinkSet.DoesNotExist, urllib2.HTTPError):

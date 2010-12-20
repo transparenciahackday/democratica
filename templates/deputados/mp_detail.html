@@ -47,7 +47,9 @@
     <div id="content-box">
       
       <div id="mp-header">
-        <p><img src="{{ object.photo_url }}" alt="{{ mp.shortname }}" /></p>
+        {% if object.photo %}
+        <p><img src="{{ object.photo.url }}" alt="{{ mp.shortname }}" /></p>
+        {% endif %}
         <h2>{{ object.shortname }}
         <small> <img src="/media/img/logos/be.png" alt="" /> {{ object.current_party }}</small>
         </h2> <!-- nome abreviado -->
@@ -60,7 +62,7 @@
           </li>
 
           <li class="single-field">
-            <h4>Partido:</h4> <p>{{ object.current_party }}</p>
+            <h4>Partido actual:</h4> <p>{{ object.current_party.name }}</p>
           </li>
 
           {% if object.dob %}
@@ -111,7 +113,11 @@
             <h4>Sessão Legislativa e Círculo Eleitoral / Partido:</h4>
             <ul>
               {% for caucus in object.caucus_set.all %}
-              <li>{{ caucus.session }}, {{ caucus.party }}, {{ caucus.constituency }}</li>
+              <li>
+              Deputad{{ object.article }} na <a href="/deputados/?session={{ caucus.session.number }}" title="Ver deputados da {{ caucus.session }} Legislatura">{{ caucus.session }} Legislatura</a> 
+              pelo <a href="/deputados/?session={{ caucus.session.number }}&party={{ caucus.party.abbrev }}" title="Ver deputados eleitos pelo {{ caucus.party.abbrev }} na {{ caucus.session }} Legislatura">{{ caucus.party.name }}</a> 
+              no círculo d{{ caucus.constituency.article }} <a href="/deputados/?session={{ caucus.session.number }}&constituency={{ caucus.constituency.id }}" title="Ver deputados eleitos pelo círculo d{{ caucus.constituency.article }} {{ caucus.constituency }} na {{ caucus.session }} Legislatura">{{ caucus.constituency }}</a>.
+              </li>
               {% endfor %}
             </ul>
           </li>
@@ -129,6 +135,7 @@
         
         <ul class="mp-details">
           <li>
+          {% if news %}
           <h4>Notícias recentes <small> via Google Notícias</small></h4>
             <ul>
               {% for newsobj in news %}
@@ -136,6 +143,7 @@
               {% endfor %}
             </ul>
           </li>
+          {% endif %}
   
           {% with object.linkset as l %}
           {% if l.active %}

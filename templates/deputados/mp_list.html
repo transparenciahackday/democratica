@@ -70,53 +70,48 @@
           <ul class="mp-filters">
             <li><strong>Legislatura:</strong>
               <select name="session">
+                <option value="all"{% if session == 'all' %} selected="selected"{% endif %}>Todas</option>
                 {% for s in sessions %}
                 <option value="{{ s.number }}"{% if s.number == session %} selected="selected"{% endif %}>{{ s }} ({{ s.number }})</option>
                 {% endfor %}
-                <option value="all"{% if session == 'all' %} selected="selected"{% endif %}>Todas</option>
               </select>
             </li>
             <li><strong>Partido:</strong>
               <select name="party">
+                <option value="all"{% if party == 'all' %} selected="selected"{% endif %}>Todos</option>
                 {% for p in parties %}
                 <option value="{{ p.abbrev }}"{% if p.abbrev == party %} selected="selected"{% endif %}>{{ p.abbrev }}</option>
                 {% endfor %}
-                <option value="all"{% if party == 'all' %} selected="selected"{% endif %}>Todos</option>
+              </select>
+            </li>
+            <li><strong>Círculo eleitoral:</strong>
+              <select name="constituency">
+                <option value="all"{% if constituency == 'all' %} selected="selected"{% endif %}>Todos</option>
+                {% for c in constituencies %}
+                <option value="{{ c.id }}"{% if c.id == constituency %} selected="selected"{% endif %}>{{ c.name }}</option>
+                {% endfor %}
               </select>
             </li>
             <input id="mp-filter" type="submit" value="Mostrar" />
           </ul>
         
-        <!-- o que eu queria: para ter três colunas precisamos de três uls,
-        a última ul tem de ter o seguinte class="mp-list last"-->
+        {% for queryset in querysets %}
         
-        <ul class="mp-list">
-          {% for mp in queryset1 %}   
+        <ul class="mp-list{% if forloop.last %} last{% endif %}">
+          {% for mp in queryset %}   
             <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
-              <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
+              {% if mp.photo %}
+              <span class="photo"><img src="{{ mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></span>
+              {% else %}
+              <span class="photo"></span>
+              {% endif %}
               <span class="name">{{ mp.shortname }}</span>
-              <span class="party">{{ mp.current_party.abbrev }}</span>
+              <span class="party">{{ mp.current_party.abbrev }} ({{ mp.gender }})</span>
             </a></li>
           {% endfor %}
         </ul>
-        <ul class="mp-list">
-          {% for mp in queryset2 %}   
-            <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
-              <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
-              <span class="name">{{ mp.shortname }}</span>
-              <span class="party">{{ mp.current_party.abbrev }}</span>
-            </a></li>
-          {% endfor %} 
-        </ul>
-        <ul class="mp-list last">
-          {% for mp in queryset3 %}   
-            <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
-              <span class="photo"><img src="{{ mp.photo_url }}" alt="{{ mp.shortname }}" /></span>
-              <span class="name">{{ mp.shortname }}</span>
-              <span class="party">{{ mp.current_party.abbrev }}</span>
-            </a></li>
-          {% endfor %}
-        </ul>
+        {% endfor %}
+
         
         <div class="pagination">
           <ul>
