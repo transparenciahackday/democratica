@@ -19,7 +19,7 @@ if projectpath not in sys.path:
     sys.path.append(os.path.join(projectpath, 'dptd/'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'dptd.settings'
 
-DATASET_DIR = '../../../datasets/'
+from dptd.settings import DATASET_DIR
 
 MP_FILE = 'MP.csv'
 GENDERS_FILE = 'mp_genero.csv'

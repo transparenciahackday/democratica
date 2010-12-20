@@ -18,14 +18,13 @@ if projectpath not in sys.path:
     sys.path.append(os.path.join(projectpath, 'dptd/'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'dptd.settings'
 
-TRANSCRIPTS_DIR = '/home/rlafuente/code/transparencia/repo/qdizem/dar-csv'
-
 import csv
 import datetime, time
 import dateutil.parser
 
 from dptd.deputados.models import MP, Party
 from dptd.dar.models import Entry, Day
+from dptd.settings import TRANSCRIPTS_DIR
 
 for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
     for f in files:
