@@ -555,76 +555,103 @@ border-bottom-right-radius: 3px;
 		padding: 6px 6px 7px;
 	}
 
-/* ------------------------ transcripts
+/* ------------------------ DAR transcripts
 --------------------------------*/
 
 .intervention {
-padding: 15px 0;
-clear: both;
-position: relative;
-overflow: auto;
-background: #fff;
+background: rgba(255,255,255,.6);
 border-top: 1px dotted #ccc;
 border-bottom: 1px dotted #ccc;
 margin-bottom: 20px;
+padding: 0 20px;
 }
 
-.intervention .left {
+.intervention > .entry:first-child {
+border-top: 0;
+}
+
+.entry {
+padding: 20px 0;
+clear: both;
+position: relative;
+overflow: auto;
+border-top: 1px solid #999;
+}
+
+  .applause,
+  .laughs,
+  .protests,
+  .punchline {
+  padding: 8px 0;
+  background: transparent url(../img/icons/entry-applause.png) no-repeat 0 8px;
+  }
+
+.entry .left {
 width: 150px;
 margin-right: 15px;
 float: left;
 display: block;
 text-align: right;
-padding: 0 0 0 20px;
+font-size: 90%;
+line-height: 1.1;
 }
 
-.intervention .left .mp-photo img {
-width: 70px;
-}
+  .applause .left,
+  .laughs .left,
+  .protests .left,
+  .punchline .left {
+  font-size: 70%;
+  }
+  
+  .entry .left h3 {
+  margin: 4px 0;
+  }
+  
+  .entry .left h4 {
+  font-size: 100%;
+  margin: 0 0 4px;
+  }
+  
+  .applause .left h3,
+  .laughs .left h3,
+  .protests .left h3,
+  .punchline .left h3 {
+  
+  }
+  
+  .entry .left mp-photo {
+  }
 
-.mini-intervention .left .mp-photo img {
-width: 25px;
-}
+  .entry .left .mp-photo img {
+  width: 60px;
+  }
 
-.intervention .right {
+  .entry .party img {
+  width: 12px;
+  height: auto;
+  }
+
+.entry .right {
 width: 600px;
 float: left;
 display: block;
 font-family: 'Linux Libertine O', Georgia, Times, serif;
 font-size: 130%;
+line-height: 1.4em;
 }
 
-.intervention .right span.intro {
-font-size: 200%;
-line-height: 1;
+  .applause .right,
+  .laughs .right,
+  .protests .right,
+  .punchline .right {
+  }
+
+.entry .right p {
+margin-top: 10px;
 }
 
-.intervention h3 img {
-width: 20px;
-height: auto;
+.entry .right p:first-child {
+margin-top: 0;
 }
-
-.mini-intervention h3 {
-font-size: 105%;
-}
-
-.mini-intervention .right p {
-font-size: 90%;
-}
-
-.mini-intervention .right .circle {
-font-size: 100%;
-}
-
-.mini-intervention .circle img {
-width: 12px;
-height: auto;
-}
-
-.intervention .party img {
-width: 25px;
-height: auto;
-}
-
 
 

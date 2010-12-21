@@ -49,9 +49,94 @@
     <div id="content-box">    
       <h2>{{ day.date }}</h2>
 
+      <div class="intervention">
+        <div class="entry">
+          <div class="left">
+            <p class="mp-photo"><img src="/media/mp-photos/2.jpg" alt="" /></p>
+            <h3>Nome do gajo</h3>
+            <h4 class="party"><img src="/media/img/logos/be.png" alt="" /> PMMIPP</h4>
+            <p class="circle">Ponta Velha de Cima</p>
+          </div>
+          
+          <div class="right">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tortor tellus, convallis vel placerat sit amet, tincidunt ut nisi. Etiam ut diam dui. Suspendisse potenti. Cras imperdiet augue at risus facilisis et ornare neque suscipit. Morbi non feugiat magna. Praesent at eros tortor, vel lobortis purus. Nulla ultricies fermentum est non porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in massa libero, vitae ullamcorper eros. Ut pulvinar iaculis ligula, id pharetra leo bibendum a. Ut consectetur semper ante, id auctor ligula accumsan mattis. Praesent sodales vulputate velit nec faucibus. Suspendisse purus ante, tincidunt a pulvinar a, posuere sed justo.</p>
+          </div>
+        </div> <!-- /entry-->
+        
+        <div class="entry applause">
+          <div class="left">
+            <h3>Partido/Bancada X</h3>
+          </div>
+          
+          <div class="right">
+            <p><em>Aplausos</em></p>
+          </div>
+        </div><!-- /entry-->
+      
+      <div class="entry">
+          <div class="left">
+            <p class="mp-photo"><img src="/media/mp-photos/2.jpg" alt="" /></p>
+            <h3>Nome do gajo</h3>
+            <h4 class="party"><img src="/media/img/logos/be.png" alt="" /> PMMIPP</h4>
+            <p class="circle">Ponta Velha de Cima</p>
+          </div>
+          
+          <div class="right">
+            <p>Morbi cursus volutpat interdum. Curabitur pulvinar ultrices consequat. Nam sit amet urna felis, tristique volutpat dui. Praesent felis ante, gravida eu auctor eu, commodo sit amet libero. Aliquam iaculis mauris mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam quis est sit amet sem iaculis rhoncus. Duis in tortor nisi, quis iaculis sapien. Cras convallis convallis ipsum, at viverra dolor consequat sit amet. Vestibulum tristique rutrum tellus quis eleifend. Aliquam eu sem in nisi vehicula mattis et blandit risus.</p>
+            <p>Suspendisse potenti. Suspendisse sed nisl eget eros lobortis varius at nec leo. Quisque semper libero vel felis suscipit et scelerisque neque cursus. Ut quis arcu arcu. Quisque adipiscing suscipit risus, nec sodales nisi tincidunt sed. Cras in velit vel leo tempor dignissim sit amet eu augue. Donec auctor arcu id enim volutpat quis dictum diam cursus. Nam fermentum turpis vitae tortor porttitor facilisis. Proin nec faucibus lacus. Pellentesque quis metus nulla, nec faucibus nisi. Nullam ultricies volutpat volutpat. Cras ut justo ligula.</p>
+          </div>
+        </div> <!-- /entry-->
+        
+        <div class="entry protests">
+          <div class="left">
+            <h3>Partido/Bancada X</h3>
+          </div>
+          
+          <div class="right">
+            <p><em>Uhhhhh!!! Ohhhh!</em></p>
+          </div>
+      </div> <!-- /entry-->
+      
+      <div class="entry punchline">
+          <div class="left">
+            <h3><img src="/media/mp-photos/4.jpg" alt="" /> Fulaninho Sete e Meio</h3>
+          </div>
+          
+          <div class="right">
+            <p>Meu senhor isso é insuportável! Tão mau como o hálito do Dantas.</p>
+          </div>
+      </div> <!-- /entry-->
+      
+      <div class="entry laughs">
+          <div class="left">
+            <h3>Partido/Bancada X</h3>
+          </div>
+          
+          <div class="right">
+            <p><em>Ah Hahaha!</em></p>
+          </div>
+      </div> <!-- /entry-->
+      
+      <div class="entry">
+          <div class="left">
+            <p class="mp-photo"><img src="/media/mp-photos/2.jpg" alt="" /></p>
+            <h3>Nome do gajo</h3>
+            <h4 class="party"><img src="/media/img/logos/be.png" alt="" /> PMMIPP</h4>
+            <p class="circle">Ponta Velha de Cima</p>
+          </div>
+          
+          <div class="right">
+            <p>Nullam scelerisque lacus purus, ac rhoncus mauris. Nulla facilisi. Maecenas ut dui suscipit enim pulvinar scelerisque viverra a quam. Donec ut dui orci, vitae hendrerit felis. Fusce at augue enim. Sed mattis, nisl eget malesuada consectetur, justo magna tincidunt ligula, sit amet tempus risus nunc in enim. Nunc scelerisque, ipsum quis tincidunt scelerisque, erat metus mollis velit, in tristique dui neque quis justo.</p>
+            <p>Pellentesque a metus et augue vestibulum posuere. Duis eget lacus ligula, et blandit turpis. Proin ornare augue dolor. Phasellus placerat eros quis lectus dignissim dapibus. Phasellus nulla massa, mattis sagittis mollis vel, scelerisque a nibh. Integer ultricies, turpis non porttitor vulputate, libero lectus pulvinar orci, pulvinar laoreet dui nunc sed ipsum. Suspendisse potenti. </p>
+          </div>
+        </div> <!-- /entry-->
+      
+      </div><!-- /intervention-->
+
+
       {% for entry in entries %}
       {% if entry.is_regular %}
-      <div class="intervention">
+      <div class="entry">
         <div class="left">
 
           {% if entry.mp %}
@@ -63,7 +148,7 @@
             {% endif %}
 
             <h3>{{ mp.shortname }}</h3>
-            <p class="party">{# <img src="/media/img/logos/be.png" alt="" /> #}{{ mp.current_party.abbrev }}</small></p>
+            <p class="party">{# <img src="/media/img/logos/be.png" alt="" /> #}{{ mp.current_party.abbrev }}</p>
             <p class="circle">{{ mp.current_caucus.constituency }}</p>
             {% endwith %}
           {% else %}
@@ -73,13 +158,13 @@
             {% else %}
             <h3>{{ entry.party }}</h3>
             {% endif %}
-            <p class="party">{# <img src="/media/img/logos/be.png" alt="" /> #}{{ entry.mp.current_party.abbrev }}</small></p>
+            <p class="party">{# <img src="/media/img/logos/be.png" alt="" /> #}{{ entry.mp.current_party.abbrev }}</p>
             <p class="circle"></p>
           {% endif %}
         </div>
         
         <div class="right">
-          {# <p><span class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span> Duis tortor tellus, convallis vel placerat sit amet, tincidunt ut nisi. Etiam ut diam dui. Suspendisse potenti. Cras imperdiet augue at risus facilisis et ornare neque suscipit. Morbi non feugiat magna. Praesent at eros tortor, vel lobortis purus. Nulla ultricies fermentum est non porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in massa libero, vitae ullamcorper eros. Ut pulvinar iaculis ligula, id pharetra leo bibendum a. Ut consectetur semper ante, id auctor ligula accumsan mattis. Praesent sodales vulputate velit nec faucibus. Suspendisse purus ante, tincidunt a pulvinar a, posuere sed justo.</p> #}
+          {# <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tortor tellus, convallis vel placerat sit amet, tincidunt ut nisi. Etiam ut diam dui. Suspendisse potenti. Cras imperdiet augue at risus facilisis et ornare neque suscipit. Morbi non feugiat magna. Praesent at eros tortor, vel lobortis purus. Nulla ultricies fermentum est non porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in massa libero, vitae ullamcorper eros. Ut pulvinar iaculis ligula, id pharetra leo bibendum a. Ut consectetur semper ante, id auctor ligula accumsan mattis. Praesent sodales vulputate velit nec faucibus. Suspendisse purus ante, tincidunt a pulvinar a, posuere sed justo.</p> #}
           {{ entry.text_as_html }}
           {# <p class="more">Mais...</p> #}
         </div>
