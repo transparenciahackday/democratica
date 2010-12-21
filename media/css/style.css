@@ -571,19 +571,17 @@ border-top: 0;
 }
 
 .entry {
-padding: 20px 0;
+padding: 5px 0;
 clear: both;
 position: relative;
 overflow: auto;
-border-top: 1px solid #999;
 }
 
   .applause,
   .laughs,
   .protests,
   .punchline {
-  padding: 8px 0;
-  background: transparent url(../img/icons/entry-applause.png) no-repeat 0 8px;
+  padding: 2px 0;
   }
 
 .entry .left {
@@ -594,6 +592,7 @@ display: block;
 text-align: right;
 font-size: 90%;
 line-height: 1.1;
+padding: 5px 0 0;
 }
 
   .applause .left,
@@ -601,6 +600,17 @@ line-height: 1.1;
   .protests .left,
   .punchline .left {
   font-size: 70%;
+  padding: 5px 0 0;
+  }
+  
+  .applause .left p,
+  .laughs .left p,
+  .protests .left p,
+  .punchline .left p {
+  background: transparent url(../img/icons/entry-applause.png) no-repeat right 0;
+  padding-top: 16px;
+  height: 0;
+  overflow: hidden;
   }
   
   .entry .left h3 {
@@ -610,13 +620,6 @@ line-height: 1.1;
   .entry .left h4 {
   font-size: 100%;
   margin: 0 0 4px;
-  }
-  
-  .applause .left h3,
-  .laughs .left h3,
-  .protests .left h3,
-  .punchline .left h3 {
-  
   }
   
   .entry .left mp-photo {
@@ -638,12 +641,27 @@ display: block;
 font-family: 'Linux Libertine O', Georgia, Times, serif;
 font-size: 130%;
 line-height: 1.4em;
+padding: 5px 0 0;
+border-top: 1px dotted #999;
+}
+
+.intervention > .entry:first-child .right {
+border: 0;
 }
 
   .applause .right,
   .laughs .right,
   .protests .right,
   .punchline .right {
+  }
+  
+  .applause .right strong,
+  .laughs .right strong,
+  .protests .right strong,
+  .punchline .right strong {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 85%;
+  color: #555;
   }
 
 .entry .right p {
