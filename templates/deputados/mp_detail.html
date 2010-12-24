@@ -57,7 +57,7 @@
       
         <ul class="mp-details mp-details-left">
           <li class="single-field">
-            <h4>Nome Completo:</h4>
+            <h4>Nome completo:</h4>
             <p>{{ object.name }}</p>
           </li>
 
@@ -80,7 +80,7 @@
 
           <li>
           {% if object.has_facts %}
-            <h4>Factos:</h4>
+            <h4>Habilitações e cargos</h4>
             <ul>
               {% for fact in object.habilitacoes %}
               {% if forloop.first %} <h5>Habilitações Literárias</h5> {% endif%}
@@ -134,6 +134,15 @@
         </ul>
         
         <ul class="mp-details">
+          {% if object.favourite_word %}
+          <li>
+          <h4>Factos cruciais</h4>
+          <ul>
+            <li>A palavra preferida de {{ object.shortname }} é <strong>{{ object.favourite_word }}</strong>.
+          </ul>
+          </li>
+          {% endif %}
+
           <li>
           {% if news %}
           <h4>Notícias recentes <small> via Google Notícias</small></h4>

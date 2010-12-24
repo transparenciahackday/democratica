@@ -30,10 +30,11 @@ LINKSETS_FILE = 'links.csv'
 PARTIES_FILE = 'partidos.csv'
 SHORTNAMES_FILE = 'short-oficial.csv'
 CONSTITUENCIES_FILE = 'circulos_eleitorais.csv'
+GOVERNMENT_FILE = 'governos/gc18.csv'
 
 def check_for_files():
     all_files = [MP_FILE, GENDERS_FILE, FACTS_FILE, CAUCUS_FILE, ACTIVITIES_FILE, 
-                 LINKSETS_FILE, PARTIES_FILE, CONSTITUENCIES_FILE]
+                 LINKSETS_FILE, PARTIES_FILE, CONSTITUENCIES_FILE, GOVERNMENT_FILE]
     
     for f in all_files:
         path = os.path.join(DATASET_DIR, f)
@@ -238,6 +239,28 @@ def insert_parties(csvfile=os.path.join(DATASET_DIR, PARTIES_FILE)):
         p.info = info
         p.save()
 
+def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
+    import dateutil.parser
+    print 'A processar governos...'
+
+    number = GOVERNMENT_FILE.split('/')[1].split('.')[0].replace('gc', '')
+    gov = Government.objects.create(number=int(number),
+                                    date_started=dateutil.parser.parse('2010-10-29'))
+
+    members = csv.reader(open(csvfile), delimiter='|', quotechar='"')
+    print members
+    for mp_id, post, date_started, date_ended, other in members:
+        if mp_id:
+            print 'Creating post'
+            ds = dateutil.parser.parse(date_started)
+            de = dateutil.parser.parse(date_ended)
+            GovernmentPost.objects.create(mp=MP.objects.get(id=int(mp_id)),
+                                          government=gov,  
+                                          name=post,
+                                          date_started=ds,
+                                          date_ended=de)
+        else:
+            print 'No suitable MP, ignoring post'
 
 if __name__ == '__main__':
     check_for_files()
@@ -248,3 +271,4 @@ if __name__ == '__main__':
     insert_linksets()
     insert_shortnames()
     insert_parties()
+    insert_governments()

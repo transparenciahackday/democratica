@@ -2,6 +2,7 @@
 
 from django.db import models
 from thumbs import ImageWithThumbsField
+from dptd.core import text_utils
 
 GENDERS = [('F', 'Feminino'),
            ('M', 'Masculino'),
@@ -15,6 +16,7 @@ class MP(models.Model):
     dob = models.DateField('Data de nascimento', blank=True, null=True)
     occupation = models.CharField('Profissão', max_length=300, blank=True)
     photo = ImageWithThumbsField('Fotografia', upload_to='mp-photos', sizes=((18,25),), null=True)
+    favourite_word = models.CharField('Palavra preferida', max_length=100, blank=True, null=True)
 
     @property
     def current_caucus(self):
@@ -33,6 +35,16 @@ class MP(models.Model):
     def facts_by_type(self, verbose_type):
         fact_type = FactType.objects.get(name=verbose_type)
         return self.fact_set.filter(fact_type=fact_type)
+
+    def post_on(self, gov_number):
+        if self.governmentpost_set.filter(government=Government.objects.get(number=gov_number)):
+            return self.governmentpost_set.filter(government=Government.objects.get(number=gov_number))[0]
+        return None
+
+    def has_post_on(self, gov_number):
+        if self.governmentpost_set.filter(government=Government.objects.get(number=gov_number)):
+            return True
+        return False
 
     @property
     def article(self):
@@ -56,6 +68,11 @@ class MP(models.Model):
     @property
     def comissoes(self): return self.facts_by_type('Comissoes')
 
+    def calculate_favourite_word(self):
+        if self.entry_set.all():
+             self.favourite_word = text_utils.most_frequent_word(self.entry_set.all())
+             self.save()
+
     def __unicode__(self): return self.shortname
     class Meta:
         verbose_name = 'deputado'
@@ -69,6 +86,8 @@ class Party(models.Model):
     has_mps = models.BooleanField('Tem ou teve deputados?', default=True)
     #primary_color = models.CharField('Cor principal', max_length=10)
     #secondary_color = models.CharField('Cor principal', max_length=10)
+
+
 
     def __unicode__(self): return self.abbrev
     class Meta:
@@ -90,6 +109,27 @@ class Fact(models.Model):
     def __unicode__(self): return "%s - %s" % (self.fact_type.name, self.value)
     class Meta:
         verbose_name = 'facto'
+
+class Government(models.Model):
+    number = models.PositiveIntegerField('Número', unique=True)
+    date_started = models.DateField('Início do mandato', blank=True, null=True)
+    date_ended = models.DateField('Fim do mandato', blank=True, null=True)
+
+    def __unicode__(self): 
+        from roman import toRoman
+        return toRoman(self.number)
+    class Meta:
+        verbose_name = 'governo'
+
+class GovernmentPost(models.Model):
+    name = models.CharField('Nome', max_length=200, blank=True)
+    government = models.ForeignKey(Government)
+    mp = models.ForeignKey(MP)
+    date_started = models.DateField('Início do mandato')
+    date_ended = models.DateField('Fim do mandato', blank=True, null=True)
+    
+    def __unicode__(self):
+        return 'GC%d: %s' % (self.government.number, self.name)
 
 class Session(models.Model):
     number = models.PositiveIntegerField('Sessão legislativa')

@@ -22,10 +22,11 @@ import csv
 import datetime, time
 import dateutil.parser
 
-from dptd.deputados.models import MP, Party
+from dptd.deputados.models import MP, Party, GovernmentPost
 from dptd.dar.models import Entry, Day
 from dptd.settings import TRANSCRIPTS_DIR
 
+print 'A importar transcrições...'
 for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
     for f in files:
         print f
@@ -71,5 +72,12 @@ for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
                     mp = MP.objects.get(shortname=mpname)
                 Entry.objects.create(mp=mp, party=party, text=text, day=s)
             else:
-                Entry.objects.create(speaker=mpname, party=party, text=text, day=s)
+                if GovernmentPost.objects.filter(name=mpname):
+                    mp = MP.objects.get(governmentpost__name=mpname)
+                    Entry.objects.create(mp=mp, party=party, text=text, day=s)
+                else:
+                    Entry.objects.create(speaker=mpname, party=party, text=text, day=s)
 
+print 'A calcular palavras preferidas...'
+for mp in MP.objects.all():
+    mp.calculate_favourite_word()

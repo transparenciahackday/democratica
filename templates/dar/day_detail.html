@@ -23,6 +23,8 @@
     </script>
   </head>
 
+{% load deputags %}
+
 <body class="home">
 
   <div id="header">
@@ -48,6 +50,8 @@
   <div id="content">
     <div id="content-box">    
       <h2>{{ day.date }}</h2>
+      <img src="{{ speaker_chart_url }}" />
+      <img src="{{ mb_chart_url }}" />
 
       <div class="intervention">
         <div class="entry">
@@ -154,6 +158,9 @@
             {% endif %}
 
             <h3>{{ mp.shortname }}</h3>
+            {% if mp|get_post_on:gov %}
+            <h4>{{ mp|get_post_on:gov }}</h4>
+            {% endif %}
             <p class="party">{# <img src="/media/img/logos/be.png" alt="" /> #}{{ mp.current_party.abbrev }}</p>
             <p class="circle">{{ mp.current_caucus.constituency }}</p>
             {% endwith %}

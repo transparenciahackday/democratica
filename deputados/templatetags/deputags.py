@@ -30,3 +30,10 @@ def filter_news_tuple(obj):
     title = " - ".join(s)
     output = '<a href="%s">%s</a><small> %s</small>' % (url, title, agency)
     return mark_safe(output)
+
+@register.filter
+def get_post_on(obj, gov_number):
+    post = obj.post_on(gov_number)
+    if post:
+        return post.name
+    return None
