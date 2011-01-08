@@ -12,7 +12,6 @@ BASE_DIR = '/home/rlafuente/code/transparencia/repo/dptd/'
 DATASET_DIR = '../../../datasets/'
 TRANSCRIPTS_DIR = '../../../darscraper/csv'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -82,3 +81,4 @@ INSTALLED_APPS = (
     'dptd.dar'
 )
 
+STOPWORD_FILE = os.path.join(BASE_DIR, 'core/stopwords.txt')
