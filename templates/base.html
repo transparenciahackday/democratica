@@ -1,0 +1,57 @@
+<html lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Demo.cratica{% endblock %}</title>
+
+    <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
+    <link rel="stylesheet" href="/media/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
+  
+    <link rel="shortcut icon" href="/media/img/favicon.ico" />
+  
+    <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
+    <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
+    {% block extrascripts %}{% endblock %}
+    
+    <script type="text/javascript">
+      $(document).ready(function(){  
+        $(".searchbox").search();
+        $("input, textarea, select, button").uniform();
+	    });
+    </script>
+  </head>
+
+<body class="home">
+
+  <div id="header">
+    <div id="header-box">
+      <h1><a href="/">TRANSPARÊNCIA HACKDAY PORTO</a></h1>
+    </div> <!-- /#header-box -->
+  </div> <!-- /#header -->
+  
+  <div id="menu">
+    <div id="menu-box">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/deputados/">Deputados</a></li>
+        <li><a href="/about/">Sobre</a></li>
+      </ul>
+    </div> <!-- /#menu-box -->
+  </div> <!-- /#menu -->
+  
+  <div id="content">
+    {% block contentdiv %}{% endblock %}
+  </div> <!-- /#content -->
+  
+  <div id="footer">
+    <div id="footer-box"> 
+      <p>Feito durante a maravilhosa Hackathon no <a href=" http://hacklaviva.net">Hacklaviva</a> Porto 2010.</p>
+    </div> <!-- /#footer-box -->
+  </div> <!-- /#footer -->
+  
+</body>
+</html>
+
+
