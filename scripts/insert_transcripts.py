@@ -15,16 +15,16 @@ import sys, os
 projectpath = os.path.abspath('../../')
 if projectpath not in sys.path:
     sys.path.append(projectpath)
-    sys.path.append(os.path.join(projectpath, 'dptd/'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'dptd.settings'
+    sys.path.append(os.path.join(projectpath, 'democratica/'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'democratica.settings'
 
 import csv
 import datetime, time
 import dateutil.parser
 
-from dptd.deputados.models import MP, Party, GovernmentPost
-from dptd.dar.models import Entry, Day
-from dptd.settings import TRANSCRIPTS_DIR
+from democratica.deputados.models import MP, Party, GovernmentPost
+from democratica.dar.models import Entry, Day
+from democratica.settings import TRANSCRIPTS_DIR
 
 print 'A importar transcrições...'
 for root, dirs, files in os.walk(TRANSCRIPTS_DIR):

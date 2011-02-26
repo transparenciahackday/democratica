@@ -2,7 +2,7 @@
 
 from django.db import models
 from thumbs import ImageWithThumbsField
-from dptd.core import text_utils
+from democratica.core import text_utils
 
 GENDERS = [('F', 'Feminino'),
            ('M', 'Masculino'),

@@ -11,7 +11,7 @@ import subprocess
 from django.conf import settings
 
 import sys
-STOPWORD_FILE = '/home/rlafuente/code/transparencia/repo/dptd/core/stopwords.txt'
+STOPWORD_FILE = '/home/rlafuente/code/transparencia/democratica/core/stopwords.txt'
 
 r_punctuation = re.compile(r"[^\s\w0-9'-]", re.UNICODE)
 r_whitespace = re.compile(r'\s+')

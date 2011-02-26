@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import *
-from dptd import settings
-from dptd.deputados.models import MP, Party, Caucus, LinkSet, Session, Fact, FactType, Activity
-import dptd.deputados.views as views
-import dptd.dar.views as darviews
+from democratica import settings
+from democratica.deputados.models import MP, Party, Caucus, LinkSet, Session, Fact, FactType, Activity
+import democratica.deputados.views as views
+import democratica.dar.views as darviews
 
 # Enable admin interface
 from django.contrib import admin

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from dptd.deputados.models import MP, LinkSet, Session, Party, Constituency
+from democratica.deputados.models import MP, LinkSet, Session, Party, Constituency
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
 

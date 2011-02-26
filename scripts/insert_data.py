@@ -16,10 +16,10 @@ import sys, os
 projectpath = os.path.abspath('../../')
 if projectpath not in sys.path:
     sys.path.append(projectpath)
-    sys.path.append(os.path.join(projectpath, 'dptd/'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'dptd.settings'
+    sys.path.append(os.path.join(projectpath, 'democratica/'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'democratica.settings'
 
-from dptd.settings import DATASET_DIR
+from democratica.settings import DATASET_DIR
 
 MP_FILE = 'MP.csv'
 GENDERS_FILE = 'mp_genero.csv'
@@ -45,7 +45,7 @@ def check_for_files():
 import csv
 import datetime, time
 
-from dptd.deputados.models import *
+from democratica.deputados.models import *
 
 def insert_mps(csvfile=os.path.join(DATASET_DIR, MP_FILE)):
     print 'A processar deputados...'
@@ -81,7 +81,7 @@ def insert_mps(csvfile=os.path.join(DATASET_DIR, MP_FILE)):
     print 'A associar fotos dos deputados...'
     from django.core.files.base import ContentFile
     for mp in MP.objects.all():
-        imgfilename = os.path.join(projectpath, 'dptd/media/fotos-deputados', '%d.jpg' % mp.id)
+        imgfilename = os.path.join(projectpath, 'democratica/media/fotos-deputados', '%d.jpg' % mp.id)
         if os.path.exists(imgfilename):
             file_content = ContentFile(open(imgfilename, 'rb').read())
             mp.photo.save(imgfilename, file_content)
