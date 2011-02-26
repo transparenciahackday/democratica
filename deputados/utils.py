@@ -6,7 +6,7 @@ def get_tweets_from_url(url):
     c = twitter.Api()
     tweets = [s for s in c.GetUserTimeline(username, count=5)]
 
-FEMALE_NAMES_FILE = ('/home/rlafuente/code/transparencia/repo/php-utils/nomes_f_unicode.txt')
+from settings import FEMALE_NAMES_FILE
 female_names = open(FEMALE_NAMES_FILE).readlines()
 
 def get_gender_from_name(name):
