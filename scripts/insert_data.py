@@ -19,18 +19,18 @@ if projectpath not in sys.path:
     sys.path.append(os.path.join(projectpath, 'democratica/'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'democratica.settings'
 
-from democratica.settings import DATASET_DIR
+from democratica.settings import DATASET_DIR, PHOTO_DIR
 
-MP_FILE = 'MP.csv'
-GENDERS_FILE = 'mp_genero.csv'
-FACTS_FILE = 'Facts.csv'
-CAUCUS_FILE = 'Caucus.csv'
-ACTIVITIES_FILE = 'Activities.csv'
-LINKSETS_FILE = 'links.csv'
+MP_FILE = 'deputados.csv'
+GENDERS_FILE = 'deputados-genero.csv'
+FACTS_FILE = 'deputados-factos.csv'
+CAUCUS_FILE = 'deputados-legislaturas.csv'
+ACTIVITIES_FILE = 'deputados-actividades.csv'
+LINKSETS_FILE = 'deputados-links.csv'
 PARTIES_FILE = 'partidos.csv'
-SHORTNAMES_FILE = 'short-oficial.csv'
-CONSTITUENCIES_FILE = 'circulos_eleitorais.csv'
-GOVERNMENT_FILE = 'governos/gc18.csv'
+SHORTNAMES_FILE = 'deputados-nomes.csv'
+CONSTITUENCIES_FILE = 'regioes.csv'
+GOVERNMENT_FILE = 'governos-cargos.csv'
 
 def check_for_files():
     all_files = [MP_FILE, GENDERS_FILE, FACTS_FILE, CAUCUS_FILE, ACTIVITIES_FILE, 
@@ -81,7 +81,7 @@ def insert_mps(csvfile=os.path.join(DATASET_DIR, MP_FILE)):
     print 'A associar fotos dos deputados...'
     from django.core.files.base import ContentFile
     for mp in MP.objects.all():
-        imgfilename = os.path.join(projectpath, 'democratica/media/fotos-deputados', '%d.jpg' % mp.id)
+        imgfilename = os.path.join(PHOTO_DIR, '%d.jpg' % mp.id)
         if os.path.exists(imgfilename):
             file_content = ContentFile(open(imgfilename, 'rb').read())
             mp.photo.save(imgfilename, file_content)
