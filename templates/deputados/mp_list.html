@@ -1,149 +1,101 @@
-<!DOCTYPE html>
-<html lang="pt">
-  <head>
-    <meta charset="utf-8" />
-    <title>Transparência Porto :: Deputados</title>
+{% extends "base_mp.html" %}
 
-    <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
-    <link rel="stylesheet" href="/media/css/style.css" type="text/css" />
-    <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
-  
-    <link rel="shortcut icon" href="img/favicon.ico" />
-  
-    <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
-    <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
-    <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
+{% block title %}{{ Deputados }} :: Demo.cratica.org{% endblock %}
+
+{% block extrascripts %}
+<!-- este script é da pesquisa rápida na lista de deputados, para já só é usado nesta página -->
+<script type="text/javascript" src="/media/js/jquery.quicksearch.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){  
+    $(".searchbox").search();
+    $("input, textarea, select, button").uniform();
     
-    <!-- este script é da pesquisa rápida na lista de deputados, para já só é usado nesta página -->
-    <script type="text/javascript" src="/media/js/jquery.quicksearch.js"></script>
+    //este pedaço é usado para chamar a pesquisa rápida
+    //só neste template
+    $(".mp-list > li").quicksearch({
+    position: 'prepend',
+    attached: '#content-box',
+    labelText: null,
+    loaderImg: '/media/img/icons/loading-16px.gif',
+    inputText: 'Pesquisar na lista...'
+  });
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="content-box">
+    <h2>Deputados</h2>
     
-    <script type="text/javascript">
-      $(document).ready(function(){  
-        $(".searchbox").search();
-        $("input, textarea, select, button").uniform();
-        
-        //este pedaço é usado para chamar a pesquisa rápida
-        //só neste template
-        $(".mp-list > li").quicksearch({
-        position: 'prepend',
-        attached: '#content-box',
-        labelText: null,
-        loaderImg: '/media/img/icons/loading-16px.gif',
-        inputText: 'Pesquisar na lista...'
-      });
-	    });
-    </script>
-  </head>
-
-<body class="home">
-
-  <div id="header">
-    <div id="header-box">
-      <h1><a href="/">TRANSPARÊNCIA HACKDAY PORTO</a></h1>
-      
-      {% comment %}
-        <div id="top-search">
-            <form action="/search/" method="get">
-	            <input class="searchbox" name="q" value="Pesquisar..." /><input type="image" class="searchicon" src="/media/img/icons/search.png" alt="Pesquisar" />
-	          </form>
-	      </div>
-	    {% endcomment %}
-	    
-    </div> <!-- /#header-box -->
-  </div> <!-- /#header -->
-  
-  <div id="menu">
-    <div id="menu-box">
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="about.html">Sobre</a></li>
+    <form id="all-mp">
+      <ul class="mp-filters">
+        <li><strong>Legislatura:</strong>
+          <select name="session">
+            <option value="all"{% if session == 'all' %} selected="selected"{% endif %}>Todas</option>
+            {% for s in sessions %}
+            <option value="{{ s.number }}"{% if s.number == session %} selected="selected"{% endif %}>{{ s }} ({{ s.number }})</option>
+            {% endfor %}
+          </select>
+        </li>
+        <li><strong>Partido:</strong>
+          <select name="party">
+            <option value="all"{% if party == 'all' %} selected="selected"{% endif %}>Todos</option>
+            {% for p in parties %}
+            <option value="{{ p.abbrev }}"{% if p.abbrev == party %} selected="selected"{% endif %}>{{ p.abbrev }}</option>
+            {% endfor %}
+          </select>
+        </li>
+        <li><strong>Círculo eleitoral:</strong>
+          <select name="constituency">
+            <option value="all"{% if constituency == 'all' %} selected="selected"{% endif %}>Todos</option>
+            {% for c in constituencies %}
+            <option value="{{ c.id }}"{% if c.id == constituency %} selected="selected"{% endif %}>{{ c.name }}</option>
+            {% endfor %}
+          </select>
+        </li>
+        <input id="mp-filter" type="submit" value="Mostrar" />
       </ul>
-    </div> <!-- /#menu-box -->
-  </div> <!-- /#menu -->
-  
-  <div id="content">
-    <div id="content-box">
-        <h2>Deputados</h2>
-        
-        <form id="all-mp">
-          <ul class="mp-filters">
-            <li><strong>Legislatura:</strong>
-              <select name="session">
-                <option value="all"{% if session == 'all' %} selected="selected"{% endif %}>Todas</option>
-                {% for s in sessions %}
-                <option value="{{ s.number }}"{% if s.number == session %} selected="selected"{% endif %}>{{ s }} ({{ s.number }})</option>
-                {% endfor %}
-              </select>
-            </li>
-            <li><strong>Partido:</strong>
-              <select name="party">
-                <option value="all"{% if party == 'all' %} selected="selected"{% endif %}>Todos</option>
-                {% for p in parties %}
-                <option value="{{ p.abbrev }}"{% if p.abbrev == party %} selected="selected"{% endif %}>{{ p.abbrev }}</option>
-                {% endfor %}
-              </select>
-            </li>
-            <li><strong>Círculo eleitoral:</strong>
-              <select name="constituency">
-                <option value="all"{% if constituency == 'all' %} selected="selected"{% endif %}>Todos</option>
-                {% for c in constituencies %}
-                <option value="{{ c.id }}"{% if c.id == constituency %} selected="selected"{% endif %}>{{ c.name }}</option>
-                {% endfor %}
-              </select>
-            </li>
-            <input id="mp-filter" type="submit" value="Mostrar" />
-          </ul>
-        
-        {% for queryset in querysets %}
-        
-        <ul class="mp-list{% if forloop.last %} last{% endif %}">
-          {% for mp in queryset %}   
-            <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
-              {% if mp.photo %}
-              <span class="photo"><img src="{{ mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></span>
-              {% else %}
-              <span class="photo"></span>
-              {% endif %}
-              <span class="name">{{ mp.shortname }}</span>
-              <span class="party">{{ mp.current_party.abbrev }} ({{ mp.gender }})</span>
-            </a></li>
-          {% endfor %}
-        </ul>
-        {% endfor %}
+    
+    {% for queryset in querysets %}
+    
+    <ul class="mp-list{% if forloop.last %} last{% endif %}">
+      {% for mp in queryset %}   
+        <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
+          {% if mp.photo %}
+          <span class="photo"><img src="{{ mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></span>
+          {% else %}
+          <span class="photo"></span>
+          {% endif %}
+          <span class="name">{{ mp.shortname }}</span>
+          <span class="party">{{ mp.current_party.abbrev }} ({{ mp.gender }})</span>
+        </a></li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
 
-        
-        <div class="pagination">
+    
+    <div class="pagination">
+      <ul>
+        <li id="previous"><a href="">&laquo; Anterior</a></li>
+        <li id="pg-nav">
           <ul>
-            <li id="previous"><a href="">&laquo; Anterior</a></li>
-            <li id="pg-nav">
-              <ul>
-                {% for p in page_range %}
-                {% if forloop.first %} <li class="first"> {% else %} <li> {% endif %}
-                <a href='&page={{ p }}'{% if p == page %} class="on"{% endif %}>{{ p }}</a>
-                </li>
-                {% endfor %}
+            {% for p in page_range %}
+            {% if forloop.first %} <li class="first"> {% else %} <li> {% endif %}
+            <a href='&page={{ p }}'{% if p == page %} class="on"{% endif %}>{{ p }}</a>
+            </li>
+            {% endfor %}
 
-                {% comment %}
-                <li class="first"><a href="" class="on">1</a></li>
-                <li><a href="">2</a></li>
-                <li><a href="">3</a></li>
-                <li>...</li>
-                <li class="last"><a href="">12</a></li>
-                {% endcomment %}
-              </ul></li>
-            <li id="next"><a href="">Próximo &raquo;</a></li>
-          </ul>
-        </div> <!-- /pagination-->
-        
-    </div><!-- /#content-box -->
-  </div> <!-- /#content -->
-  
-  <div id="footer">
-    <div id="footer-box">
-      <p>Feito durante a maravilhosa Hackathon no <a href="http://hacklaviva.net">Hacklaviva</a> Porto 2010.</p>
-    </div> <!-- /#footer-box -->
-  </div> <!-- /#footer -->
-  
-</body>
-</html>
+            {% comment %}
+            <li class="first"><a href="" class="on">1</a></li>
+            <li><a href="">2</a></li>
+            <li><a href="">3</a></li>
+            <li>...</li>
+            <li class="last"><a href="">12</a></li>
+            {% endcomment %}
+          </ul></li>
+        <li id="next"><a href="">Próximo &raquo;</a></li>
+      </ul>
+    </div> <!-- /pagination-->
+    
+</div><!-- /#content-box -->
+{% endblock %}

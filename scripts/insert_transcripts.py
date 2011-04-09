@@ -54,9 +54,14 @@ for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
 
         lines = csv.reader(open(filename), delimiter='|', quotechar='"')
 
-        for mpname, party, text in lines:
+        for mpname, party, text, type in lines:
             #print mpname
             #print party
+            # make sure the party name is well formatted
+            if len(mpname) > 100: 
+                print 'MP name too long! (%s)' % mpname
+                mpname = 'LONG_NAME_ERROR'
+            party = party.strip('-')
             matching_mps = MP.objects.filter(shortname=mpname)
             if matching_mps:
                 if len(matching_mps) > 1:
@@ -64,7 +69,7 @@ for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
                     # use the party to determine this
                     p = Party.objects.get(abbrev=party)
                     try:
-                        mp = MP.objects.get(shortname=mpname, caucus__party=p)
+                        mp = MP.objects.get(shortname=mpname, caucus__party__abbrev=p)
                     except:
                         print 'More than 1 result for name %s in party %s. Not assigning MP instance.' % (mpname, party)
                         Entry.objects.create(speaker=mpname, party=party, text=text, day=s)
