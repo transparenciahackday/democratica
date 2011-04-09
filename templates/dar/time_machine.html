@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <title>Transparência Porto :: Deputados</title>
+
+    <link rel="stylesheet" href="../../media/js/uniform/css/uniform.default.css" type="text/css" />
+    <link rel="stylesheet" href="../../media/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="../../media/css/print.css" type="text/css" media="print" />
+  
+    <link rel="shortcut icon" href="../../media/img/favicon.ico" />
+  
+    <script type="text/javascript" src="../../media/js/scriptaculous/prototype.js"></script>
+    <script type="text/javascript" src="../../media/js/scriptaculous/slider.js"></script>
+    <script type="text/javascript" src="../../media/js/css_browser_selector.js"></script>
+    
+    <style type="text/css" media="screen" >
+				
+			/* put the left rounded edge on the track */
+			#track1-left {
+				position: absolute;
+				width: 5px;
+				height: 9px;
+				background: transparent url(../../media/img/js-slider/slider-images-track-left.png) no-repeat top left;
+			}
+			
+			/* put the track and the right rounded edge on the track */
+			#track1 {
+				background: transparent url(../../media/img/js-slider/slider-images-track-right.png) no-repeat top right;
+			}
+
+		</style>
+
+  </head>
+
+<body class="home">
+
+  <div id="header">
+    <div id="header-box">
+      <h1><a href="index.html">TRANSPARÊNCIA HACKDAY PORTO</a></h1>
+      
+    </div> <!-- /#header-box -->
+  </div> <!-- /#header -->
+  
+  <div id="menu">
+    <div id="menu-box">
+      <ul>
+        <li><a href="/">Home</a></li>
+      </ul>
+    </div> <!-- /#menu-box -->
+  </div> <!-- /#menu -->
+  
+  <div id="content">
+    <div id="content-box">    
+      <h2>Máquina do Tempo</h2>
+      
+		  <div id="track1" style="width:200px; height:9px;">
+			<div id="track1-left"></div><div id="handle1" style="width:19px; height:20px;"><img src="../../media/img/js-slider/slider-images-handle.png" alt="" style="float: left;" /></div>
+
+		</div>
+		<div id="debug1">&nbsp;</div>
+
+		<script type="text/javascript" language="javascript">
+		// <![CDATA[
+		
+			// horizontal slider control
+			new Control.Slider('handle1', 'track1', {
+				onSlide: function(v) { $('debug1').innerHTML = 'slide: ' + v },
+				onChange: function(v) { $('debug1').innerHTML = 'changed: ' + v }
+			});
+
+		// ]]>
+		</script>
+		
+
+		<script type="text/javascript" charset="utf-8">
+			var feedback_widget_options = {};
+			feedback_widget_options.display = "overlay";  
+			feedback_widget_options.company = "aldenta";
+			feedback_widget_options.placement = "right";
+			feedback_widget_options.color = "#222";
+			feedback_widget_options.style = "idea";
+			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+		</script>
+
+      
+        
+    </div><!-- /#content-box -->
+  </div> <!-- /#content -->
+  
+  <div id="footer">
+    <div id="footer-box">
+      <p>Feito na durante a maravilhosa Hackathon no <a href="http://hacklaviva.net">Hacklaviva</a> Porto 2010.</p>
+    </div> <!-- /#footer-box -->
+  </div> <!-- /#footer -->
+  
+</body>
+</html>
