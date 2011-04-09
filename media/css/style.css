@@ -19,7 +19,7 @@ border: 0;
 
 html {
 height: 100%;
-background: #eeffaa url(../img/content-bg.png) repeat 0 0;
+background: #373e48 url(../img/backgrounds/bg-texture.png) repeat 0 0;
 }
 
 body {
@@ -39,6 +39,10 @@ overflow: auto;
 margin: 0 auto;
 padding: 20px 0;
 position: relative;
+}
+
+#content-box {
+overflow: visible;
 }
 
 a:focus {
@@ -70,7 +74,7 @@ font-size: 100%
 --------------------------------*/
 
 #header {
-background: #00aa88 url(img/header-shadow.png) repeat-x 0 bottom;
+background: #373e48 url(img/header-shadow.png) repeat-x 0 bottom;
 }
 
 #header h1 {

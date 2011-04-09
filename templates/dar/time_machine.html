@@ -19,8 +19,8 @@
 			/* put the left rounded edge on the track */
 			#track1-left {
 				position: absolute;
-				width: 5px;
-				height: 9px;
+				width: 12px;
+				height: 72px;
 				background: transparent url(../../media/img/js-slider/slider-images-track-left.png) no-repeat top left;
 			}
 			
@@ -54,8 +54,16 @@
     <div id="content-box">    
       <h2>Máquina do Tempo</h2>
       
-		  <div id="track1" style="width:200px; height:9px;">
-			<div id="track1-left"></div><div id="handle1" style="width:19px; height:20px;"><img src="../../media/img/js-slider/slider-images-handle.png" alt="" style="float: left;" /></div>
+		  <div id="track1" style="width:392px; height:72px;">
+			<div id="track1-left"></div><div id="handle1" style="width:40px; height:72px;"><img src="../../media/img/js-slider/slider-images-handle.png" alt="" style="float: left;" /></div>
+
+<!--
+      <h2>Horizontal Slider with Preset Values</h2>
+		  <div id="track3" style="width:200px; background-color:#ccc; height:10px;">
+			<div id="handle3" style="width:10px; height:15px; background-color:#f00; cursor:move;"></div>
+  		</div>
+  		<p id="debug3">&nbsp;</p>
+-->
 
 		</div>
 		<div id="debug1">&nbsp;</div>
@@ -68,6 +76,16 @@
 				onSlide: function(v) { $('debug1').innerHTML = 'slide: ' + v },
 				onChange: function(v) { $('debug1').innerHTML = 'changed: ' + v }
 			});
+			
+			// horizontal slider control with preset values
+			new Control.Slider('handle3', 'track3', {
+				range: $R(-200, 200),
+				values: [-200, -150, -100, -50, 0, 50, 100, 150, 200],
+				sliderValue: 1, // won't work if set to 0 due to a bug(?) in script.aculo.us
+				onSlide: function(v){ $('debug3').innerHTML = 'slide: ' + v },
+				onChange: function(v){ $('debug3').innerHTML = 'changed: ' + v }
+			});
+
 
 		// ]]>
 		</script>
