@@ -19,7 +19,7 @@ def day_detail(request, object_id):
     if gov:
         gov = gov[0]
     else:
-        gov = govs[len(govs)-1]
+        gov = govs[len(govs)-1] if govs else None
 
     # generate party speaking chart
     party_counts = {}
@@ -92,7 +92,7 @@ def day_detail(request, object_id):
     return object_detail(request, Day.objects.all(), object_id,
             template_object_name = 'day',
             extra_context={'entries': entries,
-                           'gov': gov.number,
+                           'gov': gov.number if gov else None,
                            'speaker_chart_url': speaker_chart_url,
                            'mb_chart_url': mb_chart_url,
                 })

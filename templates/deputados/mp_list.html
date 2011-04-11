@@ -61,13 +61,15 @@
     <ul class="mp-list{% if forloop.last %} last{% endif %}">
       {% for mp in queryset %}   
         <li class="{% cycle odd even %}"><a href="/deputados/{{ mp.id }}">
+          {% comment %}
           {% if mp.photo %}
           <span class="photo"><img src="{{ mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></span>
           {% else %}
           <span class="photo"></span>
           {% endif %}
+          {% endcomment %}
           <span class="name">{{ mp.shortname }}</span>
-          <span class="party">{{ mp.current_party.abbrev }} ({{ mp.gender }})</span>
+          <span class="party {{mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</span>
         </a></li>
       {% endfor %}
     </ul>

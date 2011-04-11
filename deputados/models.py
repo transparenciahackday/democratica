@@ -25,10 +25,12 @@ class MP(models.Model):
     def current_party(self):
         return self.current_caucus.party
 
+    @property
     def has_facts(self):
         if self.fact_set.exclude(fact_type=FactType.objects.get(name='calculated_Occupation')):
             return True
         return False
+    @property
     def has_activities(self):
         return bool(self.activity_set.all())
 
@@ -37,13 +39,15 @@ class MP(models.Model):
         return self.fact_set.filter(fact_type=fact_type)
 
     def post_on(self, gov_number):
-        if self.governmentpost_set.filter(government=Government.objects.get(number=gov_number)):
-            return self.governmentpost_set.filter(government=Government.objects.get(number=gov_number))[0]
+        if gov_number:
+            if self.governmentpost_set.filter(government=Government.objects.get(number=gov_number)):
+                return self.governmentpost_set.filter(government=Government.objects.get(number=gov_number))[0]
         return None
 
     def has_post_on(self, gov_number):
-        if self.governmentpost_set.filter(government=Government.objects.get(number=gov_number)):
-            return True
+        if gov_number:
+            if self.governmentpost_set.filter(government=Government.objects.get(number=gov_number)):
+                return True
         return False
 
     @property
