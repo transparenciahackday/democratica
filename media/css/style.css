@@ -276,7 +276,6 @@ display: block;
 margin: 4px 0;
 padding: 8px 0;
 overflow: auto;
-border-bottom: 1px solid #ccc;
 }
 
 ul.mp-list a {
