@@ -296,13 +296,13 @@ ul.mp-list li {
 list-style-type: none;
 display: block;
 margin: 4px 0;
-padding: 8px 0;
+padding: 2px 0;
 overflow: auto;
 }
 
 ul.mp-list a {
 text-decoration: none;
-color: #333;
+color: #373E48;
 }
 
 ul.mp-list li:first-child a {
@@ -313,9 +313,9 @@ ul.mp-list a:hover {
 color: #00aa88;
 }
 
-  ul.mp-list li:hover {
-  background: rgba(255,255,255,.5);
-  }
+ul.mp-list li:hover {
+background: rgba(255,255,255,.5);
+}
 
 ul.mp-list .name {
 font-weight: bold;
@@ -331,10 +331,18 @@ height: 25px;
 }
 
 ul.mp-list .party {
-background: transparent url(../img/party-icons/mdpcde.png) no-repeat right 0;
-padding: 0 20px 0;
-font-size: 90%;
+/* background: transparent url(../img/party-icons/mdpcde.png) no-repeat right 0; */
+padding: 0 8px 0;
+font-size: 75%;
+font-weight: bold;
 }
+
+ul.mp-list .party.ps { color: #d888bb; }
+ul.mp-list .party.psd { color: #cb8d41; }
+ul.mp-list .party.pcp { color: #c74343; }
+ul.mp-list .party.be { color: #671717; }
+ul.mp-list .party.cds-pp { color: #606798; }
+ul.mp-list .party.pev { color: #607454; }
 
 /* ------------------------ mp details
 --------------------------------*/
