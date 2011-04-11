@@ -1,40 +1,78 @@
+# -*- coding: utf-8 -*-
+
 # Configuração do demo.cratica
+# Em apenas dois passos, o demo.cratica estará configurado para o teu computador.
+
+# 1. Localização dos directórios
+# É só mudar os directórios aqui em baixo, relativamente ao directório democratica/.
+
+# Localização do repositório dos datasets
+PATH_DATASETS = '../datasets'
+
+# Localização do repositório dos scripts do Transparência
+PATH_REPO_TRANSPARENCIA = '../repo'
+
+# 2. Configuração da base de dados
+
+# Tipo da base de dados
+# Pode ser 'mysql', 'postgresql_psycopg2' ou 'sqlite3'
+DB_TYPE = 'mysql'
+
+# Nome da BD
+DB_NAME = 'dptd'
+# Nome do utilizador da BD
+DB_USER = 'rlafuente'
+# Palavra-passe do utilizador da BD
+DB_PASSWORD = '1q2w3e'
+
+# Hostname da BD (vazio = localhost)
+DB_HOST = ''
+# Porta da BD (vazio = valor por omissão da BD)
+DB_PORT = ''
+
+# Já não é preciso mudar mais nada a seguir! ##
 #
-# É só mudar os directórios aqui em baixo:
-# BASE_DIR: a raiz do projecto (directório dptd/)
-# DATASET_DIR: onde estão os datasets
-# TRANSCRIPTS_DIR: onde estão os CSV das transcrições
-# 
-# E logo a seguir, é mudar a configuração da base de dados, de acordo com o teu sistema
-# Em princípio, só deves precisar de mudar o nome da base de dados, o user e a pass.
+# Corre o script para inicializar a base de dados:
+#   ./reset.sh
+#
+# Vai demorar um pouco; se tiveres erros, confirma que os directórios
+# acima indicados estão correctos! Senão, vem avisar-nos desse bug.
+#
+# Agora corre o comando
+#   python manage.py runserver
+#
+# E no teu browser, acede ao endereço
+#   http://127.0.0.1:8000
+#
+# E se tudo estiver correcto, verás a página de abertura do demo.cratica.
 
-BASE_DIR = '/home/rlafuente/code/transparencia/repo/dptd/'
-DATASET_DIR = '../../../datasets/'
-TRANSCRIPTS_DIR = '../../../darscraper/csv'
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'dptd',                       # Or path to database file if using sqlite3.
-        'USER': 'username',                   # Not used with sqlite3.
-        'PASSWORD': 'password',               # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
-
-## Já não é preciso mudar mais nada ##
-
-import os
+#########################################################################
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-)
+import os
 
+BASE_DIR = os.path.dirname(__file__)
+
+DATASET_DIR = os.path.join(BASE_DIR, PATH_DATASETS)
+PHOTO_DIR = os.path.join(PATH_DATASETS, 'fotos_deputados/')
+TRANSCRIPTS_DIR = os.path.join(PATH_DATASETS, 'transcricoes/csv')
+FEMALE_NAMES_FILE = os.path.join(PATH_REPO_TRANSPARENCIA, 'php-utils/nomes_f_unicode.txt')
+STOPWORD_FILE = os.path.join(BASE_DIR, 'core/stopwords.txt')
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.%s' % DB_TYPE, 
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST,
+        'PORT': DB_PORT,
+    }
+}
+
+ADMINS = ( ('Ricardo Lafuente', 'bollecs@sollec.org'),)
 MANAGERS = ADMINS
 
 TIME_ZONE = 'Europe/Lisbon'
@@ -51,7 +89,6 @@ SECRET_KEY = 'u=+o$bugq9iiq0@3=-y#5ahm%r6pxo=3*qvqp7in0w1donajl8'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -62,11 +99,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'dptd.urls'
-
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates/')
-)
+ROOT_URLCONF = 'democratica.urls'
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates/'))
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -76,9 +110,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.databrowse',
-    'dptd.core',
-    'dptd.deputados',
-    'dptd.dar'
+    'democratica.core',
+    'democratica.deputados',
+    'democratica.dar',
+    'django_extras.django_extensions',
 )
 
-STOPWORD_FILE = os.path.join(BASE_DIR, 'core/stopwords.txt')
