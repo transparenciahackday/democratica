@@ -19,7 +19,7 @@ border: 0;
 
 html {
 height: 100%;
-background: #373e48 url(../img/backgrounds/bg-texture.png) repeat 0 0;
+background: #373e48 url(../img/backgrounds/bg-texture-white.png) repeat 0 0;
 }
 
 body {
@@ -42,7 +42,7 @@ position: relative;
 
 #content-box {
 overflow: visible;
-background: #fff url(../img/backgrounds/bg-texture01.png) repeat 0 0;
+background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
 margin: 20px auto;
 width: 910px;
 min-height: 100%;
@@ -82,7 +82,7 @@ font-size: 100%
 --------------------------------*/
 
 #header {
-background: #373e48 url(img/header-shadow.png) repeat-x 0 bottom;
+background: #373e48;
 box-shadow: 0 2px 3px rgba(0,0,0,0.5);
 -moz-box-shadow: 0 2px 3px rgba(0,0,0,0.5);
 -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.5);
@@ -183,11 +183,12 @@ margin: 0 0 10px;
 --------------------------------*/
 
 #footer-box {
-border-top: 1px dotted #999;
+text-align: center;
+color: #b7bec8;
 }
 
 #footer a {
-color: #00aa88;
+color: #fff;
 text-decoration: none;
 }
 
@@ -198,16 +199,66 @@ color: #333;
 /* ------------------------ homepage
 --------------------------------*/
 
-#content #main a.box {
-padding: 20px;
-margin: 0 20px 10px 0;
-width: 420px;
-min-height: 60px;
-float: left;
-background: #fff;
-text-decoration: none;
-color: #00aa88;
+#home #content-box {
+background-color: transparent;
+background-image: none;
+padding: 0;
+width: 745px;
+box-shadow: 0 0 0 transparent;
+-moz-box-shadow: 0 0 0 transparent;
+-webkit-box-shadow: 0 0 0 transparent;
+}
+
+#intro {
+text-align: center;
+color: #fff;
+}
+
+#intro h1 {
+font-size: 100%;
+line-height: 1;
+margin: 0 0 15px;
+}
+
+#intro h1 a {
 display: block;
+width: 384px;
+height: 0;
+padding: 272px 0 0;
+margin: 0 auto;
+background: transparent url(../img/democratica-big.png) no-repeat 0 center;
+overflow: hidden;
+}
+
+#intro p {
+font-size: 110%;
+}
+
+#content #main {
+clear: both;
+overflow: auto;
+margin: 30px auto 50px;
+padding: 0 15px;
+}
+
+#content #main a.box {
+padding: 30px;
+margin: 0 26px 10px 0;
+width: 282px;
+float: left;
+background: #dbdee3 url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+font-size: 115%;
+text-decoration: none;
+color: #535d6c;
+text-shadow: 1px 1px 0px #dbdee3;
+display: block;
+text-align: center;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+box-shadow: 2px 2px 3px rgba(55,62,72,.8);
+-moz-box-shadow: 2px 2px 3px rgba(55,62,72,.8);
+-webkit-box-shadow: 2px 2px 3px rgba(55,62,72,.8);
 }
 
   #content #main a.right {
@@ -220,22 +271,42 @@ border-color: #333;
 }
 
 #content #main a.box h2 {
-margin-bottom: 10px;
-padding-bottom: 5px;
-border-bottom: 3px solid #00aa88;
+padding: 0 0 10px;
+border-bottom: 1px dotted #535d6c;
 }
 
-#content #secondary h2 {
-margin-bottom: 10px;
-padding-bottom: 5px;
-color: #333;
-}
-
-#content #secondary a {
-color: #fff;
-padding: 10px;
+#home #navigation {
 display: block;
-background: #00aa88;
+margin: 0 0 15px;
+}
+
+#home #navigation ul {
+margin: 0 auto;
+text-align: center;
+padding: 5px 0;
+}
+
+#home #navigation li {
+list-style-type: none;
+display: inline;
+}
+
+#home #navigation li a {
+color: #fff;
+padding: 5px 10px;
+text-decoration: none;
+}
+
+#content #more-info a {
+display: block;
+background: #373e48;
+text-decoration: none;
+color: #fff;
+padding: 10px 15px;
+text-align: center;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
 }
 
 /* ------------------------ mp-list
@@ -704,5 +775,4 @@ margin-top: 10px;
 .entry .right p:first-child {
 margin-top: 0;
 }
-
 
