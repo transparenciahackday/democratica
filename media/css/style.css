@@ -31,7 +31,6 @@ color: #333;
 }
 
 #header-box,
-#content-box,
 #menu-box,
 #footer-box {
 width: 950px;
@@ -43,6 +42,15 @@ position: relative;
 
 #content-box {
 overflow: visible;
+background: #fff url(../img/backgrounds/bg-texture01.png) repeat 0 0;
+margin: 20px auto;
+width: 910px;
+min-height: 100%;
+padding: 20px;
+position: relative;
+box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+-moz-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+-webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 }
 
 a:focus {
@@ -75,6 +83,9 @@ font-size: 100%
 
 #header {
 background: #373e48 url(img/header-shadow.png) repeat-x 0 bottom;
+box-shadow: 0 2px 3px rgba(0,0,0,0.5);
+-moz-box-shadow: 0 2px 3px rgba(0,0,0,0.5);
+-webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.5);
 }
 
 #header h1 {
@@ -139,11 +150,22 @@ list-style-type: none;
 #menu-box li a {
 color: #fff;
 text-decoration: none;
-font-size: 120%;
+font-size: 100%;
 display: block;
 float: left;
 padding: 8px 4px;
 margin: 0 2px 0;
+text-transform: uppercase;
+text-shadow: 1px 1px 0px #151e2b;
+}
+
+#menu-box li#small-logo a {
+background: transparent url(../img/democratica-small.png) no-repeat 0 6px;
+padding: 34px 4px 0;
+width: 118px;
+height: 0;
+overflow: hidden;
+display: block;
 }
 
 /* ------------------------ content
