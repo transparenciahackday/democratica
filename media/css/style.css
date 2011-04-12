@@ -9,6 +9,11 @@ src: local("League"), url("../fonts/League-Gothic.otf") format("opentype");
 }
 
 @font-face {
+font-family: "Junction";
+src: local("League"), url("../fonts/Junction.otf") format("opentype");
+}
+
+@font-face {
 font-family: "Titillium";
 src: local("Titillium"), url("../fonts/titillium/TitilliumText1.otf") format("opentype");
 }
@@ -23,9 +28,9 @@ background: #373e48 url(../img/backgrounds/bg-texture-white.png) repeat 0 0;
 }
 
 body {
-min-height: 100%;
+height: 100%;
 font-size: 70%;
-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-family: "Junction", Helvetica, Arial, sans-serif;
 line-height: 1.6em;
 color: #333;
 }
@@ -45,7 +50,6 @@ overflow: visible;
 background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
 margin: 20px auto;
 width: 910px;
-min-height: 100%;
 padding: 20px;
 position: relative;
 box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
@@ -55,6 +59,10 @@ box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 
 a:focus {
 outline: none;
+}
+
+h1, h2, h3 {
+font-weight: normal;
 }
 
 h1 {
@@ -199,28 +207,35 @@ color: #333;
 /* ------------------------ homepage
 --------------------------------*/
 
-#home #content-box {
+#home #page {
+height: 100%;
+position: relative;
+}
+
+#page #content {
 background-color: transparent;
 background-image: none;
 padding: 0;
-width: 745px;
+width: 715px;
+margin: 0 auto;
+}
+
+#page #header {
+text-align: center;
+color: #fff;
+background-color: transparent;
 box-shadow: 0 0 0 transparent;
 -moz-box-shadow: 0 0 0 transparent;
 -webkit-box-shadow: 0 0 0 transparent;
 }
 
-#intro {
-text-align: center;
-color: #fff;
-}
-
-#intro h1 {
+#page #header h1 {
 font-size: 100%;
 line-height: 1;
 margin: 0 0 15px;
 }
 
-#intro h1 a {
+#page #header h1 a {
 display: block;
 width: 384px;
 height: 0;
@@ -230,7 +245,7 @@ background: transparent url(../img/democratica-big.png) no-repeat 0 center;
 overflow: hidden;
 }
 
-#intro p {
+#page #header p {
 font-size: 110%;
 }
 
@@ -238,13 +253,13 @@ font-size: 110%;
 clear: both;
 overflow: auto;
 margin: 30px auto 50px;
-padding: 0 15px;
+padding: 0;
 }
 
 #content #main a.box {
-padding: 30px;
+padding: 30px 20px;
 margin: 0 26px 10px 0;
-width: 282px;
+width: 302px;
 float: left;
 background: #dbdee3 url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
 font-size: 115%;
@@ -278,12 +293,8 @@ border-bottom: 1px dotted #535d6c;
 #home #navigation {
 display: block;
 margin: 0 0 15px;
-}
-
-#home #navigation ul {
-margin: 0 auto;
 text-align: center;
-padding: 5px 0;
+position: relative;
 }
 
 #home #navigation li {
@@ -292,21 +303,36 @@ display: inline;
 }
 
 #home #navigation li a {
+display: inline-block;
 color: #fff;
 padding: 5px 10px;
 text-decoration: none;
 }
 
-#content #more-info a {
-display: block;
-background: #373e48;
-text-decoration: none;
-color: #fff;
-padding: 10px 15px;
+#home #about {
+background: #373e48 url(../img/backgrounds/about-bg.png) repeat-x 0 0;
 text-align: center;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-border-radius: 5px;
+padding: 30px;
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+color: #fff;
+}
+
+#home #about > h3 {
+font-size: 200%;
+text-shadow: 1px 1px 1px #000;
+}
+
+#home #about > h3 span {
+padding: 5px 35px 5px 0;
+background: transparent url(../img/icons/arrow-down.png) no-repeat right center;
+}
+
+#home #more-info {
+display: none;
+visibility: hidden;
 }
 
 /* ------------------------ mp-list
