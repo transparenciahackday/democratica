@@ -10,7 +10,7 @@
 PATH_DATASETS = '../datasets'
 
 # Localização do repositório dos scripts do Transparência
-PATH_REPO_TRANSPARENCIA = '../repo'
+PATH_REPO_TRANSPARENCIA = '../transparencia-porto'
 
 # 2. Configuração da base de dados
 
@@ -19,11 +19,11 @@ PATH_REPO_TRANSPARENCIA = '../repo'
 DB_TYPE = 'mysql'
 
 # Nome da BD
-DB_NAME = 'dptd'
+DB_NAME = 'democratica'
 # Nome do utilizador da BD
-DB_USER = 'rlafuente'
+DB_USER = 'user'
 # Palavra-passe do utilizador da BD
-DB_PASSWORD = '1q2w3e'
+DB_PASSWORD = 'pass'
 
 # Hostname da BD (vazio = localhost)
 DB_HOST = ''
@@ -113,6 +113,6 @@ INSTALLED_APPS = (
     'democratica.core',
     'democratica.deputados',
     'democratica.dar',
-    'django_extras.django_extensions',
+    'django_extensions',
 )
 
