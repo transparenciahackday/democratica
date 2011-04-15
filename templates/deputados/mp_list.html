@@ -8,7 +8,6 @@
 <script type="text/javascript">
   $(document).ready(function(){  
     $(".searchbox").search();
-    $("input, textarea, select, button").uniform();
     
     //este pedaço é usado para chamar a pesquisa rápida
     //só neste template
@@ -53,7 +52,7 @@
             {% endfor %}
           </select>
         </li>
-        <input id="mp-filter" type="submit" value="Mostrar" />
+        <li><input id="mp-filter" type="submit" value="Mostrar" style="background-color:red !important;" /></li>
       </ul>
     
     {% for queryset in querysets %}

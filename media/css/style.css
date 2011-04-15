@@ -142,8 +142,8 @@ text-shadow: 1px 1px 0px #151e2b;
 }
 
 #menu-box li#homepage a {
-background: transparent url(../img/democratica-small.png) no-repeat 0 6px;
-padding: 34px 4px 0;
+background: transparent url(../img/democratica-small.png) no-repeat 0 8px;
+padding: 36px 4px 0;
 width: 118px;
 height: 0;
 overflow: hidden;
@@ -318,15 +318,53 @@ visibility: hidden;
 /* ------------------------ mp-list
 --------------------------------*/
 
-form#quicksearch {
+#content #content-box h2 {
+background-color: #fff;
+clear: both;
+padding: 12px 10px 10px 20px;
+margin-bottom: 5px;
+margin-left: -30px;
+margin-right: -30px;
+position:relative;
+
+-moz-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
+-webkit-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
+-o-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
+box-shadow:2px 2px 0 rgba(0,0,0,0.1);
+}
+
+#content #content-box h2:before,
+#content #content-box h2:after {
+bottom: 0;
+content: " ";
+display: block;
+height: 10px;
+margin-bottom: -10px;
 position: absolute;
-top: 10px;
+width: 10px;
+z-index: -1;
+}
+
+#content #content-box h2:before {
+background: url(../img/backgrounds/ribbon-left.png) repeat 0 0;
+left: 0;
+right: auto;
+}
+
+#content #content-box h2:after {
+background: url(../img/backgrounds/ribbon-right.png) repeat 0 0;
+left: auto;
 right: 0;
-padding: 6px 0 6px 10px;
+}
+
+form#quicksearch {
+float: right;
+padding: 6px 0;
 }
 
 form#quicksearch input[type="text"] {
 width: 180px;
+background-color: #fff;
 }
 
 form#quicksearch #loader {
@@ -337,11 +375,10 @@ z-index: 20;
 }
 
 ul.mp-filters {
-background: #fff;
-padding: 8px 5px;
-margin-bottom: 5px;
+border-bottom: 1px solid #b7bec8;
+padding: 4px 0;
+margin: 10px 0 5px;
 overflow: auto;
-border-top: 3px solid #00aa88;
 }
 
 ul.mp-filters li {
@@ -360,8 +397,8 @@ margin: 0 2px;
 
 ul.mp-list {
 font-size: 120%;
-margin: 0 25px 20px 0;
-width: 300px;
+margin: 0 26px 20px 0;
+width: 272px;
 float: left;
 }
 
@@ -372,7 +409,7 @@ margin: 0 0 20px;
 ul.mp-list li {
 list-style-type: none;
 display: block;
-margin: 4px 0;
+margin: 6px 0;
 padding: 2px 0;
 overflow: auto;
 }
@@ -380,6 +417,7 @@ overflow: auto;
 ul.mp-list a {
 text-decoration: none;
 color: #373E48;
+padding: 2px 0 2px 6px;
 }
 
 ul.mp-list li:first-child a {
@@ -387,11 +425,10 @@ border-top: 0;
 }
 
 ul.mp-list a:hover {
-color: #00aa88;
-}
-
-ul.mp-list li:hover {
-background: rgba(255,255,255,.5);
+color: #6f7c91;
+border-left: 4px solid #6f7c91;
+padding-left: 2px;
+background: #fff;
 }
 
 ul.mp-list .name {
