@@ -315,10 +315,10 @@ display: none;
 visibility: hidden;
 }
 
-/* ------------------------ mp-list
+/* ------------------------ ribbon titles
 --------------------------------*/
 
-#content #content-box h2 {
+#content h2.ribbon {
 background-color: #fff;
 clear: both;
 padding: 12px 10px 10px 20px;
@@ -333,8 +333,8 @@ position:relative;
 box-shadow:2px 2px 0 rgba(0,0,0,0.1);
 }
 
-#content #content-box h2:before,
-#content #content-box h2:after {
+#content h2.ribbon:before,
+#content h2.ribbon:after {
 bottom: 0;
 content: " ";
 display: block;
@@ -345,17 +345,50 @@ width: 10px;
 z-index: -1;
 }
 
-#content #content-box h2:before {
+#content h2.ribbon:before {
 background: url(../img/backgrounds/ribbon-left.png) repeat 0 0;
 left: 0;
 right: auto;
 }
 
-#content #content-box h2:after {
+#content h2.ribbon:after {
 background: url(../img/backgrounds/ribbon-right.png) repeat 0 0;
 left: auto;
 right: 0;
 }
+
+#mp-header {
+}
+
+#mp-header h2 {
+}
+
+#mp-header h2 small {
+font-size: 70%;
+position: absolute;
+right: 5px;
+bottom: 5px;
+}
+
+#mp-header p {
+display: block;
+width: 60px;
+float: left;
+margin: 0 10px 0 0;
+border: 2px solid #fff;
+line-height: 1em;
+
+box-shadow: 2px 2px 3px #ccc;
+-moz-box-shadow: 2px 2px 3px #ccc;
+-webkit-box-shadow: 2px 2px 3px #ccc;
+}
+
+#mp-header p > img {
+width: 60px;
+}
+
+/* ------------------------ mp-list
+--------------------------------*/
 
 form#quicksearch {
 float: right;
@@ -460,42 +493,6 @@ ul.mp-list .party.pev { color: #607454; }
 
 /* ------------------------ mp details
 --------------------------------*/
-
-#mp-header {
-border-bottom: 6px solid #00aa88;
-padding: 0 0 5px;
-overflow: auto;
-position: relative;
-margin: 0 0 5px;
-}
-
-#mp-header h2 {
-padding-top: 60px;
-}
-
-#mp-header h2 small {
-font-size: 70%;
-position: absolute;
-right: 5px;
-bottom: 5px;
-}
-
-#mp-header p {
-display: block;
-width: 60px;
-float: left;
-margin: 0 10px 0 0;
-border: 2px solid #fff;
-line-height: 1em;
-
-box-shadow: 2px 2px 3px #ccc;
--moz-box-shadow: 2px 2px 3px #ccc;
--webkit-box-shadow: 2px 2px 3px #ccc;
-}
-
-#mp-header p > img {
-width: 60px;
-}
 
 .mp-details {
 list-style-type: none;
