@@ -428,6 +428,9 @@ padding: 5px 3px;
 margin: 0 2px;
 }
 
+/* -------------- simple mp-list
+------------------------*/
+
 ul.mp-list {
 font-size: 120%;
 margin: 0 26px 20px 0;
@@ -490,6 +493,7 @@ ul.mp-list .party.pcp { color: #c74343; }
 ul.mp-list .party.be { color: #671717; }
 ul.mp-list .party.cds-pp { color: #606798; }
 ul.mp-list .party.pev { color: #607454; }
+
 
 /* ------------------------ mp details
 --------------------------------*/
@@ -815,4 +819,89 @@ margin-top: 10px;
 .entry .right p:first-child {
 margin-top: 0;
 }
+
+/* ------------------------ vista de calendário
+--------------------------------*/
+
+#calendar .month {
+overflow: auto;
+margin: 5px 0 0;
+}
+
+#calendar .month h4 {
+display: block;
+float: left;
+padding: 5px;
+min-width: 30px;
+margin: 0;
+font-size: 13px;
+font-weight: bold;
+border-top: 1px solid #939dac;
+border-left: 1px solid #939dac;
+border-bottom: 1px solid #939dac;
+}
+
+#calendar .month abbr {
+border-bottom: 0;
+text-transform: uppercase;
+}
+
+#calendar ol {
+float: left;
+}
+
+#calendar ol li {
+list-style-type: none;
+display: inline;
+}
+
+#calendar ol li a {
+display: inline-block;
+min-width: 20px;
+padding: 5px 3px;
+text-align: center;
+text-decoration: none;
+background: #b7bec8;
+border-top: 1px solid #939dac;
+border-right: 1px solid #939dac;
+border-bottom: 1px solid #939dac;
+margin: 0;
+font-size: 11px;
+font-weight: bold;
+color: #373e48;
+}
+
+  #calendar ol li a.session-yes {
+  background-color: #e9ddaf;
+  color: #484537;
+  }
+  
+  #calendar ol li a.weekend {
+  background-color: #dbdee3;
+  color: #b7bec8;
+  }
+
+#calendar ol li:first-child a {
+border-left: 1px solid #939dac;
+}
+
+#calendar ol li a:hover,
+#calendar ol li a:focus {
+background-color: #6f7c91;
+}
+
+/* ------------------------ pesquisa DAR
+--------------------------------*/
+
+#dar-search {
+margin: 20px 0 10px;
+background: #939dac;
+padding: 20px 10px;
+border: 1px solid #b7bec8;
+}
+
+#dar-search > div {
+}
+
+
 
