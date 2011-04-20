@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm media/fotos_deputados/*
+rm media/fotos/*
 python manage.py reset deputados --noinput
 python manage.py reset dar --noinput
 cd scripts
