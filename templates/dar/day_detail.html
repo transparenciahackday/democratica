@@ -53,7 +53,132 @@
       <img src="{{ speaker_chart_url }}" />
       <img src="{{ mb_chart_url }}" />
 
+      {% for entry in entries %}
+      {% if forloop.first %}
+      <div class="intervention mini-intervention">
+      {% endif %}
+
+      {% if entry.type == 'mp' %}
+      </div>
       <div class="intervention">
+      {% endif %}
+
+      {% if entry.type == 'president' or entry.type == 'secretary' %}
+      </div>
+      <div class="intervention mini-intervention">
+      {% endif %}
+
+      {% if entry.type == 'mp' %}
+        <div class="entry">
+          <div class="left">
+            {{ entry.type }}
+            {% if entry.mp %}
+              {% with entry.mp as mp %}
+
+              {# FIXME: usar o thumbnail #}
+              {# <p class="mp-photo"><img src="{{ mp.photo.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></p> #}
+              <p class="mp-photo"><img src="{{ mp.photo.url }}" alt="{{ mp.shortname }}" /></p>
+
+              <h3>{{ mp.shortname }}</h3>
+
+              {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %}
+
+              <p class="party {{ mp.current_party.abbrev|lower }}"><strong>{{ mp.current_party.abbrev }}</strong></p>
+
+              <p class="circle">{{ mp.current_caucus.constituency }}</p>
+              <p><a href="/deputados/{{ mp.id }}">Info</a></p>
+              {% endwith %}
+            {% else %}
+              <p class="mp-photo"><img src="{{ entry.mp.photo.url }}" alt="{{ entry.mp.shortname }}" /></p>
+              {% if entry.speaker %}
+              <h3>{{ entry.speaker }}</h3>
+              {% else %}
+              <h3>{{ entry.party }}</h3>
+              {% endif %}
+              <p class="party">{# <img src="/media/img/logos/be.png" alt="" /> #}{{ entry.mp.current_party.abbrev }}</p>
+              <p class="circle"></p>
+            {% endif %}
+          </div>
+        
+          <div class="right">
+            {{ entry.text_as_html }}
+          </div>
+        </div>
+      {% else %}
+
+        <div class="entry">
+          {% if entry.type == 'interruption' %}
+          <div class="left"></div>
+          <div class="right">
+            <p class="mini">{{ entry.text_as_html_plain }} -- {{ entry.speaker }}</p>
+          </div>
+
+          {% else %}
+            {% if entry.type == 'applause' or entry.type == 'protest' or entry.type == 'laughter' %}
+            <div class="left"></div>
+            <div class="right">
+              <p class="mini">{{ entry.text_as_html_plain }}</p>
+            </div>
+            {% else %}
+            <div class="left">
+              {% if entry.type == 'president' %}
+                {% if entry.speaker == 'Presidente' and entry.party == 'Presidente' %}
+                <h3>Presidente</h3>
+                {% else %}
+                <h3>{{ entry.speaker }} ({{ entry.party }})</h3>
+                {% endif %}
+              {% else %}
+                {{ entry.type }}
+                {% if entry.mp %}
+                <h3>{{ entry.mp.shortname }} ({{ entry.mp.current_party }})</h3>
+                {% else %}
+                <h3>{{ entry.speaker }}{% if entry.party %} ({{ entry.party }}){% endif %}</h3>
+                {% endif %}
+              {% endif %}
+            </div>
+            
+            <div class="right">
+              {{ entry.text_as_html }}
+            </div>
+            {% endif %}
+          {% endif %}
+        </div>
+        
+      {% endif %}
+
+      {% endfor %}
+
+
+      <div class="pagination">
+        <ul>
+          <li id="previous"><a href="">&laquo; Anterior</a></li>
+          <li id="pg-nav">
+            <ul>
+              <li class="first"><a href="" class="on">1</a></li>
+              <li><a href="">2</a></li>
+              <li><a href="">3</a></li>
+              <li>...</li>
+              <li class="last"><a href="">12</a></li>
+            </ul></li>
+          <li id="next"><a href="">Próximo &raquo;</a></li>
+        </ul>
+      </div> <!-- /pagination-->
+        
+    </div><!-- /#content-box -->
+  </div> <!-- /#content -->
+  
+  <div id="footer">
+    <div id="footer-box">
+      <p>Feito na durante a maravilhosa Hackathon no <a href="http://hacklaviva.net">Hacklaviva</a> Porto 2010.</p>
+    </div> <!-- /#footer-box -->
+  </div> <!-- /#footer -->
+  
+</body>
+</html>
+
+
+
+        {% comment %}
         <div class="entry">
           <div class="left">
             <p class="mp-photo"><img src="/media/mp-photos/2.jpg" alt="" /></p>
@@ -129,151 +254,5 @@
             </p>
           </div>
       </div> <!-- /entry-->
-      
-      <div class="entry">
-          <div class="left">
-            <h3>Nome Nome</h3>
-          </div>
-          
-          <div class="right">
-            <p>Nullam scelerisque lacus purus, ac rhoncus mauris. Nulla facilisi. Maecenas ut dui suscipit enim pulvinar scelerisque viverra a quam. Donec ut dui orci, vitae hendrerit felis. Fusce at augue enim. Sed mattis, nisl eget malesuada consectetur, justo magna tincidunt ligula, sit amet tempus risus nunc in enim. Nunc scelerisque, ipsum quis tincidunt scelerisque, erat metus mollis velit, in tristique dui neque quis justo.</p>
-            <p>Pellentesque a metus et augue vestibulum posuere. Duis eget lacus ligula, et blandit turpis. Proin ornare augue dolor. Phasellus placerat eros quis lectus dignissim dapibus. Phasellus nulla massa, mattis sagittis mollis vel, scelerisque a nibh. Integer ultricies, turpis non porttitor vulputate, libero lectus pulvinar orci, pulvinar laoreet dui nunc sed ipsum. Suspendisse potenti. </p>
-          </div>
-        </div> <!-- /entry-->
-      
-      </div><!-- /intervention-->
-
-
-      {% for entry in entries %}
-      {% if entry.is_regular %}
-      <div class="entry">
-        <div class="left">
-
-          {% if entry.mp %}
-            {% with entry.mp as mp %}
-            {% if mp.photo %}
-            {# FIXME: usar o thumbnail #}
-            {# <p class="mp-photo"><img src="{{ mp.photo.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></p> #}
-            <p class="mp-photo"><img src="{{ mp.photo.url }}" alt="{{ mp.shortname }}" /></p>
-            {% endif %}
-
-            <h3>{{ mp.shortname }}</h3>
-            {% if mp|get_post_on:gov %}
-            <h4>{{ mp|get_post_on:gov }}</h4>
-            {% endif %}
-            <p class="party">{# <img src="/media/img/logos/be.png" alt="" /> #}{{ mp.current_party.abbrev }}</p>
-            <p class="circle">{{ mp.current_caucus.constituency }}</p>
-            {% endwith %}
-          {% else %}
-            <p class="mp-photo"><img src="{{ entry.mp.photo.url }}" alt="{{ entry.mp.shortname }}" /></p>
-            {% if entry.speaker %}
-            <h3>{{ entry.speaker }}</h3>
-            {% else %}
-            <h3>{{ entry.party }}</h3>
-            {% endif %}
-            <p class="party">{# <img src="/media/img/logos/be.png" alt="" /> #}{{ entry.mp.current_party.abbrev }}</p>
-            <p class="circle"></p>
-          {% endif %}
-        </div>
-        
-        <div class="right">
-          {# <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tortor tellus, convallis vel placerat sit amet, tincidunt ut nisi. Etiam ut diam dui. Suspendisse potenti. Cras imperdiet augue at risus facilisis et ornare neque suscipit. Morbi non feugiat magna. Praesent at eros tortor, vel lobortis purus. Nulla ultricies fermentum est non porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in massa libero, vitae ullamcorper eros. Ut pulvinar iaculis ligula, id pharetra leo bibendum a. Ut consectetur semper ante, id auctor ligula accumsan mattis. Praesent sodales vulputate velit nec faucibus. Suspendisse purus ante, tincidunt a pulvinar a, posuere sed justo.</p> #}
-          {{ entry.text_as_html }}
-          {# <p class="more">Mais...</p> #}
-        </div>
-      </div>
-      {% else %}
-
-        {% if entry.is_applause %}
-        <div class="intervention mini-intervention">
-          <div class="left">
-            <h3> &nbsp; </h3>
-          </div>
-          
-          <div class="right">
-            <p><em>Aplausos da bancada do {{ entry.party }}</em></p>
-            {# <p class="circle"><img src="/media/img/logos/be.png" alt="" /> Trás-os-Montes da Afurada</p> #}
-          </div>
-        </div>
-        {% endif %}
-
-        {% if entry.is_protest %}
-        <div class="intervention mini-intervention">
-          <div class="left">
-            <h3> &nbsp; </h3>
-          </div>
-          
-          <div class="right">
-            {% if entry.speaker or entry.mp %}
-            <p><em>Protestos de {% if entry.mp %}{{ entry.mp }}{% else %}{{ entry.speaker }}{% endif %} ({{ entry.party }})</em></p>
-            {% else %}
-            <p><em>Protestos da bancada do {{ entry.party }}</em></p>
-            {% endif %}
-            {# <p class="circle"><img src="/media/img/logos/be.png" alt="" /> Trás-os-Montes da Afurada</p> #}
-          </div>
-        </div>
-        {% endif %}
-
-        {% if entry.is_interruption %}
-        <div class="intervention mini-intervention">
-          <div class="left">
-            {% if entry.mp %}
-            <h3>{{ entry.mp.shortname }} ({{ entry.mp.current_party }})</h3>
-            {% else %}
-            <h3>{{ entry.speaker }} ({{ entry.party }})</h3>
-            {% endif %}
-          </div>
-          
-          <div class="right">
-            {{ entry.text_as_html }}
-            {# <p class="circle"><img src="/media/img/logos/be.png" alt="" /> Trás-os-Montes da Afurada</p> #}
-          </div>
-        </div>
-        {% endif %}
-
-      {% endif%}
-
-      {% endfor %}
-
-      {% comment %}
-      <div class="intervention mini-intervention">
-        <div class="left">
-          <h3>
-            <img src="/media/fotos/18.jpg" alt="Nome dele" />
-            Mini nome
-          </h3>
-        </div>
-        
-        <div class="right">
-          <p>É uma vergonha!</p>
-          <p class="circle"><img src="/media/img/logos/be.png" alt="" /> Trás-os-Montes da Afurada</p>
-        </div>
-      </div>
       {% endcomment %}
-
-      <div class="pagination">
-        <ul>
-          <li id="previous"><a href="">&laquo; Anterior</a></li>
-          <li id="pg-nav">
-            <ul>
-              <li class="first"><a href="" class="on">1</a></li>
-              <li><a href="">2</a></li>
-              <li><a href="">3</a></li>
-              <li>...</li>
-              <li class="last"><a href="">12</a></li>
-            </ul></li>
-          <li id="next"><a href="">Próximo &raquo;</a></li>
-        </ul>
-      </div> <!-- /pagination-->
-        
-    </div><!-- /#content-box -->
-  </div> <!-- /#content -->
-  
-  <div id="footer">
-    <div id="footer-box">
-      <p>Feito na durante a maravilhosa Hackathon no <a href="http://hacklaviva.net">Hacklaviva</a> Porto 2010.</p>
-    </div> <!-- /#footer-box -->
-  </div> <!-- /#footer -->
-  
-</body>
-</html>
+      

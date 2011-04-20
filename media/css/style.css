@@ -487,13 +487,20 @@ font-size: 75%;
 font-weight: bold;
 }
 
+/*
 ul.mp-list .party.ps { color: #d888bb; }
 ul.mp-list .party.psd { color: #cb8d41; }
 ul.mp-list .party.pcp { color: #c74343; }
 ul.mp-list .party.be { color: #671717; }
 ul.mp-list .party.cds-pp { color: #606798; }
 ul.mp-list .party.pev { color: #607454; }
-
+*/
+.party.ps { color: #d888bb; }
+.party.psd { color: #cb8d41; }
+.party.pcp { color: #c74343; }
+.party.be { color: #671717; }
+.party.cds-pp { color: #606798; }
+.party.pev { color: #607454; }
 
 /* ------------------------ mp details
 --------------------------------*/
@@ -718,6 +725,10 @@ padding: 0 20px;
 border-top: 0;
 }
 
+.mini-intervention {
+    background: none;
+}
+
 .entry {
 padding: 5px 0;
 clear: both;
@@ -790,7 +801,7 @@ font-family: 'Linux Libertine O', Georgia, Times, serif;
 font-size: 130%;
 line-height: 1.4em;
 padding: 5px 0 0;
-border-top: 1px dotted #999;
+border-top: 1px dotted #ccc;
 }
 
 .intervention > .entry:first-child .right {
@@ -818,6 +829,12 @@ margin-top: 10px;
 
 .entry .right p:first-child {
 margin-top: 0;
+}
+
+.entry .right p.mini {
+    color: #777;
+    font-size: 75%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* ------------------------ vista de calendário
