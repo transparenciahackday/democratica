@@ -24,12 +24,13 @@ urlpatterns = patterns('',
         'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
     (r'^about/$', 
         'django.views.generic.simple.direct_to_template', {'template': 'about.html'}),
-    (r'^datasets/$', 
-        'django.views.generic.simple.direct_to_template', {'template': 'datasets.html'}),
+    #(r'^datasets/$', 
+    #    'django.views.generic.simple.direct_to_template', {'template': 'datasets.html'}),
 
     (r'^deputados/$', views.mp_list),
     (r'^deputados/(?P<object_id>\d+)/$', views.mp_detail),
     
+    (r'^dar/$', darviews.day_list),
     (r'^dar/(?P<object_id>\d+)/$', darviews.day_detail),
 
     # url(r'^(?P<object_id>\d+)/results/$', 'django.views.generic.list_detail.object_detail', dict(info_dict, template_name='polls/results.html'), 'poll_results'),
