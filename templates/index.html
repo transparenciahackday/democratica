@@ -10,17 +10,44 @@
   
     <link rel="shortcut icon" href="img/favicon.ico" />
   
-    <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/media/js/jquery-1.5.2.min.js"></script>
     <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
     <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
     <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
+    
+    
+    <script>!window.jQuery && document.write(unescape('%3Cscript src="/lib/jquery.js"%3E%3C/script%3E'));</script>
+    <script type="text/javascript" src="/media/js/smooth-scroll/jquery.smooth-scroll.js"></script>
+    <script type="text/javascript" src="/media/js/smooth-scroll/jquery.ba-bbq.js"></script>
+
     
     <script type="text/javascript">
       $(document).ready(function(){  
         $(".searchbox").search();
         $("input, textarea, select, button").uniform();
-    });
+        
+        $('a[href*="#"]').live('click', function() {
+          $.bbq.pushState( '#/' + this.hash.slice(1) );
+          return false;
+        });
+        
+        $(window).bind('hashchange', function(event) {
+          
+          if (location.hash) {
+            var tgt = location.hash.replace(/#\//,'');
+          } else {
+            var tgt = '#top';
+          }
+          $.smoothScroll({scrollTarget: '#' + tgt});
+        });
+        
+        $(window).trigger('hashchange');
+      });
+    
   </script>
+  
+  
+  
   </head>
 
 <body id="home">
@@ -45,40 +72,42 @@
 	        <p>As sessões parlamentares desde 1976.</p>
 	      </a>
 	    </div>
-	    
-      <ul id="navigation">
-        <li><a href="/datasets/">Sobre</a></li>
-        <li><a href="">FAQ</a></li>
-        <li><a href="">Disclaimer</a></li>
-        <li><a href="">Contacto</a></li>
-        <li><a href="">Glossário</a></li>
-      </ul>
   </div> <!-- /#content -->
   
   <div id="about">
-    
-    <h3 id="about-button"><span>O que é o Demo.cratica?</span></h3>
-
-<!--    
-    <div id="more-info">
+  
+    <ul id="navigation">
+      <li><a href="/datasets/">Sobre</a></li>
+      <li><a href="">FAQ</a></li>
+      <li><a href="">Disclaimer</a></li>
+      <li><a href="">Contacto</a></li>
+      <li><a href="">Glossário</a></li>
+    </ul>
       
-      <h4>O que é o Democratica?</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis pretium arcu sed lobortis. Aenean ultricies ipsum sed turpis facilisis adipiscing. Duis ac metus eget elit sodales venenatis. Maecenas felis nulla, placerat in convallis ut, ullamcorper ac elit. Suspendisse molestie lacinia risus vitae eleifend. Proin.</p>
-      
-      <h4>O que é o Democratica?</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis pretium arcu sed lobortis. Aenean ultricies ipsum sed turpis facilisis adipiscing. Duis ac metus eget elit sodales venenatis. Maecenas felis nulla, placerat in convallis ut, ullamcorper ac elit. Suspendisse molestie lacinia risus vitae eleifend. Proin.</p>
-      
-      <h4>O que é o Democratica?</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis pretium arcu sed lobortis. Aenean ultricies ipsum sed turpis facilisis adipiscing. Duis ac metus eget elit sodales venenatis. Maecenas felis nulla, placerat in convallis ut, ullamcorper ac elit. Suspendisse molestie lacinia risus vitae eleifend. Proin.</p>
-      
-      <h4>O que é o Democratica?</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis pretium arcu sed lobortis. Aenean ultricies ipsum sed turpis facilisis adipiscing. Duis ac metus eget elit sodales venenatis. Maecenas felis nulla, placerat in convallis ut, ullamcorper ac elit. Suspendisse molestie lacinia risus vitae eleifend. Proin.</p>
-    </div>
---> 
-    
+    <a href="#more-info" id="reveal-button"><h3>O que é o Demo.cratica?</h3></a>
+       
  </div> <!-- /#about-->
  
- </div> <!-- /#page-->
+ <div id="more-info">
+  <div id="more-box">
+      
+      <h4>O que é o Democratica?</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis pretium arcu sed lobortis. Aenean ultricies ipsum sed turpis facilisis adipiscing. Duis ac metus eget elit sodales venenatis. Maecenas felis nulla, placerat in convallis ut, ullamcorper ac elit. Suspendisse molestie lacinia risus vitae eleifend. Proin.</p>
+      
+      <h4>O que é o Democratica?</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis pretium arcu sed lobortis. Aenean ultricies ipsum sed turpis facilisis adipiscing. Duis ac metus eget elit sodales venenatis. Maecenas felis nulla, placerat in convallis ut, ullamcorper ac elit. Suspendisse molestie lacinia risus vitae eleifend. Proin.</p>
+      
+      <h4>O que é o Democratica?</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis pretium arcu sed lobortis. Aenean ultricies ipsum sed turpis facilisis adipiscing. Duis ac metus eget elit sodales venenatis. Maecenas felis nulla, placerat in convallis ut, ullamcorper ac elit. Suspendisse molestie lacinia risus vitae eleifend. Proin.</p>
+      
+      <h4>O que é o Democratica?</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis pretium arcu sed lobortis. Aenean ultricies ipsum sed turpis facilisis adipiscing. Duis ac metus eget elit sodales venenatis. Maecenas felis nulla, placerat in convallis ut, ullamcorper ac elit. Suspendisse molestie lacinia risus vitae eleifend. Proin.</p>
+      <a href="#up">Voltar</a>
+      
+    </div>
+  </div> <!-- /#more-box -->
+ 
+ </div> <!-- /#page -->
   
 </body>
 </html>

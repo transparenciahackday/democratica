@@ -200,22 +200,25 @@ display: inline-block;
 color: #fff;
 padding: 5px 10px;
 text-decoration: none;
+font-size: 11px;
+text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
 }
 
 /* ------------------------ homepage
 --------------------------------*/
 
-#home #page {
-height: 100%;
-min-height: 640px;
+#page {
 position: relative;
+height: 100%;
+min-height: 610px;
 }
 
 #page #content {
 background-color: transparent;
 background-image: none;
-padding: 0;
 width: 715px;
+min-height: 100%;
+position: relative;
 margin: 0 auto;
 }
 
@@ -223,6 +226,7 @@ margin: 0 auto;
 text-align: center;
 color: #fff;
 background-color: transparent;
+padding: 15px 0 0;
 box-shadow: 0 0 0 transparent;
 -moz-box-shadow: 0 0 0 transparent;
 -webkit-box-shadow: 0 0 0 transparent;
@@ -251,7 +255,7 @@ font-size: 110%;
 #content #main {
 clear: both;
 overflow: auto;
-margin: 30px auto 50px;
+margin: 20px auto;
 padding: 0;
 }
 
@@ -289,31 +293,54 @@ padding: 0 0 10px;
 border-bottom: 1px dotted #535d6c;
 }
 
-#home #about {
+#about {
+text-align: center;
+height: 120px;
+margin: -120px auto 0;
+min-width: 715px;
+clear: both;
+position: relative;
+}
+
+#home #about #navigation {
+margin: 0;
+cursor: default;
+position: relative;
+z-index: 3;
+}
+
+#about a#reveal-button {
+color: #dbdee3;
+display: block;
+text-decoration: none;
 background: #373e48 url(../img/backgrounds/about-bg.png) repeat-x 0 0;
 text-align: center;
-padding: 30px;
-position: absolute;
-bottom: 0;
-left: 0;
-right: 0;
+margin: 10px 0 0;
 color: #fff;
+text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
+padding: 27px 0;
+height: 28px;
 }
 
-#home #about > h3 {
-font-size: 200%;
-text-shadow: 1px 1px 1px #000;
-}
-
-#home #about > h3 span {
-padding: 5px 35px 5px 0;
+#about a#reveal-button h3 {
+font-size: 28px;
+line-height: 1;
+margin: 0;
+padding: 0;
 background: transparent url(../img/icons/arrow-down.png) no-repeat right center;
 }
 
-#home #more-info {
+#more-info {
+background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
 display: none;
-visibility: hidden;
 }
+
+#more-box {
+width: 715px;
+margin: 0 auto;
+padding: 20px 0;
+}
+
 
 /* ------------------------ ribbon titles
 --------------------------------*/
