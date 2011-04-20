@@ -1,0 +1,46 @@
+{% extends "base_dar.html" %}
+
+{% load dartags %}
+
+{% block extrascripts %}
+
+{% endblock %}
+
+{% block content %}
+  <div id="content">
+    <div id="content-box">    
+      <h2>Calendário</h2>
+    		
+		  <div id="calendar">
+		
+      {% for year in years %}
+		    <div class="year">
+          <h3>{{ year }}</h3>
+		      
+          {% for month in year|months_for_year %}
+		      <div class="month">
+            <h4><abbr title="{{ month }}">{{ month|month_abbrev }}</abbr></h4>
+		        <ol>
+              {% for day in month|days_for_month:year %}<li><a href="{% if day in session_dates %}{{ day|session_url }}{% else %}#{% endif %}"{% if day|is_weekend %} class="weekend"{% endif %} {% if day in session_dates %} class="session-yes"{% endif %}>{{ day.day }}</a></li>{% endfor %}
+		        </ol>
+		      </div><!-- /month -->
+          {% endfor %}
+		      
+		    </div><!-- /year-->
+      {% endfor %}
+		
+		  </div><!-- /calendar-->
+		
+		  <div id="dar-search">
+		    <h2>Pesquisa</h2>
+          <div>
+            <img src="../../media/img/icons/dar-search.png" alt="Diários da Assembleia da República" />
+            <form action="/search/" method="get">
+	          <input class="searchbox" name="q" value="Pesquisar..." /><input type="button" class="search-btn" value="Pesquisar" />
+	        </form></div>
+		  </div>
+        
+    </div><!-- /#content-box -->
+  </div> <!-- /#content -->
+  
+{% endblock %}

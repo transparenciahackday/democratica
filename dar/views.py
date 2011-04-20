@@ -1,7 +1,12 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from models import Day, Entry
 from deputados.models import Government, Party
 from django.views.generic.list_detail import object_list, object_detail
 from django.utils.safestring import mark_safe
+
+import dateutil.parser
 
 COLORS = {'PS': 'd888b5',
           'PSD': 'cb8d41',
@@ -10,6 +15,35 @@ COLORS = {'PS': 'd888b5',
           'CDS-PP': '606798',
           'Os Verdes': '607454',
           }
+
+MESES = {
+    'JANEIRO': 31,
+    'FEVEREIRO': 28,
+    'MARÇO': 31,
+    'ABRIL': 30,
+    'MAIO': 31,
+    'JUNHO': 30,
+    'JULHO': 31,
+    'AGOSTO': 31,
+    'SETEMBRO': 30,
+    'OUTUBRO': 31,
+    'NOVEMBRO': 30,
+    'DEZEMBRO': 31,
+    }
+
+def day_list(request):
+    extra = {}
+    date_start = dateutil.parser.parse('2000-10-16')
+    date_end = dateutil.parser.parse('2011-09-10')
+    days = Day.objects.filter(date__gt=date_start, date__lt=date_end)
+
+    all_dates = days.values_list('date', flat=True)
+    years = list(set([d.year for d in all_dates]))
+
+    extra['years'] = years
+    extra['session_dates'] = all_dates
+
+    return object_list(request, days, extra_context=extra)
 
 def day_detail(request, object_id):
     day = Day.objects.get(id=object_id)

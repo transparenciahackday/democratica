@@ -10,6 +10,8 @@ class Day(models.Model):
     date = models.DateField()
     def __unicode__(self):
         return str(self.date)
+    def get_absolute_url(self):
+        return '/dar/%d' % self.id
 
 class Entry(models.Model):
     day = models.ForeignKey(Day)
