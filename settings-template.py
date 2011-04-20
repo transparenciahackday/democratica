@@ -56,8 +56,8 @@ import os
 BASE_DIR = os.path.dirname(__file__)
 
 DATASET_DIR = os.path.join(BASE_DIR, PATH_DATASETS)
-PHOTO_DIR = os.path.join(PATH_DATASETS, 'fotos_deputados/')
-TRANSCRIPTS_DIR = os.path.join(PATH_DATASETS, 'transcricoes/csv')
+PHOTO_DIR = os.path.join(DATASET_DIR, 'fotos_deputados/')
+TRANSCRIPTS_DIR = os.path.join(DATASET_DIR, 'transcricoes/csv/')
 FEMALE_NAMES_FILE = os.path.join(PATH_REPO_TRANSPARENCIA, 'php-utils/nomes_f_unicode.txt')
 STOPWORD_FILE = os.path.join(BASE_DIR, 'core/stopwords.txt')
 
