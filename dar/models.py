@@ -19,6 +19,7 @@ class Entry(models.Model):
     speaker = models.CharField('Orador', max_length=100)
     party = models.CharField('Partido', max_length=200, blank=True)
     text = models.TextField('Texto', max_length=10000)
+    type = models.CharField('Tipo', max_length=40)
 
     def text_as_html(self):
         paras = self.text.split('\\n')
@@ -26,6 +27,9 @@ class Entry(models.Model):
         for para in paras:
             output += '<p>%s</p> ' % para 
         return mark_safe(output)
+
+    def text_as_html_plain(self):
+        return mark_safe(self.text)
 
     @property
     def is_applause(self):
