@@ -35,7 +35,8 @@ def days_for_month(month, year):
     number_days = calendar.monthrange(year, month_number)[1]
     dates = []
     for day in range(1, number_days+1):
-        dates.append(datetime.date(year, month_number, day))
+        if not datetime.date(year, month_number, day) > datetime.date.today():
+            dates.append(datetime.date(year, month_number, day))
     return dates
 
 @register.filter

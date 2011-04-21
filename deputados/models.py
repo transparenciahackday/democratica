@@ -137,6 +137,8 @@ class GovernmentPost(models.Model):
 
 class Session(models.Model):
     number = models.PositiveIntegerField('Sessão legislativa')
+    date_start = models.DateField('Data de início', null=True)
+    date_end = models.DateField('Data de fim', null=True)
 
     def __unicode__(self): 
         from roman import toRoman

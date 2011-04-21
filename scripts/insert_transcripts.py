@@ -19,7 +19,7 @@ if projectpath not in sys.path:
 os.environ['DJANGO_SETTINGS_MODULE'] = 'democratica.settings'
 
 import csv
-import datetime, time
+import datetime
 import dateutil.parser
 import logging
 
@@ -81,11 +81,12 @@ for root, dirs, files in os.walk(d):
                         print 'Invalid party (%s)' % party
                         p = None
 
-                    try:
-                        mp = MP.objects.filter(shortname=mpname, caucus__party__abbrev=p).distinct()[0]
-                    except MP.MultipleObjectsReturned:
-                        print 'More than 1 result for name %s in party %s. Assigning first MP instance.' % (mpname, party)
-                        Entry.objects.create(speaker=mpname, party=party, text=text, day=s, type=type)
+                    if MP.objects.filter(shortname=mpname, caucus__party__abbrev=p):
+                        try:
+                            mp = MP.objects.filter(shortname=mpname, caucus__party__abbrev=p).distinct()[0]
+                        except MP.MultipleObjectsReturned:
+                            print 'More than 1 result for name %s in party %s. Assigning first MP instance.' % (mpname, party)
+                            Entry.objects.create(speaker=mpname, party=party, text=text, day=s, type=type)
                 else:
                     mp = MP.objects.get(shortname=mpname)
                 Entry.objects.create(mp=mp, party=party, text=text, day=s, type=type)
