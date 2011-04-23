@@ -37,10 +37,10 @@ overflow: auto;
 margin: 0 auto;
 padding: 20px 0;
 position: relative;
+clear: both;
 }
 
 #content-box {
-overflow: visible;
 background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
 margin: 20px auto;
 width: 910px;
@@ -348,7 +348,7 @@ padding: 20px 0;
 #content h2.ribbon {
 background-color: #fff;
 clear: both;
-padding: 12px 10px 10px 20px;
+padding: 12px 15px 10px;
 margin-bottom: 5px;
 margin-left: -30px;
 margin-right: -30px;
@@ -384,17 +384,16 @@ left: auto;
 right: 0;
 }
 
-#mp-header {
-}
-
-#mp-header h2 {
-}
-
 #mp-header h2 small {
 font-size: 70%;
 position: absolute;
 right: 5px;
 bottom: 5px;
+}
+
+#mp-header h2 small img {
+height: 25px;
+width: auto;
 }
 
 #mp-header p {
@@ -532,10 +531,15 @@ ul.mp-list .party.pev { color: #607454; }
 /* ------------------------ mp details
 --------------------------------*/
 
+.mp-information {
+clear: both;
+overflow: auto;
+}
+
 .mp-details {
 list-style-type: none;
 margin: 10px 0 30px 50px;
-width: 450px;
+width: 430px;
 float: left;
 }
 

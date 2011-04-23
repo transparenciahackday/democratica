@@ -15,6 +15,8 @@
         </h2> <!-- nome abreviado -->
       </div>
       
+      <div class="mp-information">
+      
         <ul class="mp-details mp-details-left">
           <li class="single-field">
             <h4>Nome completo:</h4>
@@ -43,27 +45,27 @@
             <h4>Habilitações e cargos</h4>
             <ul>
               {% for fact in object.habilitacoes %}
-              {% if forloop.first %} <h5>Habilitações Literárias</h5> {% endif%}
+              {% if forloop.first %}<li><h5>Habilitações Literárias</h5></li> {% endif%}
               <li>{{ fact.value }}</li>
               {% endfor %}
 
               {% for fact in object.cargos_actuais %}
-              {% if forloop.first %} <h5>Cargos Actuais</h5> {% endif%}
+              {% if forloop.first %} <li><h5>Cargos Actuais</h5></li> {% endif%}
               <li>{{ fact.value }}</li>
               {% endfor %}
 
               {% for fact in object.cargos_exercidos %}
-              {% if forloop.first %} <h5>Cargos Exercidos</h5> {% endif%}
+              {% if forloop.first %} <li><h5>Cargos Exercidos</h5></li> {% endif%}
               <li>{{ fact.value }}</li>
               {% endfor %}
 
               {% for fact in object.comissoes %}
-              {% if forloop.first %} <h5>Comissões Parlamentares</h5> {% endif%}
+              {% if forloop.first %} <li><h5>Comissões Parlamentares</h5></li> {% endif%}
               <li>{{ fact.value }}</li>
               {% endfor %}
 
               {% for fact in object.condecoracoes %}
-              {% if forloop.first %} <h5>Condecorações</h5> {% endif%}
+              {% if forloop.first %} <li><h5>Condecorações</h5></li> {% endif%}
               <li>{{ fact.value }}</li>
               {% endfor %}
             </ul>
@@ -144,6 +146,8 @@
         </ul>
         {% endif %}
         {% endwith %}
+        
+      </div> <!-- /mp-information -->
 
     </div><!-- /#content-box -->
 {% endblock %}
