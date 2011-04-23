@@ -19,15 +19,18 @@ if projectpath not in sys.path:
 os.environ['DJANGO_SETTINGS_MODULE'] = 'democratica.settings'
 
 import csv
-import datetime, time
+import datetime
 import dateutil.parser
+import logging
+
 
 from democratica.deputados.models import MP, Party, GovernmentPost
 from democratica.dar.models import Entry, Day
 from democratica.settings import TRANSCRIPTS_DIR
 
 print 'A importar transcrições...'
-for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
+d = os.path.join(projectpath, 'democratica', TRANSCRIPTS_DIR)
+for root, dirs, files in os.walk(d):
     for f in files:
         print f
         if not f.endswith('csv'):
@@ -37,11 +40,11 @@ for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
         dar, serie, leg, sess, date = slug.split('_')
 
         try:
-            d = dateutil.parser.parse(date)
+            dt = dateutil.parser.parse(date)
         except ValueError:
-            d = None
+            dt = None
 
-        if not d:
+        if not dt:
             print 'File %s has a strange date format. Ignoring.' % f
             continue
 
@@ -50,11 +53,16 @@ for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
         else:
             s = Day.objects.create(date=date)
 
-        filename = os.path.join(TRANSCRIPTS_DIR, f)
+        filename = os.path.join(d, f)
 
         lines = csv.reader(open(filename), delimiter='|', quotechar='"')
 
-        for mpname, party, text, type in lines:
+        for item in lines:
+            if len(item) != 4:
+                logging.error('Illegal row -- %d cols instead of 4!' % len(item))
+                continue
+            mpname, party, text, type = item
+
             #print mpname
             #print party
             # make sure the party name is well formatted
@@ -67,21 +75,27 @@ for root, dirs, files in os.walk(TRANSCRIPTS_DIR):
                 if len(matching_mps) > 1:
                     # more than 1 result for this MP's shortname
                     # use the party to determine this
-                    p = Party.objects.get(abbrev=party)
-                    try:
-                        mp = MP.objects.get(shortname=mpname, caucus__party__abbrev=p)
-                    except:
-                        print 'More than 1 result for name %s in party %s. Not assigning MP instance.' % (mpname, party)
-                        Entry.objects.create(speaker=mpname, party=party, text=text, day=s)
+                    if Party.objects.filter(abbrev=party):
+                        p = Party.objects.get(abbrev=party)
+                    else:
+                        print 'Invalid party (%s)' % party
+                        p = None
+
+                    if MP.objects.filter(shortname=mpname, caucus__party__abbrev=p):
+                        try:
+                            mp = MP.objects.filter(shortname=mpname, caucus__party__abbrev=p).distinct()[0]
+                        except MP.MultipleObjectsReturned:
+                            print 'More than 1 result for name %s in party %s. Assigning first MP instance.' % (mpname, party)
+                            Entry.objects.create(speaker=mpname, party=party, text=text, day=s, type=type)
                 else:
                     mp = MP.objects.get(shortname=mpname)
-                Entry.objects.create(mp=mp, party=party, text=text, day=s)
+                Entry.objects.create(mp=mp, party=party, text=text, day=s, type=type)
             else:
                 if GovernmentPost.objects.filter(name=mpname):
                     mp = MP.objects.get(governmentpost__name=mpname)
-                    Entry.objects.create(mp=mp, party=party, text=text, day=s)
+                    Entry.objects.create(mp=mp, party=party, text=text, day=s, type=type)
                 else:
-                    Entry.objects.create(speaker=mpname, party=party, text=text, day=s)
+                    Entry.objects.create(speaker=mpname, party=party, text=text, day=s, type=type)
 
 print 'A calcular palavras preferidas...'
 for mp in MP.objects.all():

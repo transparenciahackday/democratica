@@ -81,13 +81,15 @@ def insert_mps(csvfile=os.path.join(DATASET_DIR, MP_FILE)):
     print 'A associar fotos dos deputados...'
     from django.core.files.base import ContentFile
     for mp in MP.objects.all():
-        imgfilename = os.path.join(PHOTO_DIR, '%d.jpg' % mp.id)
+        imgfilename = os.path.abspath(os.path.join(PHOTO_DIR, '%d.jpg' % mp.id))
         if os.path.exists(imgfilename):
             file_content = ContentFile(open(imgfilename, 'rb').read())
             mp.photo.save(imgfilename, file_content)
             file_content.close()
         else:
             pass
+            # print 'Error: Photo file not found' 
+            # print '  Expected path: %s' % imgfilename
 
 def insert_facts(csvfile=os.path.join(DATASET_DIR, FACTS_FILE)):
     print 'A processar factos...'
@@ -215,7 +217,7 @@ def insert_linksets(csvfile=os.path.join(DATASET_DIR, LINKSETS_FILE)):
 def insert_shortnames(csvfile=os.path.join(DATASET_DIR, SHORTNAMES_FILE)):
     # usar o ficheiro do Pedro de shortnames
     print 'A associar shortnames...'
-    shortnames = csv.reader(open(csvfile), delimiter='\t', quotechar='"')
+    shortnames = csv.reader(open(csvfile), delimiter=',', quotechar='"')
     for mp_id, shortname in shortnames:
         if shortname == 'N/A' or mp_id == 'Column':
             continue
