@@ -4,12 +4,33 @@ padding: 0;
 }
 
 @font-face {
+font-family: "Cardo";
+src: local("Cardo"), url("../fonts/Cardo.ttf") format("truetype");
+}
+
+@font-face {
+font-family: "GoudyBookletter";
+src: local("GoudyBookletter"), url("../fonts/GoudyBookletter.ttf") format("truetype");
+}
+
+@font-face {
 font-family: "League";
 src: local("League"), url("../fonts/League-Gothic.otf") format("opentype");
 }
+
+@font-face {
+font-family: "Merriweather";
+src: local("Merriweather"), url("../fonts/Merriweather.ttf") format("truetype");
+}
+
 @font-face {
 font-family: "Titillium";
 src: local("Titillium"), url("../fonts/titillium/TitilliumText1.otf") format("opentype");
+}
+
+@font-face {
+font-family: "Volkorn";
+src: local("Volkorn"), url("../fonts/volkorn/Vollkorn-Regular.ttf") format("truetype");
 }
 
 img {
@@ -38,17 +59,6 @@ margin: 0 auto;
 padding: 20px 0;
 position: relative;
 clear: both;
-}
-
-#content-box {
-background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
-margin: 20px auto;
-width: 910px;
-padding: 20px;
-position: relative;
-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
--moz-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
--webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 }
 
 a:focus {
@@ -112,9 +122,6 @@ border-bottom-right-radius: 3px;
 
 #menu {
 background: #373e48;
-box-shadow: 0 2px 3px rgba(0,0,0,0.5);
--moz-box-shadow: 0 2px 3px rgba(0,0,0,0.5);
--webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.5);
 }
 
 #menu-box {
@@ -159,12 +166,27 @@ opacity: .8;
 --------------------------------*/
 
 #content {
-min-height: 300px;
+background: transparent url(../img/backgrounds/menu-shadow.png) repeat-x 0 0;
+padding-top: 20px;
 }
 
 #content h2 {
 margin: 0 0 10px;
 }
+
+#content-box {
+background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+margin: 0 auto 15px;
+width: 910px;
+padding: 0 20px 20px;
+position: relative;
+z-index: 50;
+
+box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+-moz-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+-webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+}
+
 
 /* ------------------------ footer
 --------------------------------*/
@@ -332,85 +354,13 @@ background: transparent url(../img/icons/arrow-down.png) no-repeat right center;
 
 #more-info {
 background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
-display: none;
+
 }
 
 #more-box {
 width: 715px;
 margin: 0 auto;
 padding: 20px 0;
-}
-
-
-/* ------------------------ ribbon titles
---------------------------------*/
-
-#content h2.ribbon {
-background-color: #fff;
-clear: both;
-padding: 12px 15px 10px;
-margin-bottom: 5px;
-margin-left: -30px;
-margin-right: -30px;
-position:relative;
-
--moz-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
--webkit-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
--o-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
-}
-
-#content h2.ribbon:before,
-#content h2.ribbon:after {
-bottom: 0;
-content: " ";
-display: block;
-height: 10px;
-margin-bottom: -10px;
-position: absolute;
-width: 10px;
-z-index: -1;
-}
-
-#content h2.ribbon:before {
-background: url(../img/backgrounds/ribbon-left.png) repeat 0 0;
-left: 0;
-right: auto;
-}
-
-#content h2.ribbon:after {
-background: url(../img/backgrounds/ribbon-right.png) repeat 0 0;
-left: auto;
-right: 0;
-}
-
-#mp-header h2 small {
-font-size: 70%;
-position: absolute;
-right: 5px;
-bottom: 5px;
-}
-
-#mp-header h2 small img {
-height: 25px;
-width: auto;
-}
-
-#mp-header p {
-display: block;
-width: 60px;
-float: left;
-margin: 0 10px 0 0;
-border: 2px solid #fff;
-line-height: 1em;
-
-box-shadow: 2px 2px 3px #ccc;
--moz-box-shadow: 2px 2px 3px #ccc;
--webkit-box-shadow: 2px 2px 3px #ccc;
-}
-
-#mp-header p > img {
-width: 60px;
 }
 
 /* ------------------------ mp-list
@@ -513,14 +463,6 @@ font-size: 75%;
 font-weight: bold;
 }
 
-/*
-ul.mp-list .party.ps { color: #d888bb; }
-ul.mp-list .party.psd { color: #cb8d41; }
-ul.mp-list .party.pcp { color: #c74343; }
-ul.mp-list .party.be { color: #671717; }
-ul.mp-list .party.cds-pp { color: #606798; }
-ul.mp-list .party.pev { color: #607454; }
-*/
 .party.ps { color: #d888bb; }
 .party.psd { color: #cb8d41; }
 .party.pcp { color: #c74343; }
@@ -538,54 +480,221 @@ overflow: auto;
 
 .mp-details {
 list-style-type: none;
-margin: 10px 0 30px 50px;
+margin: 0 0 30px 50px;
 width: 430px;
 float: left;
 }
 
 .mp-details-left {
-margin: 10px 0 30px 0;
+margin-left: 0;
 }
 
 .mp-details a {
-color: #00aa88;
+color: #535d6c;
 text-decoration: none;
+border-bottom: 1px solid #939dac;
 }
 
-.mp-details a:hover, .mp-details a:focus {
-text-decoration: underline;
+.mp-details a:hover,
+.mp-details a:focus {
+color: #373e48;
+border-color: #6f7c91;
 }
 
-.mp-details > li {
-margin: 10px 0 0;
+.mp-details li ul {
+margin: 0 0 10px;
 overflow: auto;
 padding: 2px 0;
 }
 
-.mp-details > li:first-child {
+.mp-details li h4 {
+border-bottom: 4px solid #B7BEC8;
+color: #6f7c91;
+margin: 10px 0 0;
+}
+
+.mp-details > li > h4:first-child {
 margin: 0;
 }
 
-.mp-details li h4 {
-border-bottom: 1px solid #00aa88;
+.mp-details li h5 {
+margin-top: 10px;
 }
 
 .mp-details .single-field {
-margin: 4px 0 0 0;
+margin: 5px 0 0 0;
 }
 
-.mp-details .single-field h4 {
-float: left;
+.mp-details .single-field h5,
+.mp-details .single-field p {
+display: inline-block;
+margin: 0;
+}
+
+/* ------------------------ ribbon titles
+--------------------------------*/
+
+#content h2.ribbon {
+background-color: #fff;
+clear: both;
+padding: 12px 15px 10px;
+margin-bottom: 5px;
+margin-left: -30px;
+margin-right: -30px;
+position:relative;
+
+-moz-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
+-webkit-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
+-o-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
+box-shadow:2px 2px 0 rgba(0,0,0,0.1);
+}
+
+#content h2.ribbon:before,
+#content h2.ribbon:after {
+bottom: 0;
+content: " ";
 display: block;
-border: 0;
-margin: 0 5px 0 0;
+height: 10px;
+margin-bottom: -10px;
+position: absolute;
+width: 10px;
+z-index: -1;
 }
 
-/*
-.mp-details .twitter h4 {
-background: transparent url(../img/services/twitter_newbird_white.png) no-repeat 0 center;
-padding-left: 18px;
-}*/
+#content h2.ribbon:before,
+#content #mp-header:before {
+background: transparent url(../img/backgrounds/ribbon-left.png) repeat 0 0;
+left: 0;
+right: auto;
+}
+
+#content h2.ribbon:after,
+#content #mp-header:after {
+background: transparent url(../img/backgrounds/ribbon-right.png) repeat 0 0;
+left: auto;
+right: 0;
+}
+
+
+/* ------------------------ cabeçalho página de deputado
+--------------------------------*/
+
+#mp-header {
+padding-top: 5px;
+margin: 20px -30px 25px;
+position: relative;
+
+}
+
+#content #mp-header:before,
+#content #mp-header:after {
+bottom: 0;
+content: " ";
+display: block;
+height: 10px;
+margin-bottom: -10px;
+position: absolute;
+width: 10px;
+z-index: -1;
+}
+
+#mp-header h2 {
+background-color: #fff;
+color: #6f7c91;
+padding: 20px 15px 10px 90px;
+font-family: "Volkorn", "Merriweather", "Cardo", "GoudyBookletter", Georgia, Times, serif;
+font-weight: normal;
+font-size: 24px;
+margin: 20px 0 0;
+text-shadow: 0 -1px 0 rgba(55,62,72,0.8);
+
+-moz-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+-webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+-o-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+}
+
+#mp-header .mp-photo {
+float: left;
+width: 60px;
+display: block;
+margin: -22px 20px 0;
+}
+
+#mp-header .mp-photo img {
+display: block;
+width: 60px;
+margin: 0;
+border-top: 4px solid #fff;
+border-left: 4px solid #fff;
+border-right: 4px solid #fff;
+
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+}
+
+#mp-header h2 small {
+font-size: 70%;
+float: right;
+}
+
+#mp-header h2 small img {
+max-height: 25px;
+width: auto;
+}
+
+/* ------------------------ tabs
+--------------------------------*/
+
+#content .tabs {
+margin: 0 0 5px;
+position: absolute;
+top: -27px;
+right: 0;
+height: 27px;
+}
+
+#content .tabs li {
+display: inline;
+list-style-type: none;
+margin: 0 0 0 2px;
+}
+
+#content .tabs li:first-child {
+margin: 0;
+}
+
+#content .tabs a,
+#content .tabs span {
+display: inline-block;
+padding: 8px 10px;
+line-height: 1;
+
+border-top-left-radius: 3px;
+border-top-right-radius: 3px;
+-moz-border-radius-topleft: 3px;
+-moz-border-radius-topright: 3px;
+-webkit-border-top-left-radius: 3px;
+-webkit-border-top-right-radius: 3px;
+}
+
+#content .tabs span {
+background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+color: #333;
+text-shadow: 0 -1px 0px #fff;
+}
+
+#content .tabs a {
+background: #b7bec8 url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+text-decoration: none;
+color: #373e48;
+}
+
+#content .tabs a:focus,
+#content .tabs a:hover {
+background: #b7bec8;
+}
 
 /* ------------------------ pagination
 --------------------------------*/
@@ -880,13 +989,10 @@ margin: 5px 0 0;
 display: block;
 float: left;
 padding: 5px;
-min-width: 30px;
+min-width: 40px;
 margin: 0;
 font-size: 13px;
 font-weight: bold;
-border-top: 1px solid #939dac;
-border-left: 1px solid #939dac;
-border-bottom: 1px solid #939dac;
 }
 
 #calendar .month abbr {
@@ -903,20 +1009,23 @@ list-style-type: none;
 display: inline;
 }
 
-#calendar ol li a {
+#calendar ol li a,
+#calendar ol li span {
 display: inline-block;
 min-width: 20px;
 padding: 5px 3px;
 text-align: center;
 text-decoration: none;
+
 background: #b7bec8;
-border-top: 1px solid #939dac;
-border-right: 1px solid #939dac;
-border-bottom: 1px solid #939dac;
+color: #373e48;
+
+background-color: #dbdee3;
+color: #b7bec8;
+
 margin: 0;
 font-size: 11px;
 font-weight: bold;
-color: #373e48;
 }
 
   #calendar ol li a.session-yes {
@@ -924,14 +1033,10 @@ color: #373e48;
   color: #484537;
   }
   
-  #calendar ol li a.weekend {
-  background-color: #dbdee3;
+  #calendar ol li .weekend {
+  background-color: #e6e6e6;
   color: #b7bec8;
   }
-
-#calendar ol li:first-child a {
-border-left: 1px solid #939dac;
-}
 
 #calendar ol li a:hover,
 #calendar ol li a:focus {

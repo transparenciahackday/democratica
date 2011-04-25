@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block content %}
-  <div id="content">
     <div id="content-box">    
       <h2>Calendário</h2>
     		
@@ -21,7 +20,7 @@
 		      <div class="month">
             <h4><abbr title="{{ month }}">{{ month|month_abbrev }}</abbr></h4>
 		        <ol>
-              {% for day in month|days_for_month:year %}<li><a href="{% if day in session_dates %}{{ day|session_url }}{% else %}#{% endif %}"{% if day|is_weekend %} class="weekend"{% endif %} {% if day in session_dates %} class="session-yes"{% endif %}>{{ day.day }}</a></li>{% endfor %}
+		          <li><span class="empty">&nbsp;</span></li><li><span class="empty">&nbsp;</span></li>{% for day in month|days_for_month:year %}{% if day in session_dates %}<li><a href="{{ day|session_url }}"{% if day|is_weekend %} class="weekend"{% endif %} class="session-yes">{{ day.day }}</a>{% else %}<li><span {% if day|is_weekend %} class="weekend"{% endif %} class="session-yes">{{ day.day }}</span>{% endif %}</li>{% endfor %}
 		        </ol>
 		      </div><!-- /month -->
           {% endfor %}
@@ -40,7 +39,5 @@
 	        </form></div>
 		  </div>
         
-    </div><!-- /#content-box -->
-  </div> <!-- /#content -->
-  
+    </div><!-- /#content-box -->  
 {% endblock %}

@@ -5,41 +5,42 @@
 
 {% block content %}
     <div id="content-box">
+    
+      <ul id="mp-tabs" class="tabs">
+        <li><span>Geral</span></li>
+        <li><a href="" title="">Estatísticas</a></li>
+        <li><a href="" title="">Palavra Preferida</a></li>
+      </ul>
       
       <div id="mp-header">
         {% if object.photo %}
-        <p><img src="{{ object.photo.url }}" alt="{{ mp.shortname }}" /></p>
+          <p class="mp-photo">
+            <img src="{{ object.photo.url }}" alt="{{ mp.shortname }}" />
+          </p>
         {% endif %}
-        <h2 class="ribbon">{{ object.shortname }}
-        <small> <img src="/media/img/logos/be.png" alt="" /> {{ object.current_party }}</small>
+        <h2>
+          {{ object.shortname }}
+          <small> <img src="/media/img/parties/cds-pp.png" alt="{{ object.current_party }}" /></small>
         </h2> <!-- nome abreviado -->
       </div>
       
       <div class="mp-information">
       
         <ul class="mp-details mp-details-left">
-          <li class="single-field">
-            <h4>Nome completo:</h4>
-            <p>{{ object.name }}</p>
+          <li>
+            <h4>Dados</h4>
+            <ul>
+              <li class="single-field"><h5>Nome completo:</h5> <p>{{ object.name }}</p></li>
+              <li class="single-field"><h5>Partido actual:</h5> <p>{{ object.current_party.name }}</p></li>
+              {% if object.dob %}
+                <li class="single-field"><h5>Data de nascimento:</h5> <p>{{ object.dob }}</p></li>
+              {% endif %}
+              {% if object.occupation %}
+                <li class="single-field"><h5>Profissão:</h5> <p>{{ object.occupation }}</p></li>
+              {% endif %}
+            </ul>
           </li>
-
-          <li class="single-field">
-            <h4>Partido actual:</h4> <p>{{ object.current_party.name }}</p>
-          </li>
-
-          {% if object.dob %}
-          <li class="single-field">
-            <h4>Data de nascimento:</h4> <p>{{ object.dob }}</p>
-          </li>
-          {% endif %}
-
-          {% if object.occupation %}
-          <li class="single-field">
-            <h4>Profissão:</h4>
-            <p>{{ object.occupation }}</p>
-          </li>
-          {% endif %}
-
+          
           <li>
           {% if object.has_facts %}
             <h4>Habilitações e cargos</h4>
