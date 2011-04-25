@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from democratica.deputados.models import MP, LinkSet, Session, Party, Constituency
+from democratica.deputados import utils
+
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
+
 
 def index(request):
     return direct_to_template('index.html')
@@ -66,36 +69,7 @@ def mp_detail(request, object_id):
     mp = MP.objects.get(id=object_id)
 
     # get Google News feed
-    import feedparser
-    import urllib
-    # we have more  than 1 query in case the first one doesn't hit anything
-    # so the first one is very specific, and from there we broaden the scope till
-    # we get something.
-    queries = ['"%s" "%s"' % (mp.shortname, mp.current_party.name),
-               '"%s" %s' % (mp.shortname, mp.current_party.abbrev), 
-               '"%s"' % (mp.shortname), 
-               ]
-    news = []
-    for query in queries:
-        values = {'q': query.encode('utf-8'), 'output': 'rss'}
-        url = 'http://news.google.com/news?%s&ned=pt-PT_pt' % urllib.urlencode(values)
-        channels = feedparser.parse(url)
-        for entry in channels.entries:
-            try:
-                url = unicode(entry.link, channels.encoding)
-                # summary = unicode(entry.description, channels.encoding)
-                # pubdate does not work yet
-                # pubdate = unicode(entry.pubdate, channels.encoding)
-                title = unicode(entry.title, channels.encoding)
-            except:
-                url = entry.link
-                summary = entry.description
-                title = entry.title
-            item = (url, title)
-            news.append(item)
-            # got enough?
-            if len(news) >= 10:
-                break
+    news = utils.get_news_for_mp(mp)
 
     # get Twitter posts
     import urllib2
