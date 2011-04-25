@@ -104,6 +104,11 @@ def insert_facts(csvfile=os.path.join(DATASET_DIR, FACTS_FILE)):
                             fact_type = f,
                             value = value,
                             )
+    for mp in MP.objects.all():
+        if not mp.has_facts:
+            mp.is_active = False
+            mp.save()
+
 
 def insert_caucus(csvfile=os.path.join(DATASET_DIR, CAUCUS_FILE)):
     print 'A processar círculos eleitorais...'
@@ -145,7 +150,7 @@ def insert_caucus(csvfile=os.path.join(DATASET_DIR, CAUCUS_FILE)):
         else:
             c = Constituency.objects.create(name=constituency)
 
-        Caucus.objects.create(mp = MP.objects.get(id=mp_id),
+        Caucus.objects.create(mp = MP.all_objects.get(id=mp_id),
                             session = s,
                             date_begin = date_begin,
                             date_end = date_end,
@@ -189,7 +194,7 @@ def insert_linksets(csvfile=os.path.join(DATASET_DIR, LINKSETS_FILE)):
             continue
         wikipedia_url = wikipedia_url.replace('http://', '')
         blog_url = blog_url.replace('http://', '')
-        mp = MP.objects.get(id=int(id))
+        mp = MP.all_objects.get(id=int(id))
         LinkSet.objects.create(mp = mp,
                                email = email,
                                wikipedia_url = wikipedia_url,
@@ -221,16 +226,21 @@ def insert_shortnames(csvfile=os.path.join(DATASET_DIR, SHORTNAMES_FILE)):
     for mp_id, shortname in shortnames:
         if shortname == 'N/A' or mp_id == 'Column':
             continue
-        mp = MP.objects.get(id=mp_id)
+        mp = MP.all_objects.get(id=mp_id)
         mp.shortname = shortname
         mp.save()
 
 def insert_parties(csvfile=os.path.join(DATASET_DIR, PARTIES_FILE)):
     print 'A processar partidos...'
-    party = csv.reader(open(csvfile), delimiter='|', quotechar='"')
-    for abbrev, name, tendency, info in party:
+    parties = csv.reader(open(csvfile), delimiter='|', quotechar='"')
+    shortparties = []
+    for party in parties:
+        p = tuple(party[:4])
+        shortparties.append(p)
+        
+    for abbrev, name, tendency, info in shortparties:
         # ignorar primeira linha
-        if "Sigla" in abbrev:
+        if "Sigla" in abbrev: 
             continue
         if Party.objects.filter(abbrev=abbrev):
             p = Party.objects.get(abbrev=abbrev)
