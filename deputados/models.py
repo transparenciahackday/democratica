@@ -4,6 +4,14 @@ from django.db import models
 from thumbs import ImageWithThumbsField
 from democratica.core import text_utils
 
+class MPManager(models.Manager):
+     def get_query_set(self):
+        return super(MPManager, self).get_query_set().filter(is_active = True)
+class MPAllManager(models.Manager):
+     def get_query_set(self):
+        return super(MPAllManager, self).get_query_set()
+
+
 GENDERS = [('F', 'Feminino'),
            ('M', 'Masculino'),
            ('X', 'Não Definido'),
@@ -17,6 +25,10 @@ class MP(models.Model):
     occupation = models.CharField('Profissão', max_length=300, blank=True)
     photo = ImageWithThumbsField('Fotografia', upload_to='fotos', sizes=((18,25),), null=True)
     favourite_word = models.CharField('Palavra preferida', max_length=100, blank=True, null=True)
+    is_active = models.BooleanField('Activo', default=True)
+
+    objects = MPManager()
+    all_objects = MPAllManager()
 
     @property
     def current_caucus(self):
