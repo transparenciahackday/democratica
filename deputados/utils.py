@@ -1,13 +1,22 @@
 #!/usr/bin/env python
 
-def get_tweets_from_url(url):
-    import twitter, urllib2
+def get_tweets_for_mp(mp):
+    import urllib2, twitter
+    from models import LinkSet
+
+    try:
+        url = mp.linkset.twitter_url
+    except (LinkSet.DoesNotExist, urllib2.HTTPError):
+        return []
+
+    if not url:
+        return []
     username = url.strip('/').split('/')[-1]
     c = twitter.Api()
     try:
-        tweets = [s for s in c.GetUserTimeline(username, count=5)]
+        return [s for s in c.GetUserTimeline(username, count=5)]
     except urllib2.URLError:
-        tweets = []
+        return []
 
 def get_news_for_mp(mp):
     import feedparser
