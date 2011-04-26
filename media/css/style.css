@@ -9,9 +9,25 @@ src: local("Junction"), url("../fonts/Junction.otf") format("opentype");
 }
 
 @font-face {
+font-family: "Lato-light";
+src: local("Lato-light"), url("../fonts/lato/Lato-Light.ttf") format("truetype");
+}
+
+@font-face {
+font-family: "Lato-regular";
+src: local("Lato-regular"), url("../fonts/lato/Lato-Regular.ttf") format("truetype");
+}
+
+@font-face {
 font-family: "League";
 src: local("League"), url("../fonts/League-Gothic.otf") format("opentype");
 }
+
+@font-face {
+font-family: "Lekton-regular";
+src: local("Lekton-regular"), url("../fonts/lekton/Lekton-Regular.ttf") format("truetype");
+}
+
 
 @font-face {
 font-family: "Titillium";
@@ -157,6 +173,12 @@ padding-top: 20px;
 
 #content h2 {
 margin: 0 0 10px;
+font-family: 'Lato-regular', Helvetica Neue, Helvetica, Arial, sans-serif;
+font-weight: normal;
+}
+
+#content-box h2:first-child {
+padding-top: 30px;
 }
 
 #content-box {
@@ -493,13 +515,15 @@ padding: 2px 0;
 }
 
 .mp-details li h4 {
-border-bottom: 4px solid #B7BEC8;
+border-left: 5px solid #B7BEC8;
 color: #6f7c91;
-margin: 10px 0 0;
+margin: 15px 0 5px;
+padding-left: 5px;
+line-height: 1;
 }
 
-.mp-details > li > h4:first-child {
-margin: 0;
+.mp-details > li:first-child > h4 {
+margin: 0 0 5px;
 }
 
 .mp-details li h5 {
@@ -587,11 +611,10 @@ z-index: -1;
 background-color: #fff;
 color: #6f7c91;
 padding: 20px 15px 10px 90px;
-font-family: "Titillium", Georgia, Times, serif;
+font-family: "Lato-light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-weight: normal;
 font-size: 24px;
 margin: 20px 0 0;
-text-shadow: 0 -1px 0 rgba(55,62,72,0.8);
 
 -moz-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
@@ -655,6 +678,7 @@ margin: 0;
 display: inline-block;
 padding: 8px 10px;
 line-height: 1;
+font-weight: bold;
 
 border-top-left-radius: 3px;
 border-top-right-radius: 3px;
@@ -967,7 +991,7 @@ margin-top: 0;
 
 #calendar .month {
 overflow: auto;
-margin: 5px 0 0;
+margin: 10px 0 0;
 }
 
 #calendar .month h4 {
@@ -995,31 +1019,35 @@ list-style-type: none;
 display: inline;
 }
 
-#calendar ol li a,
-#calendar ol li span {
+#calendar ol a,
+#calendar ol span {
 display: inline-block;
 min-width: 20px;
 padding: 5px 1px;
 text-align: center;
 text-decoration: none;
 
-background: #b7bec8;
-color: #373e48;
-
-background-color: #dbdee3;
-color: #b7bec8;
-
 margin: 0;
 font-size: 11px;
 font-weight: bold;
 }
 
-  #calendar ol li a.session-yes {
+  #calendar ol span {
+  background-color: #dbdee3;
+  color: #b7bec8;
+  }
+  
+  #calendar ol .empty {
+  background: transparent;
+  color: transparent;
+  }
+  
+  #calendar ol a.session-yes {
   background-color: #e9ddaf;
   color: #484537;
   }
   
-  #calendar ol li .weekend {
+  #calendar ol .weekend {
   background-color: #e6e6e6;
   color: #b7bec8;
   }
