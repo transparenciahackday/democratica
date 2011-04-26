@@ -996,6 +996,7 @@ font-weight: bold;
 }
 
 #calendar .month abbr {
+color: #b7bec8;
 border-bottom: 0;
 text-transform: uppercase;
 }
@@ -1013,7 +1014,7 @@ display: inline;
 #calendar ol li span {
 display: inline-block;
 min-width: 20px;
-padding: 5px 3px;
+padding: 5px 1px;
 text-align: center;
 text-decoration: none;
 
