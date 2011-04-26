@@ -25,6 +25,10 @@ MESES = [
 @register.filter
 def months_for_year(year):
     # yes, this function is a bit derp
+    from datetime import date
+    if int(year) == date.today().year:
+        month = date.today().month
+        return MESES[:month]
     return MESES
 
 @register.filter
@@ -53,3 +57,9 @@ def session_url(day):
     d = Day.objects.get(date=day)
     return d.get_absolute_url()
 
+@register.filter
+def day_padding(day):
+    output = ''
+    for x in range(day.weekday()):
+        output += '<li><span class="empty">&nbsp;</span></li>'
+    return mark_safe(output)

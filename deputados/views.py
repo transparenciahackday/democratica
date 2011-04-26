@@ -68,22 +68,8 @@ def mp_detail(request, object_id):
     queryset = MP.objects.all()
     mp = MP.objects.get(id=object_id)
 
-    # get Google News feed
     news = utils.get_news_for_mp(mp)
-
-    # get Twitter posts
-    import urllib2
-    try:
-        if mp.linkset.twitter_url:
-            from utils import get_tweets_from_url
-            tweets = get_tweets_from_url(mp.linkset.twitter_url)
-            
-        else:
-            tweets = []
-    except (LinkSet.DoesNotExist, urllib2.HTTPError):
-            tweets = []
-
-
+    tweets = utils.get_tweets_for_mp(mp)
 
     return object_detail(request, queryset, object_id,
             extra_context={'news': news, 'tweets': tweets,
