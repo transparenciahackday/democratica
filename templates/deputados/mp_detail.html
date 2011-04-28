@@ -84,6 +84,17 @@
               {% endfor %}
             </ul>
           </li>
+          {% if object.governmentpost_set.all %}
+          <li>
+            <h4>Cargos governamentais</h4>
+            <ul>
+            {% for p in object.governmentpost_set.all %}
+            <li>G.C. {{ p.government.number }} ({{ p.government.date_started.year }}-{{ p.government.date_ended.year }}): <strong>{{ p.name }}</strong></li>
+            {% endfor %}
+            </ul>
+          </li>
+          {% endif %}
+          {% comment %}
           <li>
           {% if object.has_activities %}
             <h4>Actividades:</h4>
@@ -92,8 +103,9 @@
               <li>{{ a.tipo1 }} - {{ a.tipo2 }}: {{ a.content }}</li>
               {% endfor %}
             </ul>
-          {% endif %}
+            {% endif %}
           </li>
+          {% endcomment %}
         </ul>
         
         <ul class="mp-details">

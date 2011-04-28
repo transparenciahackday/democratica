@@ -139,8 +139,9 @@ class Government(models.Model):
 
 class GovernmentPost(models.Model):
     name = models.CharField('Nome', max_length=200, blank=True)
+    person_name = models.CharField('Nome da pessoa', max_length=200, blank=True)
     government = models.ForeignKey(Government)
-    mp = models.ForeignKey(MP)
+    mp = models.ForeignKey(MP, null=True)
     date_started = models.DateField('Início do mandato')
     date_ended = models.DateField('Fim do mandato', blank=True, null=True)
     

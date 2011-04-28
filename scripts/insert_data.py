@@ -255,24 +255,45 @@ def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
     import dateutil.parser
     print 'A processar governos...'
 
-    number = GOVERNMENT_FILE.split('/')[1].split('.')[0].replace('gc', '')
-    gov = Government.objects.create(number=int(number),
-                                    date_started=dateutil.parser.parse('2010-10-29'))
-
     members = csv.reader(open(csvfile), delimiter='|', quotechar='"')
-    print members
-    for mp_id, post, date_started, date_ended, other in members:
-        if mp_id:
-            print 'Creating post'
-            ds = dateutil.parser.parse(date_started)
-            de = dateutil.parser.parse(date_ended)
-            GovernmentPost.objects.create(mp=MP.objects.get(id=int(mp_id)),
-                                          government=gov,  
-                                          name=post,
-                                          date_started=ds,
-                                          date_ended=de)
+    for gov_number, mp_id, name, post, date_started, date_ended in members:
+        if gov_number == 'Governo':
+            # ignorar primeira linha
+            continue
+        gov_number = int(gov_number.replace('GC', ''))
+        ds = dateutil.parser.parse(date_started).date()
+        de = dateutil.parser.parse(date_ended).date()
+        print name
+
+        if Government.objects.filter(number=gov_number):
+            gov = Government.objects.get(number=gov_number)
+            if ds < gov.date_started:
+                gov.date_started = ds
+                gov.save()
+            if de > gov.date_ended:
+                gov.date_ended = de
+                gov.save()
+
         else:
-            print 'No suitable MP, ignoring post'
+            gov = Government.objects.create(number=gov_number, date_started=ds, date_ended=de)
+
+        if mp_id:
+            mp_id = int(mp_id)
+            if MP.objects.filter(id=mp_id):
+                print 'Creating post'
+                GovernmentPost.objects.create(mp=MP.objects.get(id=int(mp_id)),
+                                              government=gov,  
+                                              name=post,
+                                              date_started=ds,
+                                              date_ended=de)
+            else:
+                print 'No MP with given ID (%d)' % mp_id
+                GovernmentPost.objects.create(mp=None,
+                                              person_name=name,
+                                              government=gov,  
+                                              name=post,
+                                              date_started=ds,
+                                              date_ended=de)
 
 if __name__ == '__main__':
     check_for_files()
@@ -284,3 +305,4 @@ if __name__ == '__main__':
     insert_shortnames()
     insert_parties()
     insert_governments()
+
