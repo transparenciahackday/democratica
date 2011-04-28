@@ -24,7 +24,7 @@
       {% endif %}
 
       {% if entry.type == 'mp' %}
-        <div class="entry">
+      <div class="entry" id="{{ entry.id }}">
           <div class="left">
             {{ entry.type }}
             {% if entry.mp %}
@@ -61,7 +61,7 @@
         </div>
       {% else %}
 
-        <div class="entry">
+      <div class="entry" id="{{ entry.id }}">
           {% if entry.type == 'interruption' %}
           <div class="left"></div>
           <div class="right">
@@ -102,22 +102,6 @@
       {% endif %}
 
       {% endfor %}
-
-
-      <div class="pagination">
-        <ul>
-          <li id="previous"><a href="">&laquo; Anterior</a></li>
-          <li id="pg-nav">
-            <ul>
-              <li class="first"><a href="" class="on">1</a></li>
-              <li><a href="">2</a></li>
-              <li><a href="">3</a></li>
-              <li>...</li>
-              <li class="last"><a href="">12</a></li>
-            </ul></li>
-          <li id="next"><a href="">Próximo &raquo;</a></li>
-        </ul>
-      </div> <!-- /pagination-->
         
     </div><!-- /#content-box -->
 {% endblock content %}

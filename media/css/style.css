@@ -1062,5 +1062,8 @@ border: 1px solid #b7bec8;
 #dar-search > div {
 }
 
+.highlighted {
+text-decoration: underline;
+}
 
 
