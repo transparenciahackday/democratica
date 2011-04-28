@@ -3,6 +3,7 @@
 
 from django.db import models
 from django.utils.safestring import mark_safe
+import datetime
 
 from deputados.models import MP
 
@@ -59,3 +60,8 @@ class Entry(models.Model):
         if self.is_applause or self.is_protest or self.is_interruption:
             return False
         return True
+
+    def __unicode__(self):
+        return '%s (%s)' % (self.mp.shortname, str(self.day.date))
+
+    def get_absolute_url(self): return '/dar/%d#%d' % (self.day.id, self.id)
