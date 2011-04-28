@@ -87,37 +87,6 @@ h5 {
 font-size: 100%
 }
 
-/* ------------------------ top-search
---------------------------------*/
-
-#top-search {
-position: absolute;
-top: 10px;
-right: 0;
-}
-
-#top-search input.searchbox {
-width: 150px;
-padding: 2px;
-background: #fff;
-vertical-align: middle;
-}
-
-#top-search .searchicon {
-margin-left: -2px;
-vertical-align: middle;
-padding: 4px 6px;
-background-color: #ccc;
-border: 1px solid #999;
-
-border-top-right-radius: 3px;
-border-bottom-right-radius: 3px;
--moz-border-radius-topright: 3px;
--moz-border-radius-bottomright: 3px;
--webkit-border-top-right-radius: 3px;
--webkit-border-bottom-right-radius: 3px;
-}
-
 /* ------------------------ menu
 --------------------------------*/
 
@@ -182,18 +151,32 @@ padding-top: 30px;
 }
 
 #content-box {
-background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
 margin: 0 auto 15px;
-width: 910px;
-padding: 0 20px 20px;
+width: 950px;
 position: relative;
 z-index: 50;
+}
+
+.default #content-box {
+background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+width: 910px;
+padding: 0 20px 20px;
 
 box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -moz-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+-o-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 }
 
+.no-background #content-box {
+background: transparent;
+}
+
+
+.no-background #content h2,
+.no-background #content {
+color: #fff;
+}
 
 /* ------------------------ footer
 --------------------------------*/
@@ -375,7 +358,7 @@ padding: 20px 0;
 
 form#quicksearch {
 float: right;
-padding: 6px 0;
+padding: 10px 0 6px;
 }
 
 form#quicksearch input[type="text"] {
@@ -429,14 +412,14 @@ ul.mp-list li {
 list-style-type: none;
 display: block;
 margin: 6px 0;
-padding: 2px 0;
+padding: 4px 0;
 overflow: auto;
 }
 
 ul.mp-list a {
 text-decoration: none;
 color: #373E48;
-padding: 2px 0 2px 6px;
+padding: 4px;
 }
 
 ul.mp-list li:first-child a {
@@ -445,9 +428,10 @@ border-top: 0;
 
 ul.mp-list a:hover {
 color: #6f7c91;
-border-left: 4px solid #6f7c91;
-padding-left: 2px;
 background: #fff;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
 }
 
 ul.mp-list .name {
@@ -550,12 +534,12 @@ padding: 12px 15px 10px;
 margin-bottom: 5px;
 margin-left: -30px;
 margin-right: -30px;
-position:relative;
+position: relative;
 
--moz-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
--webkit-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
--o-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
-box-shadow:2px 2px 0 rgba(0,0,0,0.1);
+-moz-box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+-webkit-box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+-o-box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
 }
 
 #content h2.ribbon:before,
@@ -989,6 +973,12 @@ margin-top: 0;
 /* ------------------------ vista de calendário
 --------------------------------*/
 
+.no-background #content-box > h2:first-child {
+text-align: center;
+border-bottom: 1px solid #939dac;
+padding-bottom: 5px;
+}
+
 #calendar .month {
 overflow: auto;
 margin: 10px 0 0;
@@ -997,9 +987,9 @@ margin: 10px 0 0;
 #calendar .month h4 {
 display: block;
 float: left;
-padding: 5px;
+padding: 5px 0;
 min-width: 40px;
-margin: 0;
+margin: 0 5px 0 0;
 font-size: 13px;
 font-weight: bold;
 }
@@ -1023,9 +1013,10 @@ display: inline;
 #calendar ol span {
 display: inline-block;
 min-width: 20px;
-padding: 5px 1px;
+padding: 5px 2px;
 text-align: center;
 text-decoration: none;
+color: #3f4958;
 
 margin: 0;
 font-size: 11px;
@@ -1033,8 +1024,7 @@ font-weight: bold;
 }
 
   #calendar ol span {
-  background-color: #dbdee3;
-  color: #b7bec8;
+  background-color: #535d6c;
   }
   
   #calendar ol .empty {
@@ -1044,17 +1034,19 @@ font-weight: bold;
   
   #calendar ol a.session-yes {
   background-color: #e9ddaf;
+  text-shadow: 1px 1px 0 #fff;
   color: #484537;
   }
   
   #calendar ol .weekend {
-  background-color: #e6e6e6;
-  color: #b7bec8;
+  background-color: #636f82;
   }
 
-#calendar ol li a:hover,
-#calendar ol li a:focus {
-background-color: #6f7c91;
+#calendar ol a:hover,
+#calendar ol a:focus {
+background-color: #fff;
+border: 2px solid #939dac;
+padding: 3px 0;
 }
 
 /* ------------------------ pesquisa DAR

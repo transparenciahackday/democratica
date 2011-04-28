@@ -1,59 +1,25 @@
-<!DOCTYPE html>
-<html lang="pt">
-  <head>
-    <meta charset="utf-8" />
-    <title>Transparência Porto :: Sobre</title>
+{% extends "base.html" %}
 
-    <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
-    <link rel="stylesheet" href="/media/css/style.css" type="text/css" />
-    <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
-  
-    <link rel="shortcut icon" href="/media/img/favicon.ico" />
-  
-    <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
-    <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
-    <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
-    
-    <script type="text/javascript">
-      $(document).ready(function(){  
-        $(".searchbox").search();
-        $("input, textarea, select, button").uniform();
-	    });
-    </script>
-  </head>
+{% block title %}Sobre :: Demo.cratica.org{% endblock %}
 
-<body class="home">
+{% block extrabodyclass %}default{% endblock %}
 
-  <div id="header">
-    <div id="header-box">
-      <h1><a href="/">TRANSPARÊNCIA HACKDAY PORTO</a></h1>
-    </div> <!-- /#header-box -->
-  </div> <!-- /#header -->
-  
-  <div id="menu">
-    <div id="menu-box">
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="about.html">Sobre</a></li>
-      </ul>
-    </div> <!-- /#menu-box -->
-  </div> <!-- /#menu -->
-  
-  <div id="content">
+{% block contentdiv %}
     <div id="content-box">
-      <h2>Sobre</h2> <!-- nome abreviado -->
+      <h2>Sobre o Demo.cratica</h2> <!-- nome abreviado -->
       
+      <h3>Como surge a ideia para este projecto?</h3>
+      <p>Primeira sessão de Transparência organizada pelo Hacklaviva, no Porto, em Junho 2010. Hackathon mundial pelos Dados Abertos, no dia 4 de Dezembro....</p>
+      <p>Phasellus lorem ante, volutpat eu elementum eget, aliquam sit amet leo. Proin id interdum ipsum. Praesent placerat vestibulum nibh, ac facilisis elit accumsan eu. Sed ac nibh magna. Fusce eget mi nisi. Etiam sem metus, ornare quis dictum a, laoreet vel orci. Praesent tempor felis eget velit sodales a tempor neque faucibus. Praesent semper mattis metus id ornare. Phasellus venenatis est a sapien fringilla tincidunt in vel ante. Vestibulum et quam mattis mi aliquet posuere.</p>
+      
+      <h3>Porque é que decidimos avançar com a ideia do Demo.cratica?</h3>
+      <p>Sed nec nisl vel mauris euismod pharetra quis et augue. Sed dui tellus, viverra et tincidunt ut, scelerisque sed nunc. Suspendisse potenti. Etiam sit amet auctor nunc. Nam a dui quam, nec sollicitudin lectus. Aenean dapibus dignissim sapien sed aliquet. Aenean diam mi, porttitor sed tincidunt non, vestibulum nec augue. Vivamus volutpat justo a libero pulvinar et pellentesque lectus placerat.</p>
+      
+      <h3>Como surge a ideia para este projecto?</h3>
       <p>Somos os maiores!</p>
+      <p>Phasellus lorem ante, volutpat eu elementum eget, aliquam sit amet leo. Proin id interdum ipsum. Praesent placerat vestibulum nibh, ac facilisis elit accumsan eu. Sed ac nibh magna. Fusce eget mi nisi. Etiam sem metus, ornare quis dictum a, laoreet vel orci. Praesent tempor felis eget velit sodales a tempor neque faucibus. Praesent semper mattis metus id ornare. Phasellus venenatis est a sapien fringilla tincidunt in vel ante. Vestibulum et quam mattis mi aliquet posuere.</p>
+      
         
     </div><!-- /#content-box -->
-  </div> <!-- /#content -->
   
-  <div id="footer">
-    <div id="footer-box">
-      <p>Feito durante a maravilhosa Hackathon no <a href="http://hacklaviva.net">Hacklaviva</a> Porto 2010.</p>
-    </div> <!-- /#footer-box -->
-  </div> <!-- /#footer -->
-  
-</body>
-</html>
+{% endblock contentdiv %}
