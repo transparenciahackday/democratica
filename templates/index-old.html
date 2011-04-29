@@ -17,35 +17,37 @@
     <script type="text/javascript" src="/media/js/smooth-scroll/jquery.smooth-scroll.js"></script>
     <script type="text/javascript" src="/media/js/smooth-scroll/lib/jquery.ba-bbq.js"></script>
   
-    <script>
-      $(document).ready(function() {
+  <script>
+    $(document).ready(function() {
+      
+      $('a#reveal-button').live('click', function() {
+        $.bbq.pushState( '#/' + this.hash.slice(1) );
         
-        $('a#reveal-button').live('click', function() {
-          $.bbq.pushState( '#/' + this.hash.slice(1) );
-          
-          $('div#more-info').addClass("expanded");
-          return false;
-          
+        $('div#more-info').addClass("expanded");
+        return false;
         
-        });
-        
-        $(window).bind('hashchange', function(event) {
-          
-          if (location.hash) {
-            var tgt = location.hash.replace(/#\//,'');
-          } else {
-            var tgt = '#up';
-          }
-          $.smoothScroll({scrollTarget: '#' + tgt});
-        });
-        
-        $(window).trigger('hashchange');
-
       
       });
       
-    </script>
+      $(window).bind('hashchange', function(event) {
+        
+        if (location.hash) {
+          var tgt = location.hash.replace(/#\//,'');
+        } else {
+          var tgt = '#up';
+        }
+        $.smoothScroll({scrollTarget: '#' + tgt});
+      });
+      
+      $(window).trigger('hashchange');
 
+    
+    });
+    
+  </script>
+  
+  
+  
   </head>
 
 <body id="home">
