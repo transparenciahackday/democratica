@@ -89,7 +89,7 @@
             <h4>Cargos governamentais</h4>
             <ul>
             {% for p in object.governmentpost_set.all %}
-            <li>G.C. {{ p.government.number }} ({{ p.government.date_started.year }}-{{ p.government.date_ended.year }}): <strong>{{ p.name }}</strong></li>
+            <li>G.C. {{ p.government.number }} ({{ p.government.date_started.year }}-{{ p.government.date_ended.year }}): <strong>{{ p.name }}</strong> {% if p.government.date_started != p.date_started %}(desde {{ p.date_started|date:"d M Y"}}){% endif %}{% if p.government.date_ended != p.date_ended %}(até {{ p.date_ended|date:"d M Y"}}){% endif %}</li>
             {% endfor %}
             </ul>
           </li>
