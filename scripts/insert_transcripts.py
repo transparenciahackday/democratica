@@ -91,8 +91,11 @@ for root, dirs, files in os.walk(d):
                     mp = MP.objects.get(shortname=mpname)
                 Entry.objects.create(mp=mp, party=party, text=text, day=s, type=type)
             else:
-                if GovernmentPost.objects.filter(name=mpname):
-                    mp = MP.objects.get(governmentpost__name=mpname)
+                if mpname and GovernmentPost.objects.filter(person_name=mpname, date_started__lt=date, date_ended__gt=date):
+                    try:
+                        mp = MP.objects.get(governmentpost__person_name=mpname, governmentpost__date_started__lt=date, governmentpost__date_ended__gt=date)
+                    except MP.DoesNotExist:
+                        print 
                     Entry.objects.create(mp=mp, party=party, text=text, day=s, type=type)
                 else:
                     Entry.objects.create(speaker=mpname, party=party, text=text, day=s, type=type)
