@@ -2,54 +2,62 @@
 
 {% load highlight %}
 
+{% block extrabodyclass %}default search{% endblock %}
+
 {% block contentdiv %}
   <div id="content-box">
-  {% if query %}
-    <div id="left">
-      <h3>Resultados da pesquisa por {{ query }}</h3>
-
-      {% if facets.fields.author %}
-      <dl>
-        {% for author in facets.fields.author|slice:"5:" %}
-        <dd><a href="{{ request.get_full_path }}&aauthor;selected_facets=author_exact:{{ author.0|urlencode }}">{{ author.0 }}</a> ({{ author.1 }})</dd>
-        {% endfor %}
-        <dd></dd>
-        <dt></dt>
-      </dl>
-      {% else %}
-      <p>Não há facetas programadas :(</p>
-      {% endif %}
-
-
-
-
-
-      {# a pesquisa como deve ser começa aqui #}
-
-      <ul class="search-results">
-
-        {% for result in page.object_list %}
-        <li>
-          <p><a href="{{ result.object.get_absolute_url }}">{{ result.object.day.date|date:"d M y" }}</a>
-          <span class="party {{ result.object.mp.current_party.abbrev|lower }}"><strong>{{ result.object.mp.shortname }}</strong></span>: {% highlight result.object.text_as_html with query max_length 100 cssclass 'highlight' %} </p>
-        </li>
-        {% empty %}
-          <p>Não encontrámos resultados :-(</p>
-        {% endfor %}
-
-      </ul>
-    </div> <!-- /left-->
+  
+    <h2>Pesquisa</h2>
+   
+  {% if query %}      
+      <div id="search-box">
+        <form method="get" action=".">
+          <ul>
+             {{ form.as_ul }}
+          </ul>
+        </form>
+      </div>
       
-    <div id="right">
-      <form method="get" action=".">
-      <h4>Refinar pesquisa:</h4>
-      <ul>
-         {{ form.as_ul }}
-      </ul>
-      <p id="new-search"><span><input class="searchbox" value="Pesquisa" /><input type="image" class="searchicon" src="img/icons/search.png" /></span></p>
-    </form>
-   </div> <!-- /right-->
-       
+      
+      <h3>Resultados da pesquisa por <span>&ldquo;{{ query }}&rdquo;</span></h3>
+      
+      {% if page.object_list %}
+      <div id="results">
+        <ul id="results-left">
+
+          {% for result in page.object_list %}
+          <li>
+            <a href="{{ result.object.get_absolute_url }}">{{ result.object.day.date|date:"d M y" }}</a>
+            <p>
+            <strong class="party {{ result.object.mp.current_party.abbrev|lower }}">{{ result.object.mp.shortname }}</strong>: {% highlight result.object.text_as_html with query max_length 100 cssclass 'highlight' %} </p>
+          </li>
+          {% empty %}
+          <li><p>Não encontrámos resultados :-(</p></li>         
+          {% endfor %}
+        </ul>
+
+        {% if facets.fields.author %}
+        <ul id="results-right">
+          {% for author in facets.fields.author|slice:"5:" %}
+          <li>
+            <a href="{{ request.get_full_path }}&aauthor;selected_facets=author_exact:{{ author.0|urlencode }}" class="avatar-colorbar psd" title="{{ author.0 }}">
+              <img src="../../media/fotos/2.jpg" alt="Nome do deputado" />
+              <span>({{ author.1 }})</span>
+            </a></li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>Não há facetas programadas :(</p>
+        {% endif %}
+      </div> <!-- /#results -->
+      
+      {% else %}
+        
+        <p>Não foram encontrados resultados</p>
+      
+      {% endif %}
+    
+    
    {% comment %}
      <div class="pagination">
       <ul>
@@ -68,12 +76,21 @@
     {% endcomment %}
 
     {% if page.has_previous or page.has_next %}
-    <div class="pagination">
-      <ul>
-        <li id="previous">{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Anterior{% if page.has_previous %}</a>{% endif %}</li>
-        <li id="next">{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Seguinte  &raquo;{% if page.has_next %}</a>{% endif %}</li>
-      </ul>
-    </div>
+    <ul class="pagination">
+      <li id="previous">{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Anterior{% if page.has_previous %}</a>{% endif %}</li>
+      
+      <li id="pg-nav">
+          <ul>
+            <li class="first"><a href="" class="on">1</a></li>
+            <li><a href="">2</a></li>
+            <li><a href="">3</a></li>
+            <li>...</li>
+            <li class="last"><a href="">12</a></li>
+          </ul>
+       </li>
+      
+      <li id="next">{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Seguinte  &raquo;{% if page.has_next %}</a>{% endif %}</li>
+    </ul>
     {% endif %}
 
     {% else %}
