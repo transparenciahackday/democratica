@@ -79,16 +79,6 @@
     <ul class="pagination">
       <li id="previous">{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Anterior{% if page.has_previous %}</a>{% endif %}</li>
       
-      <li id="pg-nav">
-          <ul>
-            <li class="first"><a href="" class="on">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li>...</li>
-            <li class="last"><a href="">12</a></li>
-          </ul>
-       </li>
-      
       <li id="next">{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Seguinte  &raquo;{% if page.has_next %}</a>{% endif %}</li>
     </ul>
     {% endif %}
