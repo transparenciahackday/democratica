@@ -75,6 +75,18 @@ def mp_detail(request, object_id):
             extra_context={'news': news, 'tweets': tweets,
                 })
 
+def mp_statistics(request, object_id):
+    queryset = MP.objects.all()
+    mp = MP.objects.get(id=object_id)
+
+    news = utils.get_news_for_mp(mp)
+    tweets = utils.get_tweets_for_mp(mp)
+
+    return object_detail(request, queryset, object_id,
+            template_name="deputados/mp_detail_statistics.html",
+            extra_context={'news': news, 'tweets': tweets,
+                })
+
 def mp_search(request, query=''):
     if not query:
         query = request.GET.get('query', '')

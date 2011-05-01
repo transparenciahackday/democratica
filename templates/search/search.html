@@ -59,20 +59,18 @@
     
     
    {% comment %}
-     <div class="pagination">
-      <ul>
-        <li id="previous"><a href="">&laquo; Anterior</a></li>
-        <li id="pg-nav">
-          <ul>
-            <li class="first"><a href="" class="on">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li>...</li>
-            <li class="last"><a href="">12</a></li>
-          </ul>
-        <li id="next"><a href="">Próximo &raquo;</a></li>
-      </ul>
-    </div> <!-- /pagination-->
+   <ul class="pagination">
+     <li id="previous"><a href="">&laquo; Anterior</a></li>
+     <li id="pg-nav">
+       <ul>
+         <li class="first"><a href="" class="on">1</a></li>
+         <li><a href="">2</a></li>
+         <li><a href="">3</a></li>
+         <li>...</li>
+         <li class="last"><a href="">12</a></li>
+       </ul>
+     <li id="next"><a href="">Próximo &raquo;</a></li>
+    </ul><!-- /pagination-->
     {% endcomment %}
 
     {% if page.has_previous or page.has_next %}

@@ -1,0 +1,45 @@
+{% extends "base_mp.html" %}
+{% load deputags %}
+
+{% block title %}{{ object.shortname }} :: Demo.cratica.org{% endblock %}
+
+{% block content %}
+    <div id="content-box">
+    
+      <ul id="mp-tabs" class="tabs">
+        <li><a href="/deputados/{{ mp.id }}" title="">Geral</a></li>
+        <li><span>Estatísticas</span></li>
+      </ul>
+      
+      <div id="mp-header">
+        {% if object.photo %}
+          <p class="mp-photo">
+            <img src="{{ object.photo.url }}" alt="{{ mp.shortname }}" />
+          </p>
+        {% endif %}
+        <h2>
+          {{ object.shortname }}
+          <small> <img src="/media/img/parties/cds-pp.png" alt="{{ object.current_party }}" /></small>
+        </h2> <!-- nome abreviado -->
+      </div>
+      
+      <div id="multi-col">
+        <div class="col">
+          <h3>Palavra Preferida</h3>
+          <p class="favourite-word">Férias</p>
+        </div>
+        
+        <div class="col">
+          <h3>Afinal há mais gráficos</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ultricies accumsan metus in adipiscing. Cras tincidunt metus ac massa mattis sagittis. Quisque fringilla congue porttitor. Nam pharetra lobortis lorem quis.</p>
+        </div>
+        
+        <div class="col">
+          <h3>Considerações parvas</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ultricies accumsan metus in adipiscing. Cras tincidunt metus ac massa mattis sagittis. Quisque fringilla congue porttitor. Nam pharetra lobortis lorem quis.</p>
+        </div>
+        
+      </div> <!-- /#multi-col -->
+
+    </div><!-- /#content-box -->
+{% endblock %}

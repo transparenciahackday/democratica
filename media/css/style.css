@@ -24,19 +24,25 @@ src: local("League"), url("../fonts/League-Gothic.otf") format("opentype");
 }
 
 @font-face {
-font-family: "Merriweather";
-src: local("Merriweather"), url("../fonts/Merriweather.ttf") format("truetype");
+font-family: "Lekton-regular";
+src: local("Lekton-regular"), url("../fonts/lekton/Lekton-Regular.ttf") format("truetype");
 }
 
 @font-face {
-font-family: "Lekton-regular";
-src: local("Lekton-regular"), url("../fonts/lekton/Lekton-Regular.ttf") format("truetype");
+font-family: "Merriweather";
+src: local("Merriweather"), url("../fonts/Merriweather.ttf") format("truetype");
 }
 
 @font-face {
 font-family: "Titillium";
 src: local("Titillium"), url("../fonts/titillium/TitilliumText1.otf") format("opentype");
 }
+
+@font-face {
+font-family: "Vollkorn-italic";
+src: local("Vollkorn-italic"), url("../fonts/vollkorn/Vollkorn-Italic.ttf") format("truetype");
+}
+
 
 img {
 border: 0;
@@ -146,8 +152,11 @@ padding-top: 20px;
 
 #content h2 {
 margin: 0 0 10px;
-font-family: 'Lato-regular', Helvetica Neue, Helvetica, Arial, sans-serif;
+
+color: #6f7c91;
+font-family: "Lato-light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-weight: normal;
+font-size: 24px;
 }
 
 #content-box h2:first-child {
@@ -528,13 +537,26 @@ display: inline-block;
 margin: 0;
 }
 
+/* ------------------------ mp statistcs
+--------------------------------*/
+
+#content .favourite-word {
+padding: 20px;
+background-color: #fff;
+font-size: 26px;
+text-align: center;
+font-family: "Vollkorn-italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+letter-spacing: 1px;
+}
+
+
 /* ------------------------ ribbon titles
 --------------------------------*/
 
 #content h2.ribbon {
 background-color: #fff;
 clear: both;
-padding: 12px 15px 10px;
+padding: 20px 15px 10px;
 margin-bottom: 5px;
 margin-left: -30px;
 margin-right: -30px;
@@ -596,13 +618,9 @@ z-index: -1;
 }
 
 #mp-header h2 {
-background-color: #fff;
-color: #6f7c91;
 padding: 20px 15px 10px 90px;
-font-family: "Lato-light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-weight: normal;
-font-size: 24px;
 margin: 20px 0 0;
+background-color: #fff;
 
 -moz-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
@@ -696,8 +714,8 @@ background: #b7bec8;
 /* ------------------------ pagination
 --------------------------------*/
 
-.search .pagination {
-width: 650px;
+#content .pagination {
+width: 910px;
 border-top: 1px solid #B7BEC8;
 margin: 20px 0 0;
 padding: 8px 0;
@@ -707,6 +725,10 @@ list-style-type: none;
 min-height: 18px;
 color: #b7bec8;
 }
+
+  .search .pagination {
+  width: 650px;
+  }
 
 #content .pagination li,
 #content .pagination li#pg-nav ul {
@@ -767,6 +789,11 @@ overflow: hidden;
 
 /* ------------------------ DAR transcripts
 --------------------------------*/
+
+.dar #content-box {
+padding-top: 15px;
+margin-top: 20px;
+}
 
 .intervention {
 background: rgba(255,255,255,.6);
@@ -890,6 +917,35 @@ margin-top: 0;
     color: #777;
     font-size: 75%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* ------------------------ DAR statistics
+--------------------------------*/
+
+#content-box #multi-col {
+overflow: auto;
+clear: both;
+margin: 20px 0 0;
+}
+
+#content-box .col {
+width: 290px;
+margin-left: 20px;
+float: left;
+}
+
+  #content-box #multi-col .col:first-child {
+  margin-left: 0;
+  }
+
+#content-box .col h3:first-child {
+text-transform: uppercase;
+font-weight: normal;
+font-family: 'Lato-regular', Helvetica Neue, Helvetica, Arial, sans-serif;
+font-size: 120%;
+border-bottom: 1px solid #b7bec8;
+color: #939dac;
+margin: 0 0 10px;
 }
 
 /* ------------------------ vista de calendário

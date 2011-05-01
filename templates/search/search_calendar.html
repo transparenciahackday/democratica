@@ -32,8 +32,7 @@
    </div> <!-- /right-->
        
    {% comment %}
-     <div class="pagination">
-      <ul>
+      <ul class="pagination">
         <li id="previous"><a href="">&laquo; Anterior</a></li>
         <li id="pg-nav">
           <ul>
@@ -44,17 +43,14 @@
             <li class="last"><a href="">12</a></li>
           </ul>
         <li id="next"><a href="">Próximo &raquo;</a></li>
-      </ul>
-    </div> <!-- /pagination-->
+      </ul><!-- /pagination-->
     {% endcomment %}
 
     {% if page.has_previous or page.has_next %}
-    <div class="pagination">
-      <ul>
-        <li id="previous">{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Anterior{% if page.has_previous %}</a>{% endif %}</li>
-        <li id="next">{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Seguinte  &raquo;{% if page.has_next %}</a>{% endif %}</li>
-      </ul>
-    </div>
+    <ul class="pagination">
+      <li id="previous">{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Anterior{% if page.has_previous %}</a>{% endif %}</li>
+      <li id="next">{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Seguinte  &raquo;{% if page.has_next %}</a>{% endif %}</li>
+    </ul>
     {% endif %}
 
     {% else %}
