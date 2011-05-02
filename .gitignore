@@ -4,3 +4,7 @@
 settings.py*
 media/mp-photos
 media/fotos
+media/js/high*
+media/js/adapters
+media/js/themes
+media/js/modules

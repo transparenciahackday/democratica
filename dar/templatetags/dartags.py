@@ -63,3 +63,14 @@ def day_padding(day):
     for x in range(day.weekday()):
         output += '<li><span class="empty">&nbsp;</span></li>'
     return mark_safe(output)
+
+# stolen from http://stackoverflow.com/questions/783897/truncating-floats-in-python
+def trunc(f, n):
+    '''Truncates/pads a float f to n decimal places without rounding'''
+    slen = len('%.*f' % (n, f))
+    return str(f)[:slen]
+
+
+@register.filter
+def floatise(s):
+    return mark_safe(trunc(s, 2).replace(',','.'))

@@ -89,7 +89,12 @@ for root, dirs, files in os.walk(d):
                             Entry.objects.create(speaker=mpname, party=party, text=text, day=s, type=type)
                 else:
                     mp = MP.objects.get(shortname=mpname)
-                Entry.objects.create(mp=mp, party=party, text=text, day=s, type=type)
+                try:
+                    Entry.objects.create(mp=mp, party=party, text=text, day=s, type=type)
+                except:
+                    print mp
+                    print text
+                    raise
             else:
                 if mpname and GovernmentPost.objects.filter(person_name=mpname, date_started__lt=date, date_ended__gt=date):
                     try:
