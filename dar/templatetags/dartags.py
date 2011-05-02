@@ -74,3 +74,16 @@ def trunc(f, n):
 @register.filter
 def floatise(s):
     return mark_safe(trunc(s, 2).replace(',','.'))
+
+@register.filter
+def lookup(dict, index):
+    if index in dict:
+        return dict[index]
+    return ''
+
+@register.filter
+def lookuplookup(dict, index1, index2):
+    if index1 in dict:
+        if index2 in dict[index1]:
+            return dict[index1][index2]
+    return ''
