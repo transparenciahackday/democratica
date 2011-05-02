@@ -545,8 +545,9 @@ padding: 20px;
 background-color: #fff;
 font-size: 26px;
 text-align: center;
-font-family: "Vollkorn-italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-family: georgia, "Merriweather", "Helvetica Neue", Helvetica, Arial, sans-serif;
 letter-spacing: 1px;
+font-style: italic;
 }
 
 
