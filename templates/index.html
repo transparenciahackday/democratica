@@ -2,7 +2,7 @@
 <html lang="pt">
   <head>
     <meta charset="utf-8" />
-    <title>Democratica :: Homepage</title>
+    <title>Demo.cratica :: Homepage</title>
 
     <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
     <link rel="stylesheet" href="/media/css/style.css" type="text/css" />
@@ -11,24 +11,22 @@
     <link rel="shortcut icon" href="img/favicon.ico" />
   
     <script type="text/javascript" src="/media/js/jquery-1.5.2.min.js"></script>
-    <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
-    <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
-    <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
     
     
     <script>!window.jQuery && document.write(unescape('%3Cscript src="/lib/jquery.js"%3E%3C/script%3E'));</script>
     <script type="text/javascript" src="/media/js/smooth-scroll/jquery.smooth-scroll.js"></script>
-    <script type="text/javascript" src="/media/js/smooth-scroll/jquery.ba-bbq.js"></script>
-
-    
-    <script type="text/javascript">
-      $(document).ready(function(){  
-        $(".searchbox").search();
-        $("input, textarea, select, button").uniform();
+    <script type="text/javascript" src="/media/js/smooth-scroll/lib/jquery.ba-bbq.js"></script>
+  
+    <script>
+      $(document).ready(function() {
         
-        $('a[href*="#"]').live('click', function() {
+        $('a#reveal-button').live('click', function() {
           $.bbq.pushState( '#/' + this.hash.slice(1) );
+          
+          $('div#more-info').addClass("expanded");
           return false;
+          
+        
         });
         
         $(window).bind('hashchange', function(event) {
@@ -36,18 +34,18 @@
           if (location.hash) {
             var tgt = location.hash.replace(/#\//,'');
           } else {
-            var tgt = '#top';
+            var tgt = '#up';
           }
           $.smoothScroll({scrollTarget: '#' + tgt});
         });
         
         $(window).trigger('hashchange');
+
+      
       });
-    
-  </script>
-  
-  
-  
+      
+    </script>
+
   </head>
 
 <body id="home">

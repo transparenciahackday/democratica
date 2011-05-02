@@ -2,9 +2,17 @@
 
 {% load deputags %}
 
+{% block extrabodyclass %}default dar{% endblock %}
+
 {% block content %}
-    <div id="content-box">    
-      <h2>{{ day.date }}</h2>
+    <div id="content-box">
+      
+      <ul id="dar-tabs" class="tabs">
+        <li><span>Sessão</span></li>
+        <li><a href="stats" title="">Estatísticas</a></li>
+      </ul>
+       
+      <h2 class="ribbon">{{ day.date }}</h2>
       <img src="{{ speaker_chart_url }}" />
       <img src="{{ mb_chart_url }}" />
 

@@ -1,0 +1,37 @@
+{% extends 'base_dar.html' %}
+
+{% load deputags %}
+
+{% block extrabodyclass %}default dar{% endblock %}
+
+{% block content %}
+    <div id="content-box">
+      
+      <ul id="dar-tabs" class="tabs">
+        <li><a href="/dar/{{ object.id }}" title="">Sessão</a></li>
+        <li><span>Estatísticas</span></li>
+      </ul>
+       
+      <h2 class="ribbon">{{ day.date }}</h2>
+      
+      <div id="multi-col">
+        <div class="col">
+          <h3>O mais lindo gráfico</h3>
+          <img src="{{ speaker_chart_url }}" />
+        </div>
+        
+        <div class="col">
+          <h3>Afinal há mais gráficos</h3>
+          <img src="{{ mb_chart_url }}" />
+        </div>
+        
+        <div class="col">
+          <h3>Considerações parvas</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ultricies accumsan metus in adipiscing. Cras tincidunt metus ac massa mattis sagittis. Quisque fringilla congue porttitor. Nam pharetra lobortis lorem quis.</p>
+        </div>
+        
+      </div> <!-- /#multi-col -->
+        
+    </div><!-- /#content-box -->
+{% endblock content %}
+      

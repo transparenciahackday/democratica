@@ -27,9 +27,11 @@ urlpatterns = patterns('',
 
     (r'^deputados/$', views.mp_list),
     (r'^deputados/(?P<object_id>\d+)/$', views.mp_detail),
+    (r'^deputados/(?P<object_id>\d+)/stats$', views.mp_statistics),
     
     (r'^dar/$', darviews.day_list),
     (r'^dar/(?P<object_id>\d+)/$', darviews.day_detail),
+    (r'^dar/(?P<object_id>\d+)/stats$', darviews.day_statistics),
 
     (r'^pesquisa/', include('dar.urls')),
 
