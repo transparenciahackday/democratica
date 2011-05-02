@@ -13,8 +13,10 @@
       </ul>
        
       <h2 class="ribbon">{{ day.date }}</h2>
+      <!-- old google graphics
       <img src="{{ speaker_chart_url }}" />
       <img src="{{ mb_chart_url }}" />
+     -->
 
       {% for entry in entries %}
       {% if forloop.first %}
@@ -33,35 +35,36 @@
 
       {% if entry.type == 'mp' %}
       <div class="entry" id="{{ entry.id }}">
-          <div class="left">
+          
             {{ entry.type }}
             {% if entry.mp %}
               {% with entry.mp as mp %}
-
+              
+              <div class="left">
               {# FIXME: usar o thumbnail #}
               {# <p class="mp-photo"><img src="{{ mp.photo.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></p> #}
-              <p class="mp-photo"><img src="{{ mp.photo.url }}" alt="{{ mp.shortname }}" /></p>
+                <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar psd"><img src="{{ mp.photo.url }}" alt="{{ mp.shortname }}" /></a></p>
 
-              <h3>{{ mp.shortname }}</h3>
+                <h3><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
 
-              {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %}
+                {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %}
 
-              <p class="party {{ mp.current_party.abbrev|lower }}"><strong>{{ mp.current_party.abbrev }}</strong></p>
-
-              <p class="circle">{{ mp.current_caucus.constituency }}</p>
-              <p><a href="/deputados/{{ mp.id }}">Info</a></p>
+                <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
+                <p class="circle">{{ mp.current_caucus.constituency }}</p>
               {% endwith %}
+              </div> <!-- /left -->
             {% else %}
-              <p class="mp-photo"><img src="{{ entry.mp.photo.url }}" alt="{{ entry.mp.shortname }}" /></p>
-              {% if entry.speaker %}
-              <h3>{{ entry.speaker }}</h3>
-              {% else %}
-              <h3>{{ entry.party }}</h3>
-              {% endif %}
-              <p class="party">{# <img src="/media/img/logos/be.png" alt="" /> #}{{ entry.mp.current_party.abbrev }}</p>
-              <p class="circle"></p>
+              <div class="left">
+                <p class="mp-photo"><img src="{{ entry.mp.photo.url }}" alt="{{ entry.mp.shortname }}" /></p>
+                {% if entry.speaker %}
+                <h3>{{ entry.speaker }}</h3>
+                {% else %}
+                <h3>{{ entry.party }}</h3>
+                {% endif %}
+                <p class="party">{{ entry.mp.current_party.abbrev }}</p>
+                <p class="circle"></p>
+              </div> <!-- /left -->
             {% endif %}
-          </div>
         
           <div class="right">
             {{ entry.text_as_html }}
@@ -71,15 +74,13 @@
 
       <div class="entry" id="{{ entry.id }}">
           {% if entry.type == 'interruption' %}
-          <div class="left"></div>
-          <div class="right">
+          <div class="right interruption">
             <p class="mini">{{ entry.text_as_html_plain }} -- {{ entry.speaker }}</p>
           </div>
 
           {% else %}
             {% if entry.type == 'applause' or entry.type == 'protest' or entry.type == 'laughter' %}
-            <div class="left"></div>
-            <div class="right">
+            <div class="right interruption">
               <p class="mini">{{ entry.text_as_html_plain }}</p>
             </div>
             {% else %}
