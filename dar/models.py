@@ -62,6 +62,9 @@ class Entry(models.Model):
         return True
 
     def __unicode__(self):
-        return '%s (%s)' % (self.mp.shortname, str(self.day.date))
+        if self.mp:
+            return '%s (%s)' % (self.mp.shortname, str(self.day.date))
+        else:
+            return '%s (%s)' % (self.speaker, str(self.day.date))
 
     def get_absolute_url(self): return '/dar/%d#%d' % (self.day.id, self.id)

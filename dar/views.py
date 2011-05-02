@@ -8,12 +8,12 @@ from django.utils.safestring import mark_safe
 
 import dateutil.parser
 
-COLORS = {'ps': 'd888b5',
-          'psd': 'cb8d41',
-          'pcp': 'c74343',
-          'be': '671717',
-          'cdspp': '606798',
-          'pev': '607454',
+PARTY_COLORS = {'ps': '#d888b5',
+          'psd': '#cb8d41',
+          'pcp': '#c74343',
+          'be': '#671717',
+          'cdspp': '#606798',
+          'pev': '#607454',
           }
 
 MESES = {
@@ -77,41 +77,42 @@ def day_statistics(request, object_id):
     for party in set(entries.values_list('party', flat=True)):
         if party == 'Os Verdes':
             party = 'PEV'
+
         if Party.objects.filter(abbrev=party):
-            if party == 'PEV':
-                party = 'Os Verdes'
-            texts = entries.filter(party=party).values_list('text', flat=True)
-            texts = " ".join(texts)
-            charcount = len(texts)
-            if party == 'Os Verdes':
-                party = 'PEV'
             if party == 'CDS-PP':
                 party = 'CDSPP'
-            party_counts[party.lower()] = charcount
+            party_counts[party.lower()] = {}
+            #if party == 'PEV':
+            #    party = 'Os Verdes'
+            if party == 'CDSPP':
+                party = 'CDS-PP'
+            if party == 'PEV':
+                party = 'Os Verdes'
+            party_entries = entries.filter(party=party)
+            total_charcount = 0
+            for mpname in frozenset(party_entries.all().values_list('mp__shortname', flat=True)):
+                texts = party_entries.filter(mp__shortname=mpname).values_list('text', flat=True)
+                mp_charcount = len(" ".join(texts))
+                total_charcount += mp_charcount
+                if party == 'CDS-PP':
+                    party = 'CDSPP'
+                if party == 'Os Verdes':
+                    party = 'PEV'
+                party_counts[party.lower()][mpname] = mp_charcount
+
+
+            party_counts[party.lower()]['total'] = total_charcount
+
     # sum must be 100
     total = 0
     for party in party_counts:
-        total += party_counts[party]
+        total += party_counts[party]['total']
     factor = 100. / total
+
     for party in party_counts:
-        party_counts[party] = party_counts[party] * factor
-    querystring = ''
-    labels = []
-    colors = []
-    values = []
-    for party in party_counts:
-        labels.append(party)
-        colors.append(COLORS[party])
-        values.append(str(party_counts[party]))
-    labelstring = 'chdl=' + '|'.join(labels)
-    valuestring = 'chd=t:' + ','.join(values)
-    colorstring = 'chco=' + '|'.join(colors)
-    options = ['chf=bg,s,65432100',
-               'cht=p',
-               'chs=250x100']
-    optionstring = '&'.join(options) 
-    querystring = '&'.join([optionstring, labelstring, valuestring, colorstring])
-    speaker_chart_url = mark_safe('http://chart.apis.google.com/chart?%s' % querystring)
+        # party_counts[party]['total'] = party_counts[party]['total'] * factor
+        for mpname in party_counts[party]:
+            party_counts[party][mpname] = party_counts[party][mpname] * factor  
 
     # Muito bem!
     mb_counts = {}
@@ -121,39 +122,19 @@ def day_statistics(request, object_id):
         if Party.objects.filter(abbrev=party):
             if party == 'PEV':
                 party = 'Os Verdes'
-            mbs = entries.filter(party=party, text__icontains='Muito bem!')
+            mbs = entries.filter(party=party, text__icontains='Muito bem!') | entries.filter(speaker__contains=party, text__icontains='Muito bem!')
+            mbs = mbs.distinct()
             if party == 'Os Verdes':
                 party = 'PEV'
             if party == 'CDS-PP':
                 party = 'CDSPP'
             mb_counts[party.lower()] = len(mbs)
-    labels = []
-    colors = []
-    values = []
-    for party in mb_counts:
-        labels.append(party)
-        colors.append(COLORS[party])
-        values.append(str(mb_counts[party]))
-    labelstring = 'chdl=' + '|'.join(labels)
-    valuestring = 'chd=t:' + ','.join(values)
-    colorstring = 'chco=' + '|'.join(colors)
-    options = ['chf=bg,s,65432100', 
-               'cht=bhs', 
-               'chs=250x200',
-               'chbh=10,2,1',
-               'chxt=x'
-               #'chtt=Muito+bem!'
-               ]
-    optionstring = '&'.join(options) 
-    querystring = '&'.join([optionstring, labelstring, valuestring, colorstring])
-    mb_chart_url = mark_safe('http://chart.apis.google.com/chart?%s' % querystring)
 
     return object_detail(request, Day.objects.all(), object_id,
             template_object_name = 'day', template_name='dar/day_detail_statistics.html',
             extra_context={'entries': entries,
                            'gov': gov.number if gov else None,
-                           'speaker_chart_url': speaker_chart_url,
-                           'mb_chart_url': mb_chart_url,
                            'party_counts': party_counts,
+                           'party_colors': PARTY_COLORS,
                            'mb_counts': mb_counts,
                 })

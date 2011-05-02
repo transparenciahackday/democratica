@@ -7,7 +7,7 @@
 <script type="text/javascript" src="/media/js/highcharts/highcharts.js"></script>
 <script type="text/javascript" src="/media/js/highcharts/themes/gray.js"></script>
 
-
+<!-- Gráfico - Proporção de intervenções -->
 <script type="text/javascript">
   var chart;
   $(document).ready(function() {
@@ -41,23 +41,34 @@
           }
         }
       },
-        series: [{
+      series: [{
         type: 'pie',
-        name: 'Proporção das intervenções',
+        name: 'Partidos',
+        size: '15%',
+        innerSize: '70%',
         data: [
-          { name: 'PS',     y: {{ party_counts.ps|floatise }},    color: '#d888bb', },
-          { name: 'PSD',    y: {{ party_counts.psd|floatise }},   color: '#cb8d41', },
-          { name: 'CDS-PP', y: {{ party_counts.cdspp|floatise }}, color: '#606798', },
-          { name: 'BE',     y: {{ party_counts.be|floatise }},    color: '#671717', },
-          { name: 'PCP',    y: {{ party_counts.pcp|floatise }},   color: '#c74343', },
-          { name: 'PEV',    y: {{ party_counts.pev|floatise }},   color: '#607454', },
-        ]
-      }]
+        {% for party in party_counts %}
+          { name: '{{ party|upper }}',     y: {{ party_counts|lookup:party|lookup:"total"|floatise }},    color: '{{ party_colors|lookup:party }}', },
+        {% endfor %}
+        ]},
+        {
+        type: 'pie',
+        name: 'Deputados',
+        innerSize: '70%',
+        data: [
+        {% for party in party_counts %} 
+          {% for speaker in party_counts|lookup:party %}
+          {% if not speaker == 'total' %}
+          { name: '{{ speaker }}',     y: {{ party_counts|lookup:party|lookup:speaker|floatise }},    color: '{{ party_colors|lookup:party }}', },  
+          {% endif %}
+          {% endfor %}
+        {% endfor %}
+        ]}],
     });
   });
 </script>
 
-
+<!-- Gráfico - Muito bem! -->
 <script type="text/javascript">
   var chart;
   $(document).ready(function() {
@@ -65,7 +76,7 @@
       chart: {
         renderTo: 'grafmuitobem',
         defaultSeriesType: 'column',
-        margin: [ 10, 10, 10, 10]
+        margin: [10, 10, 10, 10]
       },
       title: {
         text: ''
@@ -96,7 +107,7 @@
              ' vezes.';
         }
       },
-            series: [{
+      series: [{
         name: 'Muito bem!',
 
         data: [
@@ -134,7 +145,7 @@
     <div id="content-box">
       
       <ul id="dar-tabs" class="tabs">
-        <li><a href="/dar/{{ object.id }}" title="">Sessão</a></li>
+        <li><a href="/dar/{{ day.id }}" title="">Sessão</a></li>
         <li><span>Estatísticas</span></li>
       </ul>
        
