@@ -7,12 +7,20 @@
 {% block content %}
     <div id="content-box">
       <h2>Calendário</h2>
+      
+      <div class="year-nav">
+        <ul>
+        {% for year in years %}
+        <li><a href="">{{ year }}</a></li>
+        {% endfor %}
+        </ul>
+      </div>
     		
 		  <div id="calendar">
 		
       {% for year in years %}
 		    <div class="year">
-          <h3>{{ year }}</h3>
+          {# <h3>{{ year }}</h3> #}
 		      
           {% for month in year|months_for_year %}
 		      <div class="month">
