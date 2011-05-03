@@ -1227,12 +1227,12 @@ display: block;
 /* ------------------------ party colours and avatar-colorbar
 --------------------------------*/
 
-.party.ps { color: #d888bb; }
-.party.psd { color: #cb8d41; }
-.party.pcp { color: #c74343; }
-.party.be { color: #671717; }
-.party.cds-pp { color: #606798; }
-.party.pev { color: #607454; }
+.ps { color: #d888bb; }
+.psd { color: #cb8d41; }
+.pcp { color: #c74343; }
+.be { color: #671717; }
+.cds-pp { color: #606798; }
+.pev { color: #607454; }
 
 
 a.avatar-colorbar.ps img {

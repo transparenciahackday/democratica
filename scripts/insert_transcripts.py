@@ -49,7 +49,7 @@ for root, dirs, files in os.walk(d):
             continue
 
         if Day.objects.filter(date=date):
-            s = Day.objects.get(date=date)
+            continue
         else:
             s = Day.objects.create(date=date)
 
