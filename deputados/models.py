@@ -4,6 +4,26 @@ from django.db import models
 from thumbs import ImageWithThumbsField
 from democratica.core import text_utils
 
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules(
+    [
+        (
+            (ImageWithThumbsField, ),
+            [],
+            {
+                "verbose_name": ["verbose_name", {"default": None}],
+                "name":         ["name",         {"default": None}],
+                "width_field":  ["width_field",  {"default": None}],
+                "height_field": ["height_field", {"default": None}],
+                "sizes":        ["sizes",        {"default": None}],
+            },
+        ),
+                            ],
+    ["^deputados.thumbs.ImageWithThumbsField",]
+    )
+
+
+
 class MPManager(models.Manager):
      def get_query_set(self):
         return super(MPManager, self).get_query_set().filter(is_active = True)
