@@ -6,6 +6,7 @@ from deputados.models import Government, Party
 from django.views.generic.list_detail import object_list, object_detail
 from django.utils.safestring import mark_safe
 
+import datetime
 import dateutil.parser
 
 PARTY_COLORS = {'ps': '#d888b5',
@@ -31,19 +32,21 @@ MESES = {
     'DEZEMBRO': 31,
     }
 
-def day_list(request):
+def day_list(request, year=datetime.date.today().year):
     extra = {}
-    date_start = dateutil.parser.parse('2000-10-16')
-    date_end = dateutil.parser.parse('2011-09-10')
-    days = Day.objects.filter(date__gt=date_start, date__lt=date_end)
+    # date_start = dateutil.parser.parse('2000-10-16')
+    # date_end = dateutil.parser.parse('2011-09-10')
+    # days = Day.objects.filter(date__gt=date_start, date__lt=date_end)
 
-    all_dates = days.values_list('date', flat=True)
-    years = list(set([d.year for d in all_dates]))
+    all_days = Day.objects.all()
+    all_dates = all_days.values_list('date', flat=True)
+    all_years = list(set([d.year for d in all_dates]))
 
-    extra['years'] = years
+    extra['year'] = year
+    extra['years'] = all_years
     extra['session_dates'] = all_dates
 
-    return object_list(request, days, extra_context=extra)
+    return object_list(request, all_days, extra_context=extra)
 
 def day_detail(request, object_id):
     day = Day.objects.get(id=object_id)

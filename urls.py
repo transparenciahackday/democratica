@@ -25,13 +25,14 @@ urlpatterns = patterns('',
     (r'^about/$', 
         'django.views.generic.simple.direct_to_template', {'template': 'about.html'}),
 
-    (r'^deputados/$', views.mp_list),
-    (r'^deputados/(?P<object_id>\d+)/$', views.mp_detail),
-    (r'^deputados/(?P<object_id>\d+)/stats$', views.mp_statistics),
-    
-    (r'^dar/$', darviews.day_list),
-    (r'^dar/(?P<object_id>\d+)/$', darviews.day_detail),
-    (r'^dar/(?P<object_id>\d+)/stats$', darviews.day_statistics),
+    url(r'^deputados/$', views.mp_list, name='mp_list'),
+    url(r'^deputados/(?P<object_id>\d+)/$', views.mp_detail, name='mp_detail'),
+    url(r'^deputados/(?P<object_id>\d+)/stats$', views.mp_statistics, name='mp_stats'),
+
+    url(r'^dar/$', darviews.day_list, name='calendar'),
+    url(r'^dar/calendar/(?P<year>\d+)/$', darviews.day_list, name='calendar_year'),
+    url(r'^dar/(?P<object_id>\d+)/$', darviews.day_detail, name='day_detail'),
+    url(r'^dar/(?P<object_id>\d+)/stats$', darviews.day_statistics, name='day_stats'),
 
     (r'^pesquisa/', include('dar.urls')),
 

@@ -13,10 +13,6 @@
       </ul>
        
       <h2 class="ribbon">{{ day.date }}</h2>
-      <!-- old google graphics
-      <img src="{{ speaker_chart_url }}" />
-      <img src="{{ mb_chart_url }}" />
-     -->
 
       {% for entry in entries %}
       {% if forloop.first %}
@@ -43,14 +39,14 @@
               <div class="left">
               {# FIXME: usar o thumbnail #}
               {# <p class="mp-photo"><img src="{{ mp.photo.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></p> #}
-                <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar psd"><img src="{{ mp.photo.url }}" alt="{{ mp.shortname }}" /></a></p>
+              <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url }}" alt="{{ mp.shortname }}" /></a></p>
 
                 <h3><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
 
                 {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %}
 
                 <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
-                <p class="circle">{{ mp.current_caucus.constituency }}</p>
+                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
               {% endwith %}
               </div> <!-- /left -->
             {% else %}
