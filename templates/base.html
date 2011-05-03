@@ -24,8 +24,7 @@
     </script>
   </head>
 
-<body class="{% block extrabodyclass %}default{% endblock %}">
-
+<body class="{% block extrabodyclass %}default{% endblock %}">  
   <div id="menu">
     <div id="menu-box">
       <ul>
@@ -35,6 +34,12 @@
         <li><a href="/dar/">Sessões</a></li>
         <li><a href="/about/">Acerca</a></li>
         <li><a href="">Contacto</a></li>
+        <li id="search">
+            <div>
+              <form action="/pesquisa/" method="get">
+              <input class="searchbox" name="q" value="Pesquisa..." /><input type="button" class="search-btn" value="Ir" />
+            </form></div>
+	      </li>
       </ul>
     </div> <!-- /#menu-box -->
   </div> <!-- /#menu -->

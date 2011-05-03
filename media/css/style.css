@@ -65,11 +65,15 @@ color: #333;
 #menu-box,
 #footer-box {
 width: 950px;
-overflow: auto;
 margin: 0 auto;
 padding: 20px 0;
 position: relative;
 clear: both;
+}
+
+#header-box,
+#footer-box {
+overflow: auto;
 }
 
 a:focus {
@@ -142,13 +146,27 @@ display: block;
 opacity: .8;
 }
 
+#menu-box li#search {
+position: absolute;
+right: 0;
+}
+
+#menu-box li#search form .searchbox {
+background-color: #fff;
+}
+
 /* ------------------------ content
 --------------------------------*/
 
 #content {
 background: transparent url(../img/backgrounds/menu-shadow.png) repeat-x 0 0;
-padding-top: 20px;
+padding-top: 38px;
 }
+
+  .home #content,
+  .default #content {
+  padding-top: 20px;
+  }
 
 #content h2 {
 margin: 0 0 10px;
@@ -183,6 +201,10 @@ box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -moz-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -o-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+}
+
+.search #content-box {
+padding: 0 20px 20px;
 }
 
 .mp #content-box {
@@ -286,18 +308,17 @@ font-size: 110%;
 
 #content #main {
 clear: both;
-overflow: auto;
+overflow: visible;
 margin: 20px auto;
 padding: 0;
 }
 
 #content #main a.box {
-padding: 30px 20px;
-margin: 0 26px 10px 0;
-width: 302px;
+padding: 30px 20px 20px;
+margin: 0 20px 0 0;
+width: 298px;
 float: left;
 background: #dbdee3 url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
-font-size: 115%;
 text-decoration: none;
 color: #535d6c;
 text-shadow: 1px 1px 0px #dbdee3;
@@ -325,10 +346,14 @@ padding: 0 0 10px;
 border-bottom: 1px dotted #535d6c;
 }
 
+#content #main a.box p {
+font-size: 115%;
+}
+
 #about {
 text-align: center;
-height: 120px;
-margin: -120px auto 0;
+height: 100px;
+margin: -100px auto 0;
 min-width: 715px;
 clear: both;
 position: relative;
@@ -350,21 +375,22 @@ text-align: center;
 margin: 10px 0 0;
 color: #fff;
 text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
-padding: 27px 0;
-height: 28px;
+padding: 22px 0;
+height: 16px;
 }
 
 #about a#reveal-button h3 {
-font-size: 28px;
+font-size: 16px;
 line-height: 1;
 margin: 0;
 padding: 0;
-background: transparent url(../img/icons/arrow-down.png) no-repeat right center;
+font-family: "Lato-light","Helvetica Neue",Helvetica,Arial,sans-serif;
+font-weight: normal;
+text-transform: uppercase;
 }
 
 #more-info {
-background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
-display: none;
+/*display: none;*/
 }
 
 #more-info.expanded {
@@ -373,8 +399,64 @@ display: block;
 
 #more-box {
 width: 715px;
-margin: 0 auto;
+margin: 0 auto 30px;
 padding: 20px 0;
+overflow: auto;
+background: #DBDEE3;
+}
+
+#more-box h4 {
+margin: 20px 0 5px;
+}
+  
+  #more-box .col h4:first-child {
+  margin: 0px 0 5px;
+  }
+
+#more-box ul {
+margin: 5px 0 10px 15px;
+}
+
+#more-box li {
+list-style-type: square;
+margin: 0 0 2px 5px;
+}
+
+#more-box .col {
+width: 300px;
+float: left;
+padding: 0 20px;
+margin: 0 0 0 15px;
+}
+  
+  #more-box .col:first-child {
+  margin: 0;
+  }
+
+#more-box .clear {
+clear: both;
+}
+
+#more-box .up {
+clear: both;
+text-align: center
+}
+
+#more-box .up a {
+display: inline-block;
+margin: 20px 0 0;
+background: #535D6C;
+padding: 5px 15px;
+color: #DBDEE3;
+text-decoration: none;
+
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+-moz-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+-webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+-o-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 }
 
 /* ------------------------ mp-list
@@ -952,12 +1034,25 @@ margin: 20px 0 0;
 
 #content-box .col {
 width: 290px;
-margin-left: 20px;
+margin-left: 19px;
 float: left;
+min-height: 250px;
 }
 
   #content-box #multi-col .col:first-child {
   margin-left: 0;
+  }
+  
+  .static #content-box .col {
+  border-left: 1px solid #b7bec8;
+  padding: 0 20px;
+  width: 255px;
+  }
+
+  .static #content-box #multi-col .col:first-child {
+  margin-left: 0;
+  border: 0;
+  padding: 0 20px 0 0;
   }
 
 #content-box .col h3 {
@@ -969,6 +1064,10 @@ border-bottom: 1px solid #b7bec8;
 color: #939dac;
 margin: 0 0 10px;
 }
+
+  .static #content-box h3 {
+  border-bottom: 0;
+  }
 
 /* ------------------------ vista de calendário
 --------------------------------*/
