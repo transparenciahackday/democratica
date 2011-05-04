@@ -28,7 +28,7 @@ from democratica.deputados import utils
 from democratica.deputados.models import MP, Party, GovernmentPost
 from democratica.dar.models import Entry, Day
 from democratica.settings import TRANSCRIPTS_DIR
-'''
+
 print '--------------------'
 print 'A importar tweets...'
 print '--------------------'
@@ -38,9 +38,9 @@ for mp in MP.objects.filter(linkset__twitter_url__contains='twitter'):
     tweets =  utils.get_tweets_for_mp(mp)
     if not tweets:
         print '...Não há tweets!'
-    mp.news = tweets
+    mp.tweets = tweets
     mp.save()
-'''
+
 print '----------------------'
 print 'A importar notícias...'
 print '----------------------'
@@ -52,6 +52,8 @@ for id in frozenset(Entry.objects.values_list('mp', flat=True)):
     if id:
         mp = MP.objects.get(id=id)
         print mp.shortname
-        mp.news = utils.get_news_for_mp(mp)
+        news = utils.get_news_for_mp(mp)
+        mp.news = news
+        print news
         mp.save()
     

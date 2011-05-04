@@ -123,7 +123,7 @@
           {% if object.news %}
           <h4>Notícias recentes <small> via Google Notícias</small></h4>
             <ul>
-              {% for newsobj in news %}
+              {% for newsobj in object.news %}
               <li>{{ newsobj|filter_news_tuple }}</li>
               {% endfor %}
             </ul>
@@ -151,7 +151,7 @@
           <li class="twitter">
             <h4>Últimos tweets</h4>
             <ul>
-              {% for t in tweets %}
+              {% for t in object.tweets %}
               <li><a href="http://{{ l.twitter_url }}/statuses/{{ t.id }}">#</a> {{ t.text }} <small>há {{ t.created_at|filter_timestring|timesince }}</small></li>
               {% endfor %}
             </ul>

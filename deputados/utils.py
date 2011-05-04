@@ -52,12 +52,6 @@ def get_news_for_mp(mp):
             # got enough?
             if len(news) >= 10:
                 break
-    for n in news:
-        index = news.index(n)
-        other_news = list(news)
-        other_news.pop(index)
-        if n in other_news:
-            news.pop(index)
     return news
 
 

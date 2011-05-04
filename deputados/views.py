@@ -68,12 +68,8 @@ def mp_detail(request, object_id):
     queryset = MP.objects.all()
     mp = MP.objects.get(id=object_id)
 
-    news = utils.get_news_for_mp(mp)
-    tweets = utils.get_tweets_for_mp(mp)
-
     return object_detail(request, queryset, object_id,
-            extra_context={'news': news, 'tweets': tweets,
-                })
+            extra_context={ })
 
 def mp_statistics(request, object_id):
     queryset = MP.objects.all()
