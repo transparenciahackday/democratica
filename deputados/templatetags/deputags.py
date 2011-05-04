@@ -15,7 +15,9 @@ def filter_timestring(obj):
 
 @register.filter
 def filter_news_tuple(obj):
-    url, title = obj
+    url = obj['url']
+    title = obj['title']
+    date = obj['date']
     s = title.split(' - ')
     if s[-1] in REGIOES:
         # Caso o título da agência seja algo como "Diário de Notícias - Lisboa", em que tem

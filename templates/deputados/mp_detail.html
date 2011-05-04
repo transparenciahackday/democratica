@@ -118,7 +118,7 @@
           {% endif %}
 
           <li>
-          {% if news %}
+          {% if object.news %}
           <h4>Notícias recentes <small> via Google Notícias</small></h4>
             <ul>
               {% for newsobj in news %}
@@ -145,7 +145,7 @@
             </ul>
           </li>
 
-          {% if tweets %}
+            {% if object.tweets %}
           <li class="twitter">
             <h4>Últimos tweets</h4>
             <ul>

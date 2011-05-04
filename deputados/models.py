@@ -2,9 +2,12 @@
 
 from django.db import models
 from thumbs import ImageWithThumbsField
+import jsonfield
 from democratica.core import text_utils
 
 from south.modelsinspector import add_introspection_rules
+
+
 add_introspection_rules(
     [
         (
@@ -18,11 +21,9 @@ add_introspection_rules(
                 "sizes":        ["sizes",        {"default": None}],
             },
         ),
-                            ],
+    ],
     ["^deputados.thumbs.ImageWithThumbsField",]
     )
-
-
 
 class MPManager(models.Manager):
      def get_query_set(self):
@@ -44,7 +45,11 @@ class MP(models.Model):
     dob = models.DateField('Data de nascimento', blank=True, null=True)
     occupation = models.CharField('Profissão', max_length=300, blank=True)
     photo = ImageWithThumbsField('Fotografia', upload_to='fotos', sizes=((18,25),), null=True)
+
     favourite_word = models.CharField('Palavra preferida', max_length=100, blank=True, null=True)
+    news = jsonfield.JSONField(null=True)
+    tweets = jsonfield.JSONField(null=True)
+
     is_active = models.BooleanField('Activo', default=True)
 
     objects = MPManager()

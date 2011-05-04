@@ -14,7 +14,11 @@ def get_tweets_for_mp(mp):
     username = url.strip('/').split('/')[-1]
     c = twitter.Api()
     try:
-        return [s for s in c.GetUserTimeline(username, count=5)]
+        tweets = []
+        for s in c.GetUserTimeline(username, count=5):
+            tweets.append({ 'id': s.id, 'text': s.text, 
+                           'created_at': s.created_at,})
+        return tweets
     except urllib2.URLError:
         return []
 
@@ -44,8 +48,7 @@ def get_news_for_mp(mp):
                 url = entry.link
                 summary = entry.description
                 title = entry.title
-            item = (url, title)
-            news.append(item)
+            news.append({'title': title, 'url': url, 'date': entry.updated})
             # got enough?
             if len(news) >= 10:
                 break
