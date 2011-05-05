@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from models import Day, Entry
-from deputados.models import Government, Party
+from deputados.models import Government, Party, MP
 from django.views.generic.list_detail import object_list, object_detail
+from django.views.generic.simple import direct_to_template
 from django.utils.safestring import mark_safe
 
 import datetime
@@ -38,9 +39,12 @@ def day_list(request, year=datetime.date.today().year):
     # date_end = dateutil.parser.parse('2011-09-10')
     # days = Day.objects.filter(date__gt=date_start, date__lt=date_end)
 
-    all_days = Day.objects.all()
+    first_day_of_year = datetime.date(year=year, month=1, day=1)
+    last_day_of_year = datetime.date(year=year, month=12, day=31)
+    
+    all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year).values('date', 'id')
     all_dates = all_days.values_list('date', flat=True)
-    all_years = list(set([d.year for d in all_dates]))
+    all_years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
 
     extra['year'] = year
     extra['years'] = all_years
@@ -51,17 +55,32 @@ def day_list(request, year=datetime.date.today().year):
 def day_detail(request, object_id):
     day = Day.objects.get(id=object_id)
     entries = Entry.objects.filter(day=day).order_by('id')
-    govs = Government.objects.filter(date_started__gt=day.date)
-    gov = govs.filter(date_ended__gt=day.date)
-    if gov:
-        gov = gov[0]
+    govs = Government.objects.filter(date_started__lt=day.date, date_ended__gt=day.date)
+    # gov = govs.filter(date_ended__gt=day.date)
+
+    #mps = frozenset([entry.mp for entry in entries])
+    mp_ids = frozenset(entries.values_list('mp', flat=True))
+    mps = list(MP.objects.filter(id__in=mp_ids))
+
+    mp_lookup = {}
+    for mp in mps:
+        if not mp.id:
+            continue
+        #mp = mps.values('shortname', 'current_party', 'current_caucus', 'photo').get(id=mp_id)
+
+        mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'current_party': mp.current_party,
+                            'current_caucus': mp.current_caucus, 'photo': mp.photo}
+
+
+    if govs:
+        gov = govs[0]
     else:
         gov = govs[len(govs)-1] if govs else None
 
-    return object_detail(request, Day.objects.all(), object_id,
-            template_object_name = 'day',
-            extra_context={'entries': entries,
-                           'gov': gov.number if gov else None,
+    return direct_to_template(request, 'dar/day_detail.html',
+        extra_context={'day': day, 'entries': entries,
+                       'gov': gov.number if gov else None,
+                       'mp_lookup': mp_lookup,
                 })
 
 

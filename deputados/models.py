@@ -51,16 +51,20 @@ class MP(models.Model):
     tweets = jsonfield.JSONField(null=True)
 
     is_active = models.BooleanField('Activo', default=True)
+    current_party = models.ForeignKey('Party', verbose_name='Último partido', null=True)
+    current_caucus = models.ForeignKey('Caucus', related_name='current', null=True)
 
     objects = MPManager()
     all_objects = MPAllManager()
 
-    @property
-    def current_caucus(self):
-        return self.caucus_set.all()[0]
-    @property
-    def current_party(self):
-        return self.current_caucus.party
+    def update_current_caucus(self):
+        self.current_caucus = self.caucus_set.all()[0]
+        self.save()
+
+    def update_current_party(self):
+        p = self.current_caucus.party
+        self.current_party = p
+        self.save()
 
     @property
     def has_facts(self):

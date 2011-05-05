@@ -1,6 +1,7 @@
 {% extends 'base_dar.html' %}
 
 {% load deputags %}
+{% load dartags %}
 
 {% block extrabodyclass %}default dar{% endblock %}
 
@@ -33,8 +34,8 @@
       <div class="entry" id="{{ entry.id }}">
           
             {{ entry.type }}
-            {% if entry.mp %}
-              {% with entry.mp as mp %}
+            {% if entry.type == 'mp' and not entry.speaker %}
+              {% with mp_lookup|lookup:entry.mp_id as mp %}
               
               <div class="left">
               {# FIXME: usar o thumbnail #}
@@ -43,7 +44,7 @@
 
                 <h3><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
 
-                {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %}
+                {# {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %} #}
 
                 <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
                 <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>

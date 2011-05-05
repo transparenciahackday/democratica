@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from democratica.deputados.models import MP, LinkSet, Session, Party, Constituency
-from democratica.deputados import utils
+from democratica.deputados.models import MP, Session, Party, Constituency
 
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
@@ -16,22 +15,16 @@ def mp_list(request):
     constituency_id = request.GET.get('constituency', 'all')
 
     if not session_number == 'all':
-        queryset = MP.objects.filter(caucus__session__number=int(session_number)).distinct()
+        queryset = MP.objects.select_related().filter(caucus__session__number=int(session_number)).distinct()
     else:
-        queryset = MP.objects.all()
+        queryset = MP.objects.select_related().all()
 
     if not party == 'all':
         queryset = queryset.filter(caucus__party__abbrev=party)
     if not constituency_id == 'all':
         queryset = queryset.filter(caucus__constituency__id=int(constituency_id))
 
-    queryset = queryset.distinct()
-
-    # queryset = queryset[1:60]
-
-    # q1 = queryset.filter(has_mps=True)
-    # q2 = queryset.filter(has_mps=False)
-    # queryset = q1 | q2
+    queryset = queryset.distinct().values('id', 'shortname', 'current_party')
 
     # divide list into 3, so that we can lay them out properly
     # inside the template
@@ -51,10 +44,10 @@ def mp_list(request):
     extra = {}
     extra['querysets'] = [queryset_1, queryset_2, queryset_3]
 
-    extra['sessions'] = Session.objects.order_by('-number')
+    extra['sessions'] = Session.objects.order_by('-number').values('id', 'number')
     extra['session'] = int(session_number) if session_number != 'all' else 'all'
 
-    extra['parties'] = Party.objects.filter(has_mps=True)
+    extra['parties'] = Party.objects.filter(has_mps=True).values('id', 'abbrev')
     extra['party'] = party
 
     extra['constituency'] = int(constituency_id) if constituency_id != 'all' else 'all'
@@ -65,23 +58,16 @@ def mp_list(request):
                        ) 
 
 def mp_detail(request, object_id):
-    queryset = MP.objects.all()
-    mp = MP.objects.get(id=object_id)
+    queryset = MP.objects.select_related().all()
 
-    return object_detail(request, queryset, object_id,
-            extra_context={ })
+    return object_detail(request, queryset, object_id)
 
 def mp_statistics(request, object_id):
     queryset = MP.objects.all()
     mp = MP.objects.get(id=object_id)
 
-    news = utils.get_news_for_mp(mp)
-    tweets = utils.get_tweets_for_mp(mp)
-
     return object_detail(request, queryset, object_id,
-            template_name="deputados/mp_detail_statistics.html",
-            extra_context={'news': news, 'tweets': tweets,
-                })
+            template_name="deputados/mp_detail_statistics.html", )
 
 def mp_search(request, query=''):
     if not query:

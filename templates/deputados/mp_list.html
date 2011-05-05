@@ -1,6 +1,6 @@
 {% extends "base_mp.html" %}
 
-{% block title %}{{ Deputados }} :: Demo.cratica.org{% endblock %}
+{% block title %} Deputados :: Demo.cratica.org{% endblock %}
 
 {% block extrascripts %}
 <!-- este script é da pesquisa rápida na lista de deputados, para já só é usado nesta página -->
@@ -68,7 +68,7 @@
           {% endif %}
           {% endcomment %}
           <span class="name">{{ mp.shortname }}</span>
-          <span class="party {{mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</span>
+          <span class="party {{ mp.current_party|lower }}">{{ mp.current_party }}</span>
         </a></li>
       {% endfor %}
     </ul>

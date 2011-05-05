@@ -24,7 +24,6 @@ MESES = [
 
 @register.filter
 def months_for_year(year):
-    # yes, this function is a bit derp
     from datetime import date
     if int(year) == date.today().year:
         month = date.today().month
