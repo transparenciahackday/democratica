@@ -28,6 +28,8 @@ def get_news_for_mp(mp):
     # we have more  than 1 query in case the first one doesn't hit anything
     # so the first one is very specific, and from there we broaden the scope till
     # we get something.
+    if not mp:
+        return
     queries = ['"%s" "%s"' % (mp.shortname, mp.current_party.name),
                '"%s" %s' % (mp.shortname, mp.current_party.abbrev), 
                '"%s"' % (mp.shortname), 
