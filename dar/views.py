@@ -39,6 +39,7 @@ def day_list(request, year=datetime.date.today().year):
     # date_end = dateutil.parser.parse('2011-09-10')
     # days = Day.objects.filter(date__gt=date_start, date__lt=date_end)
 
+    year = int(year)
     first_day_of_year = datetime.date(year=year, month=1, day=1)
     last_day_of_year = datetime.date(year=year, month=12, day=31)
     

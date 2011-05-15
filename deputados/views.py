@@ -24,7 +24,8 @@ def mp_list(request):
     if not constituency_id == 'all':
         queryset = queryset.filter(caucus__constituency__id=int(constituency_id))
 
-    queryset = queryset.distinct().values('id', 'shortname', 'current_party')
+    # queryset = queryset.distinct().values('id', 'shortname', 'current_party')
+    queryset = queryset.distinct()
 
     # divide list into 3, so that we can lay them out properly
     # inside the template
@@ -44,10 +45,12 @@ def mp_list(request):
     extra = {}
     extra['querysets'] = [queryset_1, queryset_2, queryset_3]
 
-    extra['sessions'] = Session.objects.order_by('-number').values('id', 'number')
+    # extra['sessions'] = Session.objects.order_by('-number').values('id', 'number')
+    extra['sessions'] = Session.objects.order_by('-number')
     extra['session'] = int(session_number) if session_number != 'all' else 'all'
 
-    extra['parties'] = Party.objects.filter(has_mps=True).values('id', 'abbrev')
+    # extra['parties'] = Party.objects.filter(has_mps=True).values('id', 'abbrev')
+    extra['parties'] = Party.objects.filter(has_mps=True)
     extra['party'] = party
 
     extra['constituency'] = int(constituency_id) if constituency_id != 'all' else 'all'
