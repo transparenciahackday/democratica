@@ -39,6 +39,7 @@ def day_list(request, year=datetime.date.today().year):
     # date_end = dateutil.parser.parse('2011-09-10')
     # days = Day.objects.filter(date__gt=date_start, date__lt=date_end)
 
+    year = int(year)
     first_day_of_year = datetime.date(year=year, month=1, day=1)
     last_day_of_year = datetime.date(year=year, month=12, day=31)
     
@@ -69,7 +70,7 @@ def day_detail(request, object_id):
         #mp = mps.values('shortname', 'current_party', 'current_caucus', 'photo').get(id=mp_id)
 
         mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'current_party': mp.current_party,
-                            'current_caucus': mp.current_caucus, 'photo': mp.photo}
+                'current_caucus': mp.current_caucus, 'photo': mp.photo, 'id': mp.id}
 
 
     if govs:
