@@ -5,6 +5,7 @@
     <title>{% block title %}Demo.cratica{% endblock %}</title>
 
     <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
+    <link rel="stylesheet" href="/media/js/sexy-tooltips/sexy-tooltips.v1.1.jquery.min.js" type="text/css" />
     <link rel="stylesheet" href="/media/css/style.css" type="text/css" />
     <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
   
@@ -14,12 +15,15 @@
     <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
     <script type="text/javascript" src="/media/js/uniform/jquery.uniform.js"></script>
     <script type="text/javascript" src="/media/js/jquery.clear-on-focus.js"></script>
+    <script type="text/javascript" src="/media/js/sexy-tooltips/sexy-tooltips.v1.1.jquery.min.js"></script>
     {% block extrascripts %}{% endblock %}
     
     <script type="text/javascript">
       $(document).ready(function(){  
         $(".searchbox").search();
         $("input, textarea, select, button").uniform();
+        /*
+        $("input, textarea, select, button").not(".search-btn").uniform();*/
 	    });
     </script>
   </head>
@@ -37,7 +41,7 @@
         <li id="search">
             <div>
               <form action="/pesquisa/" method="get">
-              <input class="searchbox" name="q" value="Pesquisa..." /><input type="button" class="search-btn" value="Ir" />
+                <input class="searchbox" type="text" name="q" value="Pesquisa..." /><input type="button" type="submit" class="search-btn" value="Ir" />
             </form></div>
 	      </li>
       </ul>

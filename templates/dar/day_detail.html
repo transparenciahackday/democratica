@@ -5,6 +5,41 @@
 
 {% block extrabodyclass %}default dar{% endblock %}
 
+{% block extrascripts %}
+    <script type="text/javascript">
+      $(document).ready(function(){  
+        $(".entry").hover(function(){
+          $(this).toggleClass("active");
+        });
+      });
+    </script>
+
+{% comment %}    
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('li.entry-link').one('click', openMenu);
+        function openMenu(e) {
+          var button = $(this).addClass('active');
+          var menu = $('#popup-' + button.attr('id'));
+          menu.addClass('open').click(function(e) {
+          e.stopPropagation(); }).show(200, function() {
+              $(document).one('click', {button: button, menu: menu}, closeMenu);
+            });
+          }
+
+        function closeMenu(e) {
+          e.data.menu.removeClass('open').hide(100, function() {
+            e.data.button.removeClass('active')
+          });
+          e.data.button.one('click', openMenu);
+        }
+
+      });
+  </script>
+{% endcomment %}
+
+{% endblock %}
+
 {% block content %}
     <div id="content-box">
       
@@ -64,7 +99,21 @@
             {% endif %}
         
           <div class="right">
+          
+            {% comment %}
+            <ul class="popup" id="popup-button-{{ entry.id }}">
+              <li><p>Link directo <a href="#">http://loremipsumlink/loremipsumlink/loremlink/200000</a></p></li>
+            </ul>
+            {% endcomment %}  
             {{ entry.text_as_html }}
+            
+            <ul class="social">
+              <li class="entry-link" id="button-{{ entry.id }}" title="Link directo">Link directo</li>
+              <li><a href="#" class="facebook" title="Partilhar no Facebook">Facebook</a></li>
+               <li><a href="#" class="twitter" title="Partilhar no Twitter">Twitter</a></li>
+              <li><a href="#" class="identica" title="Partilhar no Identi.ca">Twitter</a></li>
+            </ul>
+            
           </div>
         </div>
       {% else %}

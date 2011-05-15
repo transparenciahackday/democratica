@@ -196,8 +196,6 @@ z-index: 50;
 background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
 width: 910px;
 padding: 20px;
-
-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -moz-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -o-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
@@ -1021,6 +1019,82 @@ margin-top: 0;
     color: #777;
     font-size: 75%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.entry .right .social {
+position: absolute;
+top: 5px;
+right: 0;
+display: none;
+}
+
+.active .right .social {
+display: block;
+}
+
+.entry .right .social li {
+list-style-type: none;
+display: inline;
+}
+
+.entry .right .social li > a {
+display: inline-block;
+text-decoration: none;
+width: 16px;
+height: 0;
+padding: 18px 2px 2px 2px;
+overflow: hidden;
+background: #b7bec8 url(../img/icons/social-buttons.png) no-repeat 0 2px;
+
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+  
+  .entry .right .social a.twitter {
+  background-position: 4px 2px;
+  }
+
+  .entry .right .social a.facebook {
+  background-position: 8px -33px;
+  }
+  
+  .entry .right .social a.identica {
+  background-position: 4px -105px;
+  }
+
+.entry .right .social a:focus,
+.entry .right .social a:hover,
+.entry .right .social li.entry-link:hover {
+background-color: #6f7c91;
+}
+
+.entry .right .social .entry-link {
+display: inline-block;
+width: 16px;
+height: 0;
+padding: 18px 2px 2px 2px;
+overflow: hidden;
+background: #b7bec8 url(../img/icons/social-buttons.png) no-repeat 2px -70px;
+
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+
+.entry .right .entry-link .popup {
+display: none;
+visibility: hidden;
+background: red;
+
+position: absolute;
+top: 25px;
+left: -10px;
+z-index: 50000;
+}
+
+.entry .right .entry-link .open {
+visibility: visible !important;
 }
 
 /* ------------------------ DAR statistics
