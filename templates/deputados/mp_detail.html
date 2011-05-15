@@ -10,7 +10,7 @@
     
       <ul id="mp-tabs" class="tabs">
         <li><span>Geral</span></li>
-        <li><a href="stats" title="">Estatísticas</a></li>
+        {# <li><a href="stats" title="">Estatísticas</a></li> #}
       </ul>
       
       <div id="mp-header">
@@ -21,7 +21,7 @@
         {% endif %}
         <h2>
           {{ object.shortname }}
-          <small> <img src="/media/img/parties/cds-pp.png" alt="{{ object.current_party }}" /></small>
+          <small> {% ifnotequal object.current_party.abbrev 'PCP' %}<img src="/media/img/parties/{{ object.current_party.abbrev|lower }}.png" alt="{{ object.current_party.abbrev }}" />{% endifnotequal %}</small>
         </h2> <!-- nome abreviado -->
       </div>
       
@@ -32,7 +32,7 @@
             <h4>Dados</h4>
             <ul>
               <li class="single-field"><h5>Nome completo:</h5> <p>{{ object.name }}</p></li>
-              <li class="single-field"><h5>Partido actual:</h5> <p>{{ object.current_party.name }}</p></li>
+              <li class="single-field"><h5>Partido actual:</h5> <p>{{ object.current_party.abbrev }}</p></li>
               {% if object.dob %}
                 <li class="single-field"><h5>Data de nascimento:</h5> <p>{{ object.dob }}</p></li>
               {% endif %}
@@ -79,7 +79,7 @@
               {% for caucus in object.caucus_set.all %}
               <li>
               Deputad{{ object.article }} na <a href="/deputados/?session={{ caucus.session.number }}" title="Ver deputados da {{ caucus.session }} Legislatura">{{ caucus.session }} Legislatura</a> 
-              pelo <a href="/deputados/?session={{ caucus.session.number }}&party={{ caucus.party.abbrev }}" title="Ver deputados eleitos pelo {{ caucus.party.abbrev }} na {{ caucus.session }} Legislatura">{{ caucus.party.name }}</a> 
+              pelo <a href="/deputados/?session={{ caucus.session.number }}&party={{ caucus.party.abbrev }}" title="Ver deputados eleitos pelo {{ caucus.party.abbrev }} na {{ caucus.session }} Legislatura">{{ caucus.party.abbrev }}</a> 
               no círculo d{{ caucus.constituency.article }} <a href="/deputados/?session={{ caucus.session.number }}&constituency={{ caucus.constituency.id }}" title="Ver deputados eleitos pelo círculo d{{ caucus.constituency.article }} {{ caucus.constituency }} na {{ caucus.session }} Legislatura">{{ caucus.constituency }}</a>.
               </li>
               {% endfor %}

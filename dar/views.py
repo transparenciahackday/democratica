@@ -70,7 +70,7 @@ def day_detail(request, object_id):
         #mp = mps.values('shortname', 'current_party', 'current_caucus', 'photo').get(id=mp_id)
 
         mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'current_party': mp.current_party,
-                            'current_caucus': mp.current_caucus, 'photo': mp.photo}
+                'current_caucus': mp.current_caucus, 'photo': mp.photo, 'id': mp.id}
 
 
     if govs:
