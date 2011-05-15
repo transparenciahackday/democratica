@@ -21,7 +21,7 @@
         {% endif %}
         <h2>
           {{ object.shortname }}
-          <small> {% ifnotequal object.current_party.abbrev 'PCP' %}<img src="/media/img/parties/{{ object.current_party.abbrev|lower }}.png" alt="{{ object.current_party.abbrev }}" />{% endifnotequal %}</small>
+          <small> <img src="/media/img/parties/{{ object.current_party.abbrev|lower }}.png" alt="{{ object.current_party.abbrev }}" /></small>
         </h2> <!-- nome abreviado -->
       </div>
       
