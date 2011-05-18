@@ -35,7 +35,7 @@
         <li><a href="/deputados/">Deputados</a></li>
         <li><a href="/dar/">Sessões</a></li>
         <li><a href="/about/">Acerca</a></li>
-        <li><a href="">Contacto</a></li>
+        {# <li><a href="">Contacto</a></li> #}
         <li id="search">
               <form method="get" action="/pesquisa/">
                 <input class="searchbox" type="text" name="q" value="Pesquisa..." placeholder="Pesquisa..." /><input type="submit" class="search-btn" value="Ir" />
@@ -50,6 +50,7 @@
   </div> <!-- /#content -->
   
   <div id="footer">
+  {% comment %}
     <div id="footer-box"> 
       <ul id="navigation">
         <li><a href="/about">Acerca</a></li>
@@ -59,6 +60,7 @@
         <li><a href="">Glossário</a></li>
       </ul>
     </div> <!-- /#footer-box -->
+  {% endcomment %}
   </div> <!-- /#footer -->
   
   <!-- Google Analytics -->
