@@ -274,15 +274,15 @@ background: transparent;
 color: #fff;
 }
 
-#content-box a,
+.static #content-box a,
 #more-box a {
 color: #535d6c;
 text-decoration: none;
 border-bottom: 1px solid #939dac;
 }
 
-#content-box a:hover,
-#content-box a:focus,
+.static #content-box a:hover,
+.static #content-box a:focus,
 #more-box a:hover,
 #more-box a:focus {
 color: #192230;
