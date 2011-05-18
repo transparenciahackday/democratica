@@ -8,13 +8,11 @@
     <div id="content-box">
       <h2>Sessões parlamentares em {{ year }}</h2>
       
-      <div class="year-nav">
-        <ul>
-        {% for y in years %}
-        <li><a {% ifequal y year %}class="selected"{%endifequal%}href="{% url calendar_year y %}">{{ y }}</a></li>
-        {% endfor %}
-        </ul>
-      </div>
+      <ul class="year-nav">
+      {% for y in years %}
+      <li><a {% ifequal y year %}class="selected"{%endifequal%}href="{% url calendar_year y %}">{{ y }}</a></li>
+      {% endfor %}
+      </ul>
     		
 		  <div id="calendar">
 		

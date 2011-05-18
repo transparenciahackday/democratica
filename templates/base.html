@@ -38,7 +38,7 @@
         {# <li><a href="">Contacto</a></li> #}
         <li id="search">
               <form method="get" action="/pesquisa/">
-                <input class="searchbox" type="text" name="q" value="Pesquisa..." placeholder="Pesquisa..." /><input type="submit" class="search-btn" value="Ir" />
+                <input class="searchbox" type="text" name="q" value="Pesquisa..." /><input type="submit" class="search-btn" value="Ir" />
             </form>
 	      </li>
       </ul>
@@ -48,9 +48,9 @@
   <div id="content">
     {% block contentdiv %}{% endblock %}
   </div> <!-- /#content -->
-  
+
+  {% comment %}  
   <div id="footer">
-  {% comment %}
     <div id="footer-box"> 
       <ul id="navigation">
         <li><a href="/about">Acerca</a></li>
@@ -60,8 +60,8 @@
         <li><a href="">Glossário</a></li>
       </ul>
     </div> <!-- /#footer-box -->
-  {% endcomment %}
   </div> <!-- /#footer -->
+  {% endcomment %}
   
   <!-- Google Analytics -->
   <script type="text/javascript">

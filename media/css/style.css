@@ -4,43 +4,53 @@ padding: 0;
 }
 
 @font-face {
-font-family: "Junction";
-src: local("Junction"), url("../fonts/Junction.otf") format("opentype");
+font-family: 'Junction';
+src: local('Junction'), url('../fonts/Junction.otf') format('opentype');
 }
 
 @font-face {
-font-family: "Lato-light";
-src: local("Lato-light"), url("../fonts/lato/Lato-Light.ttf") format("truetype");
+font-family: 'Lato-light';
+src: local('Lato-light'), url('../fonts/lato/Lato-Light.ttf') format('truetype');
 }
 
 @font-face {
-font-family: "Lato-regular";
-src: local("Lato-regular"), url("../fonts/lato/Lato-Regular.ttf") format("truetype");
+font-family: 'Lato-regular';
+src: local('Lato-regular'), url('../fonts/lato/Lato-Regular.ttf') format('truetype');
 }
 
 @font-face {
-font-family: "League";
-src: local("League"), url("../fonts/League-Gothic.otf") format("opentype");
+font-family: 'Lato-bold';
+src: local('Lato-bold'), url('../fonts/lato/Lato-Bold.ttf') format('truetype');
 }
 
 @font-face {
-font-family: "Lekton-regular";
-src: local("Lekton-regular"), url("../fonts/lekton/Lekton-Regular.ttf") format("truetype");
+font-family: 'Lato-black';
+src: local('Lato-black'), url('../fonts/lato/Lato-Black.ttf') format('truetype');
 }
 
 @font-face {
-font-family: "Merriweather";
-src: local("Merriweather"), url("../fonts/Merriweather.ttf") format("truetype");
+font-family: 'League';
+src: local('League'), url('../fonts/League-Gothic.otf') format('opentype');
 }
 
 @font-face {
-font-family: "Titillium";
-src: local("Titillium"), url("../fonts/titillium/TitilliumText1.otf") format("opentype");
+font-family: 'Lekton-regular';
+src: local('Lekton-regular'), url('../fonts/lekton/Lekton-Regular.ttf') format('truetype');
 }
 
 @font-face {
-font-family: "Vollkorn-italic";
-src: local("Vollkorn-italic"), url("../fonts/vollkorn/Vollkorn-Italic.ttf") format("truetype");
+font-family: 'Merriweather';
+src: local('Merriweather'), url('../fonts/Merriweather.ttf') format('truetype');
+}
+
+@font-face {
+font-family: 'Titillium';
+src: local('Titillium'), url('../fonts/titillium/TitilliumText1.otf') format('opentype');
+}
+
+@font-face {
+font-family: 'Vollkorn-italic';
+src: local('Vollkorn-italic'), url('../fonts/vollkorn/Vollkorn-Italic.ttf') format('truetype');
 }
 
 
@@ -56,7 +66,7 @@ background: #373e48 url(../img/backgrounds/bg-texture-blue.png) repeat 0 0;
 body {
 height: 100%;
 font-size: 70%;
-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 line-height: 1.6em;
 color: #333;
 }
@@ -106,6 +116,8 @@ font-size: 100%
 
 #menu {
 background: #373e48;
+min-width: 950px;
+padding: 0 20px;
 }
 
 #menu-box {
@@ -114,14 +126,17 @@ padding: 0;
 
 #menu-box ul {
 overflow: auto;
+font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 #menu-box li {
 list-style-type: none;
+display: block;
+float: left;
 }
 
 #menu-box li a {
-color: #fff;
+color: #ededee;
 text-decoration: none;
 font-size: 100%;
 display: block;
@@ -129,7 +144,12 @@ float: left;
 padding: 8px 4px;
 margin: 0 2px 0;
 text-transform: uppercase;
-text-shadow: 1px 1px 0px #151e2b;
+text-shadow: 1px 1px 2px #151e2b;
+}
+
+#menu-box li a:hover,
+#menu-box li a:focus {
+color: #939dac;
 }
 
 #menu-box li#homepage a {
@@ -139,6 +159,7 @@ width: 118px;
 height: 0;
 overflow: hidden;
 display: block;
+float: left;
 }
 
 #menu-box li#homepage a:hover,
@@ -158,18 +179,18 @@ border-radius: 4px;
 }
 
 #menu-box li#search form .searchbox {
-background: #535d6c;
+background: #b7bec8;
 float: left;
 border: 0;
+color: #373e48;
+
+-webkit-border-top-right-radius: 0px;
+-webkit-border-bottom-right-radius: 0px;
+-moz-border-radius-topright: 0px;
+-moz-border-radius-bottomright: 0px;
+border-top-right-radius: 0px;
+border-bottom-right-radius: 0px;
 }
-
-  #menu-box li#search form *.placeholder {
-  color: #192230;
-  }
-
-  #menu-box li#search form input::-webkit-input-placeholder {
-  color: #192230;
-  }
 
 #menu-box li#search form .search-btn {
 background: #192230 url(../img/icons/search.png) no-repeat center 4px;
@@ -180,12 +201,12 @@ float: left;
 padding: 20px 0px 3px;
 border: 0;
 
--webkit-border-top-right-radius: 4px;
--webkit-border-bottom-right-radius: 4px;
--moz-border-radius-topright: 4px;
--moz-border-radius-bottomright: 4px;
-border-top-right-radius: 4px;
-border-bottom-right-radius: 4px;
+-webkit-border-top-right-radius: 3px;
+-webkit-border-bottom-right-radius: 3px;
+-moz-border-radius-topright: 3px;
+-moz-border-radius-bottomright: 3px;
+border-top-right-radius: 3px;
+border-bottom-right-radius: 3px;
 }
 
 /* ------------------------ content
@@ -194,6 +215,8 @@ border-bottom-right-radius: 4px;
 #content {
 background: transparent url(../img/backgrounds/menu-shadow.png) repeat-x 0 0;
 padding-top: 38px;
+min-width: 950px;
+padding: 0 20px;
 }
 
   .home #content,
@@ -205,7 +228,7 @@ padding-top: 38px;
 margin: 0 0 10px;
 
 color: #6f7c91;
-font-family: "Lato-light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-family: 'Lato-light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-weight: normal;
 font-size: 24px;
 }
@@ -302,9 +325,11 @@ min-height: 610px;
 background-color: transparent;
 background-image: none;
 width: 720px;
+min-width: 720px;
 min-height: 100%;
 position: relative;
 margin: 0 auto;
+padding: 20px 0 0;
 }
 
 #page #header {
@@ -318,15 +343,11 @@ width: 710px;
 #page #header h1 {
 font-size: 100%;
 line-height: 1;
-margin: 0 0 15px;
-}
-
-#page #header h1 a {
 display: block;
 width: 384px;
 height: 0;
 padding: 278px 0 0;
-margin: 0 auto;
+margin: 0 auto 15px;
 background: transparent url(../img/democratica-big.png) no-repeat 0 center;
 overflow: hidden;
 }
@@ -381,8 +402,11 @@ font-size: 115%;
 
 #about {
 text-align: center;
+/* height with navigation menu
 height: 100px;
-margin: -130px auto 0;
+margin: -130px auto 0;*/
+height: 60px;
+margin: -90px auto 0;
 min-width: 715px;
 clear: both;
 position: relative;
@@ -413,13 +437,12 @@ font-size: 16px;
 line-height: 1;
 margin: 0;
 padding: 0;
-font-family: "Lato-light","Helvetica Neue",Helvetica,Arial,sans-serif;
+font-family: 'Lato-light','Helvetica Neue',Helvetica,Arial,sans-serif;
 font-weight: normal;
 text-transform: uppercase;
 }
 
 #more-info {
-/*display: none;*/
 }
 
 #more-info.expanded {
@@ -440,7 +463,7 @@ padding: 0 0 5px;
 line-height: 1;
 text-transform: uppercase;
 font-weight: normal;
-font-family: 'Lato-regular', Helvetica Neue, Helvetica, Arial, sans-serif;
+font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-size: 120%;
 border-bottom: 1px solid #b7bec8;
 color: #939dac;
@@ -515,6 +538,87 @@ border-radius: 5px;
 -o-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 }
+
+/* ------------------------ browser update page
+--------------------------------*/
+
+#error #header h1 {
+background: transparent url(../img/democratica-error.png) no-repeat 0 center;
+}
+
+#header div.box {
+padding: 30px 20px 20px;
+margin: 0 20px 0 0;
+background: #dbdee3 url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
+color: #535d6c;
+display: block;
+text-align: left;
+overflow: auto;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+box-shadow: 2px 2px 3px rgba(55,62,72,.8);
+-moz-box-shadow: 2px 2px 3px rgba(55,62,72,.8);
+-webkit-box-shadow: 2px 2px 3px rgba(55,62,72,.8);
+}
+
+#header div.box h2 {
+color: #535d6c;
+text-shadow: 1px 1px 0px #dbdee3;
+text-align: center;
+}
+
+#header div.box p {
+font-family: 'Merriweather', Georgia, Times, serif;
+margin: 0 0 10px;
+}
+
+  #header div.box p.first {
+  border-top: 1px solid #939dac;
+  padding-top: 10px;
+  }
+  
+  #header div.box p.page-502 {
+  text-align: center;
+  border-top: 1px solid #939dac;
+  padding-top: 10px;
+  }
+
+#header div.box a {
+color: #535d6c;
+text-decoration: none;
+border-bottom: 1px solid #939dac;
+}
+
+#header div.box a:hover,
+#header div.box a:focus {
+color: #373e48;
+border-color: #6f7c91;
+}
+
+#header div.box .goto-website {
+text-align: center;
+border-top: 1px solid #939dac;
+padding: 10px 0 0;
+margin: 0;
+}
+
+#header div.box .goto-website a {
+display: inline-block;
+text-decoration: none;
+background: #fff;
+padding: 4px 8px;
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-size: 11px;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+box-shadow: 1px 1px 2px rgba(55,62,72,.4);
+-moz-box-shadow: 1px 1px 2px rgba(55,62,72,.4);
+-webkit-box-shadow: 1px 1px 2px rgba(55,62,72,.4);
+}
+
+
 
 /* ------------------------ mp-list
 --------------------------------*/
@@ -663,7 +767,7 @@ padding: 0 0 5px;
 line-height: 1;
 text-transform: uppercase;
 font-weight: normal;
-font-family: 'Lato-regular', Helvetica Neue, Helvetica, Arial, sans-serif;
+font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-size: 120%;
 border-bottom: 1px solid #b7bec8;
 color: #939dac;
@@ -695,7 +799,7 @@ padding: 20px;
 background-color: #fff;
 font-size: 26px;
 text-align: center;
-font-family: georgia, "Merriweather", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-family: 'Merriweather', Georgia, Times, serif;
 letter-spacing: 1px;
 font-style: italic;
 }
@@ -1061,7 +1165,7 @@ border: 0;
   .laughs .right strong,
   .protests .right strong,
   .punchline .right strong {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 85%;
   color: #555;
   }
@@ -1077,7 +1181,7 @@ margin-top: 0;
 .entry .right p.mini {
     color: #777;
     font-size: 75%;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .entry .right .social {
@@ -1191,7 +1295,7 @@ min-height: 250px;
 #content-box .col h3 {
 text-transform: uppercase;
 font-weight: normal;
-font-family: 'Lato-regular', Helvetica Neue, Helvetica, Arial, sans-serif;
+font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-size: 120%;
 border-bottom: 1px solid #b7bec8;
 color: #939dac;
@@ -1207,8 +1311,11 @@ margin: 0 0 10px;
 
 #content-box .year-nav {
 background-color: #373e48;
-margin: 0 0 20px;
+padding: 0;
 text-align: center;
+border-bottom: 1px solid #535d6c;
+border-top: 1px solid #535d6c;
+font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 #content-box .year-nav li {
@@ -1218,13 +1325,15 @@ display: inline;
 
 #content-box .year-nav a {
 display: inline-block;
-padding: 20px 10px;
+padding: 10px;
 text-decoration: none;
 color: #b7bec8;
 }
 
 #content-box .year-nav a.selected {
 background: #535d6c;
+color: #fff;
+font-family: 'Lato-black', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 #content-box .year-nav a:focus,
@@ -1239,14 +1348,18 @@ display: inline;
 
 .no-background #content-box > h2:first-child {
 text-align: center;
-border-bottom: 1px solid #939dac;
 padding-bottom: 10px;
-margin-bottom: 0;
+margin: 0 0 15px;
+}
+
+#calendar {
+background-color: #373e48;
+padding: 10px 20px;
 }
 
 #calendar .month {
 overflow: auto;
-margin: 10px 0 0;
+margin: 3px 0 0;
 }
 
 #calendar .month h4 {
@@ -1255,8 +1368,9 @@ float: left;
 padding: 5px 0;
 min-width: 40px;
 margin: 0 5px 0 0;
-font-size: 13px;
-font-weight: bold;
+font-size: 100%;
+font-family: 'Lato-bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-weight: normal;
 }
 
 #calendar .month abbr {
@@ -1278,7 +1392,7 @@ display: inline;
 #calendar ol span {
 display: inline-block;
 min-width: 20px;
-padding: 5px 2px;
+padding: 3px 1px;
 text-align: center;
 text-decoration: none;
 color: #3f4958;
@@ -1294,7 +1408,6 @@ font-weight: bold;
   
   #calendar ol .empty {
   background: transparent;
-  color: transparent;
   }
   
   #calendar ol a.session-yes {
@@ -1309,12 +1422,19 @@ font-weight: bold;
   #calendar ol .weekend {
   background-color: #535d6c;
   }
+  
+  #calendar ol li:first-child .weekend {
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  }
 
 #calendar ol a:hover,
 #calendar ol a:focus {
 background-color: #fff;
-border: 2px solid #939dac;
-padding: 3px 0;
 }
 
 /* ------------------------ pesquisa DAR
@@ -1382,7 +1502,7 @@ border-top: 0;
 display: inline-block;
 padding: 0 0 0px;
 margin: 12px 0 3px;
-font-family: "Merriweather", Georgia, Times, serif;
+font-family: 'Merriweather', Georgia, Times, serif;
 font-size: 130%;
 font-weight: normal;
 line-height: 1.2;
