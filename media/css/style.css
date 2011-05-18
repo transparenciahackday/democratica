@@ -149,10 +149,43 @@ opacity: .8;
 #menu-box li#search {
 position: absolute;
 right: 0;
+top: 6px;
+border: 1px solid #192230;
+
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
 }
 
 #menu-box li#search form .searchbox {
-background-color: #fff;
+background: #535d6c;
+float: left;
+border: 0;
+}
+
+  #menu-box li#search form *.placeholder {
+  color: #192230;
+  }
+
+  #menu-box li#search form input::-webkit-input-placeholder {
+  color: #192230;
+  }
+
+#menu-box li#search form .search-btn {
+background: #192230 url(../img/icons/search.png) no-repeat center 4px;
+width: 21px;
+height: 0;
+display: block;
+float: left;
+padding: 20px 0px 3px;
+border: 0;
+
+-webkit-border-top-right-radius: 4px;
+-webkit-border-bottom-right-radius: 4px;
+-moz-border-radius-topright: 4px;
+-moz-border-radius-bottomright: 4px;
+border-top-right-radius: 4px;
+border-bottom-right-radius: 4px;
 }
 
 /* ------------------------ content
@@ -268,7 +301,7 @@ min-height: 610px;
 #page #content {
 background-color: transparent;
 background-image: none;
-width: 715px;
+width: 720px;
 min-height: 100%;
 position: relative;
 margin: 0 auto;
@@ -278,10 +311,8 @@ margin: 0 auto;
 text-align: center;
 color: #fff;
 background-color: transparent;
-padding: 15px 0 0;
-box-shadow: 0 0 0 transparent;
--moz-box-shadow: 0 0 0 transparent;
--webkit-box-shadow: 0 0 0 transparent;
+padding: 0 2px 0 8px;
+width: 710px;
 }
 
 #page #header h1 {
@@ -294,7 +325,7 @@ margin: 0 0 15px;
 display: block;
 width: 384px;
 height: 0;
-padding: 272px 0 0;
+padding: 278px 0 0;
 margin: 0 auto;
 background: transparent url(../img/democratica-big.png) no-repeat 0 center;
 overflow: hidden;
@@ -306,15 +337,15 @@ font-size: 110%;
 
 #content #main {
 clear: both;
-overflow: visible;
-margin: 20px auto;
-padding: 0;
+overflow: auto;
+margin: 15px auto;
+padding: 0 5px 5px;
 }
 
 #content #main a.box {
 padding: 30px 20px 20px;
 margin: 0 20px 0 0;
-width: 298px;
+width: 305px;
 float: left;
 background: #dbdee3 url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
 text-decoration: none;
@@ -351,7 +382,7 @@ font-size: 115%;
 #about {
 text-align: center;
 height: 100px;
-margin: -100px auto 0;
+margin: -130px auto 0;
 min-width: 715px;
 clear: both;
 position: relative;
@@ -396,9 +427,9 @@ display: block;
 }
 
 #more-box {
-width: 715px;
+width: 720px;
 margin: 0 auto 30px;
-padding: 20px 0;
+padding: 30px 0;
 overflow: auto;
 background: #DBDEE3;
 }
@@ -410,6 +441,10 @@ margin: 20px 0 5px;
   #more-box .col h4:first-child {
   margin: 0px 0 5px;
   }
+
+#more-box p {
+margin: 0 0 10px;
+}
 
 #more-box ul {
 margin: 5px 0 10px 15px;
@@ -423,7 +458,7 @@ margin: 0 0 2px 5px;
 #more-box .col {
 width: 300px;
 float: left;
-padding: 0 20px;
+padding: 0 25px;
 margin: 0 0 0 15px;
 }
   

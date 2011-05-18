@@ -21,9 +21,7 @@
     <script type="text/javascript">
       $(document).ready(function(){  
         $(".searchbox").search();
-        $("input, textarea, select, button").uniform();
-        /*
-        $("input, textarea, select, button").not(".search-btn").uniform();*/
+        $("input, textarea, select, button").not(".search-btn").uniform();
 	    });
     </script>
   </head>
@@ -39,10 +37,9 @@
         <li><a href="/about/">Acerca</a></li>
         <li><a href="">Contacto</a></li>
         <li id="search">
-            <div>
-              <form action="/pesquisa/" method="get">
-                <input class="searchbox" type="text" name="q" value="Pesquisa..." /><input type="button" type="submit" class="search-btn" value="Ir" />
-            </form></div>
+              <form method="get" action="/pesquisa/">
+                <input class="searchbox" type="text" name="q" value="Pesquisa..." placeholder="Pesquisa..." /><input type="submit" class="search-btn" value="Ir" />
+            </form>
 	      </li>
       </ul>
     </div> <!-- /#menu-box -->
