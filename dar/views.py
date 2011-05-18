@@ -53,8 +53,9 @@ def day_list(request, year=datetime.date.today().year):
 
     return object_list(request, all_days, extra_context=extra)
 
-def day_detail(request, object_id):
-    day = Day.objects.get(id=object_id)
+def day_detail(request, year, month, day):
+    d = datetime.date(year=int(year), month=int(month), day=int(day))
+    day = Day.objects.get(date=d)
     entries = Entry.objects.filter(day=day).order_by('id')
     govs = Government.objects.filter(date_started__lt=day.date, date_ended__gt=day.date)
     # gov = govs.filter(date_ended__gt=day.date)
