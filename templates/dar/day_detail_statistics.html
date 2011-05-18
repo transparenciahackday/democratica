@@ -145,7 +145,7 @@
     <div id="content-box">
       
       <ul id="dar-tabs" class="tabs">
-        <li><a href="/dar/{{ day.id }}" title="">Sessão</a></li>
+        <li><a href="{% url day_detail day.date.year day.date.month day.date.day %}" title="">Sessão</a></li>
         <li><span>Estatísticas</span></li>
       </ul>
        

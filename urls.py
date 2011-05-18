@@ -31,10 +31,10 @@ urlpatterns = patterns('',
     url(r'^deputados/(?P<object_id>\d+)/$', views.mp_detail, name='mp_detail'),
     url(r'^deputados/(?P<object_id>\d+)/stats$', views.mp_statistics, name='mp_stats'),
 
-    url(r'^dar/$', darviews.day_list, name='calendar'),
-    url(r'^dar/calendar/(?P<year>\d+)/$', darviews.day_list, name='calendar_year'),
-    url(r'^dar/(?P<object_id>\d+)/$', darviews.day_detail, name='day_detail'),
-    url(r'^dar/(?P<object_id>\d+)/stats$', darviews.day_statistics, name='day_stats'),
+    url(r'^sessoes/$', darviews.day_list, name='calendar'),
+    url(r'^sessoes/(?P<year>\d+)/$', darviews.day_list, name='calendar_year'),
+    url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', darviews.day_detail, name='day_detail'),
+    url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/stats$', darviews.day_statistics, name='day_stats'),
 
     (r'^pesquisa/', include('dar.urls')),
 
