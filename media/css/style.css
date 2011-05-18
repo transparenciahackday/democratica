@@ -436,6 +436,14 @@ background: #DBDEE3;
 
 #more-box h4 {
 margin: 20px 0 5px;
+padding: 0 0 5px;
+line-height: 1;
+text-transform: uppercase;
+font-weight: normal;
+font-family: 'Lato-regular', Helvetica Neue, Helvetica, Arial, sans-serif;
+font-size: 120%;
+border-bottom: 1px solid #b7bec8;
+color: #939dac;
 }
   
   #more-box .col h4:first-child {
@@ -451,7 +459,7 @@ margin: 5px 0 10px 15px;
 }
 
 #more-box li {
-list-style-type: square;
+list-style-image: url(../img/icons/bullet.png);
 margin: 0 0 2px 5px;
 }
 
@@ -461,13 +469,29 @@ float: left;
 padding: 0 25px;
 margin: 0 0 0 15px;
 }
-  
-  #more-box .col:first-child {
-  margin: 0;
-  }
 
 #more-box .clear {
 clear: both;
+margin: 0;
+}
+
+#more-box > p:first-child {
+margin: 5px 25px 25px;
+font-size: 180%;
+line-height: 1;
+font-family: 'Linux Libertine O', Georgia, Times, serif;
+color: #6f7c91;
+font-style: italic;
+}
+
+#more-box dd {
+font-weight: bold;
+}
+
+#more-box dt {
+margin: 3px 0 10px;
+border-left: 8px solid #b7bec8;
+padding: 0 0 0 8px;
 }
 
 #more-box .up {
