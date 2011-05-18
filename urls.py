@@ -32,7 +32,7 @@ urlpatterns = patterns('',
     url(r'^deputados/(?P<object_id>\d+)/stats$', views.mp_statistics, name='mp_stats'),
 
     url(r'^sessoes/$', darviews.day_list, name='calendar'),
-    url(r'^sessoes/calendario/(?P<year>\d+)/$', darviews.day_list, name='calendar_year'),
+    url(r'^sessoes/(?P<year>\d+)/$', darviews.day_list, name='calendar_year'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', darviews.day_detail, name='day_detail'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/stats$', darviews.day_statistics, name='day_stats'),
 

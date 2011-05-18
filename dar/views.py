@@ -86,8 +86,9 @@ def day_detail(request, year, month, day):
                 })
 
 
-def day_statistics(request, object_id):
-    day = Day.objects.get(id=object_id)
+def day_statistics(request, year, month, day):
+    d = datetime.date(year=int(year), month=int(month), day=int(day))
+    day = Day.objects.get(date=d)
     entries = Entry.objects.filter(day=day).order_by('id')
     govs = Government.objects.filter(date_started__gt=day.date)
     gov = govs.filter(date_ended__gt=day.date)
@@ -154,7 +155,7 @@ def day_statistics(request, object_id):
                 party = 'CDSPP'
             mb_counts[party.lower()] = len(mbs)
 
-    return object_detail(request, Day.objects.all(), object_id,
+    return object_detail(request, Day.objects.all(), day.id,
             template_object_name = 'day', template_name='dar/day_detail_statistics.html',
             extra_context={'entries': entries,
                            'gov': gov.number if gov else None,

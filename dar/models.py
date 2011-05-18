@@ -3,6 +3,7 @@
 
 from django.db import models
 from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
 import datetime
 
 from deputados.models import MP
@@ -12,7 +13,7 @@ class Day(models.Model):
     def __unicode__(self):
         return str(self.date)
     def get_absolute_url(self):
-        return '/dar/%d' % self.id
+        return reverse('day_detail', args=[self.date.year, self.date.month, self.date.day])
 
 class Entry(models.Model):
     day = models.ForeignKey(Day)
