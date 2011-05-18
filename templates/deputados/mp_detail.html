@@ -131,10 +131,10 @@
           {% endif %}
   
           {% with object.linkset as l %}
-          {% if l.active %}
           <li>
             <h4>Ligações</h4>
             <ul>
+              <li><a href="http://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID={{ object.id }}">Parlamento.pt</a></li>
               {% if l.email %}<li><a href="mailto:{{ l.email }}">Enviar e-mail</a><small> {{ l.email }}</small></li>{% endif %}
               {% if l.website_url %}<li><a href="http://{{ l.website_url }}">Website</a></li>{% endif %}
               {% if l.blog_url %}<li><a href="http://{{ l.blog_url }}">Blog</a></li>{% endif %}
@@ -147,7 +147,7 @@
             </ul>
           </li>
 
-            {% if object.tweets %}
+          {% if object.tweets %}
           <li class="twitter">
             <h4>Últimos tweets</h4>
             <ul>
@@ -158,7 +158,6 @@
           </li>
           {% endif %}
         </ul>
-        {% endif %}
         {% endwith %}
         
       </div> <!-- /mp-information -->
