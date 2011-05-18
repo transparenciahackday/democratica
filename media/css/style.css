@@ -274,12 +274,29 @@ background: transparent;
 color: #fff;
 }
 
+#content-box a,
+#more-box a {
+color: #535d6c;
+text-decoration: none;
+border-bottom: 1px solid #939dac;
+}
+
+#content-box a:hover,
+#content-box a:focus,
+#more-box a:hover,
+#more-box a:focus {
+color: #192230;
+border-color: #6f7c91;
+}
+}
+
 /* ------------------------ footer
 --------------------------------*/
 
 #footer-box {
 text-align: center;
 color: #b7bec8;
+background: red;
 }
 
 #footer a {
@@ -473,15 +490,15 @@ color: #939dac;
   margin: 0px 0 5px;
   }
 
-#more-box p {
+.long-text p {
 margin: 0 0 10px;
 }
 
-#more-box ul {
+.long-text ul {
 margin: 5px 0 10px 15px;
 }
 
-#more-box li {
+.long-text li {
 list-style-image: url(../img/icons/bullet.png);
 margin: 0 0 2px 5px;
 }
@@ -498,8 +515,8 @@ clear: both;
 margin: 0;
 }
 
-#more-box > p:first-child {
-margin: 5px 25px 25px;
+#more-box p.intro,
+#content-box p.intro {
 font-size: 180%;
 line-height: 1;
 font-family: 'Linux Libertine O', Georgia, Times, serif;
@@ -507,11 +524,20 @@ color: #6f7c91;
 font-style: italic;
 }
 
-#more-box dd {
+  #more-box p.intro {
+  margin: 5px 25px 25px;
+  }
+  
+  #content-box p.intro {
+  margin: 5px 0 25px;
+  max-width: 500px;
+  }
+
+.long-text dt {
 font-weight: bold;
 }
 
-#more-box dt {
+.long-text dd {
 margin: 3px 0 10px;
 border-left: 8px solid #b7bec8;
 padding: 0 0 0 8px;
@@ -592,7 +618,7 @@ border-bottom: 1px solid #939dac;
 
 #header div.box a:hover,
 #header div.box a:focus {
-color: #373e48;
+color: #192230;
 border-color: #6f7c91;
 }
 
@@ -605,7 +631,7 @@ margin: 0;
 
 #header div.box .goto-website a {
 display: inline-block;
-text-decoration: none;
+border-bottom: 0;
 background: #fff;
 padding: 4px 8px;
 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -616,6 +642,12 @@ border-radius: 4px;
 box-shadow: 1px 1px 2px rgba(55,62,72,.4);
 -moz-box-shadow: 1px 1px 2px rgba(55,62,72,.4);
 -webkit-box-shadow: 1px 1px 2px rgba(55,62,72,.4);
+}
+
+#header div.box .goto-website a:hover,
+#header div.box .goto-website a:focus {
+background-color: #dbdee3;
+border-bottom: 0;
 }
 
 
@@ -1283,13 +1315,14 @@ min-height: 250px;
   .static #content-box .col {
   border-left: 1px solid #b7bec8;
   padding: 0 20px;
-  width: 255px;
+  width: 480px;
   }
 
   .static #content-box #multi-col .col:first-child {
   margin-left: 0;
   border: 0;
   padding: 0 20px 0 0;
+  width: 350px;
   }
 
 #content-box .col h3 {
@@ -1302,8 +1335,12 @@ color: #939dac;
 margin: 0 0 10px;
 }
 
-  .static #content-box h3 {
-  border-bottom: 0;
+  .static #content-box .col h3 {
+  margin: 15px 0 10px;
+  }
+  
+  .static #content-box .col h3:first-child {
+  margin: 0 0 10px;
   }
 
 /* ------------------------ vista de calendário
@@ -1328,6 +1365,7 @@ display: inline-block;
 padding: 10px;
 text-decoration: none;
 color: #b7bec8;
+border-bottom: 0;
 }
 
 #content-box .year-nav a.selected {

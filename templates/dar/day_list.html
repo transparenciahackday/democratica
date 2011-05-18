@@ -10,7 +10,7 @@
       
       <ul class="year-nav">
       {% for y in years %}
-      <li><a {% ifequal y year %}class="selected"{%endifequal%}href="{% url calendar_year y %}">{{ y }}</a></li>
+        <li><a {% ifequal y year %}class="selected"{%endifequal%} href="{% url calendar_year y %}">{{ y }}</a></li>
       {% endfor %}
       </ul>
     		
