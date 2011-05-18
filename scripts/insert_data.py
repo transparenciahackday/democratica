@@ -295,6 +295,11 @@ def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
                                               date_started=ds,
                                               date_ended=de)
 
+def update_mps():
+    for mp in MP.all_objects.all():
+        mp.update_current_caucus()
+        mp.update_current_party()
+
 if __name__ == '__main__':
     check_for_files()
     insert_mps()
@@ -305,4 +310,4 @@ if __name__ == '__main__':
     insert_shortnames()
     insert_parties()
     insert_governments()
-
+    update_mps()
