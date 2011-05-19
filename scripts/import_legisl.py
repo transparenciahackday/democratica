@@ -25,7 +25,7 @@ from democratica.settings import DATASET_DIR
 
 print 'A introduzir datas das legislaturas...'
 print 
-csvfile = os.path.join(PATH_DATASETS, 'legislaturas.csv')
+csvfile = os.path.join(DATASET_DIR, 'legislaturas.csv')
 legs = csv.reader(open(csvfile), delimiter='|', quotechar='"')
 for leg, year_start, year_end in legs:
     if leg.startswith('Núm'):
