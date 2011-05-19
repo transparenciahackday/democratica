@@ -170,6 +170,9 @@
             <p><strong>{{ words.0.word }}</strong></p>
             <p>Os outros termos mais mencionados foram {{ words.1.word }}, {{ words.2.word }}, {{ words.3.word }} e {{ words.4.word }}.</p>
             
+            {# Para as tooltips, o número de vezes que cada palavra aparece mostra-se com {{ words.1.count }}, sendo que o número #}
+            {# deve corresponder à palavra associada #}
+
             {% endwith %}
           </ul>
         </div>
