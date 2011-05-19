@@ -22,10 +22,8 @@ databrowse.site.register(Activity)
 databrowse.site.register(Session)
 '''
 urlpatterns = patterns('',
-    (r'^$', 
-        'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
-    (r'^acerca/$', 
-        'django.views.generic.simple.direct_to_template', {'template': 'about.html'}),
+    (r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
+    (r'^acerca/$', 'django.views.generic.simple.direct_to_template', {'template': 'about.html'}),
 
     url(r'^deputados/$', views.mp_list, name='mp_list'),
     url(r'^deputados/(?P<object_id>\d+)/$', views.mp_detail, name='mp_detail'),
