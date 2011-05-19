@@ -15,6 +15,7 @@
     </script>
     
     <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
 
 {% comment %}    
     <script type="text/javascript">
@@ -112,6 +113,8 @@
             {# exemplo:  http://twitter.com/share?url=http%3A%2F%2Fdev.twitter.com #}
             {# o que vem depois do http://twitter.com/share? é a url a partilhar #}
             <p><a href="http://twitter.com/share?url=http%3A%2F%2Fmanufacturaindependente.org" class="twitter-share-button" data-url="http://google.com" data-count="vertical">Tweet</a></p>
+            
+            <p><a name="fb_share" type="icon_link" expr:share_url="data:post.url">Share</a></p>
             
             <ul class="social">
               <li class="entry-link" id="button-{{ entry.id }}" title="Link directo">Link directo</li>
