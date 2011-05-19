@@ -82,12 +82,12 @@ class WordAttributeCount(object):
     def winning_attribute(self):
         return nlargest(1, self.attributes.iteritems(), key=itemgetter(1))[0][0]
         
-def most_frequent_word(qs):
+def most_frequent_word(qs, n=1):
     counter = WordCounter()
     for word in qs_token_iterator(qs):
         counter[word] += 1
     try:
-        return counter.most_common(1)[0][0]
+        return counter.most_common(n)[0][0]
     except IndexError:
         return None
 
@@ -118,3 +118,4 @@ def statements_to_cloud(qs):
     p = subprocess.Popen(settings.PARLIAMENT_WORDCLOUD_COMMAND, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     return p.communicate(cmd_input)[0]
     
+

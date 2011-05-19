@@ -5,15 +5,24 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 import datetime
+import jsonfield
+from democratica.core import text_utils
 
 from deputados.models import MP
 
 class Day(models.Model):
     date = models.DateField()
+    top5words = jsonfield.JSONField(null=True)
+
     def __unicode__(self):
         return str(self.date)
     def get_absolute_url(self):
         return reverse('day_detail', args=[self.date.year, self.date.month, self.date.day])
+    def calculate_top5words(self):
+        if self.entry_set.all():
+             top5words = text_utils.most_frequent_word(self.entry_set.all(), 5)
+             print top5words
+             #self.save()
 
 class Entry(models.Model):
     day = models.ForeignKey(Day)
