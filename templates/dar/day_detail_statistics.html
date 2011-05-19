@@ -165,16 +165,14 @@
         <div class="col">
           <h3>Palavras mais mencionadas</h3>
           <p>A palavra mais mencionada neste dia foi</p>
-          <ul>
             {% with top5words|dictsortreversed:'count' as words %}
-            <p><strong>{{ words.0.word }}</strong></p>
-            <p>Os outros termos mais mencionados foram {{ words.1.word }}, {{ words.2.word }}, {{ words.3.word }} e {{ words.4.word }}.</p>
+            <p class="favourite-word"><strong>{{ words.0.word }}</strong></p>
+            <p class="other-words">Os outros termos mais mencionados foram <span title="{{ words.1.count }}">{{ words.1.word }}</span>, <span title="{{ words.2.count }}">{{ words.2.word }}</span>, <span title="{{ words.3.count }}">{{ words.3.word }}</span> e <span title="{{ words.4.count }}">{{ words.4.word }}</span>.</p>
             
             {# Para as tooltips, o número de vezes que cada palavra aparece mostra-se com {{ words.1.count }}, sendo que o número #}
             {# deve corresponder à palavra associada #}
 
             {% endwith %}
-          </ul>
         </div>
         
       </div> <!-- /#multi-col -->
