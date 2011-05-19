@@ -21,7 +21,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'democratica.settings'
 import csv
 import datetime
 from democratica.deputados.models import Session
-from democratica.settings import PATH_DATASETS
+from democratica.settings import DATASET_DIR
 
 print 'A introduzir datas das legislaturas...'
 print 
