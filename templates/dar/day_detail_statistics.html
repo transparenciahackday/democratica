@@ -164,7 +164,14 @@
         
         <div class="col">
           <h3>Palavras mais mencionadas</h3>
-          <p>Aqui estarão as 5 palavras mais ditas durante esta sessão. Não há crise, que vai estar tudo aqui bonitinho para quando o site for lançado ;-)</p>
+          <p>A palavra mais mencionada neste dia foi</p>
+          <ul>
+            {% with top5words|dictsortreversed:'count' as words %}
+            <p><strong>{{ words.0.word }}</strong></p>
+            <p>Os outros termos mais mencionados foram {{ words.1.word }}, {{ words.2.word }}, {{ words.3.word }} e {{ words.4.word }}.</p>
+            
+            {% endwith %}
+          </ul>
         </div>
         
       </div> <!-- /#multi-col -->

@@ -307,3 +307,10 @@ neste
 ano
 ter
 distrito
+nº
+votação
+1º
+1ª
+2º
+2ª
+resolução

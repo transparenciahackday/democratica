@@ -162,4 +162,5 @@ def day_statistics(request, year, month, day):
                            'party_counts': party_counts,
                            'party_colors': PARTY_COLORS,
                            'mb_counts': mb_counts,
+                           'top5words': day.top5words,
                 })
