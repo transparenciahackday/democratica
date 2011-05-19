@@ -90,6 +90,11 @@ a:focus {
 outline: none;
 }
 
+h1, h2, h3, h4, h5, h6 {
+font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-weight: normal;
+}
+
 h1 {
 font-size: 220%;
 }
@@ -226,7 +231,6 @@ padding: 0 20px;
 
 #content h2 {
 margin: 0 0 10px;
-
 color: #6f7c91;
 font-family: 'Lato-light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-weight: normal;
@@ -252,8 +256,8 @@ z-index: 50;
 background: #fff url(../img/backgrounds/bg-texture-black.png) repeat 0 0;
 width: 910px;
 padding: 20px;
+box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -moz-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
--o-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 }
 
@@ -288,7 +292,6 @@ border-bottom: 1px solid #939dac;
 color: #192230;
 border-color: #6f7c91;
 }
-}
 
 /* ------------------------ footer
 --------------------------------*/
@@ -296,7 +299,7 @@ border-color: #6f7c91;
 #footer-box {
 text-align: center;
 color: #b7bec8;
-background: red;
+font-family: 'Lato-light','Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 
 #footer a {
@@ -306,6 +309,30 @@ text-decoration: none;
 
 #footer a:hover {
 color: #333;
+}
+
+#footer-box h5 {
+padding: 18px 0 0;
+background: transparent url(../img/icons/bullet.png) no-repeat center 9px;
+text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
+font-family: 'Lato-bold','Helvetica Neue',Helvetica,Arial,sans-serif;
+font-weight: normal;
+text-transform: uppercase;
+}
+
+  #footer-box h5:first-child {
+  padding: 5px 0 0;
+  background-image: none;
+  }
+
+#footer-box li {
+list-style-type: none;
+display: inline;
+}
+
+#footer-box li a {
+display: inline-block;
+margin: 0 5px;
 }
 
 #navigation {
@@ -454,8 +481,6 @@ font-size: 16px;
 line-height: 1;
 margin: 0;
 padding: 0;
-font-family: 'Lato-light','Helvetica Neue',Helvetica,Arial,sans-serif;
-font-weight: normal;
 text-transform: uppercase;
 }
 
@@ -479,8 +504,6 @@ margin: 20px 0 5px;
 padding: 0 0 5px;
 line-height: 1;
 text-transform: uppercase;
-font-weight: normal;
-font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-size: 120%;
 border-bottom: 1px solid #b7bec8;
 color: #939dac;
@@ -798,8 +821,6 @@ margin: 15px 0 5px;
 padding: 0 0 5px;
 line-height: 1;
 text-transform: uppercase;
-font-weight: normal;
-font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-size: 120%;
 border-bottom: 1px solid #b7bec8;
 color: #939dac;
@@ -903,7 +924,7 @@ z-index: -1;
 }
 
 #mp-header h2 {
-padding: 18px 15px 10px 90px;
+padding: 18px 15px 10px 110px;
 margin: 20px 0 0;
 background-color: #fff;
 
@@ -917,7 +938,7 @@ box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 float: left;
 width: 60px;
 display: block;
-margin: -22px 10px 0 20px;
+margin: -22px 10px 0 26px;
 }
 
 #mp-header .mp-photo img {
@@ -1327,8 +1348,6 @@ min-height: 250px;
 
 #content-box .col h3 {
 text-transform: uppercase;
-font-weight: normal;
-font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-size: 120%;
 border-bottom: 1px solid #b7bec8;
 color: #939dac;
@@ -1407,8 +1426,6 @@ padding: 5px 0;
 min-width: 40px;
 margin: 0 5px 0 0;
 font-size: 100%;
-font-family: 'Lato-bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-font-weight: normal;
 }
 
 #calendar .month abbr {
