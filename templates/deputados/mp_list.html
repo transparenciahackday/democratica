@@ -32,7 +32,7 @@
           <select name="session">
             <option value="all"{% if session == 'all' %} selected="selected"{% endif %}>Todas</option>
             {% for s in sessions %}
-            <option value="{{ s.number }}"{% if s.number == session %} selected="selected"{% endif %}>{{ s }} ({{ s.number }})</option>
+            <option value="{{ s.number }}"{% if s.number == session %} selected="selected"{% endif %}>{{ s }} ({{ s.date_start.year }}-{{ s.date_end.year }})</option>
             {% endfor %}
           </select>
         </li>
