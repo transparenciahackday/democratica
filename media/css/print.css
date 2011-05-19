@@ -1,4 +1,58 @@
-html {
+html,
+#content,
+#content-box,
+.default #content-box,
+#content h2.ribbon:before,
+#content #mp-header:before,
+#content h2.ribbon:after,
+#content #mp-header:after {
 background-image: none;
 background-color: #fff;
+}
+
+#menu,
+#content .pagination,
+#footer,
+#all-mp,
+#content .tabs {
+display: none;
+}
+
+#content-box,
+.default #content-box,
+#mp-header h2 {
+-moz-box-shadow: 0 0 0 transparent;
+box-shadow: 0 0 0 transparent;
+-webkit-box-shadow: 0 0 0 transparent;v
+}
+
+#content h2,
+.no-background #content h2, .no-background #content {
+color: #6f7c91;
+}
+
+#content-box h2.ribbon:first-child {
+padding: 15px 0;
+}
+
+#content h2.ribbon {
+background-color: transparent;
+margin: 0 0 0 5px;
+-moz-box-shadow: 0 0 0 transparent;
+box-shadow: 0 0 0 transparent;
+-webkit-box-shadow: 0 0 0 transparent;v
+}
+
+#content h2.ribbon:before,
+#content h2.ribbon:after {
+content: none;
+height: 0;
+margin-bottom: 0;
+position: relative;
+width: auto;
+z-index: -1;
+}
+
+.mp #content-box {
+padding: 0 0 20px;
 }
