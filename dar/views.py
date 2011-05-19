@@ -131,7 +131,7 @@ def day_statistics(request, year, month, day):
 
     # sum must be 100
     total = 0
-    if total:
+    if party_counts:
         for party in party_counts:
             total += party_counts[party]['total']
         factor = 100. / total
