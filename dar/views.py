@@ -89,6 +89,7 @@ def day_detail(request, year, month, day):
 def day_statistics(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
     day = Day.objects.get(date=d)
+    all_days = Day.objects.all()
     entries = Entry.objects.filter(day=day).order_by('id')
     govs = Government.objects.filter(date_started__gt=day.date)
     gov = govs.filter(date_ended__gt=day.date)
@@ -130,14 +131,15 @@ def day_statistics(request, year, month, day):
 
     # sum must be 100
     total = 0
-    for party in party_counts:
-        total += party_counts[party]['total']
-    factor = 100. / total
+    if total:
+        for party in party_counts:
+            total += party_counts[party]['total']
+        factor = 100. / total
 
-    for party in party_counts:
-        # party_counts[party]['total'] = party_counts[party]['total'] * factor
-        for mpname in party_counts[party]:
-            party_counts[party][mpname] = party_counts[party][mpname] * factor  
+        for party in party_counts:
+            # party_counts[party]['total'] = party_counts[party]['total'] * factor
+            for mpname in party_counts[party]:
+                party_counts[party][mpname] = party_counts[party][mpname] * factor  
 
     # Muito bem!
     mb_counts = {}
@@ -155,7 +157,25 @@ def day_statistics(request, year, month, day):
                 party = 'CDSPP'
             mb_counts[party.lower()] = len(mbs)
 
-    return object_detail(request, Day.objects.all(), day.id,
+    # dia seguinte e anterior pró paginador
+    next_date = None
+    prev_date = None
+    day_list = list(all_days.values_list('id', flat=True))
+    try:
+        next_id = day_list[day_list.index(day.id) + 1]
+        next_day = Day.objects.get(id=next_id)
+        next_date = next_day.date
+    except (IndexError, AttributeError):
+        pass
+    try:
+        prev_id = day_list[day_list.index(day.id) - 1]
+        prev_day = Day.objects.get(id=prev_id)
+        prev_date = prev_day.date
+    except (IndexError, AttributeError):
+        pass
+    
+
+    return object_detail(request, all_days, day.id,
             template_object_name = 'day', template_name='dar/day_detail_statistics.html',
             extra_context={'entries': entries,
                            'gov': gov.number if gov else None,
@@ -163,4 +183,5 @@ def day_statistics(request, year, month, day):
                            'party_colors': PARTY_COLORS,
                            'mb_counts': mb_counts,
                            'top5words': day.top5words,
+                           'nextdate': next_date, 'prevdate': prev_date,
                 })

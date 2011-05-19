@@ -27,6 +27,9 @@ class Day(models.Model):
              self.top5words = wordicts
              self.save()
 
+    class Meta:
+        ordering = ['date']
+
 class Entry(models.Model):
     day = models.ForeignKey(Day)
     mp = models.ForeignKey(MP, blank=True, null=True)

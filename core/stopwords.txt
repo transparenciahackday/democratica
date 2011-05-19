@@ -306,6 +306,7 @@ portugal
 neste
 ano
 ter
+têm
 distrito
 nº
 votação
@@ -314,3 +315,6 @@ votação
 2º
 2ª
 resolução
+comissão
+recomenda
+decreto-lei
