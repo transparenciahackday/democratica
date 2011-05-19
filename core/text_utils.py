@@ -87,7 +87,10 @@ def most_frequent_word(qs, n=1):
     for word in qs_token_iterator(qs):
         counter[word] += 1
     try:
-        return counter.most_common(n)[0][0]
+        if n == 1:
+            return counter.most_common(n)[0][0]
+        else:
+            return counter.most_common(n)[:n]
     except IndexError:
         return None
 

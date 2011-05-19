@@ -21,8 +21,11 @@ class Day(models.Model):
     def calculate_top5words(self):
         if self.entry_set.all():
              top5words = text_utils.most_frequent_word(self.entry_set.all(), 5)
-             print top5words
-             #self.save()
+             wordict = {}
+             for word, count in top5words:
+                 wordict[word] = count
+             self.top5words = wordict
+             self.save()
 
 class Entry(models.Model):
     day = models.ForeignKey(Day)
