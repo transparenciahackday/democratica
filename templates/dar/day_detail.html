@@ -13,11 +13,8 @@
         });
       });
     </script>
-    
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-    <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-
-{% comment %}    
+  
+  {% comment %}
     <script type="text/javascript">
       $(document).ready(function(){
         $('li.entry-link').one('click', openMenu);
@@ -39,7 +36,7 @@
 
       });
   </script>
-{% endcomment %}
+  {% endcomment %}
 
 {% endblock %}
 
@@ -102,39 +99,20 @@
             {% endif %}
         
           <div class="right">
-          
+            
+            {% comment %}
             <ul class="popup" id="popup-button-{{ entry.id }}">
               <li><p>Link directo <a href="#">https://demo.cratica.org{{ entry.get_absolute_url }}</a></p></li>
             </ul>
+            {% endcomment %}
 
             {{ entry.text_as_html }}
             
-
-            {# exemplo:  http://twitter.com/share?url=http%3A%2F%2Fdev.twitter.com #}
-            {# o que vem depois do http://twitter.com/share? é a url a partilhar #}
-            <p><a href="http://twitter.com/share?url=http%3A%2F%2Fmanufacturaindependente.org" class="twitter-share-button" data-url="http://google.com" data-count="vertical">Tweet</a></p>
-            
-            <p><a name="fb_share" type="icon_link" expr:share_url="data:post.url">Share</a></p>
-            
-
-            {% comment %}
-            <!-- CÓDIGO TWITTER -->
-            <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
-            <div>
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                 data-url="https://demo.cratica.org{{ entry.get_absolute_url }}"
-                 data-counturl="{{ entry.get_absolute_url}}"
-                 data-count="vertical">Tweet</a>
-              </div>
-            {% endcomment %}
-
             <ul class="social">
-              <li class="entry-link" id="button-{{ entry.id }}" title="Link directo">Link directo</li>
-              <li><a href="#" class="facebook" title="Partilhar no Facebook">Facebook</a></li>
-               <li><a href="#" class="twitter" title="Partilhar no Twitter">Twitter</a></li>
-
-               
-              <li><a href="#" class="identica" title="Partilhar no Identi.ca">Twitter</a></li>
+              <li class="entry-link" id="button-{{ entry.id }}" title="Brevemente: Link directo">Link directo</li>
+              <li><a href="#" class="facebook" title="Brevemente: Partilhar no Facebook">Facebook</a></li>
+              <li><a href="#" class="twitter" title="Brevemente: Partilhar no Twitter">Tweet</a></li>              
+              <li><a href="#" class="identica" title="Brevemente: Partilhar no Identi.ca">Twitter</a></li>
             </ul>
             
           </div>
