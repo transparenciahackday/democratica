@@ -13,6 +13,8 @@
         });
       });
     </script>
+    
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 
 {% comment %}    
     <script type="text/javascript">
@@ -107,10 +109,16 @@
             {% endcomment %}  
             {{ entry.text_as_html }}
             
+            {# exemplo:  http://twitter.com/share?url=http%3A%2F%2Fdev.twitter.com #}
+            {# o que vem depois do http://twitter.com/share? é a url a partilhar #}
+            <p><a href="http://twitter.com/share?url=http%3A%2F%2Fmanufacturaindependente.org" class="twitter-share-button" data-url="http://google.com" data-count="vertical">Tweet</a></p>
+            
             <ul class="social">
               <li class="entry-link" id="button-{{ entry.id }}" title="Link directo">Link directo</li>
               <li><a href="#" class="facebook" title="Partilhar no Facebook">Facebook</a></li>
                <li><a href="#" class="twitter" title="Partilhar no Twitter">Twitter</a></li>
+
+               
               <li><a href="#" class="identica" title="Partilhar no Identi.ca">Twitter</a></li>
             </ul>
             
@@ -160,82 +168,4 @@
         
     </div><!-- /#content-box -->
 {% endblock content %}
-
-        {% comment %}
-        <div class="entry">
-          <div class="left">
-            <p class="mp-photo"><img src="/media/mp-photos/2.jpg" alt="" /></p>
-            <h3>Nome Nome</h3>
-            <h4 class="party"><img src="/media/img/logos/be.png" alt="" /> PMMIPP</h4>
-            <p class="circle">Ponta Velha de Cima</p>
-          </div>
-          
-          <div class="right">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tortor tellus, convallis vel placerat sit amet, tincidunt ut nisi. Etiam ut diam dui. Suspendisse potenti. Cras imperdiet augue at risus facilisis et ornare neque suscipit. Morbi non feugiat magna. Praesent at eros tortor, vel lobortis purus. Nulla ultricies fermentum est non porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in massa libero, vitae ullamcorper eros. Ut pulvinar iaculis ligula, id pharetra leo bibendum a. Ut consectetur semper ante, id auctor ligula accumsan mattis. Praesent sodales vulputate velit nec faucibus. Suspendisse purus ante, tincidunt a pulvinar a, posuere sed justo.</p>
-          </div>
-        </div> <!-- /entry-->
-        
-        <div class="entry applause">
-          <div class="left">
-            <p>Bancada Y:</p>
-          </div>
-          
-          <div class="right">
-            <p>
-              <strong>Bancada/Partido W:</strong>
-              <em>Aplausos</em>
-            </p>
-          </div>
-        </div><!-- /entry-->
-      
-      <div class="entry">
-          <div class="left">
-            <h3>Nome Nome</h3>
-          </div>
-          
-          <div class="right">
-            <p>Morbi cursus volutpat interdum. Curabitur pulvinar ultrices consequat. Nam sit amet urna felis, tristique volutpat dui. Praesent felis ante, gravida eu auctor eu, commodo sit amet libero. Aliquam iaculis mauris mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam quis est sit amet sem iaculis rhoncus. Duis in tortor nisi, quis iaculis sapien. Cras convallis convallis ipsum, at viverra dolor consequat sit amet. Vestibulum tristique rutrum tellus quis eleifend. Aliquam eu sem in nisi vehicula mattis et blandit risus.</p>
-            <p>Suspendisse potenti. Suspendisse sed nisl eget eros lobortis varius at nec leo. Quisque semper libero vel felis suscipit et scelerisque neque cursus. Ut quis arcu arcu. Quisque adipiscing suscipit risus, nec sodales nisi tincidunt sed. Cras in velit vel leo tempor dignissim sit amet eu augue. Donec auctor arcu id enim volutpat quis dictum diam cursus. Nam fermentum turpis vitae tortor porttitor facilisis. Proin nec faucibus lacus. Pellentesque quis metus nulla, nec faucibus nisi. Nullam ultricies volutpat volutpat. Cras ut justo ligula.</p>
-          </div>
-        </div> <!-- /entry-->
-        
-        <div class="entry protests">
-          <div class="left">
-            <p>Bancada Y:</p>
-          </div>
-          
-          <div class="right">
-            <p>
-              <strong>Partido/Bancada X:</strong>
-              <em>Uhhhhh!!! Ohhhh!</em>
-            </p>
-          </div>
-      </div> <!-- /entry-->
-      
-      <div class="entry punchline">
-          <div class="left">
-            <p>Bancada Y:</p>
-          </div>
-          
-          <div class="right">
-            <p>
-              <strong> Fulaninho Sete e Meio:</strong>
-              Meu senhor isso é insuportável! Tão mau como o hálito do Dantas.
-            </p>
-          </div>
-      </div> <!-- /entry-->
-      
-      <div class="entry laughs">
-          <div class="left">
-            <p>Bancada Y:</p>
-          </div>
-          
-          <div class="right">
-            <p>
-              <strong>Bancada Y:</strong>
-              <em>Ah Hahaha!</em>
-            </p>
-          </div>
-      </div> <!-- /entry-->
-      {% endcomment %}
       

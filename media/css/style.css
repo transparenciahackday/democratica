@@ -146,7 +146,7 @@ text-decoration: none;
 font-size: 100%;
 display: block;
 float: left;
-padding: 8px 4px;
+padding: 10px 4px;
 margin: 0 2px 0;
 text-transform: uppercase;
 text-shadow: 1px 1px 2px #151e2b;
@@ -158,8 +158,8 @@ color: #939dac;
 }
 
 #menu-box li#homepage a {
-background: transparent url(../img/democratica-small.png) no-repeat 0 8px;
-padding: 36px 4px 0;
+background: transparent url(../img/democratica-small.png) no-repeat 0 4px;
+padding: 38px 4px 0;
 width: 118px;
 height: 0;
 overflow: hidden;
@@ -449,12 +449,32 @@ text-align: center;
 /* height with navigation menu
 height: 100px;
 margin: -130px auto 0;*/
-height: 60px;
-margin: -90px auto 0;
+height: 98px;
+margin: -118px auto 0;
 min-width: 715px;
 clear: both;
 position: relative;
 }
+
+#about p.follow-twitter a,
+#footer p.follow-twitter a {
+display: inline-block;
+color: #fff;
+padding: 5px 10px;
+text-decoration: none;
+font-size: 11px;
+text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
+}
+
+#footer p.follow-twitter {
+border-bottom: 1px dotted #535d6c;
+}
+
+#about p.follow-twitter a:hover,
+#footer p.follow-twitter a:hover {
+color: #192230;
+}
+
 
 #home #about #navigation {
 margin: 0;
