@@ -76,6 +76,7 @@
     {% endfor %}
 
     <ul class="pagination">
+    {% comment %}
       <li id="previous"><a href="">&laquo; Anterior</a></li>
       <li id="pg-nav">
         <ul>
@@ -85,15 +86,14 @@
           </li>
           {% endfor %}
 
-          {% comment %}
           <li class="first"><a href="" class="on">1</a></li>
           <li><a href="">2</a></li>
           <li><a href="">3</a></li>
           <li>...</li>
           <li class="last"><a href="">12</a></li>
-          {% endcomment %}
         </ul></li>
       <li id="next"><a href="">Próximo &raquo;</a></li>
+    {% endcomment %}
     </ul><!-- /pagination-->
     
 </div><!-- /#content-box -->
