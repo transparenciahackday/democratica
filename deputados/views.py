@@ -15,7 +15,7 @@ def mp_list(request):
     constituency_id = request.GET.get('constituency', 'all')
 
     if not session_number == 'all':
-        queryset = MP.objects.select_related().filter(caucus__session__number=int(session_number)).distinct()
+        queryset = MP.objects.select_related().filter(caucus__session__number=int(session_number))
     else:
         queryset = MP.objects.select_related().all()
 

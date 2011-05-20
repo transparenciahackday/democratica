@@ -1,5 +1,7 @@
 {% extends "base_mp.html" %}
 
+{% load deputags %}
+
 {% block title %} Deputados :: Demo.cratica.org{% endblock %}
 
 {% block extrascripts %}
@@ -24,7 +26,40 @@
 
 {% block content %}
 <div id="content-box">
-    <h2 class="ribbon">Deputados</h2>
+    {# Todos #}
+    {% if session == 'all' and party == 'all' and constituency == 'all' %}
+    <h2 class="ribbon">Todos os Deputados</h2>
+    {% endif %}
+    {# Legislatura #}
+    {% if session != 'all' and party == 'all' and constituency == 'all' %}
+    <h2 class="ribbon">Deputados na {{ session|toroman }} Legislatura</h2>
+    {% endif %}
+    {# Partido #}
+    {% if session == 'all' and party != 'all' and constituency == 'all' %}
+    <h2 class="ribbon">Deputados do {{ party|upper }}</h2>
+    {% endif %}
+    {# Círculo #}
+    {% if session == 'all' and party == 'all' and constituency != 'all' %}
+    <h2 class="ribbon">Deputados eleitos por {{ constituency }}</h2>
+    {% endif %}
+    {# Legislatura + Partido #}
+    {% if session != 'all' and party != 'all' and constituency == 'all' %}
+    <h2 class="ribbon">Deputados do {{ party|upper }} na {{ session|toroman }} Legislatura</h2>
+    {% endif %}
+    {# Legislatura + Círculo #}
+    {% if session != 'all' and party == 'all' and constituency != 'all' %}
+    <h2 class="ribbon">Deputados na {{ session|toroman }} Legislatura eleitos por {{ constituency }}</h2>
+    {% endif %}
+    {# Partido + Círculo #}
+    {% if session == 'all' and party != 'all' and constituency != 'all' %}
+    <h2 class="ribbon">Deputados do {{ party|upper }} eleitos por {{ constituency }}</h2>
+    {% endif %}
+    {# Legislatura + Partido + Círculo #}
+    {% if session != 'all' and party != 'all' and constituency != 'all' %}
+    <h2 class="ribbon">Deputados do {{ party|upper }} na {{ session|toroman}} Legislatura eleitos por {{ constituency }}</h2>
+    {% endif %}
+
+
     
     <form id="all-mp">
       <ul class="mp-filters">
@@ -37,8 +72,8 @@
           </select>
         </li>
         <li><strong>Partido:</strong>
-          <select name="party">
-            <option value="all"{% if party == 'all' %} selected="selected"{% endif %}>Todos</option>
+           <select name="party">
+             <option value="all"{% if party == 'all' %} selected="selected"{% endif %}>Todos</option>
             {% for p in parties %}
             <option value="{{ p.abbrev }}"{% if p.abbrev == party %} selected="selected"{% endif %}>{{ p.abbrev }}</option>
             {% endfor %}

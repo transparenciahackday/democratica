@@ -875,6 +875,13 @@ text-align: center;
 font-family: 'Merriweather', Georgia, Times, serif;
 letter-spacing: 1px;
 font-style: italic;
+text-transform: capitalize;
+margin: 0 0 10px;
+}
+
+#content .other-words span {
+cursor: pointer;
+text-decoration: underline;
 }
 
 
@@ -1318,6 +1325,7 @@ background: #b7bec8 url(../img/icons/social-buttons.png) no-repeat 2px -70px;
 border-radius: 3px;
 }
 
+/*
 .entry .right .entry-link .popup {
 display: none;
 visibility: hidden;
@@ -1332,6 +1340,8 @@ z-index: 50000;
 .entry .right .entry-link .open {
 visibility: visible !important;
 }
+
+*/
 
 /* ------------------------ DAR statistics
 --------------------------------*/

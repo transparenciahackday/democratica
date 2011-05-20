@@ -39,3 +39,8 @@ def get_post_on(obj, gov_number):
     if post:
         return post.name
     return None
+
+@register.filter
+def toroman(obj):
+    from roman import toRoman
+    return toRoman(obj)
