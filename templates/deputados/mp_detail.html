@@ -112,7 +112,7 @@
         <ul class="mp-details">
           {% if object.favourite_word %}
           <li>
-          <h4>Factos cruciais</h4>
+          <h4>Factos</h4>
           <ul>
             <li>A palavra preferida de {{ object.shortname }} é <strong>{{ object.favourite_word }}</strong>.
           </ul>
@@ -161,6 +161,10 @@
         {% endwith %}
         
       </div> <!-- /mp-information -->
+
+    <ul class="pagination">
+      <p>Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
+    </ul>
 
     </div><!-- /#content-box -->
 {% endblock %}

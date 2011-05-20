@@ -36,6 +36,7 @@
           {% endfor %}
         </ul>
 
+        {% comment %}
         {% if facets.fields.author %}
         <ul id="results-right">
           {% for author in facets.fields.author|slice:"5:" %}
@@ -49,6 +50,7 @@
         {% else %}
         <p>Não há facetas programadas :(</p>
         {% endif %}
+        {% endcomment %}
       </div> <!-- /#results -->
       
       {% else %}
