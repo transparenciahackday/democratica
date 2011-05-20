@@ -50,6 +50,8 @@
        
       <h2 class="ribbon">{{ day.date }}</h2>
 
+      <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
+
       {% for entry in entries %}
       {% if forloop.first %}
       <div class="intervention mini-intervention">
@@ -132,10 +134,10 @@
             {% else %}
             <div class="left">
               {% if entry.type == 'president' %}
-                {% if entry.speaker == 'Presidente' and entry.party == 'Presidente' %}
+                {% if entry.speaker == 'Presidente' or entry.party == 'Presidente' %}
                 <h3>Presidente</h3>
                 {% else %}
-                <h3>{{ entry.speaker }} ({{ entry.party }})</h3>
+                <h3>{{ entry.speaker }} {% if entry.party %}({{ entry.party }}){% endif %}</h3>
                 {% endif %}
               {% else %}
                 {% if entry.mp %}
