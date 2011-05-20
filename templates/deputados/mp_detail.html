@@ -78,7 +78,7 @@
             <ul>
               {% for caucus in object.caucus_set.all %}
               <li>
-              Deputad{{ object.article }} na <a href="/deputados/?session={{ caucus.session.number }}" title="Ver deputados da {{ caucus.session }} Legislatura">{{ caucus.session }} Legislatura</a> 
+              Deputad{% if object.article == 'XXX' %}o{% else %}{{ object.article }}{% endif %} na <a href="/deputados/?session={{ caucus.session.number }}" title="Ver deputados da {{ caucus.session }} Legislatura">{{ caucus.session }} Legislatura</a> 
               pelo <a href="/deputados/?session={{ caucus.session.number }}&party={{ caucus.party.abbrev }}" title="Ver deputados eleitos pelo {{ caucus.party.abbrev }} na {{ caucus.session }} Legislatura">{{ caucus.party.abbrev }}</a> 
               no círculo d{{ caucus.constituency.article }} <a href="/deputados/?session={{ caucus.session.number }}&constituency={{ caucus.constituency.id }}" title="Ver deputados eleitos pelo círculo d{{ caucus.constituency.article }} {{ caucus.constituency }} na {{ caucus.session }} Legislatura">{{ caucus.constituency }}</a>.
               </li>
