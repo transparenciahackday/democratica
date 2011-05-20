@@ -613,6 +613,8 @@ box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 
 #error #header h1 {
 background: transparent url(../img/democratica-error.png) no-repeat 0 center;
+padding-top: 140px;
+width: 214px;
 }
 
 #header div.box {
