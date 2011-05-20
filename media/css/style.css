@@ -305,6 +305,7 @@ font-family: 'Lato-light','Helvetica Neue',Helvetica,Arial,sans-serif;
 #footer a {
 color: #fff;
 text-decoration: none;
+font-family: 'Lato-regular','Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 
 #footer a:hover {
@@ -391,13 +392,32 @@ display: block;
 width: 384px;
 height: 0;
 padding: 278px 0 0;
-margin: 0 auto 15px;
+margin: 0 auto 10px;
 background: transparent url(../img/democratica-big.png) no-repeat 0 center;
 overflow: hidden;
 }
 
 #page #header p {
-font-size: 110%;
+font-size: 115%;
+font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+margin-bottom: 8px;
+}
+
+#page #header p.beta {
+font-size: 95%;
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+line-height: 1.1;
+margin: 0 auto;
+max-width: 485px;
+}
+
+#page #header p.beta a {
+display: inline-block;
+color: #fff;
+}
+
+#page #header p.beta a:hover {
+color: #192230;
 }
 
 #content #main {
@@ -456,25 +476,21 @@ clear: both;
 position: relative;
 }
 
-#about p.follow-twitter a,
-#footer p.follow-twitter a {
-display: inline-block;
-color: #fff;
-padding: 5px 10px;
-text-decoration: none;
-font-size: 11px;
-text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
+#about p.follow-twitter {
+color: #b7bec8;
 }
 
-#footer p.follow-twitter {
-border-bottom: 1px dotted #535d6c;
+#about p.follow-twitter a,
+#footer p.follow-twitter a {
+color: #fff;
+padding: 5px 0;
+text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
 }
 
 #about p.follow-twitter a:hover,
 #footer p.follow-twitter a:hover {
 color: #192230;
 }
-
 
 #home #about #navigation {
 margin: 0;
