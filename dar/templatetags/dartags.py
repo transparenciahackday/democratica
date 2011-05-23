@@ -47,6 +47,10 @@ def month_abbrev(month):
     return month[:3]
 
 @register.filter
+def slice_year(y):
+    return str(y)[2:]
+
+@register.filter
 def is_weekend(d):
     return True if d.weekday() in (5,6) else False
 
