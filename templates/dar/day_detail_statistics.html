@@ -153,18 +153,18 @@
       
       <div id="multi-col">
         <div class="col">
-          <h3>Proporção das intervenções</h3>
+          <h4>Proporção das intervenções</h4>
           <div id="grafproporcao" style="width: 290px; height: 290px; margin: 0 auto"></div>
         </div>
         
         <div class="col">
-          <h3>Muito bem!</h3>
+          <h4>Muito bem!</h4>
           <div id="grafmuitobem" style="width: 290px; height: 290px; margin: 0 auto"></div>
         </div>
         
         <div class="col">
           {% if top5words %}
-          <h3>Palavras mais mencionadas</h3>
+          <h4>Palavras mais mencionadas</h4>
           <p>A palavra mais mencionada neste dia foi</p>
             {% with top5words|dictsortreversed:'count' as words %}
             <p class="favourite-word" title="Mencionada {{ words.0.count }} vezes"><strong>{{ words.0.word }}</strong></p>

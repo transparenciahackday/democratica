@@ -776,13 +776,11 @@ margin: 0;
 
 #content .favourite-word {
 padding: 20px;
-background-color: #fff;
+background-color: #B7BEC8;
 font-size: 26px;
 text-align: center;
 font-family: 'Merriweather', Georgia, Times, serif;
 letter-spacing: 1px;
-font-style: italic;
-text-transform: capitalize;
 margin: 0 0 10px;
 }
 
