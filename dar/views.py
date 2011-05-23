@@ -43,14 +43,26 @@ def day_list(request, year=datetime.date.today().year):
     first_day_of_year = datetime.date(year=year, month=1, day=1)
     last_day_of_year = datetime.date(year=year, month=12, day=31)
     
-    all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year).values('date', 'id')
-    all_dates = all_days.values_list('date', flat=True)
+    all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year)
+    # all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year).values('date', 'id', 'top5words')
+    words = {}
+    for d in all_days:
+        # criar dic de palavras mais mencionadas por dia
+        if d.top5words:
+            words[d.date] = d.top5words[0]['word']    
+        else:
+            words[d.date] = '-'
+    extra['words'] = words
+
+    # all_years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
     all_years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
+    all_dates = all_days.values_list('date', flat=True)
     # all_years = range(1976, 2012)
     extra['year'] = year
     extra['years'] = all_years
     extra['session_dates'] = all_dates
 
+    
     return object_list(request, all_days, extra_context=extra)
 
 def day_detail(request, year, month, day):
