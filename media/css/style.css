@@ -91,7 +91,7 @@ outline: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
-font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-family: 'Lato-light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-weight: normal;
 }
 
@@ -1369,7 +1369,6 @@ margin: 20px 0 5px;
 padding: 0 0 5px;
 line-height: 1;
 text-transform: uppercase;
-font-size: 120%;
 border-bottom: 1px solid #b7bec8;
 color: #939dac;
 }
@@ -1449,6 +1448,7 @@ padding: 5px 0;
 min-width: 40px;
 margin: 0 5px 0 0;
 font-size: 100%;
+border-bottom: 0;
 }
 
 #calendar .month abbr {

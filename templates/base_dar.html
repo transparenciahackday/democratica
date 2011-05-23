@@ -2,6 +2,16 @@
 
 {% block title %}Parlamento :: Demo.cratica.org{% endblock %}
 
+{% block extrascripts %}
+    
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('a[rel=tipsy]').tipsy({fade: true, gravity: 'n', delayIn: 300, delayOut: 500});
+	    });
+    </script>
+ 
+{% endblock %}
+
 {% block contentdiv %}
   {% block content %}{% endblock %}
 {% endblock %}
