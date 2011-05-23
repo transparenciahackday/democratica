@@ -14,12 +14,16 @@ background-color: black;
 color: white;
 max-width: 200px;
 text-align: center;
-}
 
-.tipsy-inner {
 border-radius: 3px;
 -moz-border-radius: 3px;
 -webkit-border-radius: 3px;
+}
+
+.tipsy-inner strong {
+font-weight: bold;
+display: block;
+font-size: 20px;
 }
 
 .tipsy-north {

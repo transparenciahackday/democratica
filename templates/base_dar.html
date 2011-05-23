@@ -6,7 +6,13 @@
     
     <script type="text/javascript">
       $(document).ready(function(){
-        $('a[rel=tipsy]').tipsy({fade: true, gravity: 'n', delayIn: 300, delayOut: 500});
+        $('a[rel=tipsy]').tipsy({
+          fade: true,
+          gravity: 'n',
+          delayIn: 300,
+          delayOut: 10000,
+          html: true,
+        });
 	    });
     </script>
  
