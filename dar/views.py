@@ -46,7 +46,7 @@ def day_list(request, year=datetime.date.today().year):
     all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year).values('date', 'id')
     all_dates = all_days.values_list('date', flat=True)
     all_years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
-
+    # all_years = range(1976, 2012)
     extra['year'] = year
     extra['years'] = all_years
     extra['session_dates'] = all_dates
