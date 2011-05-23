@@ -1,4 +1,78 @@
-democratica
+Demo.cratica
+============
 
-Copyright 2010-2011 Manufactura Independente
-Licenciado segundo os termos da GPL versão 3 ou posterior.
+A web application for visualising parliamentary information. Originally
+developed for the Portuguese Parliament; this version of the application can be
+seen in action at http://demo.cratica.org
+
+Rights and licencing
+--------------------
+
+Copyright (c) 2010-2011 - Ana Carvalho <ana@manufacturaindependente.org> & Ricardo
+Lafuente <ricardo@manufacturaindependente.org>.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+The full license text can be found inside the AGPL.txt file inside this directory.
+
+Other bundled software
+----------------------
+
+Demo.cratica bundles software by other authors. Here you can find the licensing
+terms for each of the packages included in the Demo.cratica repository.
+
+Django-Haystack is Copyright (c) 2009-2010 - Daniel Lindsley. 
+Licensed under the BSD license. Read the license at:
+https://github.com/toastdriven/django-haystack/blob/master/LICENSE
+
+(Located at /haystack/)
+
+Django Extensions is Copyright (c) Michael Trier <mtrier at gmail com>.
+Licensed under the new BSD license. Read the license at:
+https://github.com/django-extensions/django-extensions/blob/master/LICENSE
+
+(Located at /django_extensions/)
+
+Text counting utilities from Openparliament.ca are Copyright (C) 2010 Michael
+Mulley (michaelmulley.com). 
+Licensed under the AGPL. Read the license at:
+https://github.com/rhymeswithcycle/openparliament/blob/master/LICENSE
+
+(Located at /core/text_utils.py)
+
+Django Debug Toolbar is Copyright (c) Rob Hudson and individual contributors.
+Licensed under the BSD license. Read the license at:
+https://github.com/robhudson/django-debug-toolbar/blob/master/LICENSE
+
+(Located at /debug_toolbar/)
+
+Django South is Copyright (c) Andrew Godwin.  
+Licensed under the Apache license 2.0. Read the license at:
+https://bitbucket.org/andrewgodwin/south/src/5f96edecdc73/LICENSE
+
+(Located at /south/)
+
+jQuery is Copyright (c) 2010 The jQuery Project.
+Licensed under the GPL. Read the license at:
+http://jquery.org/license/
+
+(Located at /media/js/)
+
+HighCharts is Copyright (c) Highslide Software.
+Licensed under the Creative Commons Attribution-NonCommercial license. Read the
+license at: 
+http://creativecommons.org/licenses/by-nc/3.0/
+
+(Located at /media/js/highcharts)
+

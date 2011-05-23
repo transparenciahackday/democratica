@@ -1,24 +1,14 @@
 Coisas que precisam de ser consertadas
 ======================================
 
-* Página de deputado: Cargos nos Governos
-
 * Caixa de pesquisa dos deputados
-* Mudar pesquisa existente para 'filtro', abaixo dos dropdowns
-* Repartir os templates em blocos
 
-* Thumbnails dos retratos para transcrições
-* Paginação da lista de deputados
 * Pesquisa avançada (género, etc)
-
-* DAR: Criar método no MP para obter o partido numa determinada legislatura
-  (necessário no template day_detail)
 
 Questões por resolver
 =====================
 
 * Como separar os deputados 'verdadeiros' dos suplentes? (ver Álvaro Cunhal)
-* Base de dados: Postgres?
 
 * Google News: 
   Como filtrar as notícias para mostrar apenas de Portugal? 
@@ -38,7 +28,5 @@ Ideias para novas funcionalidades
 =================================
 
 * Adicionar os links dos RSS do blog de cada deputad@, para que possamos mostrar os últimos posts
-* Script para a palavra preferida de cada deputado (basta ir ao CSV e extrair)
-* Full-text search para as transcrições
 
 
