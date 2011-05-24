@@ -1263,6 +1263,10 @@ background: #DBDEE3;
 margin: 0 0 10px;
 }
 
+.long-text p.email {
+margin: 20px 0 10px;
+}
+
 .long-text ul {
 margin: 5px 0 10px 15px;
 }
@@ -1276,7 +1280,7 @@ margin: 0 0 2px 5px;
 width: 300px;
 float: left;
 padding: 0 25px;
-margin: 0 0 0 15px;
+margin: 0;
 }
 
 #mais #multi-col .clear {
@@ -1290,14 +1294,16 @@ line-height: 1;
 font-family: 'Linux Libertine O', Georgia, Times, serif;
 color: #6f7c91;
 font-style: italic;
+margin: 5px 0 25px;
 }
 
   #mais p.intro {
-  margin: 5px 25px 25px;
+  padding: 0 25px;
+  margin: 5px 0 10px;
   }
   
   #content-box .long-text p.intro {
-  max-width: 500px;
+  max-width: 550px;
   }
 
 .long-text dt {
@@ -1346,7 +1352,7 @@ float: left;
 min-height: 250px;
 }
 
-  #multi-col .col:first-child {
+  #multi-col .left-col {
   margin-left: 0;
   }
   
@@ -1356,7 +1362,7 @@ min-height: 250px;
   width: 480px;
   }
 
-  .static #multi-col .col:first-child {
+  .static #multi-col .left-col {
   margin-left: 0;
   border: 0;
   padding: 0 20px 0 0;
