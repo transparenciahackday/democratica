@@ -1510,7 +1510,8 @@ font-weight: bold;
   #calendar ol .election {
   padding: 2px 0px;
   border: 1px solid #939dac;
-  color: #939dac;
+  color: #E9DDAF;
+  background-color: #737d9c;
   cursor: pointer;
   
   -moz-border-radius: 3px;

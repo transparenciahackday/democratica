@@ -294,6 +294,7 @@ país
 estado
 presidente
 ministro
+ministra
 lei
 projecto
 proposta
@@ -318,3 +319,19 @@ resolução
 comissão
 recomenda
 decreto-lei
+república
+sector
+execução
+medidas
+pública
+política
+secretário
+secretária
+artigo
+processo
+nacional
+serviço
+resultados
+resultado
+social
+votos

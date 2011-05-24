@@ -21,7 +21,7 @@
 		      <div class="month">
             <h4><abbr title="{{ month }}">{{ month|month_abbrev }}</abbr></h4>
 		        <ol>
-              {% for day in month|days_for_month:year %}{% with day.date as d %}{% if day.day == 1 %}{{ day|day_padding }}{% endif %}{% if day in session_dates %}<li><a href="{{ day|session_url }}"{% if day|is_weekend %} class="weekend session-yes{% if day in election_dates %} election{% endif %}"{% else %} class="session-yes"{% endif %} rel="tipsy" title="Palavra mais mencionada <strong>{{ words|lookup:day }}</strong>">{{ day.day }}</a>{% else %}<li><span {% if day|is_weekend %} class="weekend{% if day in election_dates %} election{% endif %}" {% endif %}{% if day in election_dates %} rel="tipsy" title="{{ election_dates|lookup:day }}"{% endif %}>{{ day.day }}</span>{% endif %}</li>{% endwith %}{% endfor %}
+            {% for day in month|days_for_month:year %}{% if day.day == 1 %}{{ day|day_padding }}{% endif %}{% if day in session_dates %}<li><a href="{{ day|session_url }}"{% if day|is_weekend %} class="weekend session-yes{% if day in election_dates %} election{% endif %}"{% else %} class="session-yes"{% endif %} rel="tipsy" title="Palavra mais mencionada <strong>{{ words|lookup:day }}</strong>">{{ day.day }}</a>{% else %}<li><span {% if day|is_weekend %} class="weekend{% if day in election_dates %} election{% endif %}" {% endif %}{% if day in election_dates %} rel="tipsy" title="{{ election_dates|lookup:day }}" {% if not day|is_weekend %}class="election"{% endif %}{% endif %}>{{ day.day }}</span>{% endif %}</li>{% endfor %}
 		        </ol>
 		      </div><!-- /month -->
           {% endfor %}
