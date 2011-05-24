@@ -3,6 +3,7 @@
 
 from models import Day, Entry
 from deputados.models import Government, Party, MP
+from elections.models import Election
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
 from django.utils.safestring import mark_safe
@@ -62,6 +63,10 @@ def day_list(request, year=datetime.date.today().year):
     extra['years'] = all_years
     extra['session_dates'] = all_dates
 
+    election_dates = {}
+    for el in Election.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year):
+        election_dates[el.date] = el.type
+    extra['election_dates'] = election_dates
     
     return object_list(request, all_days, extra_context=extra)
 

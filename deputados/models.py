@@ -242,3 +242,4 @@ class LinkSet(models.Model):
     twitica_url = models.URLField('Twitica', blank=True)
     radio_url = models.CharField('Programa de rádio', max_length=200, blank=True)
     tv_url = models.CharField('Programa de televisão', max_length=200, blank=True)
+
