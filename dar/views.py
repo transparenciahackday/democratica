@@ -64,7 +64,7 @@ def day_list(request, year=datetime.date.today().year):
     extra['session_dates'] = all_dates
 
     election_dates = {}
-    for el in Election.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year):
+    for el in Election.objects.filter(date__gte=first_day_of_year, date__lte=last_day_of_year):
         election_dates[el.date] = el.type
     extra['election_dates'] = election_dates
     
