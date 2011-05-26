@@ -36,43 +36,43 @@ Django-Haystack is Copyright (c) 2009-2010 - Daniel Lindsley.
 Licensed under the BSD license. Read the license at:
 https://github.com/toastdriven/django-haystack/blob/master/LICENSE
 
-(Located at /haystack/)
+(Located at democratica/haystack/)
 
 Django Extensions is Copyright (c) Michael Trier <mtrier at gmail com>.
 Licensed under the new BSD license. Read the license at:
 https://github.com/django-extensions/django-extensions/blob/master/LICENSE
 
-(Located at /django_extensions/)
+(Located at democratica/django_extensions/)
 
 Text counting utilities from Openparliament.ca are Copyright (C) 2010 Michael
 Mulley (michaelmulley.com). 
 Licensed under the AGPL. Read the license at:
 https://github.com/rhymeswithcycle/openparliament/blob/master/LICENSE
 
-(Located at /core/text_utils.py)
+(Located at democratica/core/text_utils.py)
 
 Django Debug Toolbar is Copyright (c) Rob Hudson and individual contributors.
 Licensed under the BSD license. Read the license at:
 https://github.com/robhudson/django-debug-toolbar/blob/master/LICENSE
 
-(Located at /debug_toolbar/)
+(Located at democratica/debug_toolbar/)
 
 Django South is Copyright (c) Andrew Godwin.  
 Licensed under the Apache license 2.0. Read the license at:
 https://bitbucket.org/andrewgodwin/south/src/5f96edecdc73/LICENSE
 
-(Located at /south/)
+(Located at democratica/south/)
 
 jQuery is Copyright (c) 2010 The jQuery Project.
 Licensed under the GPL. Read the license at:
 http://jquery.org/license/
 
-(Located at /media/js/)
+(Located at democratica/media/js/)
 
 HighCharts is Copyright (c) Highslide Software.
 Licensed under the Creative Commons Attribution-NonCommercial license. Read the
 license at: 
-http://creativecommons.org/licenses/by-nc/3.0/
+http://www.highcharts.com/license
 
-(Located at /media/js/highcharts)
+(Located at democratica/media/js/highcharts)
 
