@@ -23,7 +23,7 @@ from democratica.deputados.models import MP
 print 'A calcular palavras preferidas dos deputados...'
 print 
 for mp in MP.objects.all():
-    print mp.shortname
+    print mp.shortname.encode('utf-8')
     mp.calculate_favourite_word()
 
 
