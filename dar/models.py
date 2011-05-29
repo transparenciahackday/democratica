@@ -83,4 +83,4 @@ class Entry(models.Model):
         else:
             return '%s (%s)' % (self.speaker, str(self.day.date))
 
-    def get_absolute_url(self): return '%s#%s' % (self.day.get_absolute_url(), self.id)
+    def get_absolute_url(self): return '/sessoes/intervencao/%d' % (self.id)

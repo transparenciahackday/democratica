@@ -110,7 +110,7 @@ def statement_detail(request, id=None):
     if not id:
         raise Http404
     e = Entry.objects.get(id=id)
-    return redirect_to(url=e.get_absolute_url())
+    return redirect_to(url=e.get_absolute_url() + '&#35;' + str(e.id))
 
 
 def day_statistics(request, year, month, day):
