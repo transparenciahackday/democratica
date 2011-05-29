@@ -8,7 +8,8 @@
 {% block title %}{{ day.date }} &mdash; Demo.cratica (Beta){% endblock %}
 
 {% block ogtitle %}{{ day.date }} &mdash; Demo.cratica (Beta){% endblock %}
-{% block ogurl %}{% url day_detail day.date.year day.date.month day.date.day %}{% endblock %}"/>
+{% block ogurl %}{% url day_detail day.date.year day.date.month day.date.day %}{% endblock %}
+{% block ogtype %}transcript{% endblock %}
 
 {% block extrascripts %}
     <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
