@@ -1,9 +1,25 @@
+
+/* openparliament custom javascript */
+function openparlShareWindow(url) {
+    var width = 550;
+    var height = 450;
+    var left = Math.round((screen.width / 2) - (width / 2));
+    var top = 0;
+    if (screen.height > height) {
+        top = Math.round((screen.height / 2) - (height / 2));
+    }
+    window.open(url, "openparliament_share", "width=" + width +
+       ",height=" + height + ",left=" + left, ",top=" + top +
+       "personalbar=no,toolbar=no,scrollbars=yes,location=yes,resizable=yes");
+}
+
+
 $(function() {
     
     /* STATEMENT SHARING BUTTONS */
     
     if ($('body').hasClass('dar')) {
-        var $statementTools = $('<div id="statement-tools" style="display: block">Olá<img id="share_link" src="/static/images/link.png" class="tip" title="Share a link to this statement"><img id="share_twitter" src="/static/images/twitter.png" class="tip" alt="Twitter" title="Share on Twitter"><img id="share_facebook" src="/static/images/facebook.png" class="tip" title="Share on Facebook"></div>');
+        var $statementTools = $('<div id="statement-tools" style="display: block">Olá<img id="share_link" src="/media/img/adim.png" class="tip" title="Share a link to this statement"><img id="share_twitter" src="/media/img/adim.png" class="tip" alt="Twitter" title="Share on Twitter"><img id="share_facebook" src="/media/img/adim.png" class="tip" title="Share on Facebook"></div>');
         $statementTools.bind('mouseenter', function () {$statementTools.show();})
             .bind('mouseleave', function () {$statementTools.hide();})
             .find('.tip').tooltip({delay: 100, showURL: false});

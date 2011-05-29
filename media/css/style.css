@@ -95,6 +95,11 @@ font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 font-weight: normal;
 }
 
+  .ie7 h1, .ie7 h2, .ie7 h3, .ie7 h4, .ie7 h5, .ie7 h6,
+  .ie8 h1, .ie8 h2, .ie8 h3, .ie8 h4, .ie8 h5, .ie8 h6 {
+  font-weight: bold;
+  }
+
 h1 {
 font-size: 220%;
 }
@@ -228,6 +233,12 @@ padding: 0 20px;
   .default #content {
   padding-top: 20px;
   }
+  
+  .ie7 .home #content,
+  .ie7 .default #content {
+  padding-top: 40px;
+  }
+
 
 #content h2 {
 margin: 0 0 10px;
@@ -665,39 +676,42 @@ margin: 0 2px;
 
 ul.mp-list {
 font-size: 120%;
-margin: 0 26px 20px 0;
+margin: 5px 46px 20px 0;
 width: 272px;
 float: left;
 }
 
 ul.last {
-margin: 0 0 20px;
+margin-right: 0;
 }
 
 ul.mp-list li {
 list-style-type: none;
 display: block;
-margin: 6px 0;
-padding: 4px 0;
-overflow: auto;
+clear: both;
 }
 
 ul.mp-list a {
 text-decoration: none;
 color: #373E48;
-padding: 4px;
+padding: 6px 4px;
+display: block;
+border-bottom: 1px solid #B7BEC8;
+border-top: 1px solid #fff;
 }
 
-ul.mp-list li:first-child a {
-border-top: 0;
-}
+  ul.mp-list li:first-child a {
+  border-top: 0;
+  }
+  
+  ul.mp-list li:last-child a {
+  border-bottom: 0;
+  }
 
-ul.mp-list a:hover {
+ul.mp-list a:hover,
+ul.mp-list a:focus {
 color: #6f7c91;
-background: #fff;
--moz-border-radius: 4px;
--webkit-border-radius: 4px;
-border-radius: 4px;
+background-color: #fff;
 }
 
 ul.mp-list .name {
@@ -714,10 +728,13 @@ height: 25px;
 }
 
 ul.mp-list .party {
-/* background: transparent url(../img/party-icons/mdpcde.png) no-repeat right 0; */
-padding: 0 8px 0;
-font-size: 75%;
+padding: 0;
+margin-left: 2px;
+font-size: 72%;
+text-transform: uppercase;
 font-weight: bold;
+display: block;
+float: right;
 }
 
 /* ------------------------ mp details
@@ -751,6 +768,10 @@ color: #373e48;
 border-color: #6f7c91;
 }
 
+.mp-details .email small {
+font-size: 100%;
+}
+
 .mp-details li ul {
 margin: 0 0 10px;
 overflow: auto;
@@ -759,6 +780,7 @@ padding: 2px 0;
 
 .mp-details li h5 {
 margin-top: 10px;
+font-family: 'Lato-bold','Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 
 .mp-details .single-field {
@@ -862,9 +884,12 @@ background-color: #fff;
 
 -moz-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
--o-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 }
+
+  .ie7 #mp-header h2 {
+  margin: 10px 0 0;
+  }
 
 #mp-header .mp-photo {
 float: left;
@@ -872,6 +897,10 @@ width: 60px;
 display: block;
 margin: -22px 10px 0 26px;
 }
+
+  .ie7 #mp-header .mp-photo {
+  width: 80px;
+  }
 
 #mp-header .mp-photo img {
 display: block;
@@ -892,8 +921,7 @@ font-size: 70%;
 
 #mp-header h2 small img {
 height: 20px;
-width: auto;
-vertical-align: bottom;
+width: 20px;
 }
 
 /* ------------------------ tabs
@@ -1039,6 +1067,7 @@ border-top: 1px dotted #ccc;
 border-bottom: 1px dotted #ccc;
 margin-bottom: 20px;
 padding: 0 20px;
+position: relative;
 }
 
 .intervention > .entry:first-child {
@@ -1244,9 +1273,14 @@ z-index: 50000;
 
 .entry .right .entry-link .open {
 visibility: visible !important;
+}*/
+
+p.notice {
+border-top: 1px dotted #ccc;
+padding: 5px 0;
+margin: 15px 0 0;
 }
 
-*/
 
 /* ------------------------ About snippet
 --------------------------------*/
@@ -1562,7 +1596,6 @@ margin-bottom: 0;
 }
 
 .search #content h3 {
-font-weight: normal;
 font-size: 100%;
 padding: 0 0 5px;
 }

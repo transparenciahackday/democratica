@@ -3,6 +3,22 @@
 
 {% block title %}Deputados &mdash; Demo.cratica.org (Beta){% endblock %}
 
+{% block extrascripts %}
+    
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('*[rel=tipsy]').tipsy({
+          fade: true,
+          gravity: 'n',
+          delayIn: 100,
+          delayOut: 300,
+          html: true,
+        });
+	    });
+    </script>
+ 
+{% endblock %}
+
 {% block contentdiv %}
   {% block content %}{% endblock %}
 {% endblock %}

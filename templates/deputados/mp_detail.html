@@ -135,7 +135,7 @@
             <h4>Ligações</h4>
             <ul>
               <li><a href="http://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID={{ object.id }}">Parlamento.pt</a></li>
-              {% if l.email %}<li><a href="mailto:{{ l.email }}">Enviar e-mail</a><small> {{ l.email }}</small></li>{% endif %}
+              {% if l.email %}<li class="email"><a href="mailto:{{ l.email }}" title="{{ l.email }}" rel="tipsy">Enviar e-mail</a></li>{% endif %}
               {% if l.website_url %}<li><a href="http://{{ l.website_url }}">Website</a></li>{% endif %}
               {% if l.blog_url %}<li><a href="http://{{ l.blog_url }}">Blog</a></li>{% endif %}
 

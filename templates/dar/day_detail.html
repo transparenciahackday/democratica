@@ -15,6 +15,8 @@
         });
       });
     </script>
+
+    <script type="text/javascript" src="/media/js/sharing.js"></script>
   
   {% comment %}
     <script type="text/javascript">
@@ -92,7 +94,7 @@
               <div class="left">
                 <p class="mp-photo"><img src="{{ entry.mp.photo.url }}" alt="{{ entry.mp.shortname }}" /></p>
                 {% if entry.speaker %}
-                <h3>{{ entry.speaker }}</h3>
+                <h3 class="speaker">{{ entry.speaker }}</h3>
                 {% else %}
                 <h3>{{ entry.party }}</h3>
                 {% endif %}
@@ -111,12 +113,14 @@
 
             {{ entry.text_as_html }}
             
+            {% comment %}
             <ul class="social">
               <li class="entry-link" id="button-{{ entry.id }}" title="Brevemente: Link directo">Link directo</li>
               <li><a href="#" class="facebook" title="Brevemente: Partilhar no Facebook">Facebook</a></li>
               <li><a href="#" class="twitter" title="Brevemente: Partilhar no Twitter">Tweet</a></li>              
               <li><a href="#" class="identica" title="Brevemente: Partilhar no Identi.ca">Twitter</a></li>
             </ul>
+            {% endcomment %}
             
           </div>
         </div>
@@ -161,9 +165,7 @@
 
       {% endfor %}
         
-    <ul class="pagination">
-      <p>Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
-    </ul>
+    <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
 
     </div><!-- /#content-box -->
 {% endblock content %}
