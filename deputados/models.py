@@ -85,6 +85,9 @@ class MP(models.Model):
                 return self.governmentpost_set.filter(government=Government.objects.get(number=gov_number))[0]
         return None
 
+    def caucus_on(self, session_number):
+        return self.caucus_set.objects.get(session__number=session_number)
+
     def has_post_on(self, gov_number):
         if gov_number:
             if self.governmentpost_set.filter(government=Government.objects.get(number=gov_number)):
@@ -209,7 +212,7 @@ class Caucus(models.Model):
     has_activity = models.BooleanField('Tem actividades?')
     has_registointeresses = models.BooleanField('Tem registo de interesses?')
 
-    def __unicode__(self): return '%s (%s)' % (self.mp.shortname, self.session)
+    def __unicode__(self): return '%s (%s - %s)' % (self.mp.shortname, self.session, self.party.abbrev)
     class Meta:
         verbose_name = 'caucus'
         verbose_name_plural = 'caucuses'
