@@ -32,7 +32,7 @@ shortnames = frozenset(MP.all_objects.all().values_list('shortname', flat=True))
 
 for n in shortnames:
     if mps.filter(shortname=n).count() > 1:
-        print n
+        sys.stdout.write(n.encode('utf-8') + '\n')
         for name in mps.filter(shortname=n).values_list('name', flat=True):
-            print '   ' + name
+            sys.stdout.write('   ' + name.encode('utf-8') + '\n')
 
