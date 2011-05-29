@@ -5,8 +5,12 @@ from models import Day, Entry
 from deputados.models import Government, Party, MP
 from elections.models import Election
 from django.views.generic.list_detail import object_list, object_detail
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 from django.utils.safestring import mark_safe
+from django.http import Http404
+
+
+
 
 import datetime
 import dateutil.parser
@@ -101,6 +105,12 @@ def day_detail(request, year, month, day):
                        'gov': gov.number if gov else None,
                        'mp_lookup': mp_lookup,
                 })
+
+def statement_detail(request, id=None):
+    if not id:
+        raise Http404
+    e = Entry.objects.get(id=id)
+    return redirect_to(url=e.get_absolute_url())
 
 
 def day_statistics(request, year, month, day):

@@ -18,26 +18,26 @@ $(function() {
     
     /* STATEMENT SHARING BUTTONS */
     
-    if ($('body').hasClass('dar')) {
+   // if ($('body').hasClass('dar')) {
         var $statementTools = $('<div id="statement-tools" style="display: block">Olá<img id="share_link" src="/media/img/adim.png" class="tip" title="Share a link to this statement"><img id="share_twitter" src="/media/img/adim.png" class="tip" alt="Twitter" title="Share on Twitter"><img id="share_facebook" src="/media/img/adim.png" class="tip" title="Share on Facebook"></div>');
         $statementTools.bind('mouseenter', function () {$statementTools.show();})
             .bind('mouseleave', function () {$statementTools.hide();})
-            .find('.tip').tooltip({delay: 100, showURL: false});
-        $paginated.after($statementTools);
+            //.find('.tip').tooltip({delay: 100, showURL: false});
+        // $paginated.after($statementTools);
         var $currentStatement;
         function currentStatementURL() {
-            return 'https://demo.cratica.org' + $currentStatement.attr('data-url');
+            return 'https://demo.cratica.org/sessoes/intervencao/' + $currentStatement.attr('id');
         }
         function currentStatementDescription() {
-            var descr = $currentStatement.find('.pol_name').html();
+            var descr = $currentStatement.find('.mp-name').html();
             if (!descr) {
-                descr = $('.pol_name').html();
+                descr = $('.mp-name').html();
             }
-            var topic = $currentStatement.find('.statement_topic').html();
-            if (topic) {
-                descr += ' on ' + topic;
-            }
-            return descr;
+            //var topic = $currentStatement.find('.statement_topic').html();
+            //if (topic) {
+            //    descr += ' on ' + topic;
+            //}
+            //return descr;
         }
         $('.intervention').live('mouseenter', function() {
             $currentStatement = $(this);
@@ -67,11 +67,11 @@ $(function() {
         $('#share_twitter').click(function() {
             openparlShareWindow('http://twitter.com/share?'
                 + $.param({'url': currentStatementURL(),
-                'via': 'openparlca',
-                'related': 'openparlca:openparliament.ca',
+                'via': 'demo_cratica',
+                'related': 'demo_cratica:demo.cratica.org',
                 'text': currentStatementDescription()
                 }));
             // window.open(currentStatementURL() + 'twitter/');
         });
-    }
+    //}
 });

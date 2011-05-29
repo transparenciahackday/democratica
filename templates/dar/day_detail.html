@@ -8,15 +8,19 @@
 {% block title %}{{ day.date.day }} de {{ day.date.month }} de {{ day.date.year }} &mdash; Demo.cratica (Beta){% endblock %}
 
 {% block extrascripts %}
+
+
+    <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+
     <script type="text/javascript">
       $(document).ready(function(){  
         $(".entry").hover(function(){
           $(this).toggleClass("active");
         });
+        
+        //$('#facebook-{{ entry.id }}').click(function() {
       });
     </script>
-
-    <script type="text/javascript" src="/media/js/sharing.js"></script>
   
   {% comment %}
     <script type="text/javascript">
@@ -109,12 +113,16 @@
               <li><p>Link directo <a href="#">https://demo.cratica.org{{ entry.get_absolute_url }}</a></p></li>
             </ul>
             {% endcomment %}
+            
             {{ entry.text_as_html }}
+            
             <ul class="social">
               <li class="entry-link" id="button-{{ entry.id }}" title="Brevemente: Link directo">Link directo</li>
-              <li><a href="#" class="facebook" title="Brevemente: Partilhar no Facebook">Facebook</a></li>
-              <li><a href="#" class="twitter" title="Brevemente: Partilhar no Twitter">Tweet</a></li>              
-              <li><a href="#" class="identica" title="Brevemente: Partilhar no Identi.ca">Twitter</a></li>
+              
+              <li><a href="http://www.facebook.com/sharer.php?u=https://demo.cratica.org{{ entry.get_absolute_url }}&amp;t=Demo.cratica" class="facebook" name="fb_share" id="facebook-{{ entry.id }}" title="Partilhar no Facebook">Facebook</a></li>
+              
+              <li><a href="http://twitter.com/share?text={% if entry.mp %}{{ entry.mp }}{% else %}{{ entry.speaker }}{% endif %}: {{ entry.text|truncatewords:5 }}&amp;via=demo_cratica&amp;url=https://demo.cratica.org{{ entry.get_absolute_url }}" class="twitter" id="twitter-{{ entry.id }}" title="Partilhar no Twitter" target="_blank">Tweet</a></li>
+              
             </ul>
           </div> <!-- /right -->
         </div> <!-- /entry -->
