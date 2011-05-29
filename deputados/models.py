@@ -209,7 +209,7 @@ class Caucus(models.Model):
     has_activity = models.BooleanField('Tem actividades?')
     has_registointeresses = models.BooleanField('Tem registo de interesses?')
 
-    def __unicode__(self): return self.mp.shortname
+    def __unicode__(self): return '%s (%s)' % (self.mp.shortname, self.session)
     class Meta:
         verbose_name = 'caucus'
         verbose_name_plural = 'caucuses'
