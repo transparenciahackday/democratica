@@ -5,7 +5,7 @@
 
 {% block ogtitle %}{{ object.shortname }} &mdash; Demo.cratica (Beta){% endblock %}
 {% block ogurl %}{% url day_detail day.date.year day.date.month day.date.day %}{% endblock %}
-{% block ogimage %}{{ object.photo.url }}{% endblock %}
+{{ if object.photo }}{% block ogimage %}{{ object.photo.url }}{% endblock %}{% endif %}
 {% block ogtype %}politician{% endblock %}
 
 {% block extrabodyclass %}default mp{% endblock %}
