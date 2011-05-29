@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^sessoes/(?P<year>\d+)/$', darviews.day_list, name='calendar_year'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', darviews.day_detail, name='day_detail'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/stats$', darviews.day_statistics, name='day_stats'),
+    url(r'^sessoes/intervencao/(?P<id>\d+)/$', darviews.statement_detail, name='statement_detail'),
 
     (r'^pesquisa/', include('dar.urls')),
 
