@@ -5,8 +5,9 @@
 
 {% block ogtitle %}{{ object.shortname }} &mdash; Demo.cratica (Beta){% endblock %}
 {% block ogurl %}{% url mp_detail object.id %}{% endblock %}
-{% block ogimage %}{% if object.photo %}{{ object.photo.url }}{% endif %}{% endblock %}
+{% block ogimage %}{% if object.photo %}http://demo.cratica.org:7080/media/{{ object.photo.name }}{% endif %}{% endblock %}
 {% block ogtype %}politician{% endblock %}
+{% block ogdescription %}Dados sobre {{ object.shortname }} no Demo.cratica, a forma fácil de ler o Parlamento.{% endblock %}
 
 {% block extrabodyclass %}default mp{% endblock %}
 
