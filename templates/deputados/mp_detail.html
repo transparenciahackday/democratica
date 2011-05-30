@@ -3,6 +3,11 @@
 
 {% block title %}{{ object.shortname }} &mdash; Demo.cratica (Beta){% endblock %}
 
+{% block ogtitle %}{{ object.shortname }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block ogurl %}{% url mp_detail object.id %}{% endblock %}
+{% block ogimage %}{% if object.photo %}{{ object.photo.url }}{% endif %}{% endblock %}
+{% block ogtype %}politician{% endblock %}
+
 {% block extrabodyclass %}default mp{% endblock %}
 
 {% block content %}
@@ -114,7 +119,7 @@
           <li>
           <h4>Factos</h4>
           <ul>
-            <li>A palavra preferida de {{ object.shortname }} é <strong>{{ object.favourite_word }}</strong>.
+            <li>Segundo as nossas contas, a palavra preferida de {{ object.shortname }} é <strong>{{ object.favourite_word }}</strong>.
           </ul>
           </li>
           {% endif %}

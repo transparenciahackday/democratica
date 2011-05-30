@@ -5,13 +5,14 @@
 
 {% block extrabodyclass %}default dar{% endblock %}
 
-{% block title %}{{ day.date.day }} de {{ day.date.month }} de {{ day.date.year }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block title %}{{ day.date }} &mdash; Demo.cratica (Beta){% endblock %}
+
+{% block ogtitle %}{{ day.date }} &mdash; Demo.cratica (Beta){% endblock %}
+{% block ogurl %}{% url day_detail day.date.year day.date.month day.date.day %}{% endblock %}
+{% block ogtype %}transcript{% endblock %}
 
 {% block extrascripts %}
-
-
     <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-
     <script type="text/javascript">
       $(document).ready(function(){  
         $(".entry").hover(function(){
@@ -20,29 +21,27 @@
       });
     </script>
   
-  {% comment %}
-    <script type="text/javascript">
-      $(document).ready(function(){
-        $('li.entry-link').one('click', openMenu);
-        function openMenu(e) {
-          var button = $(this).addClass('active');
-          var menu = $('#popup-' + button.attr('id'));
-          menu.addClass('open').click(function(e) {
-          e.stopPropagation(); }).show(200, function() {
-              $(document).one('click', {button: button, menu: menu}, closeMenu);
+    {% comment %}
+      <script type="text/javascript">
+        $(document).ready(function(){
+          $('li.entry-link').one('click', openMenu);
+          function openMenu(e) {
+            var button = $(this).addClass('active');
+            var menu = $('#popup-' + button.attr('id'));
+            menu.addClass('open').click(function(e) {
+            e.stopPropagation(); }).show(200, function() {
+                $(document).one('click', {button: button, menu: menu}, closeMenu);
+              });
+            }
+          function closeMenu(e) {
+            e.data.menu.removeClass('open').hide(100, function() {
+              e.data.button.removeClass('active')
             });
+            e.data.button.one('click', openMenu);
           }
-
-        function closeMenu(e) {
-          e.data.menu.removeClass('open').hide(100, function() {
-            e.data.button.removeClass('active')
-          });
-          e.data.button.one('click', openMenu);
-        }
-
-      });
-  </script>
-  {% endcomment %}
+        });
+    </script>
+    {% endcomment %}
 
 {% endblock %}
 
