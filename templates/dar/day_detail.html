@@ -17,8 +17,6 @@
         $(".entry").hover(function(){
           $(this).toggleClass("active");
         });
-        
-        //$('#facebook-{{ entry.id }}').click(function() {
       });
     </script>
   
@@ -116,14 +114,16 @@
             
             {{ entry.text_as_html }}
             
+            {% comment %}
             <ul class="social">
               <li class="entry-link" id="button-{{ entry.id }}" title="Brevemente: Link directo">Link directo</li>
               
               <li><a href="http://www.facebook.com/sharer.php?u=https://demo.cratica.org{{ entry.get_absolute_url }}&amp;t=Demo.cratica" class="facebook" name="fb_share" id="facebook-{{ entry.id }}" title="Partilhar no Facebook">Facebook</a></li>
               
               <li><a href="http://twitter.com/share?text={% if entry.mp %}{{ entry.mp }}{% else %}{{ entry.speaker }}{% endif %}: {{ entry.text|truncatewords:5 }}&amp;via=demo_cratica&amp;url=https://demo.cratica.org{{ entry.get_absolute_url }}" class="twitter" id="twitter-{{ entry.id }}" title="Partilhar no Twitter" target="_blank">Tweet</a></li>
-              
             </ul>
+            {% endcomment %}
+            
           </div> <!-- /right -->
         </div> <!-- /entry -->
         {% else %}
