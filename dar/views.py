@@ -7,6 +7,7 @@ from elections.models import Election
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
 from django.http import Http404
 
 
@@ -110,7 +111,8 @@ def statement_detail(request, id=None):
     if not id:
         raise Http404
     e = Entry.objects.get(id=id)
-    return redirect_to(url=e.get_absolute_url() + '&#35;' + str(e.id))
+    url = e.day.get_absolute_url() + '#' + str(e.id)
+    return redirect_to(request=request, url=url)
 
 
 def day_statistics(request, year, month, day):
