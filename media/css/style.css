@@ -486,13 +486,17 @@ box-shadow: 2px 2px 3px rgba(55,62,72,.8);
   }
 
 #content #main a.box:hover {
-color: #333;
-border-color: #333;
+color: #373e48;
+border-color: #373e48;
 }
 
 #content #main a.box h2 {
 padding: 0 0 10px;
 border-bottom: 1px dotted #535d6c;
+}
+
+#content #main a.box:hover h2 {
+color: #535d6c;
 }
 
 #content #main a.box p {
@@ -501,18 +505,11 @@ font-size: 115%;
 
 #about {
 text-align: center;
-/* height with navigation menu
-height: 100px;
-margin: -130px auto 0;*/
 height: 88px;
-margin: -108px auto 0;
+margin: -145px auto 0;
 min-width: 715px;
 clear: both;
 position: relative;
-}
-
-.home-menu #about {
-margin: -145px auto 0;
 }
 
 #about p.follow-twitter {
@@ -1569,11 +1566,22 @@ font-weight: bold;
   background-color: #535d6c;
   }
   
+  #calendar ol .missing {
+  background-color: #f1ecd5;
+  color: #9e9c95;
+  }
+  
+  #calendar ol .future {
+  background-color: #434c58;
+  color: #4f5a68;
+  }
+  
   #calendar ol .election {
   padding: 2px 0px;
   border: 1px solid #939dac;
   color: #E9DDAF;
   background-color: #737d9c;
+  cursor: default;
   
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
