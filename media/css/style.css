@@ -118,7 +118,7 @@ margin: 0 0 10px 0;
 }
 
 h5 {
-font-size: 100%
+font-size: 100%;
 }
 
 /* ------------------------ menu
@@ -132,9 +132,6 @@ padding: 0 20px;
 
 #menu-box {
 padding: 0;
-}
-
-#menu-box ul {
 overflow: auto;
 font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -177,6 +174,10 @@ float: left;
 opacity: .8;
 }
 
+#menu-box li a.active {
+background-color: #535d6c;
+}
+
 #menu-box li#search {
 position: absolute;
 right: 0;
@@ -186,6 +187,10 @@ border: 1px solid #373e48;
 -webkit-border-radius: 4px;
 -moz-border-radius: 4px;
 border-radius: 4px;
+}
+
+#menu-box li#search form {
+overflow: auto;
 }
 
 #menu-box li#search form .searchbox {

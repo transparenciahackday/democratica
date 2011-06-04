@@ -6,6 +6,19 @@
 {% block title %}Estatísticas de {{ day.date.day }} de {{ day.date.month }} de {{ day.date.year }} &mdash; Demo.cratica (Beta){% endblock %}
 
 {% block extrascripts %}
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.tipsy-ballon').tipsy({
+          fade: true,
+          gravity: 'n',
+          delayIn: 100,
+          delayOut: 300,
+          html: true,
+        });
+	    });
+    </script>
+
 <script type="text/javascript" src="/media/js/highcharts/highcharts.js"></script>
 <script type="text/javascript" src="/media/js/highcharts/themes/gray.js"></script>
 
@@ -154,7 +167,7 @@
       <h2 class="ribbon">{{ day.date }}</h2>
       
       <div id="multi-col">
-        <div class="col">
+        <div class="col left-col">
           <h4>Proporção das intervenções</h4>
           <div id="grafproporcao" style="width: 290px; height: 290px; margin: 0 auto"></div>
         </div>
@@ -170,7 +183,7 @@
           <p>A palavra mais mencionada neste dia foi</p>
             {% with top5words|dictsortreversed:'count' as words %}
             <p class="favourite-word" title="Mencionada {{ words.0.count }} vezes"><strong>{{ words.0.word }}</strong></p>
-            <p class="other-words">Os outros termos mais mencionados foram <span title="Mencionada {{ words.1.count }} vezes">{{ words.1.word }}</span>, <span title="Mencionada {{ words.2.count }} vezes">{{ words.2.word }}</span>, <span title="Mencionada {{ words.3.count }} vezes">{{ words.3.word }}</span> e <span title="Mencionada {{ words.4.count }} vezes">{{ words.4.word }}</span>.</p>
+            <p class="other-words">Os outros termos mais mencionados foram <span class="tipsy-ballon" title="Mencionada {{ words.1.count }} vezes">{{ words.1.word }}</span>, <span class="tipsy-ballon" title="Mencionada {{ words.2.count }} vezes">{{ words.2.word }}</span>, <span class="tipsy-ballon" title="Mencionada {{ words.3.count }} vezes">{{ words.3.word }}</span> e <span class="tipsy-ballon" title="Mencionada {{ words.4.count }} vezes">{{ words.4.word }}</span>.</p>
             
             {# Para as tooltips, o número de vezes que cada palavra aparece mostra-se com {{ words.1.count }}, sendo que o número #}
             {# deve corresponder à palavra associada #}
@@ -190,7 +203,6 @@
         {% endif %}
       </ul><!-- /pagination-->
         
-    <ul class="pagination">
       <p>Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
 
     </div><!-- /#content-box -->
