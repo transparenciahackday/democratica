@@ -352,8 +352,8 @@ color: #333;
 }
 
 #footer-box h5 {
-padding: 18px 0 0;
-background: transparent url(../img/icons/bullet.png) no-repeat center 9px;
+padding: 40px 0 4px;
+background: transparent url(../img/icons/bullet.png) no-repeat center 20px;
 text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
 font-family: 'Lato-bold','Helvetica Neue',Helvetica,Arial,sans-serif;
 font-weight: normal;
@@ -374,6 +374,36 @@ display: inline;
 display: inline-block;
 margin: 0 5px;
 }
+
+#footer a.footer-logo {
+height: 0;
+overflow: hidden;
+display: inline-block;
+}
+
+  #footer a.manufactura {
+  background: transparent url(../img/logos/manufactura.png) no-repeat center 0;
+  width: 138px;
+  padding-top: 30px;
+  }
+  
+  #footer a.transparencia-porto {
+  background: transparent url(../img/logos/transparencia.png) no-repeat center 0;
+  width: 79px;
+  padding-top: 20px;
+  }
+  
+  #footer a.unimos {
+  background: transparent url(../img/logos/unimos.png) no-repeat center 0;
+  width: 56px;
+  padding-top: 20px;
+  }
+  
+  #footer a.hacklaviva {
+  background: transparent url(../img/logos/hacklaviva.png) no-repeat center 0;
+  width: 80px;
+  padding-top: 15px;
+  }
 
 #navigation {
 display: block;
