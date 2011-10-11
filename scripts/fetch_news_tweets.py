@@ -25,9 +25,7 @@ import logging
 
 from democratica.deputados import utils
 
-from democratica.deputados.models import MP, Party, GovernmentPost
-from democratica.dar.models import Entry, Day
-from democratica.settings import TRANSCRIPTS_DIR
+from democratica.deputados.models import MP
 
 print '--------------------'
 print 'A importar tweets...'
@@ -45,15 +43,10 @@ print '----------------------'
 print 'A importar notícias...'
 print '----------------------'
 print 
-# só queremos deputados que estejam nas transcrições
-# FIXME: alargar isto a todos!!
+for mp in MP.objects.all():
+    print mp.shortname
+    news = utils.get_news_for_mp(mp)
+    mp.news = news
+    print news
+    mp.save()
 
-for id in frozenset(Entry.objects.values_list('mp', flat=True)):
-    if id:
-        mp = MP.objects.get(id=id)
-        print mp.shortname
-        news = utils.get_news_for_mp(mp)
-        mp.news = news
-        print news
-        mp.save()
-    
