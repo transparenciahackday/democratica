@@ -127,10 +127,10 @@
 
           <li>
           {% if object.news %}
-          <h4>Notícias recentes <small> via Google Notícias</small></h4>
+          <h4>Notícias recentes</h4>
             <ul>
               {% for newsobj in object.news %}
-              <li>{{ newsobj|filter_news_tuple }}</li>
+              <li><a href="{{ newsobj.url }}">{{ newsobj.title }}</a><small> {{ newsobj.source }}</small></li>
               {% endfor %}
             </ul>
           </li>
@@ -148,7 +148,7 @@
               {% if l.wikipedia_url %}<li><a href="http://{{ l.wikipedia_url }}">Wikipedia</a></li>{% endif %}
               {% if l.twitter_url %}<li><a href="http://{{ l.twitter_url }}">Twitter</a></li>{% endif %}
               {% if l.facebook_url %}<li><a href="http://{{ l.facebook_url }}">Facebook</a></li>{% endif %}
-              {% if l.twitica_url %}<li><a href="http://{{ l.twitica_url }}">Twitica</a></li>{% endif %}
+              {# {% if l.twitica_url %}<li><a href="http://{{ l.twitica_url }}">Twitica</a></li>{% endif %} #}
               {% if l.linkedin_url %}<li><a href="http://{{ l.linkedin_url }}">LinkedIn</a></li>{% endif %}
             </ul>
           </li>
