@@ -70,13 +70,13 @@ def insert_mps(csvfile=os.path.join(DATASET_DIR, MP_FILE)):
                           occupation = occupation
                           )
 
+def insert_mp_gender():
     genders = csv.reader(open(os.path.join(DATASET_DIR, GENDERS_FILE)), delimiter='|', quotechar='"')
     for mp_id, gender in genders:
-        mp = MP.objects.get(id=mp_id)
-        mp.gender = gender
-        mp.save()
-
-
+        if MP.objects.filter(id=mp_id):
+            mp = MP.objects.get(id=mp_id)
+            mp.gender = gender
+            mp.save()
 
     print 'A associar fotos dos deputados...'
     from django.core.files.base import ContentFile
@@ -100,10 +100,13 @@ def insert_facts(csvfile=os.path.join(DATASET_DIR, FACTS_FILE)):
         else:
             f = FactType.objects.create(name=fact_type)
 
-        Fact.objects.create(mp = MP.objects.get(id=mp_id),
-                            fact_type = f,
-                            value = value,
-                            )
+        if MP.objects.filter(id=mp_id):
+            Fact.objects.create(mp = MP.objects.get(id=mp_id),
+                                fact_type = f,
+                                value = value,
+                                )
+        else:
+            print 'Facto sem deputado correspondente (id %s)' % str(mp_id)
     for mp in MP.objects.all():
         if not mp.has_facts:
             mp.is_active = False
@@ -150,7 +153,8 @@ def insert_caucus(csvfile=os.path.join(DATASET_DIR, CAUCUS_FILE)):
         else:
             c = Constituency.objects.create(name=constituency)
 
-        Caucus.objects.create(mp = MP.all_objects.get(id=mp_id),
+        if MP.objects.filter(id=mp_id):
+            Caucus.objects.create(mp = MP.all_objects.get(id=mp_id),
                             session = s,
                             date_begin = date_begin,
                             date_end = date_end,
@@ -159,6 +163,8 @@ def insert_caucus(csvfile=os.path.join(DATASET_DIR, CAUCUS_FILE)):
                             has_activity = bool(has_activity),
                             has_registointeresses = bool(has_registointeresses),
                             )
+        else:
+            print "Caucus sem deputado correspondente (%s)" % mp_id
 
     constituency_file = csv.reader(open(os.path.join(DATASET_DIR, CONSTITUENCIES_FILE)), delimiter='|', quotechar='"')
     for name, article in constituency_file:
@@ -172,7 +178,8 @@ def insert_activities(csvfile=os.path.join(DATASET_DIR, ACTIVITIES_FILE)):
     for id, mp_id, caucus, type1, type2, number, session, content, date_added, external_id in caucus:
         if Activity.objects.filter(id=id):
             continue
-        Activity.objects.create(mp = MP.objects.get(id=int(mp_id)),
+        elif MP.objects.filter(id=mp_id):
+            Activity.objects.create(mp = MP.objects.get(id=int(mp_id)),
                             caucus = Caucus.objects.get(id=int(caucus)),
                             type1 = type1,
                             type2 = type2,
@@ -181,6 +188,8 @@ def insert_activities(csvfile=os.path.join(DATASET_DIR, ACTIVITIES_FILE)):
                             content = content,
                             external_id = external_id,
                              )
+        else:
+            print "Actividade sem deputado correspondente (%s)" % str(mp_id)
     for mp in MP.objects.all():
         mp.has_activity = bool(mp.activity_set.all())
         mp.save()
@@ -302,12 +311,13 @@ def update_mps():
 
 if __name__ == '__main__':
     check_for_files()
-    insert_mps()
-    insert_facts()
-    insert_caucus()
-    insert_activities()
-    insert_linksets()
-    insert_shortnames()
-    insert_parties()
+    # insert_mps()
+    #insert_mp_gender()
+    #insert_facts()
+    #insert_caucus()
+    #insert_activities()
+    #insert_linksets()
+    #insert_shortnames()
+    #insert_parties()
     insert_governments()
     update_mps()

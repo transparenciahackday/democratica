@@ -2,7 +2,7 @@
 
 from django.db import models
 from thumbs import ImageWithThumbsField
-import jsonfield
+from django_extensions.db.fields.json import JSONField
 from democratica.core import text_utils
 
 from south.modelsinspector import add_introspection_rules
@@ -47,8 +47,8 @@ class MP(models.Model):
     photo = ImageWithThumbsField('Fotografia', upload_to='fotos', sizes=((18,25),), null=True)
 
     favourite_word = models.CharField('Palavra preferida', max_length=100, blank=True, null=True)
-    news = jsonfield.JSONField(null=True)
-    tweets = jsonfield.JSONField(null=True)
+    news = JSONField(null=True)
+    tweets = JSONField(null=True)
 
     is_active = models.BooleanField('Activo', default=True)
     current_party = models.ForeignKey('Party', verbose_name='Último partido', null=True)
@@ -58,13 +58,15 @@ class MP(models.Model):
     all_objects = MPAllManager()
 
     def update_current_caucus(self):
-        self.current_caucus = self.caucus_set.all()[0]
-        self.save()
+        if self.caucus_set.all():
+            self.current_caucus = self.caucus_set.all()[0]
+            self.save()
 
     def update_current_party(self):
-        p = self.current_caucus.party
-        self.current_party = p
-        self.save()
+        if self.current_caucus:
+            p = self.current_caucus.party
+            self.current_party = p
+            self.save()
 
     @property
     def has_facts(self):

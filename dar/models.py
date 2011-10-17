@@ -5,14 +5,14 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 import datetime
-import jsonfield
+from django_extensions.db.fields.json import JSONField
 from democratica.core import text_utils
 
 from deputados.models import MP
 
 class Day(models.Model):
     date = models.DateField()
-    top5words = jsonfield.JSONField(null=True)
+    top5words = JSONField(null=True)
 
     def __unicode__(self):
         return str(self.date)
