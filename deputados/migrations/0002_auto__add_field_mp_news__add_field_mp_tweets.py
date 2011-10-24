@@ -9,10 +9,10 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding field 'MP.news'
-        db.add_column('deputados_mp', 'news', self.gf('jsonfield.fields.JSONField')(null=True), keep_default=False)
+        db.add_column('deputados_mp', 'news', self.gf('django_extensions.db.fields.json.JSONField')(null=True), keep_default=False)
 
         # Adding field 'MP.tweets'
-        db.add_column('deputados_mp', 'tweets', self.gf('jsonfield.fields.JSONField')(null=True), keep_default=False)
+        db.add_column('deputados_mp', 'tweets', self.gf('django_extensions.db.fields.json.JSONField')(null=True), keep_default=False)
 
 
     def backwards(self, orm):
@@ -108,11 +108,11 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
-            'news': ('jsonfield.fields.JSONField', [], {'null': 'True'}),
+            'news': ('django_extensions.db.fields.json.JSONField', [], {'null': 'True'}),
             'occupation': ('django.db.models.fields.CharField', [], {'max_length': '300', 'blank': 'True'}),
             'photo': ('deputados.thumbs.ImageWithThumbsField', [], {'max_length': '100', 'null': 'True', 'name': "'photo'", 'sizes': '((18, 25),)'}),
             'shortname': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'tweets': ('jsonfield.fields.JSONField', [], {'null': 'True'})
+            'tweets': ('django_extensions.db.fields.json.JSONField', [], {'null': 'True'})
         },
         'deputados.party': {
             'Meta': {'object_name': 'Party'},
