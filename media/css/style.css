@@ -211,10 +211,6 @@ border-top-left-radius: 2px;
 border-bottom-left-radius: 2px;
 }
 
-  .gecko #menu-box li#search form .searchbox {
-  padding: 5px 2px;
-  }
-
 #menu-box li#search form *.placeholder {
 color: #535d6c;
 }
@@ -570,7 +566,7 @@ position: relative;
 z-index: 3;
 }
 
-#about a#reveal-button {
+#about #reveal-button a {
 color: #dbdee3;
 display: block;
 text-decoration: none;
@@ -583,7 +579,7 @@ padding: 22px 0;
 height: 16px;
 }
 
-#about a#reveal-button h3 {
+#about #reveal-button {
 font-size: 16px;
 line-height: 1;
 margin: 0;
@@ -938,7 +934,7 @@ z-index: -1;
 }
 
 #mp-header h2 {
-padding: 18px 15px 10px 110px;
+padding: 18px 15px 10px 98px;
 margin: 20px 0 0;
 background-color: #fff;
 

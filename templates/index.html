@@ -13,43 +13,19 @@
     <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
   
     <link rel="shortcut icon" href="/media/img/favicon.ico" />
-  
-    
+   
     <script type="text/javascript" src="/media/js/css_browser_selector.js"></script>
     <script type="text/javascript" src="/media/js/jquery-1.5.2.min.js"></script>
-    
-    <script>!window.jQuery && document.write(unescape('%3Cscript src="/lib/jquery.js"%3E%3C/script%3E'));</script>
-    <script type="text/javascript" src="/media/js/smooth-scroll/jquery.smooth-scroll.js"></script>
-    <script type="text/javascript" src="/media/js/smooth-scroll/lib/jquery.ba-bbq.js"></script>
-  
-    <script>
-      $(document).ready(function() {
-        
-        $('a#reveal-button').live('click', function() {
-          $.bbq.pushState( '#/' + this.hash.slice(1) );
-          
-          $('div#mais').addClass("expanded");
-          return false;
-          
-        
-        });
-        
-        $(window).bind('hashchange', function(event) {
-          
-          if (location.hash) {
-            var tgt = location.hash.replace(/#\//,'');
-          } else {
-            var tgt = '#up';
-          }
-          $.smoothScroll({scrollTarget: '#' + tgt});
-        });
-        
-        $(window).trigger('hashchange');
+		<script type="text/javascript" src="/media/js/jquery.localscroll-1.2.7-min.js"></script>
+		<script type="text/javascript" src="/media/js/jquery.scrollTo-1.4.2-min.js"></script>
 
-      
-      });
-      
-    </script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				// Animated Scroll
+				$("#reveal-button").localScroll();				
+			});
+
+		</script>
     
     <!-- Google Analytics -->
     <script type="text/javascript">
@@ -123,7 +99,7 @@
       <li><a href="">Glossário</a></li>
     </ul>
   {% endcomment %}
-    <a href="#mais" id="reveal-button"><h3>O que é o Demo.cratica?</h3></a>
+    <h3 id="reveal-button"><a href="#mais">O que é o Demo.cratica?</a></h3>
 
    </div> <!-- /#about-->
  
