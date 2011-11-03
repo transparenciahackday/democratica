@@ -130,7 +130,9 @@ def import_session(filename, force=False):
             insert_entry(speaker, party, text, stype, day)
 
     elif filename.endswith('.json'):
-        j = json.load(open(filename, 'r'))
+        f = open(filename, 'r')
+        # strange hack to eliminate some weird initial chars that badly bork the Python JSON parser
+        j = json.loads(f.read().replace('\xef\xbb\xbf', '', 1))
         for entry in j['entries']:
             speaker = entry['speaker']
             party = entry['party']
