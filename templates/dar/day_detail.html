@@ -62,22 +62,22 @@
         <div class="intervention mini-intervention">
         {% endif %}
 
-        {% if entry.type == 'mp' %}
+        {% if entry.type == 'deputado_intervencao' %}
         {# Previous intervention ends here #}
         </div> <!-- /intervention --> 
         <div class="intervention">
         {% endif %}
 
-        {% if entry.type == 'president' or entry.type == 'secretary' %}
+        {% if entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' %}
         {# Previous intervention ends here #}
         </div> <!-- /intervention -->
         <div class="intervention mini-intervention">
         {% endif %}
 
-        {% if entry.type == 'mp' %}
+        {% if entry.type == 'deputado_intervencao' %}
         <div class="entry" id="{{ entry.id }}">
           {# Parte esquerda (div left): Foto, nome e descrição do interveniente #}
-          {% if entry.type == 'mp' and not entry.speaker %}
+          {% if entry.type == 'deputado_intervencao' and not entry.speaker %}
             {# Interveniente registado na base de dados #}
             <div class="left">
               {% with mp_lookup|lookup:entry.mp_id as mp %}
@@ -135,24 +135,29 @@
             </div>
             {% else %}
               {# Outros casos#}
-              {% if entry.type == 'applause' or entry.type == 'protest' or entry.type == 'laughter' %}
+              {% if entry.type == 'aplauso' or entry.type == 'protesto' or entry.type == 'riso' or entry.type == 'pausa' %}
                 {# Aplausos, protestos, risos #}
                 <div class="right interruption">
                   <p class="mini">{{ entry.text_as_html_plain }}</p>
                 </div>
               {% else %}
                 <div class="left">
-                  {% if entry.type == 'president' %}
+
+                  {% if entry.type|startswith:'president' %}
                     {% if entry.speaker == 'Presidente' or entry.party == 'Presidente' %}
                       <h3>Presidente</h3>
                     {% else %}
                       <h3>{{ entry.speaker }} {% if entry.party %}({{ entry.party }}){% endif %}</h3>
                     {% endif %}
                   {% else %}
-                    {% if entry.mp %}
-                      <h3>{{ entry.mp.shortname }} ({{ entry.mp.current_party.abbrev }})</h3>
+                    {% if entry.type == 'vozes_aparte' %}
+                      <p class="mini">{{ entry.speaker }}</p>
                     {% else %}
-                      <h3>{{ entry.speaker }}{% if entry.party %} ({{ entry.party }}){% endif %}</h3>
+                      {% if entry.mp %}
+                      <p class="party {{ entry.mp.current_party.abbrev|lower }}">{{ entry.mp.shortname }}</p>
+                      {% else %}
+                        <h3>{{ entry.speaker }}{% if entry.party %} ({{ entry.party }}){% endif %}</h3>
+                      {% endif %}
                     {% endif %}
                   {% endif %}
                 </div>
