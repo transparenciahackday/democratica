@@ -181,14 +181,25 @@
           {% if top5words %}
           <h4>Palavras mais mencionadas</h4>
           <p>A palavra mais mencionada neste dia foi</p>
-            {% with top5words|dictsortreversed:'count' as words %}
-            <p class="favourite-word" title="Mencionada {{ words.0.count }} vezes"><strong>{{ words.0.word }}</strong></p>
+          {#{% with top5words|dictsortreversed:'count' as words %} #}
+              {% for w in top5words %}
+                {# aqui usamos dicts de um só objecto, meio derpy mas tem de ser para obter os valores #}
+                {% if forloop.first %}
+                  {% for word,count in w.items %}
+                  <p class="favourite-word" title="Mencionada {{ count }} vezes"><strong>{{ word }}</strong></p>
+                  {% endfor %}
+                  <p class="other-words">Os outros termos mais mencionados foram {% else %} {% if not forloop.last %} {% for word,count in w.items %}<span class="tipsy-ballon" title="Mencionada {{ count }} vezes">{{ word }}</span>, {% endfor %}{% else %} e {% for word,count in w.items %}<span class="tipsy-ballon" title="Mencionada {{ count }} vezes">{{ word }}</span>.{% endfor %}{% endif %}
+                {% endif %}
+
+            {% comment %}
             <p class="other-words">Os outros termos mais mencionados foram <span class="tipsy-ballon" title="Mencionada {{ words.1.count }} vezes">{{ words.1.word }}</span>, <span class="tipsy-ballon" title="Mencionada {{ words.2.count }} vezes">{{ words.2.word }}</span>, <span class="tipsy-ballon" title="Mencionada {{ words.3.count }} vezes">{{ words.3.word }}</span> e <span class="tipsy-ballon" title="Mencionada {{ words.4.count }} vezes">{{ words.4.word }}</span>.</p>
-            
+
             {# Para as tooltips, o número de vezes que cada palavra aparece mostra-se com {{ words.1.count }}, sendo que o número #}
             {# deve corresponder à palavra associada #}
 
             {% endwith %}
+            {% endcomment %}
+            {% endfor %}
           {% endif %}
         </div>
         

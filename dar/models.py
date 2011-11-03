@@ -3,6 +3,7 @@
 
 from django.db import models
 from django.utils.safestring import mark_safe
+from django.utils.datastructures import SortedDict
 from django.core.urlresolvers import reverse
 import datetime
 from django_extensions.db.fields.json import JSONField
@@ -21,10 +22,12 @@ class Day(models.Model):
     def calculate_top5words(self):
         if self.entry_set.all():
              top5words = text_utils.most_frequent_word(self.entry_set.all(), 5)
-             wordicts = []
+             words = []
              for word, count in top5words:
-                 wordicts.append({'word': word, 'count': count})
-             self.top5words = wordicts
+                 words.append({word: count})
+             wordict = {'words': words}
+             self.top5words = wordict
+             print wordict
              self.save()
 
     class Meta:

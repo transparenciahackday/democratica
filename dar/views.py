@@ -10,9 +10,6 @@ from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.http import Http404
 
-
-
-
 import datetime
 import dateutil.parser
 
@@ -55,7 +52,8 @@ def day_list(request, year=datetime.date.today().year):
     for d in all_days:
         # criar dic de palavras mais mencionadas por dia
         if d.top5words:
-            words[d.date] = d.top5words[0]['word']    
+            # ugly ugly way to get the (unknown name) key from a dict
+            words[d.date] = d.top5words['words'][0].items()[0][0]
         else:
             words[d.date] = '-'
     extra['words'] = words
@@ -211,6 +209,6 @@ def day_statistics(request, year, month, day):
                            'party_counts': party_counts,
                            'party_colors': PARTY_COLORS,
                            'mb_counts': mb_counts,
-                           'top5words': day.top5words,
+                           'top5words': day.top5words['words'],
                            'nextdate': next_date, 'prevdate': prev_date,
                 })
