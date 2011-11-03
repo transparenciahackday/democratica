@@ -91,3 +91,9 @@ def lookuplookup(dict, index1, index2):
         if index2 in dict[index1]:
             return dict[index1][index2]
     return ''
+
+@register.filter
+def startswith(value, arg):
+     """Usage, {% if value|startswith:"arg" %}"""
+     return value.startswith(arg)
+
