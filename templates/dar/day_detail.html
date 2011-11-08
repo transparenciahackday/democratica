@@ -62,6 +62,7 @@
         <div class="intervention mini-intervention">
         {% endif %}
 
+        {# Verificar se temos de fechar a tag da intervencao anterior #}
         {% if entry.type == 'deputado_intervencao' %}
         {# Previous intervention ends here #}
         </div> <!-- /intervention --> 
@@ -74,16 +75,14 @@
         <div class="intervention mini-intervention">
         {% endif %}
 
-        {% if entry.type == 'deputado_intervencao' %}
+        {% if entry.type|endswith:'_intervencao' %}
         <div class="entry" id="{{ entry.id }}">
           {# Parte esquerda (div left): Foto, nome e descrição do interveniente #}
-          {% if entry.type == 'deputado_intervencao' and not entry.speaker %}
+          {% if entry.mp_id %}
             {# Interveniente registado na base de dados #}
             <div class="left">
               {% with mp_lookup|lookup:entry.mp_id as mp %}
-              {# FIXME: usar o thumbnail #}
-              {# <p class="mp-photo"><img src="{{ mp.photo.photo.url_18x25 }}" alt="{{ mp.shortname }}" /></p> #}
-              <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url }}" alt="{{ mp.shortname }}" /></a></p>
+              <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
               <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
               {# {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %} #}
               <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
@@ -93,14 +92,12 @@
           {% else %}
             {# Interveniente não encontrado na base #}
             <div class="left">
-              <p class="mp-photo"><img src="{{ entry.mp.photo.url }}" alt="{{ entry.mp.shortname }}" /></p>
               {% if entry.speaker %}
               <h3>{{ entry.speaker }}</h3>
               {% else %}
               <h3>{{ entry.party }}</h3>
               {% endif %}
-              <p class="party">{{ entry.mp.current_party.abbrev }}</p>
-              <p class="circle"></p>
+              <p class="party">{{ entry.party }}</p>
             </div> <!-- /left -->
           {% endif %}
           {# Parte direita (div right): Texto da intervenção e interrupções #}
@@ -126,7 +123,7 @@
           </div> <!-- /right -->
         </div> <!-- /entry -->
         {% else %}
-        {# Interveniente não é deputado/pessoa registada na base de dados #}
+        {# Nao e o inicio de uma intervencao #}
           <div class="entry" id="{{ entry.id }}">
             {% if entry.type == 'interruption' %}
             {# Interrupção a uma intervenção #}
@@ -154,9 +151,10 @@
                       <p class="mini">{{ entry.speaker }}</p>
                     {% else %}
                       {% if entry.mp %}
-                      <p class="party {{ entry.mp.current_party.abbrev|lower }}">{{ entry.mp.shortname }}</p>
+                      <p class="party {{ entry.mp.current_party.abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" />{#</a>#}</p>
                       {% else %}
-                        <h3>{{ entry.speaker }}{% if entry.party %} ({{ entry.party }}){% endif %}</h3>
+                      <h3>{{ entry.speaker }}</h3>
+                      {% if entry.party %}<p class="party">{{ entry.party }}</p>{% endif %}
                       {% endif %}
                     {% endif %}
                   {% endif %}

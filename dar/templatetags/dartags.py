@@ -97,3 +97,7 @@ def startswith(value, arg):
      """Usage, {% if value|startswith:"arg" %}"""
      return value.startswith(arg)
 
+@register.filter
+def endswith(value, arg):
+     """Usage, {% if value|endswith:"arg" %}"""
+     return value.endswith(arg)
