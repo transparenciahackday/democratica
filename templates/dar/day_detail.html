@@ -2,6 +2,7 @@
 
 {% load deputags %}
 {% load dartags %}
+{% load if_tag %}
 
 {% block extrabodyclass %}default dar{% endblock %}
 
@@ -58,30 +59,28 @@
       <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
 
       {% for entry in entries %}
+
         {% if forloop.first %}
         <div class="intervention mini-intervention">
         {% endif %}
 
         {# Verificar se temos de fechar a tag da intervencao anterior #}
-        {% if entry.type == 'deputado_intervencao' %}
-        {# Previous intervention ends here #}
-        </div> <!-- /intervention --> 
-        <div class="intervention">
+        {% if entry.type == 'deputado_intervencao' or entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' or entry.type == 'presidente_aberta' %}
+          </div> <!-- /intervention --> 
+          {% if entry.type == 'deputado_intervencao' %}
+            <div class="intervention">
+          {% else %}
+            <div class="intervention mini-intervention">
+          {% endif %}
         {% endif %}
 
-        {% if entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' %}
-        {# Previous intervention ends here #}
-        </div> <!-- /intervention -->
-        <div class="intervention mini-intervention">
-        {% endif %}
-
-        {% if entry.type|endswith:'_intervencao' %}
         <div class="entry" id="{{ entry.id }}">
-          {# Parte esquerda (div left): Foto, nome e descrição do interveniente #}
-          {% if entry.mp_id %}
-            {# Interveniente registado na base de dados #}
+          <!-- {{ entry.type }} -->
+
+          {% if entry.type == 'deputado_intervencao' %}
+          <!-- Intervencao de deputado - inicio -->
             <div class="left">
-              {% with mp_lookup|lookup:entry.mp_id as mp %}
+              {% with entry.mp as mp %}
               <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
               <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
               {# {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %} #}
@@ -89,84 +88,116 @@
               <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
               {% endwith %}
             </div> <!-- /left -->
-          {% else %}
-            {# Interveniente não encontrado na base #}
+            <div class="right"> {{ entry.text_as_html }} </div> <!-- /right -->
+
+          {% elif entry.type == 'pm_intervencao' %}
+          <!-- Intervencao de Primeiro-Ministro - inicio -->
             <div class="left">
-              {% if entry.speaker %}
-              <h3>{{ entry.speaker }}</h3>
-              {% else %}
-              <h3>{{ entry.party }}</h3>
-              {% endif %}
-              <p class="party">{{ entry.party }}</p>
+              {% with entry.mp as mp %}
+              <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
+              <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
+              <h4>Primeiro-Ministro</h4>
+              <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
+              <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
+              {% endwith %}
             </div> <!-- /left -->
-          {% endif %}
-          {# Parte direita (div right): Texto da intervenção e interrupções #}
-          <div class="right">
-            {% comment %}
-            <ul class="popup" id="popup-button-{{ entry.id }}">
-              <li><p>Link directo <a href="#">https://demo.cratica.org{{ entry.get_absolute_url }}</a></p></li>
-            </ul>
-            {% endcomment %}
-            
-            {{ entry.text_as_html }}
-            
-            {% comment %}
-            <ul class="social">
-              <li class="entry-link" id="button-{{ entry.id }}" title="Brevemente: Link directo">Link directo</li>
-              
-              <li><a href="http://www.facebook.com/sharer.php?u=https://demo.cratica.org{{ entry.get_absolute_url }}&amp;t=Demo.cratica" class="facebook" name="fb_share" id="facebook-{{ entry.id }}" title="Partilhar no Facebook">Facebook</a></li>
-              
-              <li><a href="http://twitter.com/share?text={% if entry.mp %}{{ entry.mp }}{% else %}{{ entry.speaker }}{% endif %}: {{ entry.text|truncatewords:5 }}&amp;via=demo_cratica&amp;url=https://demo.cratica.org{{ entry.get_absolute_url }}" class="twitter" id="twitter-{{ entry.id }}" title="Partilhar no Twitter" target="_blank">Tweet</a></li>
-            </ul>
-            {% endcomment %}
-            
-          </div> <!-- /right -->
-        </div> <!-- /entry -->
-        {% else %}
-        {# Nao e o inicio de uma intervencao #}
-          <div class="entry" id="{{ entry.id }}">
-            {% if entry.type == 'interruption' %}
-            {# Interrupção a uma intervenção #}
-            <div class="right interruption">
-              <p class="mini">{{ entry.text_as_html_plain }} -- {{ entry.speaker }}</p>
+            <div class="right"> {{ entry.text_as_html }} </div> <!-- /right -->
+
+          {% elif entry.type == 'secestado_intervencao' or entry.type == 'ministro_intervencao' %}
+          <!-- Intervencao de membro de governo - inicio -->
+            <div class="left">
+              {% with entry.mp as mp %}
+              <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
+              <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
+              <h4>{{ mp.get_post_in.day.date }}</h4>
+              <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
+              <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
+              {% endwith %}
             </div>
-            {% else %}
-              {# Outros casos#}
-              {% if entry.type == 'aplauso' or entry.type == 'protesto' or entry.type == 'riso' or entry.type == 'pausa' %}
-                {# Aplausos, protestos, risos #}
-                <div class="right interruption">
-                  <p class="mini">{{ entry.text_as_html_plain }}</p>
-                </div>
-              {% else %}
-                <div class="left">
+            <div class="right"> {{ entry.text_as_html }} </div>
 
-                  {% if entry.type|startswith:'president' %}
-                    {% if entry.speaker == 'Presidente' or entry.party == 'Presidente' %}
-                      <h3>Presidente</h3>
-                    {% else %}
-                      <h3>{{ entry.speaker }} {% if entry.party %}({{ entry.party }}){% endif %}</h3>
-                    {% endif %}
-                  {% else %}
-                    {% if entry.type == 'vozes_aparte' %}
-                      <p class="mini">{{ entry.speaker }}</p>
-                    {% else %}
-                      {% if entry.mp %}
-                      <p class="party {{ entry.mp.current_party.abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="{{ mp.shortname }}" />{#</a>#}</p>
-                      {% else %}
-                      <h3>{{ entry.speaker }}</h3>
-                      {% if entry.party %}<p class="party">{{ entry.party }}</p>{% endif %}
-                      {% endif %}
-                    {% endif %}
-                  {% endif %}
-                </div>
-                <div class="right">
-                  {{ entry.text_as_html }}
-                </div> <!-- /right -->
-              {% endif %}
-            {% endif %}
-          </div> <!-- entry -->
-        {% endif %}
+          {# Intervencao (outra) -- inicio #}
+          {% elif entry.type == 'intervencao' %}
+            <div class="left">
+              <h3 class="mp-name">{{ entry.speaker }}</h3>
+              <h4>Primeiro-Ministro</h4>
+              <p class="party">{{ entry.party }}</p>
+            </div>
+            <div class="right"> {{ entry.text_as_html }} </div>
 
+          {# Continuacao da intervencao #}
+          {% elif entry.type == 'continuacao' %}
+          {% if entry.mp %}
+          <div class="left">
+            <p class="party {{ entry.mp.current_party.abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="" />{#</a>#}</p>
+          </div>
+          <div class="right"> {{ entry.text_as_html }} </div>
+          {% else %}
+          <div class="left">
+            <p>{{ entry.speaker }}</p>
+            <p class="party">{{ entry.party }}</p>
+          </div>
+          <div class="right"> {{ entry.text_as_html }} </div>
+          {% endif %}
+
+          {# Presidente -- intervencao #}
+          {% elif entry.type == 'presidente' %}
+            <div class="left"> <h3>Presidente</h3> </div>
+            <div class="right"> {{ entry.text_as_html }} </div>
+
+          {# Presidente -- aparte ou pedido de conclusao #}
+          {% elif entry.type == 'presidente_aparte' %}
+            <div class="left"> <h3>Presidente</h3> </div>
+            <div class="right"> {{ entry.text_as_html }} </div>
+
+          {# Presidente -- tem a palavra #}
+          {% elif entry.type == 'presidente_temapalavra' %}
+            <div class="left"> <h3>Presidente</h3> </div>
+            <div class="right"> {{ entry.text_as_html }} </div>
+
+          {# Secretário #}
+          {% elif entry.type == "secretario" %}
+            <div class="left"> 
+              <h3>Secretário</h3> 
+              <p class="party">{{ entry.party }}</p>
+            </div>
+            <div class="right"> {{ entry.text_as_html }} </div>
+
+          {# Aparte de deputado #}
+          {% elif entry.type == "deputado_aparte" %}
+          {% if entry.mp %}
+          <div class="left">
+            <p class="party {{ entry.mp.current_party.abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="" />{#</a>#}</p>
+          </div>
+          {% else %}
+          <div class="left">
+            <p>{{ entry.speaker }}</p>
+          </div>
+          {% endif %}
+          <div class="right"> {{ entry.text_as_html }} </div>
+
+          {# Vozes (aparte) #}
+          {% elif entry.type == "vozes_aparte" %}
+          <div class="left"> <p class="mini">{{ entry.speaker }}</p> </div>
+          <div class="right"> {{ entry.text_as_html }} </div>
+
+          {# Aplausos, protestos, risos, pausas, notas, horas e outros eventos #}
+          {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "note" or entry.type == "time" %}
+            <div class="right interruption">
+              <p class="mini">{{ entry.text_as_html_plain }}</p>
+            </div>
+
+          {# outros casos #}
+          {% else %}
+          <div class="left"> 
+            <p class="mini">{{ entry.speaker }}</p> 
+            <p class="party">{{ entry.party }}</p> 
+          </div>
+          <div class="right"> {{ entry.text_as_html }} </div>
+
+          {% endif %}
+
+        </div> <!-- /entry -->
         {% if forloop.last %}
         </div> <!-- /intervention --> 
         {% endif %}
@@ -176,4 +207,19 @@
 
     </div><!-- /#content-box -->
 {% endblock content %}
-      
+
+{% comment %}
+<ul class="popup" id="popup-button-{{ entry.id }}">
+  <li><p>Link directo <a href="#">https://demo.cratica.org{{ entry.get_absolute_url }}</a></p></li>
+</ul>
+{% endcomment %}
+
+{% comment %}
+<ul class="social">
+  <li class="entry-link" id="button-{{ entry.id }}" title="Brevemente: Link directo">Link directo</li>
+  
+  <li><a href="http://www.facebook.com/sharer.php?u=https://demo.cratica.org{{ entry.get_absolute_url }}&amp;t=Demo.cratica" class="facebook" name="fb_share" id="facebook-{{ entry.id }}" title="Partilhar no Facebook">Facebook</a></li>
+  
+  <li><a href="http://twitter.com/share?text={% if entry.mp %}{{ entry.mp }}{% else %}{{ entry.speaker }}{% endif %}: {{ entry.text|truncatewords:5 }}&amp;via=demo_cratica&amp;url=https://demo.cratica.org{{ entry.get_absolute_url }}" class="twitter" id="twitter-{{ entry.id }}" title="Partilhar no Twitter" target="_blank">Tweet</a></li>
+</ul>
+{% endcomment %}
