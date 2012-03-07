@@ -1,34 +1,41 @@
-Zon Multimedia:
-- Vídeo na tablet
-- Screencast
-- Screenshots + Ken Burns effect
+Próximas acções
+
+1. Correr novamente o script das fotos do Eduardo
+2. Correr o scraper dos deputados para JSON
+3. DAR 12 - 009 e 010 corruptos, o que se passa?
+4. "Miguel Seufert"
+5. 1/Set: "Deputado Artur Rêgo informou a Mesa que vai dividir as suas"
+6. 1/Set: Ministro da admin interna não está bem formatado
+7. Caracteres "»": Substituir por reticências
+   - imediatamente no início e no fim
+   - caso não haja o carácter « na intervenção
+8. Início de intervenção errado: "Agora é que vêm os meliantes!…", muito grave porque altera os speakers nas continuações
+
 
 BUGS
 ====
-
-- Deputada do PS aparece como CDS!
+Deputada do PS aparece como CDS!
   /deputados/1921/
+txt2taggedtxt: 
+  Continuações consecutivas deviam ser condensadas (post-parse)
+
 
 Coisas que precisam de ser consertadas
 ======================================
-
-* Thumbs: 
-  - Orig 86 x 113
-  - Med  60 x 79
-  - Mini 18 x 25
 * Caixa de pesquisa dos deputados
 * Pesquisa avançada (género, etc)
 
 Questões por resolver
 =====================
-
 * Como separar os deputados 'verdadeiros' dos suplentes? (ver Álvaro Cunhal)
-  - Analisar folhas de presença das transcrições!
-* CDS & CDS-PP: Devíamos juntá-los?
+  - Analisar folhas de presença das transcrições
+  - Extrair nomes 
+  - Fazer lista de primeira e última sessão
+  - Ver faltas e ausências, já agora?
+  - Meter nos datasets
 
 Quando o site estiver online
 ============================
-
 * Fazer registo da aplicação para a API do Twitter
   http://dev.twitter.com/apps/new
   http://code.google.com/p/python-twitter/
@@ -39,3 +46,8 @@ Ideias para novas funcionalidades
 * Adicionar os links dos RSS do blog de cada deputad@, para que possamos mostrar os últimos posts
 
 
+VIDEO
+=====
+- Vídeo na tablet
+- Screencast
+- Screenshots + Ken Burns effect

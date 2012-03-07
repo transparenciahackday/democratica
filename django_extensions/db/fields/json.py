@@ -39,6 +39,9 @@ def loads(txt):
         parse_float=Decimal,
         encoding=settings.DEFAULT_CHARSET
     )
+    if isinstance(value, list):
+        if len(value) == 1:
+            value = value[0]
     assert isinstance(value, dict)
     return value
 
