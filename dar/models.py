@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import datetime
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from django.core.urlresolvers import reverse
-import datetime
 from django_extensions.db.fields.json import JSONField
 from democratica.core import text_utils
-
 from deputados.models import MP
 
 class Day(models.Model):
@@ -33,6 +32,22 @@ class Day(models.Model):
     class Meta:
         ordering = ['date'] 
 
+class Entry(models.Model):
+    day = models.ForeignKey(Day)
+    data = JSONField(null=True)
+    position = models.PositiveIntegerField()
+    raw_text = models.CharField(max_length=40)
+
+    def extract_data(self):
+        pass
+
+    def __unicode__(self):
+        return "<Entry: %s>" % self.raw_text[:30]
+
+    def get_absolute_url(self): 
+        return '/sessoes/intervencao/%d' % (self.id)
+
+'''
 class Entry(models.Model):
     day = models.ForeignKey(Day)
     mp = models.ForeignKey(MP, blank=True, null=True)
@@ -87,3 +102,4 @@ class Entry(models.Model):
             return '%s (%s)' % (self.speaker, str(self.day.date))
 
     def get_absolute_url(self): return '/sessoes/intervencao/%d' % (self.id)
+'''
