@@ -59,7 +59,12 @@
       <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
 
       {% for entry in entries %}
+        <div class="entry" id="{{ entry.id }}">
+          <div class="right"> {{ entry.raw_text_as_html }} </div>
+        </div>
+      {% endfor %}
 
+      {% comment %}
         {% if forloop.first %}
         <div class="intervention mini-intervention">
         {% endif %}
@@ -202,6 +207,8 @@
         </div> <!-- /intervention --> 
         {% endif %}
       {% endfor %}
+      {% endcomment %}
+
         
     <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>
 

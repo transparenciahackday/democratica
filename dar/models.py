@@ -36,7 +36,7 @@ class Entry(models.Model):
     day = models.ForeignKey(Day)
     data = JSONField(null=True)
     position = models.PositiveIntegerField()
-    raw_text = models.CharField(max_length=40)
+    raw_text = models.TextField(max_length=100000)
 
     def extract_data(self):
         pass
@@ -46,6 +46,13 @@ class Entry(models.Model):
 
     def get_absolute_url(self): 
         return '/sessoes/intervencao/%d' % (self.id)
+
+    def raw_text_as_html(self):
+        paras = self.raw_text.split('\n')
+        output = ''
+        for para in paras:
+            output += '<p>%s</p> ' % para 
+        return mark_safe(output)
 
 '''
 class Entry(models.Model):
