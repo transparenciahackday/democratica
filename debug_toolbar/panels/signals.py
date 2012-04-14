@@ -1,23 +1,24 @@
 import sys
 
 from django.conf import settings
-from django.core.signals import request_started, request_finished, \
-    got_request_exception
-from django.db.models.signals import class_prepared, pre_init, post_init, \
-    pre_save, post_save, pre_delete, post_delete, post_syncdb
+from django.core.signals import (request_started, request_finished,
+    got_request_exception)
+from django.db.models.signals import (class_prepared, pre_init, post_init,
+    pre_save, post_save, pre_delete, post_delete, post_syncdb)
 from django.dispatch.dispatcher import WEAKREF_TYPES
-from django.template.loader import render_to_string
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ungettext
 
 try:
     from django.db.backends.signals import connection_created
 except ImportError:
-    connection_created = None
+    connection_created = None  # noqa
 
 from debug_toolbar.panels import DebugPanel
 
+
 class SignalDebugPanel(DebugPanel):
     name = "Signals"
+    template = 'debug_toolbar/panels/signals.html'
     has_content = True
 
     SIGNALS = {
@@ -37,6 +38,21 @@ class SignalDebugPanel(DebugPanel):
 
     def nav_title(self):
         return _("Signals")
+
+    def nav_subtitle(self):
+        signals = self.get_stats()['signals']
+        num_receivers = sum(len(s[2]) for s in signals)
+        num_signals = len(signals)
+        # here we have to handle a double count translation, hence the
+        # hard coding of one signal
+        if num_signals == 1:
+            return ungettext('%(num_receivers)d receiver of 1 signal',
+                             '%(num_receivers)d receivers of 1 signal',
+                             num_receivers) % {'num_receivers': num_receivers}
+        return ungettext('%(num_receivers)d receiver of %(num_signals)d signals',
+                         '%(num_receivers)d receivers of %(num_signals)d signals',
+                         num_receivers) % {'num_receivers': num_receivers,
+                                           'num_signals': num_signals}
 
     def title(self):
         return _("Signals")
@@ -58,12 +74,9 @@ class SignalDebugPanel(DebugPanel):
         return signals
     signals = property(signals)
 
-    def content(self):
+    def process_response(self, request, response):
         signals = []
-        keys = self.signals.keys()
-        keys.sort()
-        for name in keys:
-            signal = self.signals[name]
+        for name, signal in sorted(self.signals.items(), key=lambda x: x[0]):
             if signal is None:
                 continue
             receivers = []
@@ -72,16 +85,16 @@ class SignalDebugPanel(DebugPanel):
                     receiver = receiver()
                 if receiver is None:
                     continue
+
+                receiver = getattr(receiver, '__wraps__', receiver)
+                receiver_name = getattr(receiver, '__name__', str(receiver))
                 if getattr(receiver, 'im_self', None) is not None:
-                    text = "method %s on %s object" % (receiver.__name__, receiver.im_self.__class__.__name__)
+                    text = "%s.%s" % (getattr(receiver.im_self, '__class__', type).__name__, receiver_name)
                 elif getattr(receiver, 'im_class', None) is not None:
-                    text = "method %s on %s" % (receiver.__name__, receiver.im_class.__name__)
+                    text = "%s.%s" % (receiver.im_class.__name__, receiver_name)
                 else:
-                    text = "function %s" % receiver.__name__
+                    text = "%s" % receiver_name
                 receivers.append(text)
             signals.append((name, signal, receivers))
 
-        context = self.context.copy()
-        context.update({'signals': signals})
-
-        return render_to_string('debug_toolbar/panels/signals.html', context)
+        self.record_stats({'signals': signals})

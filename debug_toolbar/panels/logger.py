@@ -4,17 +4,16 @@ try:
     import threading
 except ImportError:
     threading = None
-from django.template.loader import render_to_string
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext, ugettext_lazy as _
 from debug_toolbar.panels import DebugPanel
 
 
 class LogCollector(object):
     def __init__(self):
         if threading is None:
-            raise NotImplementedError("threading module is not available, \
-                the logging panel cannot be used without it")
-        self.records = {} # a dictionary that maps threads to log records
+            raise NotImplementedError("threading module is not available, "
+                "the logging panel cannot be used without it")
+        self.records = {}  # a dictionary that maps threads to log records
 
     def add_record(self, record, thread=None):
         # Avoid logging SQL queries since they are already in the SQL panel
@@ -88,19 +87,29 @@ if logbook_supported:
             }
             self.collector.add_record(record)
 
-
     logbook_handler = LogbookThreadTrackingHandler(collector)
-    logbook_handler.push_application()        # register with logbook
+    logbook_handler.push_application()  # register with logbook
+
 
 class LoggingPanel(DebugPanel):
     name = 'Logging'
+    template = 'debug_toolbar/panels/logger.html'
     has_content = True
+
+    def __init__(self, *args, **kwargs):
+        super(LoggingPanel, self).__init__(*args, **kwargs)
+        self._records = {}
 
     def process_request(self, request):
         collector.clear_records()
 
+    def process_response(self, request, response):
+        records = self.get_and_delete()
+        self.record_stats({'records': records})
+
     def get_and_delete(self):
         records = collector.get_records()
+        self._records[threading.currentThread()] = records
         collector.clear_records()
         return records
 
@@ -108,19 +117,13 @@ class LoggingPanel(DebugPanel):
         return _("Logging")
 
     def nav_subtitle(self):
-        # FIXME l10n: use ngettext
-        return "%s message%s" % (len(collector.get_records()), (len(collector.get_records()) == 1) and '' or 's')
+        records = self._records[threading.currentThread()]
+        record_count = len(records)
+        return ungettext('%(count)s message', '%(count)s messages',
+                         record_count) % {'count': record_count}
 
     def title(self):
         return _('Log Messages')
 
     def url(self):
         return ''
-
-    def content(self):
-        records = self.get_and_delete()
-        context = self.context.copy()
-        context.update({'records': records})
-
-        return render_to_string('debug_toolbar/panels/logger.html', context)
-
