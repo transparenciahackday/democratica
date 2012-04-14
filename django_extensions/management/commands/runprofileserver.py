@@ -14,7 +14,17 @@ from optparse import make_option
 from datetime import datetime
 import os
 import sys
+import time
 
+try:
+    any
+except NameError:
+    # backwards compatibility for <2.5
+    def any(iterable):
+        for element in iterable:
+            if element:
+                return True
+        return False
 
 def label(code):
     if isinstance(code, str):
@@ -135,7 +145,6 @@ class Command(BaseCommand):
             raise CommandError("%r is not a valid port number." % port)
 
         use_reloader = options.get('use_reloader', True)
-        admin_media_path = options.get('admin_media_path', '')
         shutdown_message = options.get('shutdown_message', '')
         no_media = options.get('no_media', False)
         quit_command = (sys.platform == 'win32') and 'CTRL-BREAK' or 'CONTROL-C'
@@ -160,16 +169,28 @@ class Command(BaseCommand):
             if USE_LSPROF and not USE_CPROFILE:
                 raise SystemExit("Kcachegrind compatible output format required cProfile from Python 2.5")
             prof_path = options.get('prof_path', '/tmp')
+            def get_exclude_paths():
+                exclude_paths = []
+                media_url = getattr(settings, 'MEDIA_URL', None)
+                if media_url:
+                    exclude_paths.append(media_url)
+                static_url = getattr(settings, 'STATIC_URL', None)
+                if static_url:
+                    exclude_paths.append(static_url)
+                admin_media_prefix = getattr(settings, 'ADMIN_MEDIA_PREFIX', None)
+                if admin_media_prefix:
+                    exclude_paths.append(admin_media_prefix)
+                return exclude_paths
+
             def make_profiler_handler(inner_handler):
                 def handler(environ, start_response):
                     path_info = environ['PATH_INFO']
-                    # normally /media/ is MEDIA_URL, but in case still check it in case it's differently
-                    # should be hardly a penalty since it's an OR expression.
-                    # TODO: fix this to check the configuration settings and not make assumpsions about where media are on the url
-                    if no_media and (path_info.startswith('/media') or path_info.startswith(settings.MEDIA_URL)):
+                    # when using something like a dynamic site middleware is could be necessary
+                    # to refetch the exclude_paths every time since they could change per site.
+                    if no_media and any(path_info.startswith(p) for p in get_exclude_paths()):
                         return inner_handler(environ, start_response)
                     path_name = path_info.strip("/").replace('/', '.') or "root"
-                    profname = "%s.%s.prof" % (path_name, datetime.now().isoformat())
+                    profname = "%s.%d.prof" % (path_name, time.time())
                     profname = os.path.join(prof_path, profname)
                     if USE_CPROFILE:
                         prof = cProfile.Profile()
@@ -187,8 +208,10 @@ class Command(BaseCommand):
                             kg.output(file(profname, 'w'))
                         elif USE_CPROFILE:
                             prof.dump_stats(profname)
-                        profname2 = "%s.%06dms.%s.prof" % (path_name, elapms, datetime.now().isoformat())
+                        profname2 = "%s.%06dms.%d.prof" % (path_name, elapms, time.time())
                         profname2 = os.path.join(prof_path, profname2)
+                        if not USE_CPROFILE:
+                            prof.close()
                         os.rename(profname, profname2)
                 return handler
 
@@ -197,8 +220,14 @@ class Command(BaseCommand):
             print "\nDjango version %s, using settings %r" % (django.get_version(), settings.SETTINGS_MODULE)
             print "Development server is running at http://%s:%s/" % (addr, port)
             print "Quit the server with %s." % quit_command
+            path = options.get('admin_media_path', '')
+            if not path:
+                admin_media_path = os.path.join(django.__path__[0], 'contrib/admin/static/admin')
+                if os.path.isdir(admin_media_path):
+                    path = admin_media_path
+                else:
+                    path = os.path.join(django.__path__[0], 'contrib/admin/media')
             try:
-                path = admin_media_path or django.__path__[0] + '/contrib/admin/media'
                 handler = make_profiler_handler(AdminMediaHandler(WSGIHandler(), path))
                 run(addr, int(port), handler)
             except WSGIServerException, e:
@@ -224,3 +253,4 @@ class Command(BaseCommand):
             autoreload.main(inner_run)
         else:
             inner_run()
+

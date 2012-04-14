@@ -27,6 +27,10 @@ Command options are:
                         files.
   --filter-list         Override default directory and file exclusion
                         filters. (enter as comma seperated line)
+  --renamegzip          Enables renaming of gzipped files by appending '.gz.
+                        to the original file name. This way your original assets
+                        will not be replaced by the gzipped ones if you don't want
+                        them to be. 
 
 TODO:
  * Use fnmatch (or regex) to allow more complex FILTER_LIST rules.
@@ -61,7 +65,8 @@ class Command(BaseCommand):
     GZIP_CONTENT_TYPES = (
         'text/css',
         'application/javascript',
-        'application/x-javascript'
+        'application/x-javascript',
+        'text/javascript'
     )
 
     upload_count = 0
@@ -78,6 +83,9 @@ class Command(BaseCommand):
         optparse.make_option('--gzip',
             action='store_true', dest='gzip', default=False,
             help="Enables gzipping CSS and Javascript files."),
+        optparse.make_option('--renamegzip',
+            action='store_true', dest='renamegzip', default=False,
+            help="Enables renaming of gzipped assets to have '.gz' appended to the filename."),
         optparse.make_option('--expires',
             action='store_true', dest='expires', default=False,
             help="Enables setting a far future expires header."),
@@ -122,6 +130,7 @@ class Command(BaseCommand):
         self.verbosity = int(options.get('verbosity'))
         self.prefix = options.get('prefix')
         self.do_gzip = options.get('gzip')
+        self.rename_gzip = options.get('renamegzip')
         self.do_expires = options.get('expires')
         self.do_force = options.get('force')
         self.DIRECTORY = options.get('dir')
@@ -155,7 +164,7 @@ class Command(BaseCommand):
             from cStringIO import StringIO
         except ImportError:
             from StringIO import StringIO
-        zbuf = cStringIO.StringIO()
+        zbuf = StringIO()
         zfile = gzip.GzipFile(mode='wb', compresslevel=6, fileobj=zbuf)
         zfile.write(s)
         zfile.close()
@@ -232,6 +241,9 @@ class Command(BaseCommand):
                 # and only if file is a common text type (not a binary file)
                 if file_size > 1024 and content_type in self.GZIP_CONTENT_TYPES:
                     filedata = self.compress_string(filedata)
+                    if self.rename_gzip: 
+                        #If rename_gzip is True, then rename the file by appending '.gz' to original filename
+                        file_key = '%s.gz' % (file_key)
                     headers['Content-Encoding'] = 'gzip'
                     if self.verbosity > 1:
                         print "\tgzipped: %dk to %dk" % \
@@ -251,7 +263,7 @@ class Command(BaseCommand):
                 key.name = file_key
                 key.set_contents_from_string(filedata, headers, replace=True)
                 key.set_acl('public-read')
-            except boto.s3.connection.S3CreateError, e:
+            except boto.exception.S3CreateError, e:
                 print "Failed: %s" % e
             except Exception, e:
                 print e
