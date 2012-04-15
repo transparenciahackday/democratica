@@ -1,13 +1,12 @@
 from django.contrib.admin.options import ModelAdmin
-from django.contrib.admin.views.main import (ChangeList, MAX_SHOW_ALL_ALLOWED,
-                                             SEARCH_VAR)
-from django.core.exceptions import PermissionDenied, ImproperlyConfigured
+from django.contrib.admin.views.main import ChangeList, SEARCH_VAR
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage
 from django.shortcuts import render_to_response
 from django import template
 from django.utils.encoding import force_unicode
 from django.utils.translation import ungettext
-from haystack import site
+from haystack import connections
 from haystack.query import SearchQuerySet
 try:
     from django.contrib.admin.options import csrf_protect_m
@@ -21,6 +20,19 @@ except ImportError:
         return wraps
     
     csrf_protect_m = method_decorator(csrf_protect)
+
+def list_max_show_all(changelist):
+    """
+    Returns the maximum amount of results a changelist can have for the
+    "Show all" link to be displayed in a manner compatible with both Django
+    1.4 and 1.3. See Django ticket #15997 for details.
+    """
+    try:
+        # This import is available in Django 1.3 and below
+        from django.contrib.admin.views.main import MAX_SHOW_ALL_ALLOWED
+        return MAX_SHOW_ALL_ALLOWED
+    except ImportError:
+        return changelist.list_max_show_all
 
 
 class SearchChangeList(ChangeList):
@@ -36,7 +48,7 @@ class SearchChangeList(ChangeList):
         result_count = paginator.count
         full_result_count = SearchQuerySet().models(self.model).all().count()
         
-        can_show_all = result_count <= MAX_SHOW_ALL_ALLOWED
+        can_show_all = result_count <= list_max_show_all(self)
         multi_page = result_count > self.list_per_page
         
         # Get the list of objects to display on this page.
@@ -68,7 +80,7 @@ class SearchModelAdmin(ModelAdmin):
         
         # Do a search of just this model and populate a Changelist with the
         # returned bits.
-        if not self.model in site.get_indexed_models():
+        if not self.model in connections['default'].get_unified_index().get_indexed_models():
             # Oops. That model isn't being indexed. Return the usual
             # behavior instead.
             return super(SearchModelAdmin, self).changelist_view(request, extra_context)
