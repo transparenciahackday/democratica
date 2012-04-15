@@ -71,6 +71,21 @@ def get_news_for_mp(mp):
         '''
     return news
 
+def get_pm_from_date(dt):
+    import os, csv, dateutil.parser, datetime
+    from democratica.settings import PATH_DATASETS
+    from deputados.models import MP
+    pm_dataset = os.path.join(PATH_DATASETS, 'governos-pm.csv')
+    lines = csv.reader(open(pm_dataset), delimiter='|', quotechar='"')
+    for line in lines:
+        gov, start, end, name = line
+        if gov == 'GC': continue
+        datestart = dateutil.parser.parse(start).date()
+        dateend = dateutil.parser.parse(end).date()
+        if dt > datestart and dt < dateend:
+            return MP.objects.get(shortname=name)
+    return None
+    
 
 
 from settings import FEMALE_NAMES_FILE

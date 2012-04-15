@@ -7,6 +7,7 @@ from django.utils.safestring import mark_safe
 from django.utils.datastructures import SortedDict
 from django.core.urlresolvers import reverse
 from django_extensions.db.fields.json import JSONField
+from django.shortcuts import redirect
 from democratica.core import text_utils
 from deputados.models import MP
 
@@ -34,25 +35,95 @@ class Day(models.Model):
 
 class Entry(models.Model):
     day = models.ForeignKey(Day)
+    position = models.PositiveIntegerField(default=0)
+    raw_text = models.TextField('Texto original', max_length=100000)
+    html = models.TextField('Texto formatado em HTML', max_length=300000, blank=True)
+    
     data = JSONField(null=True)
-    position = models.PositiveIntegerField()
-    raw_text = models.TextField(max_length=100000)
+    mp = models.ForeignKey(MP, blank=True, null=True)
+    speaker = models.CharField('Orador', max_length=200, blank=True)
+    party = models.CharField('Partido', max_length=200, blank=True)
+    text = models.TextField('Texto', max_length=10000, blank=True)
+    type = models.CharField('Tipo', max_length=40, blank=True)
 
     def extract_data(self):
         pass
 
     def __unicode__(self):
-        return "<Entry: %s>" % self.raw_text[:30]
+        if len(self.raw_text) > 30:
+            return "<Entry: %s...>" % self.raw_text[:30]
+        else:
+            return "<Entry: %s>" % self.raw_text
 
     def get_absolute_url(self): 
         return '/sessoes/intervencao/%d' % (self.id)
 
+    def parse_raw_text(self):
+        if not self.raw_text:
+            return None
+        from utils import parse_mp_from_raw_text
+        speaker, text = parse_mp_from_raw_text(self.raw_text)
+        self.determine_type()
+        self.normalize_text()
+
+        if isinstance(speaker, int):
+            self.mp = MP.objects.get(id=speaker)
+            self.text = text
+            self.save()
+            return self.mp
+        elif speaker:
+            self.speaker = speaker
+            self.text = text
+            self.save()
+            return self.speaker
+        else:
+            self.text = self.raw_text
+            self.save()
+            return None
+
+    def determine_type(self):
+        from utils import determine_entry_tag
+        self.type = determine_entry_tag(self)
+        self.save()
+    def normalize_text(self):
+        self.text = self.text.replace(' - ', u' — ')
+        if self.text.startswith(u'»'):
+            self.text = self.text.replace(u'»', '...', 1)
+
+        self.text = self.text.replace('Primeiro- Ministro', 'Primeiro-Ministro')
+
+        self.save()
+
+    @property
     def raw_text_as_html(self):
         paras = self.raw_text.split('\n')
         output = ''
         for para in paras:
-            output += '<p>%s</p> ' % para 
+            if self.is_interruption:
+                output += '<p class="Mini">%s</p> ' % para 
+            else:
+                output += '<p>%s</p> ' % para 
         return mark_safe(output)
+    @property
+    def text_as_html(self):
+        if not self.text:
+            txt = self.raw_text
+        else:
+            txt = self.text
+        paras = txt.split('\n')
+        output = ''
+        for para in paras:
+            if self.is_interruption:
+                output += '<p class="mini">%s</p> ' % para 
+            else:
+                output += '<p>%s</p> ' % para 
+        return mark_safe(output)
+
+    @property
+    def is_interruption(self):
+        if self.type in ('aplauso', 'protesto', 'risos', 'vozes'):
+            return True
+        return False
 
 '''
 class Entry(models.Model):

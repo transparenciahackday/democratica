@@ -98,9 +98,7 @@ def import_session(filename, force=False):
     the file.'''
 
     # extract date
-    print filename
     slug = os.path.basename(filename).split('.')[0]
-    print slug
     try:
         dar, serie, leg, sess, date = slug.split('_')
         dt = dateutil.parser.parse(date)
@@ -126,7 +124,11 @@ def import_session(filename, force=False):
         for item in lines:
             raw_text = item.strip()
             Entry.objects.create(raw_text=raw_text, position=position, day=day)
-            position += 10
+            position += 100
+
+    # process raw text
+    for e in day.entry_set.all():
+        e.parse_raw_text()
 
     # finally, get this session's top words
     # day.calculate_top5words()
@@ -177,6 +179,7 @@ if __name__ == '__main__':
     # verificar se input existe
     if not os.path.exists(input):
         print 'Input not found: ' + str(input)
+        print 'Did you use the -i flag?'
     if not (os.path.isfile(input) or os.path.isdir(input)):
         print 'Input must be a valid file or directory name.'
         sys.exit()
@@ -196,5 +199,5 @@ if __name__ == '__main__':
                         sys.exit()
 
     # tudo acabado, calcular palavras preferidas
-    insert_favorite_words()
+    # insert_favorite_words()
 

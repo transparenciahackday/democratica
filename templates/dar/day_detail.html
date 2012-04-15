@@ -13,12 +13,29 @@
 {% block ogtype %}transcript{% endblock %}
 
 {% block extrascripts %}
+    <script src="/media/js/jquery.jeditable.mini.js" type="text/javascript"></script>
     <script src="https://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
     <script type="text/javascript">
       $(document).ready(function(){  
+        // CSRF protection
+        $.ajaxSetup({
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+        });
+
         $(".entry").hover(function(){
           $(this).toggleClass("active");
         });
+
+        // jeditable
+        $(".edit_area").editable("/sessoes/gravar/",
+          {
+            cancel: "Cancelar",
+            submit: "OK",
+            tooltip: "Clique 2 vezes para fazer alterações.",
+            loadurl  : '/sessoes/raw/',
+            type: "textarea",
+            event: "dblclick",
+            });
       });
     </script>
   
@@ -59,20 +76,43 @@
       <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
 
       {% for entry in entries %}
-        <div class="entry" id="{{ entry.id }}">
-          <div class="right"> {{ entry.raw_text_as_html }} </div>
-        </div>
-      {% endfor %}
+
 
       {% comment %}
+        {# {{ entry.html|safe }} #}
+        {% if entry.type == 'deputado_intervencao' %}
+        <div class="intervention">
+          <div class="entry" id="{{ entry.id }}">
+          <!-- Intervencao de deputado - inicio -->
+            <div class="left">
+              {% with entry.mp as mp %}
+              <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
+              <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
+              {# {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %} #}
+              <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
+              <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
+              {% endwith %}
+            </div> <!-- /left -->
+            <div class="right edit_area"> {{ entry.text_as_html }} </div> <!-- /right -->
+          </div>
+        </div>
+        {% else %}
+        <div class="entry" id="{{ entry.id }}">
+          <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.raw_text_as_html }} </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+      {% endcomment%}
+
+
         {% if forloop.first %}
         <div class="intervention mini-intervention">
         {% endif %}
 
         {# Verificar se temos de fechar a tag da intervencao anterior #}
-        {% if entry.type == 'deputado_intervencao' or entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' or entry.type == 'presidente_aberta' %}
+        {% if entry.type == 'deputado_intervencao' or entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' or entry.type == 'presidente_aberta' or entry.type == 'pm_intervencao' %}
           </div> <!-- /intervention --> 
-          {% if entry.type == 'deputado_intervencao' %}
+          {% if entry.type == 'deputado_intervencao' or entry.type == 'pm_intervencao' or entry.type == 'ministro_intervencao' %}
             <div class="intervention">
           {% else %}
             <div class="intervention mini-intervention">
@@ -91,9 +131,11 @@
               {# {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %} #}
               <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
               <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
+
+              <p><a href="{% url mark_as_cont entry.id %}">Marcar como continuação</a></p>
               {% endwith %}
             </div> <!-- /left -->
-            <div class="right"> {{ entry.text_as_html }} </div> <!-- /right -->
+            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div> <!-- /right -->
 
           {% elif entry.type == 'pm_intervencao' %}
           <!-- Intervencao de Primeiro-Ministro - inicio -->
@@ -104,9 +146,10 @@
               <h4>Primeiro-Ministro</h4>
               <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
               <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
+              <p><a href="{% url mark_as_cont entry.id %}">Marcar como continuação</a></p>
               {% endwith %}
             </div> <!-- /left -->
-            <div class="right"> {{ entry.text_as_html }} </div> <!-- /right -->
+            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div> <!-- /right -->
 
           {% elif entry.type == 'secestado_intervencao' or entry.type == 'ministro_intervencao' %}
           <!-- Intervencao de membro de governo - inicio -->
@@ -119,7 +162,7 @@
               <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
               {% endwith %}
             </div>
-            <div class="right"> {{ entry.text_as_html }} </div>
+            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
           {# Intervencao (outra) -- inicio #}
           {% elif entry.type == 'intervencao' %}
@@ -128,37 +171,38 @@
               <h4>Primeiro-Ministro</h4>
               <p class="party">{{ entry.party }}</p>
             </div>
-            <div class="right"> {{ entry.text_as_html }} </div>
+            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
           {# Continuacao da intervencao #}
           {% elif entry.type == 'continuacao' %}
           {% if entry.mp %}
           <div class="left">
             <p class="party {{ entry.mp.current_party.abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="" />{#</a>#}</p>
+              <p><a href="{% url unmark_as_cont entry.id %}">Desmarcar como continuação</a></p>
           </div>
-          <div class="right"> {{ entry.text_as_html }} </div>
+          <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
           {% else %}
           <div class="left">
             <p>{{ entry.speaker }}</p>
             <p class="party">{{ entry.party }}</p>
           </div>
-          <div class="right"> {{ entry.text_as_html }} </div>
+          <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
           {% endif %}
 
           {# Presidente -- intervencao #}
           {% elif entry.type == 'presidente' %}
             <div class="left"> <h3>Presidente</h3> </div>
-            <div class="right"> {{ entry.text_as_html }} </div>
+            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
           {# Presidente -- aparte ou pedido de conclusao #}
           {% elif entry.type == 'presidente_aparte' %}
             <div class="left"> <h3>Presidente</h3> </div>
-            <div class="right"> {{ entry.text_as_html }} </div>
+            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
           {# Presidente -- tem a palavra #}
           {% elif entry.type == 'presidente_temapalavra' %}
             <div class="left"> <h3>Presidente</h3> </div>
-            <div class="right"> {{ entry.text_as_html }} </div>
+            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
           {# Secretário #}
           {% elif entry.type == "secretario" %}
@@ -166,30 +210,24 @@
               <h3>Secretário</h3> 
               <p class="party">{{ entry.party }}</p>
             </div>
-            <div class="right"> {{ entry.text_as_html }} </div>
+            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
           {# Aparte de deputado #}
-          {% elif entry.type == "deputado_aparte" %}
-          {% if entry.mp %}
+          {% elif entry.type == 'deputado_aparte' %}
           <div class="left">
             <p class="party {{ entry.mp.current_party.abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="" />{#</a>#}</p>
           </div>
-          {% else %}
-          <div class="left">
-            <p>{{ entry.speaker }}</p>
-          </div>
-          {% endif %}
-          <div class="right"> {{ entry.text_as_html }} </div>
+          <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
           {# Vozes (aparte) #}
           {% elif entry.type == "vozes_aparte" %}
           <div class="left"> <p class="mini">{{ entry.speaker }}</p> </div>
-          <div class="right"> {{ entry.text_as_html }} </div>
+          <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
           {# Aplausos, protestos, risos, pausas, notas, horas e outros eventos #}
           {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "note" or entry.type == "time" %}
-            <div class="right interruption">
-              <p class="mini">{{ entry.text_as_html_plain }}</p>
+            <div class="right edit_area interruption" id="Entry_raw_text_{{ entry.id }}">
+              {{ entry.text_as_html }}
             </div>
 
           {# outros casos #}
@@ -197,8 +235,9 @@
           <div class="left"> 
             <p class="mini">{{ entry.speaker }}</p> 
             <p class="party">{{ entry.party }}</p> 
+            <p><a href='{% url join_entry_with_previous entry.id %}'>Juntar à anterior</a></p>
           </div>
-          <div class="right"> {{ entry.text_as_html }} </div>
+          <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
           {% endif %}
 
@@ -207,7 +246,6 @@
         </div> <!-- /intervention --> 
         {% endif %}
       {% endfor %}
-      {% endcomment %}
 
         
     <p class="notice">Versão Beta: Esta informação pode estar incompleta e/ou conter incorrecções.</p>

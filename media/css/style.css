@@ -1223,6 +1223,13 @@ padding: 5px 0 0;
 border-top: 1px dotted #ccc;
 }
 
+.entry textarea {
+font-family: 'Linux Libertine O', Georgia, Times, serif;
+font-size: 100%;
+line-height: 1.4em;
+}
+
+
 .intervention > .entry:first-child .right {
 border: 0;
 }

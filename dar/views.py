@@ -4,11 +4,15 @@
 from models import Day, Entry
 from deputados.models import Government, Party, MP
 from elections.models import Election
+from django.http import HttpResponse, Http404
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
-from django.http import Http404
+from django.template.defaultfilters import escape
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.shortcuts import redirect
+
 
 import datetime
 import dateutil.parser
@@ -76,7 +80,7 @@ def day_list(request, year=datetime.date.today().year):
 def day_detail(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
     day = Day.objects.get(date=d)
-    entries = Entry.objects.filter(day=day).order_by('id')
+    entries = Entry.objects.filter(day=day).order_by('position')
     govs = Government.objects.filter(date_started__lt=day.date, date_ended__gt=day.date)
     # gov = govs.filter(date_ended__gt=day.date)
 
@@ -212,3 +216,48 @@ def day_statistics(request, year, month, day):
                            'top5words': day.top5words['words'],
                            'nextdate': next_date, 'prevdate': prev_date,
                 })
+
+#@ajax_login_required
+@ensure_csrf_cookie
+def entry_save(request):
+    try:
+        div_id = request.POST[u'id']
+        value = request.POST[u'value']
+    except:
+        raise Exception(u'Invalid id')
+    id = div_id.split('_')[-1]
+    e = Entry.objects.get(id=int(id))
+    e.raw_text = value
+    e.save()
+    if '\n\n' in value:
+        from utils import split_entry
+        split_entry(e)
+    e.parse_raw_text()
+    return HttpResponse(e.text_as_html)
+
+def fetch_raw_entry(request):
+    id = request.GET.get('id')
+    id = id.split('_')[-1]
+    raw_text = Entry.objects.get(id=id).raw_text
+    return HttpResponse(raw_text)
+
+def mark_as_cont(request, id):
+    e = Entry.objects.get(id = int(id))
+    e.type = 'continuacao'
+    e.save()
+    return redirect('statement_detail', id=id) 
+
+def unmark_as_cont(request, id):
+    e = Entry.objects.get(id = int(id))
+    e.determine_type()
+    return redirect('statement_detail', id=id) 
+
+def join_entry_with_previous(request, id):
+    e = Entry.objects.get(id = int(id))
+    prev_e = Entry.objects.filter(day=e.day, position__lt=e.position).order_by('-position')[0]
+    prev_e.raw_text += '\n' + e.raw_text
+    prev_e.text += '\n' + e.text
+    e.delete()
+    prev_e.save()
+    return redirect('statement_detail', id=prev_e.id) 
+

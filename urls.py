@@ -7,7 +7,7 @@ import democratica.dar.views as darviews
 
 # Enable admin interface
 from django.contrib import admin
-admin.autodiscover()
+# admin.autodiscover()
 
 # Enable Databrowse
 '''
@@ -34,6 +34,14 @@ urlpatterns = patterns('',
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', darviews.day_detail, name='day_detail'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/stats$', darviews.day_statistics, name='day_stats'),
     url(r'^sessoes/intervencao/(?P<id>\d+)/$', darviews.statement_detail, name='statement_detail'),
+
+    url(r'^sessoes/intervencao/marcar/(?P<id>\d+)/$', darviews.mark_as_cont, name='mark_as_cont'),
+    url(r'^sessoes/intervencao/desmarcar/(?P<id>\d+)/$', darviews.unmark_as_cont, name='unmark_as_cont'),
+    url(r'^sessoes/intervencao/juntar/(?P<id>\d+)/$', darviews.join_entry_with_previous, name='join_entry_with_previous'),
+
+    (ur'^sessoes/gravar/$', darviews.entry_save),
+    (ur'^sessoes/raw/$', darviews.fetch_raw_entry),
+
 
     (r'^pesquisa/', include('dar.urls')),
 
