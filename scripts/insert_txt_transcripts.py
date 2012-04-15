@@ -97,6 +97,7 @@ def import_session(filename, force=False):
     calls the import_csv_session or import_json_session to parse
     the file.'''
 
+    print filename
     # extract date
     slug = os.path.basename(filename).split('.')[0]
     try:
@@ -120,26 +121,25 @@ def import_session(filename, force=False):
     if filename.endswith('.txt'):
         lines = open(filename).read().split('\n\n')
         # import each row
-        position = 10
+        position = 100
         for item in lines:
             raw_text = item.strip()
             Entry.objects.create(raw_text=raw_text, position=position, day=day)
             position += 100
 
     # process raw text
-    for e in day.entry_set.all():
-        e.parse_raw_text()
+    #for e in day.entry_set.all():
+    #        e.parse_raw_text()
 
-    # finally, get this session's top words
-    # day.calculate_top5words()
-    
+        # finally, get this session's top words
+        # day.calculate_top5words()
+        
 def insert_favorite_words():
     logging.info('A calcular palavras preferidas...')
     for mp in MP.objects.all():
         mp.calculate_favourite_word()
 
 if __name__ == '__main__':
-
     import sys
     from ConfigParser import SafeConfigParser
 
@@ -166,10 +166,10 @@ if __name__ == '__main__':
                       )
     parser.add_option('-f', '--force',
                       dest="force",
-                      default=False,
-                      action="store_true",
-                      help='Process file even if the output file already exists',
-                      )
+                  default=False,
+                  action="store_true",
+                  help='Process file even if the output file already exists',
+                  )
 
     options, remainder = parser.parse_args()
     input = options.input
@@ -180,6 +180,7 @@ if __name__ == '__main__':
     if not os.path.exists(input):
         print 'Input not found: ' + str(input)
         print 'Did you use the -i flag?'
+        sys.exit()
     if not (os.path.isfile(input) or os.path.isdir(input)):
         print 'Input must be a valid file or directory name.'
         sys.exit()

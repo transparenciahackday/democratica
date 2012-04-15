@@ -72,6 +72,8 @@ class Entry(models.Model):
             self.save()
             return self.mp
         elif speaker:
+            if len(speaker) > 100:
+                speaker = speaker[:100]
             self.speaker = speaker
             self.text = text
             self.save()

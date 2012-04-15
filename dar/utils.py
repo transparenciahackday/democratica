@@ -22,14 +22,13 @@ def parse_mp_from_raw_text(text):
     text = text.strip()
     if not text.startswith(HONORIFICS):
         return (None, text)
-    text = remove_strings(text, HONORIFICS, once=True).strip()
-
     # ver se há separador
     has_sep = re.search(re_separador[0], text)
     if not has_sep:
         return (None, text)
     speakerparty, text = re.split(re_separador[0], text, 1)
-    speakerparty = speakerparty.strip()
+    speakerparty = remove_strings(speakerparty, HONORIFICS, once=True).strip()
+    # FIXME: SECRETARIO DE ESTADO
     if speakerparty.startswith(('Presidente', u'Secretári')):
         return (speakerparty, text)
     if '(' in speakerparty:
@@ -54,7 +53,7 @@ def parse_mp_from_raw_text(text):
                 try:
                     # we got them, woohoo
                     mp = MP.objects.filter(shortname=speaker, caucus__party__abbrev=p).distinct()[0]
-                    mp_id = MP.id
+                    mp_id = mp.id
                 except MP.MultipleObjectsReturned:
                     logging.warning('More than 1 result for name %s in party %s. Assigning first MP instance.' % (speaker, party))
         else:
@@ -93,7 +92,7 @@ def determine_entry_tag(e):
         if e.text.startswith(u'Vozes'):
             has_sep = re.search(re_separador[0], e.text)
             if not has_sep:
-                return (None, e.text)
+                return 'vozes_aparte'
             speaker, text = re.split(re_separador[0], e.text, 1)
             e.speaker = speaker
             e.text = text
@@ -127,8 +126,8 @@ def split_entry(e):
 
     text1, text2 = chunks
 
-    next_entry = Entry.objects.filter(position__gt=e.position)[0]
-    new_position = e.position + (next_entry.position - e.position)/2
+    next_entry = Entry.objects.filter(day=e.day, position__gt=e.position)[0]
+    new_position = e.position + (next_entry.position - e.position) / 2
 
     e.raw_text = text1 
     e.save()

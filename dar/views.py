@@ -256,7 +256,8 @@ def join_entry_with_previous(request, id):
     e = Entry.objects.get(id = int(id))
     prev_e = Entry.objects.filter(day=e.day, position__lt=e.position).order_by('-position')[0]
     prev_e.raw_text += '\n' + e.raw_text
-    prev_e.text += '\n' + e.text
+    if e.text and prev_e.text:
+        prev_e.text += '\n' + e.text
     e.delete()
     prev_e.save()
     return redirect('statement_detail', id=prev_e.id) 

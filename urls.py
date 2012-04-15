@@ -7,7 +7,7 @@ import democratica.dar.views as darviews
 
 # Enable admin interface
 from django.contrib import admin
-# admin.autodiscover()
+admin.autodiscover()
 
 # Enable Databrowse
 '''
