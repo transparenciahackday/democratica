@@ -64,6 +64,7 @@ def day_list(request, year=datetime.date.today().year):
 
     # all_years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
     all_years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
+    all_years.sort()
     all_dates = all_days.values_list('date', flat=True)
     # all_years = range(1976, 2012)
     extra['year'] = year
@@ -108,14 +109,6 @@ def day_detail(request, year, month, day):
                        'gov': gov.number if gov else None,
     #                   'mp_lookup': mp_lookup,
                 })
-
-def statement_detail(request, id=None):
-    if not id:
-        raise Http404
-    e = Entry.objects.get(id=id)
-    url = e.day.get_absolute_url() + '#' + str(e.id)
-    return redirect_to(request=request, url=url)
-
 
 def day_statistics(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
@@ -217,6 +210,29 @@ def day_statistics(request, year, month, day):
                            'nextdate': next_date, 'prevdate': prev_date,
                 })
 
+def statement_detail(request, id=None):
+    if not id:
+        raise Http404
+    e = Entry.objects.get(id=id)
+    url = e.day.get_absolute_url() + '#' + str(e.id)
+    return redirect_to(request=request, url=url)
+
+def wordlist(request):
+    wordlist = {}
+    all_years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
+    all_years.sort()
+    for year in all_years:
+        words = {}
+        first_day_of_year = datetime.date(year=year, month=1, day=1)
+        last_day_of_year = datetime.date(year=year, month=12, day=31)
+        all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year)
+        for day in all_days:
+            words[day.get_absolute_url()] = day.get_5words_list
+        wordlist[year] = words
+
+    return direct_to_template(request, 'dar/wordlist.html',
+        extra_context={'wordlist': wordlist, })
+
 #@ajax_login_required
 @ensure_csrf_cookie
 def entry_save(request):
@@ -254,7 +270,7 @@ def unmark_as_cont(request, id):
 
 def join_entry_with_previous(request, id):
     e = Entry.objects.get(id = int(id))
-    prev_e = Entry.objects.filter(day=e.day, position__lt=e.position).order_by('-position')[0]
+    prev_e = e.get_previous()
     prev_e.raw_text += '\n' + e.raw_text
     if e.text and prev_e.text:
         prev_e.text += '\n' + e.text

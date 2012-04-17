@@ -42,6 +42,7 @@ urlpatterns = patterns('',
     (ur'^sessoes/gravar/$', darviews.entry_save),
     (ur'^sessoes/raw/$', darviews.fetch_raw_entry),
 
+    (ur'^doquesefalou/$', darviews.wordlist),
 
     (r'^pesquisa/', include('dar.urls')),
 

@@ -1,0 +1,22 @@
+{% extends "base_dar.html" %}
+
+{% load dartags %}
+
+{% block title %}Sessões parlamentares em {{ year }} &mdash; Demo.cratica (Beta){% endblock %}
+
+{% block extrabodyclass %}no-background{% endblock %}
+
+{% block content %}
+    <div id="content-box">
+      <h2>Do que se falou?</h2>
+      
+      {% for year in wordlist %}
+      <h2>{{ year }}</h2>
+         {% for day in wordlist|lookup:year %}
+         {# <p><a href="{{ day }}">{% for word in wordlist|lookup:year|lookup:day %}{{ word }} {% endfor %}</a></p> #}
+         <p>{% for word in wordlist|lookup:year|lookup:day %}{{ word }}   {% endfor %}</p>
+         {% endfor %}
+      {% endfor %}
+        
+    </div><!-- /#content-box -->  
+{% endblock %}

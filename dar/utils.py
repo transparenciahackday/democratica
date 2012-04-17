@@ -75,6 +75,9 @@ def determine_entry_tag(e):
         else:
             return 'deputado_intervencao'
     elif e.speaker:
+        if e.speaker in ('O Orador' or 'A Oradora'):
+            find_cont_speaker(e)
+            return 'continuacao'
         if e.speaker.startswith('Primeiro-Ministro'):
             # TODO: fetch prime minister mp id
             from deputados.utils import get_pm_from_date
@@ -113,6 +116,23 @@ def determine_entry_tag(e):
 
     return ''
 
+def find_cont_speaker(e):
+    '''Quando temos uma intervenção com o speaker "Orador" ou "Oradora", é preciso saber quem é.
+    Esta função tenta descobrir andando para trás até chegar a uma intervenção.'''
+    counter = 0
+    # olha que queryset mai lindo, as entries anteriores ordenadas inversamente
+    for prev_entry in Entry.objects.filter(day=e.day, position__lt=e.position).order_by('-position'):
+        if prev_entry.type in ['deputado_intervencao', 'presidente_intervencao']:
+            e.speaker = prev_entry.speaker
+            e.type = 'continuacao'
+            if prev_entry.mp:
+                e.mp = prev_entry.mp
+            e.save()
+            return
+        counter += 1
+        # se chegàmos a 8 intervenções sem encontrar nada, desistimos
+        if counter > 8:
+            return
 
 def split_entry(e):
     from democratica.dar.models import Entry
