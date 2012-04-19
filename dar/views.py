@@ -42,16 +42,10 @@ MESES = {
 
 def day_list(request, year=datetime.date.today().year):
     extra = {}
-    # date_start = dateutil.parser.parse('2000-10-16')
-    # date_end = dateutil.parser.parse('2011-09-10')
-    # days = Day.objects.filter(date__gt=date_start, date__lt=date_end)
 
-    year = int(year)
-    first_day_of_year = datetime.date(year=year, month=1, day=1)
-    last_day_of_year = datetime.date(year=year, month=12, day=31)
-    
-    all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year)
-    # all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year).values('date', 'id', 'top5words')
+    from democratica.dar.utils import days_for_year, all_years, elections_for_year
+
+    all_days = days_for_year(year)
     words = {}
     for d in all_days:
         # criar dic de palavras mais mencionadas por dia
@@ -62,17 +56,13 @@ def day_list(request, year=datetime.date.today().year):
             words[d.date] = '-'
     extra['words'] = words
 
-    # all_years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
-    all_years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
-    all_years.sort()
     all_dates = all_days.values_list('date', flat=True)
-    # all_years = range(1976, 2012)
     extra['year'] = year
     extra['years'] = all_years
     extra['session_dates'] = all_dates
 
     election_dates = {}
-    for el in Election.objects.filter(date__gte=first_day_of_year, date__lte=last_day_of_year):
+    for el in elections_for_year(year):
         election_dates[el.date] = el.type
     extra['election_dates'] = election_dates
     
@@ -227,7 +217,10 @@ def wordlist(request):
         last_day_of_year = datetime.date(year=year, month=12, day=31)
         all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year)
         for day in all_days:
-            words[day.get_absolute_url()] = day.get_5words_list
+            try:
+                words[day.get_absolute_url()] = day.get_5words_list
+            except KeyError:
+                continue
         wordlist[year] = words
 
     return direct_to_template(request, 'dar/wordlist.html',
