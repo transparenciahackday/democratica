@@ -157,6 +157,32 @@ def split_entry(e):
 def get_dates(sess, leg):
     pass
 
+def days_for_year(year):
+    year = int(year)
+    import datetime
+    from democratica.dar.models import Day
+    first_day_of_year = datetime.date(year=year, month=1, day=1)
+    last_day_of_year = datetime.date(year=year, month=12, day=31)
+    all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year)
+    return all_days
+
+def elections_for_year(year):
+    year = int(year)
+    import datetime
+    from democratica.elections.models import Election
+    first_day_of_year = datetime.date(year=year, month=1, day=1)
+    last_day_of_year = datetime.date(year=year, month=12, day=31)
+    elections = Election.objects.filter(date__gte=first_day_of_year, date__lte=last_day_of_year)
+    return elections
+
+def all_years():
+    '''Returns all years for which there are saved Days.'''
+    from democratica.dar.models import Day
+    years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
+    years.sort()
+    return years
+
+
 from haystack.utils import Highlighter
 from django.utils.html import strip_tags
 
