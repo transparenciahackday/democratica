@@ -6,32 +6,21 @@
 
 {% block extrascripts %}
 <!-- este script é da pesquisa rápida na lista de deputados, para já só é usado nesta página -->
-<script type="text/JavaScript">
-$(document).ready(function(){
-    $("#filter").keyup(function(){
- 
-        // Retrieve the input field text and reset the count to zero
-        var filter = $(this).val(), count = 0;
- 
-        // Loop through the comment list
-        $("#wordlist li").each(function(){
- 
-            // If the list item does not contain the text phrase fade it out
-            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
-                $(this).fadeOut();
- 
-            // Show the list item if the phrase matches and increase the count by 1
-            } else {
-                $(this).show();
-                count++;
-            }
-        });
- 
-        // Update the count
-        var numberItems = count;
-        $("#filter-count").text(count + " resultados");
-    });
-});
+<script type="text/javascript" src="/media/js/jquery.quicksearch.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){  
+    $(".searchbox").search();
+    
+    //este pedaço é usado para chamar a pesquisa rápida
+    //só neste template
+    $("#wordlist li  a").quicksearch({
+    position: 'append',
+    attached: '#content-box > h2',
+    labelText: null,
+    loaderImg: '/media/img/icons/loading-16px.gif',
+    inputText: 'Procurar palavras...'
+  });
+  });
 </script>
 {% endblock %}
 
@@ -39,15 +28,8 @@ $(document).ready(function(){
 
 {% block content %}
     <div id="content-box">
-      <div class="wordlist-search">
-        <h2>Do que se falou?</h2>
-        <form method="post" class="styled" action="" id="live-search">
-			    <fieldset>
-				    <input type="text" value="" placehold="Palavras" id="filter" class="text-input">
-				    <span id="filter-count"></span>
-			    </fieldset>
-		    </form>
-		  </div>
+      <h2 class="wordlist-search">Do que se falou?</h2>
+            
       <ul id="wordlist">
       {% for year in wordlist %}
       <li><h2>{{ year }}</h2>

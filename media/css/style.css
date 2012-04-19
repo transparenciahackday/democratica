@@ -1820,25 +1820,12 @@ border-color: #607454; }
 /* ------------------------ wordlist
 --------------------------------*/
 
-#content-box .wordlist-search {
-  text-align: center;
-  padding-bottom: 10px;
-}
-
-#content-box .wordlist-search h2 {
+.wordlist-search form#quicksearch {
+  float: none;
   display: inline-block;
-}
-
-form#live-search {
-  border: 0;
-  display: inline-block;
-  margin-left: 15px;
-  padding-top: 30px;
   vertical-align: top;
-}
-
-form#live-search fieldset {
-  border: 0;
+  margin-top: -3px;
+  margin-left: 15px;
 }
 
 #wordlist {
