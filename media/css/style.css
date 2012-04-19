@@ -86,6 +86,12 @@ clear: both;
 overflow: auto;
 }
 
+#content a {
+color: #535d6c;
+text-decoration: none;
+border-bottom: 1px solid #939dac;
+}
+
 a:focus {
 outline: none;
 }
@@ -1810,3 +1816,44 @@ border-color: #606798; }
 
 a.avatar-colorbar.pev img {
 border-color: #607454; }
+
+/* ------------------------ wordlist
+--------------------------------*/
+
+#wordlist {
+  list-style-type: none;
+  text-align: center;
+}
+
+#content-box #wordlist h2 {
+  font-size: 36px;
+  line-height: 1;
+  margin: 0 0 10px;
+  padding: 10px 0;
+  border-top: 1px solid #939DAC;
+  border-bottom: 1px solid #939DAC;
+}
+
+#wordlist li a {
+  display: block;
+  padding: 0;
+  margin: 5px 0 0;
+  border-bottom: 0;
+  color: #939DAC;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
+}
+
+#wordlist li a:hover {
+  color: #191f28;
+}
+
+#wordlist li a li {
+  display: inline-block;
+  padding: 0 5px;
+  text-transform: uppercase;
+}
+
+
+
+
+
