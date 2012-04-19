@@ -1820,31 +1820,43 @@ border-color: #607454; }
 /* ------------------------ wordlist
 --------------------------------*/
 
+.wordlist-search form#quicksearch {
+  float: none;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: -3px;
+  margin-left: 15px;
+}
+
 #wordlist {
   list-style-type: none;
   text-align: center;
 }
 
 #content-box #wordlist h2 {
-  font-size: 36px;
+  font-size: 32px;
   line-height: 1;
-  margin: 0 0 10px;
-  padding: 10px 0;
+  margin: 5px 0;
+  padding: 4px 0 6px;
   border-top: 1px solid #939DAC;
   border-bottom: 1px solid #939DAC;
 }
 
+
 #wordlist li a {
   display: block;
-  padding: 0;
-  margin: 5px 0 0;
+  padding: 5px 0 0;
+  margin: 0;
   border-bottom: 0;
   color: #939DAC;
-  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.2);
 }
 
 #wordlist li a:hover {
-  color: #191f28;
+  color: #040a12;
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
 }
 
 #wordlist li a li {
