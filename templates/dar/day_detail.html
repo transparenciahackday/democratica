@@ -16,6 +16,28 @@
     <script src="/media/js/jquery.jeditable.mini.js" type="text/javascript"></script>
     <script src="https://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
     <script type="text/javascript">
+      // recarrega uma entrada individual
+        function refresh(id) {
+          $.ajax({
+            url: '/sessoes/reprocessar/' + id,
+          success: function(data) {
+            $('.entry#' + id).html(data);
+          /*
+            // precisamos de colocar a textarea como editável novamente
+            $(".edit_area#Entry_raw_text_" + id).editable("/sessoes/gravar/",
+              {
+                cancel: "Cancelar",
+                submit: "OK",
+                tooltip: "Clique 2 vezes para fazer alterações.",
+                loadurl  : '/sessoes/raw/',
+                type: "textarea",
+                event: "dblclick",
+                });
+                */
+          }
+        });
+      };
+
       $(document).ready(function(){  
         // CSRF protection
         $.ajaxSetup({
@@ -36,30 +58,9 @@
             type: "textarea",
             event: "dblclick",
             });
+
       });
     </script>
-  
-    {% comment %}
-      <script type="text/javascript">
-        $(document).ready(function(){
-          $('li.entry-link').one('click', openMenu);
-          function openMenu(e) {
-            var button = $(this).addClass('active');
-            var menu = $('#popup-' + button.attr('id'));
-            menu.addClass('open').click(function(e) {
-            e.stopPropagation(); }).show(200, function() {
-                $(document).one('click', {button: button, menu: menu}, closeMenu);
-              });
-            }
-          function closeMenu(e) {
-            e.data.menu.removeClass('open').hide(100, function() {
-              e.data.button.removeClass('active')
-            });
-            e.data.button.one('click', openMenu);
-          }
-        });
-    </script>
-    {% endcomment %}
 
 {% endblock %}
 
@@ -77,36 +78,10 @@
 
         {% for entry in entries %}
 
+          {# Debug info #}
+          <p>{{ entry.position }}</p>
+          <p><a href="javascript:refresh({{ entry.id }});">Refresh</a></p>
 
-        {% comment %}
-          {# {{ entry.html|safe }} #}
-          {% if entry.type == 'deputado_intervencao' %}
-          <div class="intervention">
-            <div class="entry" id="{{ entry.id }}">
-            <!-- Intervencao de deputado - inicio -->
-              <div class="left">
-                {% with entry.mp as mp %}
-                <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
-                <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
-                {# {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %} #}
-                <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
-                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
-                {% endwith %}
-              </div> <!-- /left -->
-              <div class="right edit_area"> {{ entry.text_as_html }} </div> <!-- /right -->
-            </div>
-          </div>
-          {% else %}
-          <div class="entry" id="{{ entry.id }}">
-            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.raw_text_as_html }} </div>
-          </div>
-          {% endif %}
-        {% endfor %}
-        {% endcomment%}
-
-
-          {{ entry.position }}
-          <p><a href="">Reparse</a></p>
           {% if forloop.first %}
           <div class="intervention mini-intervention">
           {% endif %}

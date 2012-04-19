@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import escape
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render_to_response
 
 
 import datetime
@@ -239,7 +239,7 @@ def entry_save(request):
     e.raw_text = value
     e.save()
     if '\n\n' in value:
-        from utils import split_entry
+        from parsing import split_entry
         split_entry(e)
     e.parse_raw_text()
     return HttpResponse(e.text_as_html)
@@ -271,3 +271,10 @@ def join_entry_with_previous(request, id):
     prev_e.save()
     return redirect('statement_detail', id=prev_e.id) 
 
+def refresh(request, id):
+    e = Entry.objects.get(id=int(id))
+    e.parse_raw_text()
+    from django.template import Context, loader
+    t = loader.get_template('dar/entry_snippet.html')
+    c = Context({'entry': e})
+    return HttpResponse(t.render(c))

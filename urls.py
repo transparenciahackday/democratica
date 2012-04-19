@@ -41,19 +41,20 @@ urlpatterns = patterns('',
 
     (ur'^sessoes/gravar/$', darviews.entry_save),
     (ur'^sessoes/raw/$', darviews.fetch_raw_entry),
+    (ur'^sessoes/reprocessar/(?P<id>\d+)$', darviews.refresh),
 
-    (ur'^doquesefalou/$', darviews.wordlist),
+        (ur'^doquesefalou/$', darviews.wordlist),
 
-    (r'^pesquisa/', include('dar.urls')),
+        (r'^pesquisa/', include('dar.urls')),
 
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
-    # (r'^databrowse/(.*)', databrowse.site.root),
-    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+        (r'^admin/', include(admin.site.urls)),
+        # (r'^databrowse/(.*)', databrowse.site.root),
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
-    (r'^ie6/$', direct_to_template, {'template': 'browser-update.html'}),
-    (r'^404/$', direct_to_template, {'template': '404.html'}),
-    (r'^500/$', direct_to_template, {'template': '500.html'}),
+        (r'^ie6/$', direct_to_template, {'template': 'browser-update.html'}),
+        (r'^404/$', direct_to_template, {'template': '404.html'}),
+        (r'^500/$', direct_to_template, {'template': '500.html'}),
     (r'^502/$', direct_to_template, {'template': '502.html'}),
 
 )

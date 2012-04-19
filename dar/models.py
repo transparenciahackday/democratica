@@ -72,7 +72,7 @@ class Entry(models.Model):
     def parse_raw_text(self):
         if not self.raw_text:
             return None
-        from utils import parse_mp_from_raw_text
+        from parsing import parse_mp_from_raw_text
         speaker, text = parse_mp_from_raw_text(self.raw_text)
         self.determine_type()
         self.normalize_text()
@@ -95,7 +95,7 @@ class Entry(models.Model):
             return None
 
     def determine_type(self):
-        from utils import determine_entry_tag
+        from parsing import determine_entry_tag
         self.type = determine_entry_tag(self)
         self.save()
     def normalize_text(self):
