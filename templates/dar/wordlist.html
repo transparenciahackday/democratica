@@ -4,12 +4,32 @@
 
 {% block title %}Sessões parlamentares em {{ year }} &mdash; Demo.cratica (Beta){% endblock %}
 
+{% block extrascripts %}
+<!-- este script é da pesquisa rápida na lista de deputados, para já só é usado nesta página -->
+<script type="text/javascript" src="/media/js/jquery.quicksearch.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){  
+    $(".searchbox").search();
+    
+    //este pedaço é usado para chamar a pesquisa rápida
+    //só neste template
+    $("#wordlist li  a").quicksearch({
+    position: 'append',
+    attached: '#content-box > h2',
+    labelText: null,
+    loaderImg: '/media/img/icons/loading-16px.gif',
+    inputText: 'Procurar palavras...'
+  });
+  });
+</script>
+{% endblock %}
+
 {% block extrabodyclass %}no-background{% endblock %}
 
 {% block content %}
     <div id="content-box">
-      <h2>Do que se falou?</h2>
-      
+      <h2 class="wordlist-search">Do que se falou?</h2>
+            
       <ul id="wordlist">
       {% for year in wordlist %}
       <li><h2>{{ year }}</h2>
