@@ -62,12 +62,12 @@ class Entry(models.Model):
             return "<Entry: %s>" % self.raw_text
 
     def get_absolute_url(self): 
-        return '/sessoes/intervencao/%d' % (self.id)
+        return '/sessoes/%d/%d/%d/%d' % (self.day.date.year, self.day.date.month, self.day.date.day, self.position)
 
     def get_previous(self):
-        return self.objects.filter(day=self.day, position__lt=self.position).order_by('-position')[0]
+        return self.__class__.objects.filter(day=self.day, position__lt=self.position).order_by('-position')[0]
     def get_next(self):
-        return self.objects.filter(day=self.day, position__gt=self.position).order_by('position')[0]
+        return self.__class__.objects.filter(day=self.day, position__gt=self.position).order_by('position')[0]
 
     def parse_raw_text(self):
         if not self.raw_text:
