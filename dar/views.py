@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from models import Day, Entry
-from deputados.models import Government, Party, MP
-from elections.models import Election
 from django.http import HttpResponse, Http404
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
@@ -12,6 +9,9 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import escape
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import redirect, render_to_response
+from dar.models import Day, Entry
+from deputados.models import Government, Party, MP
+from elections.models import Election
 
 
 import datetime
@@ -249,6 +249,11 @@ def fetch_raw_entry(request):
     id = id.split('_')[-1]
     raw_text = Entry.objects.get(id=id).raw_text
     return HttpResponse(raw_text)
+
+def parse_session_entries(request, id):
+    d = Day.objects.get(id=int(id))
+    d.parse_entries()
+    return redirect('day_detail', {'year': d.year, 'month': d.month, 'day': d.day)
 
 def mark_as_cont(request, id):
     e = Entry.objects.get(id=int(id))
