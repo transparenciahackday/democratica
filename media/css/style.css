@@ -89,7 +89,6 @@ overflow: auto;
 #content a {
 color: #535d6c;
 text-decoration: none;
-border-bottom: 1px solid #939dac;
 }
 
 a:focus {
@@ -1350,6 +1349,44 @@ padding: 5px 0;
 margin: 15px 0 0;
 }
 
+#toolbar {
+  position: absolute;
+  overflow: hidden;
+  background-color: #373E48;
+  -moz-box-shadow: 1px -1px 1px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 1px -1px 1px rgba(0,0,0,0.3);
+  -o-box-shadow: 1px -1px 1px rgba(0,0,0,0.3);
+  box-shadow: 1px -1px 1px rgba(0,0,0,0.3);
+  height: 32px;
+  line-height: 32px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  min-width: 600px;
+  position: fixed;
+  bottom: 0;
+  width: 950px;
+  padding: 0 20px;
+  z-index: 99999;
+}
+
+#toolbar ul {
+  list-style-type: none;
+  float: right;
+}
+
+#toolbar li {
+  display: block;
+  float: left;
+}
+
+#toolbar li a {
+  display: block;
+  height: 32px;
+  padding: 0 10px;
+  color: #EDEDEE;
+  text-shadow: 1px 1px 2px #151E2B;
+}
 
 /* ------------------------ About snippet
 --------------------------------*/
@@ -1850,6 +1887,7 @@ border-color: #607454; }
   border-bottom: 0;
   color: #939DAC;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #939dac;
 }
 
 #wordlist li a:hover {
