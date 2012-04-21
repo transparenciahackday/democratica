@@ -65,9 +65,15 @@ class Entry(models.Model):
         return '/sessoes/%d/%d/%d/%d' % (self.day.date.year, self.day.date.month, self.day.date.day, self.position)
 
     def get_previous(self):
-        return self.__class__.objects.filter(day=self.day, position__lt=self.position).order_by('-position')[0]
+        try:
+            return self.__class__.objects.filter(day=self.day, position__lt=self.position).order_by('-position')[0]
+        except IndexError:
+            return None
     def get_next(self):
-        return self.__class__.objects.filter(day=self.day, position__gt=self.position).order_by('position')[0]
+        try:
+            return self.__class__.objects.filter(day=self.day, position__gt=self.position).order_by('position')[0]
+        except IndexError:
+            return None
 
     def parse_raw_text(self):
         if not self.raw_text:

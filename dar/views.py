@@ -96,7 +96,7 @@ def day_detail(request, year, month, day):
 
     return direct_to_template(request, 'dar/day_detail.html',
         extra_context={'day': day, 'entries': entries,
-                       'gov': gov.number if gov else None,
+    #                   'gov': gov.number if gov else None,
     #                   'mp_lookup': mp_lookup,
                 })
 
@@ -251,15 +251,38 @@ def fetch_raw_entry(request):
     return HttpResponse(raw_text)
 
 def mark_as_cont(request, id):
-    e = Entry.objects.get(id = int(id))
+    e = Entry.objects.get(id=int(id))
+    if e.type == '':
+        from parsing import find_cont_speaker
+        find_cont_speaker(e)
     e.type = 'continuacao'
     e.save()
-    return redirect('statement_detail', id=id) 
+    return HttpResponse('<p>%s</p>' % e.type)
+def mark_as_main(request, id):
+    e = Entry.objects.get(id=int(id))
+    e.type = 'deputado_intervencao'
+    e.save()
+    return HttpResponse('<p>%s</p>' % e.type)
 
 def unmark_as_cont(request, id):
     e = Entry.objects.get(id = int(id))
     e.determine_type()
     return redirect('statement_detail', id=id) 
+
+def mark_as_aside(request, id):
+    e = Entry.objects.get(id=int(id))
+    if e.type == 'deputado_intervencao':
+        e.type = 'deputado_aparte'
+    elif e.type.startswith('pm'):
+        e.type = 'pm_aparte'
+    elif e.type.startswith('ministro'):
+        e.type = 'ministro_aparte'
+    elif e.type.startswith('secestado'):
+        e.type = 'secestado_aparte'
+    elif e.type.startswith('presidente'):
+        e.type = 'presidente_aparte'
+    e.save()
+    return HttpResponse('<p>%s</p>' % e.type)
 
 def join_entry_with_previous(request, id):
     e = Entry.objects.get(id = int(id))
@@ -269,11 +292,13 @@ def join_entry_with_previous(request, id):
         prev_e.text += '\n' + e.text
     e.delete()
     prev_e.save()
-    return redirect('statement_detail', id=prev_e.id) 
+    return HttpResponse('<p>OK</p>')
 
 def refresh(request, id):
+    skip_parsing = request.GET.get('skip_parsing')
     e = Entry.objects.get(id=int(id))
-    e.parse_raw_text()
+    if not skip_parsing:
+        e.parse_raw_text()
     from django.template import Context, loader
     t = loader.get_template('dar/entry_snippet.html')
     c = Context({'entry': e})

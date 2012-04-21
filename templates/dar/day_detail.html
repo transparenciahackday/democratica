@@ -16,27 +16,119 @@
     <script src="/media/js/jquery.jeditable.mini.js" type="text/javascript"></script>
     <script src="https://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
     <script type="text/javascript">
-      // recarrega uma entrada individual
-        function refresh(id) {
+        function join_with_previous(id, prev_id, next_id) {
+          // loading gif 
+          $('.entry#' + id).html('<img src="/media/img/loading.gif" />');
           $.ajax({
-            url: '/sessoes/reprocessar/' + id,
+            url: '/sessoes/juntar/' + id + '/',
+            success: function(data) {
+              // apagar parent div
+              $('.entry#' + id).hide();
+              console.log(id)
+              soft_refresh(prev_id)
+              soft_refresh(next_id)
+              // FIXME: precisamos de colocar a textarea como editável novamente
+              $(".edit_area").editable("/sessoes/gravar/",
+                {
+                  cancel: "Cancelar",
+                  submit: "OK",
+                  tooltip: "Clique 2 vezes para fazer alterações.",
+                  loadurl: '/sessoes/raw/',
+                  type: "textarea",
+                  indicator: '<img src="/media/img/loading.gif" />',
+                  event: "dblclick",
+                  callback : function(value, settings) 
+                  {
+                    refresh(this.parentNode.id);
+                    return value;
+                  }
+                });
+              }
+            });
+          };
+
+        // faz o reparse uma entrada individual
+        function refresh(id) {
+          // loading gif 
+          $('.entry#' + id).html('<img src="/media/img/loading.gif" />');
+          $.ajax({
+            url: '/sessoes/reprocessar/' + id + '/',
+            success: function(data) {
+              $('.entry#' + id).html(data);
+              console.log(id)
+              // FIXME: precisamos de colocar a textarea como editável novamente
+              $(".edit_area").editable("/sessoes/gravar/",
+                {
+                  cancel: "Cancelar",
+                  submit: "OK",
+                  tooltip: "Clique 2 vezes para fazer alterações.",
+                  loadurl: '/sessoes/raw/',
+                  type: "textarea",
+                  indicator: '<img src="/media/img/loading.gif" />',
+                  event: "dblclick",
+                  callback : function(value, settings) 
+                  {
+                    refresh(this.parentNode.id);
+                    return value;
+                  }
+                });
+              }
+            });
+          };
+
+        // vai apenas buscar o valor actual da entrada
+        function soft_refresh(id) {
+          // loading gif 
+          $('.entry#' + id).html('<img src="/media/img/loading.gif" />');
+          $.ajax({
+            url: '/sessoes/reprocessar/' + id + '/?skip_parsing=1',
+          // FIXME: Error response
           success: function(data) {
             $('.entry#' + id).html(data);
-          /*
-            // precisamos de colocar a textarea como editável novamente
-            $(".edit_area#Entry_raw_text_" + id).editable("/sessoes/gravar/",
+            console.log(id)
+            // FIXME: precisamos de colocar a textarea como editável novamente
+            $(".edit_area").editable("/sessoes/gravar/",
               {
                 cancel: "Cancelar",
                 submit: "OK",
                 tooltip: "Clique 2 vezes para fazer alterações.",
-                loadurl  : '/sessoes/raw/',
+                loadurl: '/sessoes/raw/',
                 type: "textarea",
+                indicator: '<img src="/media/img/loading.gif" />',
                 event: "dblclick",
-                });
-                */
-          }
-        });
-      };
+                callback : function(value, settings) {
+                    refresh(this.parentNode.id);
+                    return value;
+                    }
+              });
+            }
+          });
+        };
+
+        function mark_as_cont(id) {
+          $.ajax({
+            url: '/sessoes/marcar/' + id + '/',
+            success: function(data) {
+            soft_refresh(id);
+            }
+          });
+        };
+        function mark_as_aside(id) {
+          $.ajax({
+            url: '/sessoes/marcar_aparte/' + id + '/',
+          success: function(data) {
+            soft_refresh(id);
+            }
+          });
+        };
+        function mark_as_main(id) {
+          $.ajax({
+            url: '/sessoes/marcar_intervencao/' + id + '/',
+          success: function(data) {
+            soft_refresh(id);
+            }
+          });
+        };
 
       $(document).ready(function(){  
         // CSRF protection
@@ -54,9 +146,14 @@
             cancel: "Cancelar",
             submit: "OK",
             tooltip: "Clique 2 vezes para fazer alterações.",
-            loadurl  : '/sessoes/raw/',
+            loadurl: '/sessoes/raw/',
             type: "textarea",
+            indicator: '<img src="/media/img/loading.gif" />',
             event: "dblclick",
+            callback : function(value, settings) {
+                refresh(this.parentNode.id);
+                return value;
+                }
             });
 
       });
@@ -78,9 +175,6 @@
 
         {% for entry in entries %}
 
-          {# Debug info #}
-          <p>{{ entry.position }}</p>
-          <p><a href="javascript:refresh({{ entry.id }});">Refresh</a></p>
 
           {% if forloop.first %}
           <div class="intervention mini-intervention">

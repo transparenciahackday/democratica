@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import re
 from utils import remove_strings
+from dar.models import Entry
 
 HONORIFICS = ('O Sr. ', u'A Sr.ª ')
 re_separador = (re.compile(ur'\: [\–\–\—\-] ', re.UNICODE), ': - ')
@@ -30,7 +31,7 @@ def determine_entry_tag(e):
         elif e.speaker.startswith(u'Secretári'):
             return 'secretario'
     else:
-        if e.text.startswith(u'Vozes'):
+        if e.text.startswith((u'Vozes', u'Uma voz d')):
             has_sep = re.search(re_separador[0], e.text)
             if not has_sep:
                 return 'vozes_aparte'
@@ -51,7 +52,6 @@ def determine_entry_tag(e):
 
         elif e.text == 'Pausa.':
             return 'pausa'
-
     return ''
 
 def parse_mp_from_raw_text(text):
@@ -115,7 +115,8 @@ def find_cont_speaker(e):
     counter = 0
     # olha que queryset mai lindo, as entries anteriores ordenadas inversamente
     for prev_entry in Entry.objects.filter(day=e.day, position__lt=e.position).order_by('-position'):
-        if prev_entry.type in ['deputado_intervencao', 'presidente_intervencao']:
+        if (prev_entry.type in ['deputado_intervencao', 'presidente_intervencao', 'presidente']) or \
+           (prev_entry.type == 'continuacao' and prev_entry.mp):
             e.speaker = prev_entry.speaker
             e.type = 'continuacao'
             if prev_entry.mp:
@@ -149,5 +150,5 @@ def split_entry(e):
     e.raw_text = text1 
     e.save()
     new_e = Entry.objects.create(day=e.day, raw_text=text2, position=new_position)
-    return new_e
+    return new_e.id
 
