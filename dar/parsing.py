@@ -7,53 +7,6 @@ from dar.models import Entry
 HONORIFICS = ('O Sr. ', u'A Sr.ª ')
 re_separador = (re.compile(ur'\: [\–\–\—\-] ', re.UNICODE), ': - ')
 
-def determine_entry_tag(e):
-    if e.mp and not e.speaker.startswith('Primeiro-Ministro'):
-        if len(e.text) < 60:
-            return 'deputado_aparte'
-        else:
-            return 'deputado_intervencao'
-    elif e.speaker:
-        if e.speaker in ('O Orador' or 'A Oradora'):
-            find_cont_speaker(e)
-            return 'continuacao'
-        if e.speaker.startswith('Primeiro-Ministro'):
-            # TODO: fetch prime minister mp id
-            from deputados.utils import get_pm_from_date
-            from deputados.models import MP
-            pm_name = get_pm_from_date(e.day.date)
-            e.mp = MP.objects.get(shortname=pm_name)
-            e.save()
-            return 'pm_intervencao'
-
-        elif e.speaker.startswith('Presidente'):
-            return 'presidente'
-        elif e.speaker.startswith(u'Secretári'):
-            return 'secretario'
-    else:
-        if e.text.startswith((u'Vozes', u'Uma voz d')):
-            has_sep = re.search(re_separador[0], e.text)
-            if not has_sep:
-                return 'vozes_aparte'
-            speaker, text = re.split(re_separador[0], e.text, 1)
-            e.speaker = speaker
-            e.text = text
-            e.save()
-            return 'vozes_aparte'
-        elif e.text.startswith(u'Aplauso'):
-            return 'aplauso'
-        elif e.text.startswith(u'Protesto'):
-            return 'protesto'
-        elif e.text.startswith(u'Risos'):
-            return 'riso'
-
-        if e.text.startswith(u'Submetido à votação'):
-            return 'voto'
-
-        elif e.text == 'Pausa.':
-            return 'pausa'
-    return ''
-
 def parse_mp_from_raw_text(text):
     # returns (None, text) if no match
     #         (mp_id, text) if MP match
@@ -109,6 +62,52 @@ def parse_mp_from_raw_text(text):
     else:
         return (int(mp_id), text)
     
+def determine_entry_tag(e):
+    if e.mp and not e.speaker.startswith('Primeiro-Ministro'):
+        if len(e.text) < 60:
+            return 'deputado_aparte'
+        else:
+            return 'deputado_intervencao'
+    elif e.speaker:
+        if e.speaker in ('O Orador' or 'A Oradora'):
+            find_cont_speaker(e)
+            return 'continuacao'
+        if e.speaker.startswith('Primeiro-Ministro'):
+            from deputados.utils import get_pm_from_date
+            from deputados.models import MP
+            pm_name = get_pm_from_date(e.day.date)
+            e.mp = MP.objects.get(shortname=pm_name)
+            e.save()
+            return 'pm_intervencao'
+
+        elif e.speaker.startswith('Presidente'):
+            return 'presidente'
+        elif e.speaker.startswith(u'Secretári'):
+            return 'secretario'
+    else:
+        if e.text.startswith((u'Vozes', u'Uma voz d')):
+            has_sep = re.search(re_separador[0], e.text)
+            if not has_sep:
+                return 'vozes_aparte'
+            speaker, text = re.split(re_separador[0], e.text, 1)
+            e.speaker = speaker
+            e.text = text
+            e.save()
+            return 'vozes_aparte'
+        elif e.text.startswith(u'Aplauso'):
+            return 'aplauso'
+        elif e.text.startswith(u'Protesto'):
+            return 'protesto'
+        elif e.text.startswith(u'Risos'):
+            return 'riso'
+
+        if e.text.startswith(u'Submetido à votação'):
+            return 'voto'
+
+        elif e.text == 'Pausa.':
+            return 'pausa'
+    return ''
+
 def find_cont_speaker(e):
     '''Quando temos uma intervenção com o speaker "Orador" ou "Oradora", é preciso saber quem é.
     Esta função tenta descobrir andando para trás até chegar a uma intervenção.'''

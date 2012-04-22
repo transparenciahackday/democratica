@@ -40,6 +40,9 @@ urlpatterns = patterns('',
     url(r'^sessoes/marcar_intervencao/(?P<id>\d+)/$', darviews.mark_as_main, name='mark_as_main'),
     url(r'^sessoes/desmarcar/(?P<id>\d+)/$', darviews.unmark_as_cont, name='unmark_as_cont'),
     url(r'^sessoes/juntar/(?P<id>\d+)/$', darviews.join_entry_with_previous, name='join_entry_with_previous'),
+    url(r'^sessoes/newlines/(?P<id>\d+)/$', darviews.correct_newlines, name='correct_newlines'),
+
+    url(ur'^sessoes/catalogar/(?P<id>\d+)/$', darviews.parse_session_entries, name='parse_session_entries'),
 
     (ur'^sessoes/gravar/$', darviews.entry_save),
     (ur'^sessoes/raw/$', darviews.fetch_raw_entry),

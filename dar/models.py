@@ -37,7 +37,7 @@ class Day(models.Model):
     def get_5words_list(self):
         return [d.keys()[0] for d in self.top5words['words']]
 
-    def parse_all_entries(self):
+    def parse_entries(self):
         entries = Entry.objects.filter(day=self)
         for e in entries:
             e.parse_raw_text()
@@ -88,7 +88,9 @@ class Entry(models.Model):
             return None
         from parsing import parse_mp_from_raw_text
         speaker, text = parse_mp_from_raw_text(self.raw_text)
-        self.determine_type()
+        # special case
+        if not self.type == 'continuacao':
+            self.determine_type()
         self.normalize_text()
 
         if isinstance(speaker, int):
@@ -113,7 +115,7 @@ class Entry(models.Model):
         self.type = determine_entry_tag(self)
         self.save()
     def normalize_text(self):
-        self.text = self.text.replace(' - ', u' — ')
+        self.text = self.text.replace(u' - ', u' — ')
         if self.text.startswith(u'»'):
             self.text = self.text.replace(u'»', '...', 1)
 

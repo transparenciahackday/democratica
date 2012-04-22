@@ -96,7 +96,7 @@ def day_detail(request, year, month, day):
 
     return direct_to_template(request, 'dar/day_detail.html',
         extra_context={'day': day, 'entries': entries,
-    #                   'gov': gov.number if gov else None,
+                       'gov': gov.number if gov else None,
     #                   'mp_lookup': mp_lookup,
                 })
 
@@ -253,7 +253,7 @@ def fetch_raw_entry(request):
 def parse_session_entries(request, id):
     d = Day.objects.get(id=int(id))
     d.parse_entries()
-    return redirect('day_detail', {'year': d.year, 'month': d.month, 'day': d.day)
+    return redirect('day_detail', year=d.date.year, month=d.date.month, day=d.date.day)
 
 def mark_as_cont(request, id):
     e = Entry.objects.get(id=int(id))
@@ -272,7 +272,7 @@ def mark_as_main(request, id):
 def unmark_as_cont(request, id):
     e = Entry.objects.get(id = int(id))
     e.determine_type()
-    return redirect('statement_detail', id=id) 
+    return HttpResponse('<p>%s</p>' % e.type)
 
 def mark_as_aside(request, id):
     e = Entry.objects.get(id=int(id))
@@ -298,6 +298,26 @@ def join_entry_with_previous(request, id):
     e.delete()
     prev_e.save()
     return HttpResponse('<p>OK</p>')
+
+def correct_newlines(request, id):
+    e = Entry.objects.get(id = int(id))
+    lines = e.raw_text.split('\n')
+    output = ''
+    for line in lines:
+        if not line.strip().endswith(('.', '?', '!')):
+            output += line.strip() + ' '
+        elif len(line) > 65:
+            output += line.strip() + ' '
+        else:
+            output += line.strip() + '\n'
+    current_type = e.type
+    e.raw_text = output
+    e.save()
+    e.parse_raw_text()
+    e.type = current_type
+    e.save()
+    return HttpResponse('<p>OK</p>')
+
 
 def refresh(request, id):
     skip_parsing = request.GET.get('skip_parsing')

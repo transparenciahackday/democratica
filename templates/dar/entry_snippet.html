@@ -20,6 +20,7 @@
 
                 <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
                 <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
+                <p><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></p>
                 {% endwith %}
               </div> <!-- /left -->
               <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> 
@@ -45,6 +46,7 @@
                 <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
                 <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
                 <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
+                <p><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></p>
                 {% endwith %}
               </div> <!-- /left -->
               <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div> <!-- /right -->
@@ -71,7 +73,6 @@
             {% elif entry.type == 'intervencao' %}
               <div class="left">
                 <h3 class="mp-name">{{ entry.speaker }}</h3>
-                <h4>Primeiro-Ministro</h4>
                 <p class="party">{{ entry.party }}</p>
               </div>
               <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
@@ -82,7 +83,8 @@
               {% if entry.mp %}
               <div class="left">
                 <p class="party {{ entry.mp.current_party.abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="" />{#</a>#}</p>
-                  <p><a href="{% url unmark_as_cont entry.id %}">Desmarcar como continuação</a></p>
+                <p><a href="javascript:unmark_as_cont({{entry.id}})">Desmarcar como continuação</a></p>
+                <p><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></p>
               </div>
               <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
               {% else %}
@@ -98,6 +100,7 @@
             <div class="left"> 
               <h3>Presidente</h3> 
               <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
+              <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
             </div>
             <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
@@ -138,7 +141,7 @@
             <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
             {# Aplausos, protestos, risos, pausas, notas, horas e outros eventos #}
-            {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "note" or entry.type == "time" %}
+            {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "risos" or entry.type == "pausa" or entry.type == "note" or entry.type == "time" %}
               <div class="right edit_area interruption" id="Entry_raw_text_{{ entry.id }}">
                 {{ entry.text_as_html }}
               </div>
@@ -151,6 +154,7 @@
               <p><a href='javascript:join_with_previous({{ entry.id }},{{ entry.get_previous.id }},{{ entry.get_next.id}});'>Juntar à anterior</a></p>
               {# <p><a href='{% url join_entry_with_previous entry.id %}'>Juntar à anterior</a></p> #}
               <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
+              <p><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></p>
             </div>
             <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
