@@ -144,7 +144,7 @@ class Party(models.Model):
     def __unicode__(self): return self.abbrev
     class Meta:
         verbose_name = 'partido'
-'''
+
 class FactType(models.Model):
     name = models.CharField('Nome', max_length=100)
 
@@ -161,7 +161,7 @@ class Fact(models.Model):
     def __unicode__(self): return "%s - %s" % (self.fact_type.name, self.value)
     class Meta:
         verbose_name = 'facto'
-'''
+
 class Government(models.Model):
     number = models.PositiveIntegerField('Número', unique=True)
     date_started = models.DateField('Início do mandato', blank=True, null=True)
