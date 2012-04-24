@@ -53,10 +53,10 @@ def insert_entry(speaker, party, text, type, day):
                 p = None
 
             # go on with the search
-            if MP.objects.filter(shortname=speaker, caucus__party__abbrev=p):
+            if MP.objects.filter(shortname=speaker, mandate__party__abbrev=p):
                 try:
                     # we got them, woohoo
-                    mp = MP.objects.filter(shortname=speaker, caucus__party__abbrev=p).distinct()[0]
+                    mp = MP.objects.filter(shortname=speaker, mandate__party__abbrev=p).distinct()[0]
                 except MP.MultipleObjectsReturned:
                     logging.warning('More than 1 result for name %s in party %s. Assigning first MP instance.' % (speaker, party))
                     Entry.objects.create(speaker=speaker, party=party, text=text, day=day, type=type)

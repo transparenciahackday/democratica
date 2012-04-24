@@ -44,25 +44,29 @@ class MP(models.Model):
     occupation = models.CharField('Profissão', max_length=300, blank=True)
     photo = ImageWithThumbsField('Fotografia', upload_to='fotos', sizes=((18,25), (60,79)), null=True)
 
+    commissions = models.TextField('Comissões', blank=True, max_length=5000)
+    education = models.TextField('Formação', blank=True, max_length=5000)
+    jobs = models.TextField('Cargos', blank=True, max_length=5000)
+
     favourite_word = models.CharField('Palavra preferida', max_length=100, blank=True, null=True)
     news = JSONField(null=True)
     tweets = JSONField(null=True)
 
     is_active = models.BooleanField('Activo', default=True)
     current_party = models.ForeignKey('Party', verbose_name='Último partido', null=True)
-    current_caucus = models.ForeignKey('Caucus', related_name='current', null=True)
+    current_mandate = models.ForeignKey('Mandate', related_name='current', null=True)
 
     objects = MPManager()
     all_objects = MPAllManager()
 
-    def update_current_caucus(self):
-        if self.caucus_set.all():
-            self.current_caucus = self.caucus_set.all()[0]
+    def update_current_mandate(self):
+        if self.mandate_set.all():
+            self.current_mandate = self.mandate_set.all()[0]
             self.save()
 
     def update_current_party(self):
-        if self.current_caucus:
-            p = self.current_caucus.party
+        if self.current_mandate:
+            p = self.current_mandate.party
             self.current_party = p
             self.save()
 
@@ -85,8 +89,8 @@ class MP(models.Model):
                 return self.governmentpost_set.filter(government=Government.objects.get(number=gov_number))[0]
         return None
 
-    def caucus_on(self, session_number):
-        return self.caucus_set.objects.get(session__number=session_number)
+    def mandate_on(self, legislature_number):
+        return self.mandate_set.objects.get(legislature__number=legislature_number)
 
     def has_post_on(self, gov_number):
         if gov_number:
@@ -140,7 +144,7 @@ class Party(models.Model):
     def __unicode__(self): return self.abbrev
     class Meta:
         verbose_name = 'partido'
-
+'''
 class FactType(models.Model):
     name = models.CharField('Nome', max_length=100)
 
@@ -157,7 +161,7 @@ class Fact(models.Model):
     def __unicode__(self): return "%s - %s" % (self.fact_type.name, self.value)
     class Meta:
         verbose_name = 'facto'
-
+'''
 class Government(models.Model):
     number = models.PositiveIntegerField('Número', unique=True)
     date_started = models.DateField('Início do mandato', blank=True, null=True)
@@ -180,7 +184,7 @@ class GovernmentPost(models.Model):
     def __unicode__(self):
         return 'GC%d: %s' % (self.government.number, self.name)
 
-class Session(models.Model):
+class Legislature(models.Model):
     number = models.PositiveIntegerField('Sessão legislativa')
     date_start = models.DateField('Data de início', null=True)
     date_end = models.DateField('Data de fim', null=True)
@@ -202,9 +206,9 @@ class Constituency(models.Model):
         verbose_name_plural = 'círculos eleitorais'
         ordering = ['name']
 
-class Caucus(models.Model):
+class Mandate(models.Model):
     mp = models.ForeignKey(MP)
-    session = models.ForeignKey(Session)
+    legislature = models.ForeignKey(Legislature)
     date_begin = models.DateField('Data início', blank=True, null=True)
     date_end = models.DateField('Data fim', blank=True, null=True)
     constituency = models.ForeignKey(Constituency)
@@ -212,20 +216,20 @@ class Caucus(models.Model):
     has_activity = models.BooleanField('Tem actividades?')
     has_registointeresses = models.BooleanField('Tem registo de interesses?')
 
-    def __unicode__(self): return '%s (%s - %s)' % (self.mp.shortname, self.session, self.party.abbrev)
+    def __unicode__(self): return '%s (%s - %s)' % (self.mp.shortname, self.legislature, self.party.abbrev)
     class Meta:
-        verbose_name = 'caucus'
-        verbose_name_plural = 'caucuses'
-        ordering = ['-session__number']
+        verbose_name = 'mandate'
+        verbose_name_plural = 'mandatees'
+        ordering = ['-legislature__number']
 
 class Activity(models.Model):
     mp = models.ForeignKey(MP)
-    caucus = models.ForeignKey(Caucus)
+    mandate = models.ForeignKey(Mandate)
     type1 = models.CharField('Tipo 1', max_length=50, blank=True)
     type2 = models.CharField('Tipo 2', max_length=50, blank=True)
     number = models.CharField('Número', max_length=50, blank=True)
-    session = models.PositiveIntegerField('Sessão', blank=True)
     content = models.TextField('Conteúdo', max_length=3000)
+    legislature = models.ForeignKey(Legislature)
     external_id = models.IntegerField('ID Externo')
 
     def __unicode__(self): return self.mp.shortname

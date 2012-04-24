@@ -82,11 +82,11 @@
           <li>
             <h4>Sessão Legislativa e Círculo Eleitoral / Partido:</h4>
             <ul>
-              {% for caucus in object.caucus_set.all %}
+              {% for mandate in object.mandate_set.all %}
               <li>
-              Deputad{% if object.article == 'XXX' %}o{% else %}{{ object.article }}{% endif %} na <a href="/deputados/?session={{ caucus.session.number }}" title="Ver deputados da {{ caucus.session }} Legislatura">{{ caucus.session }} Legislatura</a> 
-              pelo <a href="/deputados/?session={{ caucus.session.number }}&party={{ caucus.party.abbrev }}" title="Ver deputados eleitos pelo {{ caucus.party.abbrev }} na {{ caucus.session }} Legislatura">{{ caucus.party.abbrev }}</a> 
-              no círculo d{{ caucus.constituency.article }} <a href="/deputados/?session={{ caucus.session.number }}&constituency={{ caucus.constituency.id }}" title="Ver deputados eleitos pelo círculo d{{ caucus.constituency.article }} {{ caucus.constituency }} na {{ caucus.session }} Legislatura">{{ caucus.constituency }}</a>.
+              Deputad{% if object.article == 'XXX' %}o{% else %}{{ object.article }}{% endif %} na <a href="/deputados/?legislature={{ mandate.legislature.number }}" title="Ver deputados da {{ mandate.legislature }} Legislatura">{{ mandate.legislature }} Legislatura</a> 
+              pelo <a href="/deputados/?legislature={{ mandate.legislature.number }}&party={{ mandate.party.abbrev }}" title="Ver deputados eleitos pelo {{ mandate.party.abbrev }} na {{ mandate.legislature }} Legislatura">{{ mandate.party.abbrev }}</a> 
+              no círculo d{{ mandate.constituency.article }} <a href="/deputados/?legislature={{ mandate.legislature.number }}&constituency={{ mandate.constituency.id }}" title="Ver deputados eleitos pelo círculo d{{ mandate.constituency.article }} {{ mandate.constituency }} na {{ mandate.legislature }} Legislatura">{{ mandate.constituency }}</a>.
               </li>
               {% endfor %}
             </ul>

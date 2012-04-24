@@ -42,10 +42,10 @@ def parse_mp_from_raw_text(text):
             else:
                 pass
             # go on with the search
-            if MP.objects.filter(shortname=speaker, caucus__party__abbrev=p):
+            if MP.objects.filter(shortname=speaker, mandate__party__abbrev=p):
                 try:
                     # we got them, woohoo
-                    mp = MP.objects.filter(shortname=speaker, caucus__party__abbrev=p).distinct()[0]
+                    mp = MP.objects.filter(shortname=speaker, mandate__party__abbrev=p).distinct()[0]
                     mp_id = mp.id
                 except MP.MultipleObjectsReturned:
                     logging.warning('More than 1 result for name %s in party %s. Assigning first MP instance.' % (speaker, party))
@@ -100,11 +100,9 @@ def determine_entry_tag(e):
             return 'protesto'
         elif e.text.startswith(u'Risos'):
             return 'riso'
-
-        if e.text.startswith(u'Submetido à votação'):
+        elif e.text.startswith(u'Submetido à votação'):
             return 'voto'
-
-        elif e.text == 'Pausa.':
+        elif e.text.strip() == 'Pausa.':
             return 'pausa'
     return ''
 
@@ -114,7 +112,7 @@ def find_cont_speaker(e):
     counter = 0
     # olha que queryset mai lindo, as entries anteriores ordenadas inversamente
     for prev_entry in Entry.objects.filter(day=e.day, position__lt=e.position).order_by('-position'):
-        if (prev_entry.type in ['deputado_intervencao', 'presidente_intervencao', 'presidente']) or \
+        if (prev_entry.type in ['deputado_intervencao', 'pm_intervencao', 'presidente_intervencao', 'presidente']) or \
            (prev_entry.type == 'continuacao' and prev_entry.mp):
             e.speaker = prev_entry.speaker
             e.type = 'continuacao'
@@ -126,6 +124,15 @@ def find_cont_speaker(e):
         # se chegámos a 8 intervenções sem encontrar nada, desistimos
         if counter > 8:
             return
+
+def find_continuations(entries):
+    # Depois de vozes, aplauso, protesto, riso ou aparte
+    # se é deputado-intervenção, mudar pra continauação
+    # se é sem tipo identificado, mudar pra continuação e meter MP?
+    pass
+    
+
+
         
 def split_entry(e):
     from democratica.dar.models import Entry

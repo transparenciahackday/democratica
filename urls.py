@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from democratica import settings
-from democratica.deputados.models import MP, Party, Caucus, LinkSet, Session, Fact, FactType, Activity
+from democratica.deputados.models import MP, Party, Mandate, LinkSet, Session, Fact, FactType, Activity
 import democratica.deputados.views as views
 import democratica.dar.views as darviews
 
@@ -14,7 +14,7 @@ admin.autodiscover()
 from django.contrib import databrowse
 databrowse.site.register(MP)
 databrowse.site.register(Party)
-databrowse.site.register(Caucus)
+databrowse.site.register(Mandate)
 databrowse.site.register(LinkSet)
 databrowse.site.register(Fact)
 databrowse.site.register(FactType)

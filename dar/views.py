@@ -83,10 +83,10 @@ def day_detail(request, year, month, day):
     # for mp in mps:
     #    if not mp.id:
     #        continue
-        #mp = mps.values('shortname', 'current_party', 'current_caucus', 'photo').get(id=mp_id)
+        #mp = mps.values('shortname', 'current_party', 'current_mandate', 'photo').get(id=mp_id)
 
     #     mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'current_party': mp.current_party,
-    #             'current_caucus': mp.current_caucus, 'photo': mp.photo, 'id': mp.id}
+    #             'current_mandate': mp.current_mandate, 'photo': mp.photo, 'id': mp.id}
 
 
     if govs:

@@ -27,36 +27,36 @@
 {% block content %}
 <div id="content-box">
     {# Todos #}
-    {% if session == 'all' and party == 'all' and constituency == 'all' %}
+    {% if legislature == 'all' and party == 'all' and constituency == 'all' %}
     <h2 class="ribbon">Todos os Deputados</h2>
     {% endif %}
     {# Legislatura #}
-    {% if session != 'all' and party == 'all' and constituency == 'all' %}
-    <h2 class="ribbon">Deputados na {{ session|toroman }} Legislatura</h2>
+    {% if legislature != 'all' and party == 'all' and constituency == 'all' %}
+    <h2 class="ribbon">Deputados na {{ legislature|toroman }} Legislatura</h2>
     {% endif %}
     {# Partido #}
-    {% if session == 'all' and party != 'all' and constituency == 'all' %}
+    {% if legislature == 'all' and party != 'all' and constituency == 'all' %}
     <h2 class="ribbon">Deputados do {{ party|upper }}</h2>
     {% endif %}
     {# Círculo #}
-    {% if session == 'all' and party == 'all' and constituency != 'all' %}
+    {% if legislature == 'all' and party == 'all' and constituency != 'all' %}
     <h2 class="ribbon">Deputados eleitos por {{ constituency }}</h2>
     {% endif %}
     {# Legislatura + Partido #}
-    {% if session != 'all' and party != 'all' and constituency == 'all' %}
-    <h2 class="ribbon">Deputados do {{ party|upper }} na {{ session|toroman }} Legislatura</h2>
+    {% if legislature != 'all' and party != 'all' and constituency == 'all' %}
+    <h2 class="ribbon">Deputados do {{ party|upper }} na {{ legislature|toroman }} Legislatura</h2>
     {% endif %}
     {# Legislatura + Círculo #}
-    {% if session != 'all' and party == 'all' and constituency != 'all' %}
-    <h2 class="ribbon">Deputados na {{ session|toroman }} Legislatura eleitos por {{ constituency }}</h2>
+    {% if legislature != 'all' and party == 'all' and constituency != 'all' %}
+    <h2 class="ribbon">Deputados na {{ legislature|toroman }} Legislatura eleitos por {{ constituency }}</h2>
     {% endif %}
     {# Partido + Círculo #}
-    {% if session == 'all' and party != 'all' and constituency != 'all' %}
+    {% if legislature == 'all' and party != 'all' and constituency != 'all' %}
     <h2 class="ribbon">Deputados do {{ party|upper }} eleitos por {{ constituency }}</h2>
     {% endif %}
     {# Legislatura + Partido + Círculo #}
-    {% if session != 'all' and party != 'all' and constituency != 'all' %}
-    <h2 class="ribbon">Deputados do {{ party|upper }} na {{ session|toroman}} Legislatura eleitos por {{ constituency }}</h2>
+    {% if legislature != 'all' and party != 'all' and constituency != 'all' %}
+    <h2 class="ribbon">Deputados do {{ party|upper }} na {{ legislature|toroman}} Legislatura eleitos por {{ constituency }}</h2>
     {% endif %}
 
 
@@ -64,10 +64,10 @@
     <form id="all-mp">
       <ul class="mp-filters">
         <li><strong>Legislatura:</strong>
-          <select name="session">
-            <option value="all"{% if session == 'all' %} selected="selected"{% endif %}>Todas</option>
-            {% for s in sessions %}
-            <option value="{{ s.number }}"{% if s.number == session %} selected="selected"{% endif %}>{{ s }} ({{ s.date_start.year }}-{{ s.date_end.year }})</option>
+          <select name="legislature">
+            <option value="all"{% if legislature == 'all' %} selected="selected"{% endif %}>Todas</option>
+            {% for s in legislatures %}
+            <option value="{{ s.number }}"{% if s.number == legislature %} selected="selected"{% endif %}>{{ s }} ({{ s.date_start.year }}-{{ s.date_end.year }})</option>
             {% endfor %}
           </select>
         </li>

@@ -16,7 +16,7 @@
                 <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
                 {# {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %} #}
                 <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
-                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
+                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_mandate.constituency }}</p>
 
                 <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
                 <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
@@ -43,7 +43,7 @@
                 <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
                 <h4>Primeiro-Ministro</h4>
                 <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
-                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
+                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_mandate.constituency }}</p>
                 <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
                 <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
                 <p><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></p>
@@ -60,7 +60,7 @@
                 <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
                 <h4>{{ mp.get_post_in.day.date }}</h4>
                 <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
-                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_caucus.constituency }}</p>
+                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_mandate.constituency }}</p>
 
                 <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
 
@@ -123,7 +123,7 @@
               <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
             {# Aparte de deputado #}
-            {% elif entry.type == 'deputado_aparte' %}
+            {% elif entry.type == 'deputado_aparte' or entry.type == 'pm_aparte' %}
             <div class="left">
               {% if entry.mp %}
               <p class="party {{ entry.mp.current_party.abbrev|lower }}"><a href="{% url mp_detail entry.mp.id %}">{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="" /></a></p>
@@ -141,7 +141,7 @@
             <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
             {# Aplausos, protestos, risos, pausas, notas, horas e outros eventos #}
-            {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "risos" or entry.type == "pausa" or entry.type == "note" or entry.type == "time" %}
+            {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "note" or entry.type == "time" %}
               <div class="right edit_area interruption" id="Entry_raw_text_{{ entry.id }}">
                 {{ entry.text_as_html }}
               </div>

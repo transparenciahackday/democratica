@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from democratica.deputados.models import MP, Session, Party, Constituency
+from democratica.deputados.models import MP, Legislature, Party, Constituency
 
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
@@ -10,19 +10,19 @@ def index(request):
     return direct_to_template('index.html')
 
 def mp_list(request):
-    session_number = request.GET.get('session', Session.objects.order_by('-number')[0].number)
+    legislature_number = request.GET.get('legislature', Legislature.objects.order_by('-number')[0].number)
     party = request.GET.get('party', 'all')
     constituency_id = request.GET.get('constituency', 'all')
 
-    if not session_number == 'all':
-        queryset = MP.objects.select_related().filter(caucus__session__number=int(session_number))
+    if not legislature_number == 'all':
+        queryset = MP.objects.select_related().filter(mandate__legislature__number=int(legislature_number))
     else:
         queryset = MP.objects.select_related().all()
 
     if not party == 'all':
-        queryset = queryset.filter(caucus__party__abbrev=party)
+        queryset = queryset.filter(mandate__party__abbrev=party)
     if not constituency_id == 'all':
-        queryset = queryset.filter(caucus__constituency__id=int(constituency_id))
+        queryset = queryset.filter(mandate__constituency__id=int(constituency_id))
 
     # queryset = queryset.distinct().values('id', 'shortname', 'current_party')
     queryset = queryset.distinct()
@@ -45,9 +45,9 @@ def mp_list(request):
     extra = {}
     extra['querysets'] = [queryset_1, queryset_2, queryset_3]
 
-    # extra['sessions'] = Session.objects.order_by('-number').values('id', 'number')
-    extra['sessions'] = Session.objects.order_by('-number')
-    extra['session'] = int(session_number) if session_number != 'all' else 'all'
+    # extra['legislatures'] = Legislature.objects.order_by('-number').values('id', 'number')
+    extra['legislatures'] = Legislature.objects.order_by('-number')
+    extra['legislature'] = int(legislature_number) if legislature_number != 'all' else 'all'
 
     # extra['parties'] = Party.objects.filter(has_mps=True).values('id', 'abbrev')
     extra['parties'] = Party.objects.filter(has_mps=True)

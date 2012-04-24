@@ -1,15 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-Script para criar os modelos do Django a partir das transcrições do DAR
-Copyright 2010-2011 Ricardo Lafuente <r@sollec.org>
-
-Licenciado segundo a GPL v3
-http://www.gnu.org/licenses/gpl.html
-'''
-
-
 ### Set up Django path
 import sys, os
 projectpath = os.path.abspath('../../')

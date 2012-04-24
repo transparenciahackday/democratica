@@ -21,7 +21,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'democratica.settings'
 
 from democratica.settings import DATASET_DIR, PHOTO_DIR
 
-MP_FILE = 'deputados.csv'
+MP_FILE = 'deputados.json'
 GENDERS_FILE = 'deputados-genero.csv'
 FACTS_FILE = 'deputados-factos.csv'
 CAUCUS_FILE = 'deputados-legislaturas.csv'
@@ -42,33 +42,66 @@ def check_for_files():
             print 'File %s not found! Check this and try again.' % (f)
             sys.exit()
 
-import csv
+import csv, json
 import datetime, time
 
 from democratica.deputados.models import *
 
-def insert_mps(csvfile=os.path.join(DATASET_DIR, MP_FILE)):
+def insert_mps(jsonfile=os.path.join(DATASET_DIR, MP_FILE)):
+    import dateutil.parser
     print 'A processar deputados...'
-    mps = csv.reader(open(csvfile), delimiter='|', quotechar='"')
-    for id, mp_id, name, dob, occupation, date_added  in mps:
-        if name == 'N/A':
-            continue
-        first_name = name.split(' ')[0]
-        last_name = name.split(' ')[-1]
-        shortname = '%s %s' % (first_name, last_name)
-        dateformat = '%d-%m-%Y'
-        try:
-            c = time.strptime(dob, dateformat)
-            d = datetime.date(year=c[0], month=c[1], day=c[2])
-        except ValueError:
-            d = None
+    # criar círculos eleitorais
+    constituency_file = csv.reader(open(os.path.join(DATASET_DIR, CONSTITUENCIES_FILE)), delimiter='|', quotechar='"')
+    for name, article in constituency_file:
+        c, created = Constituency.objects.get_or_create(name=name, article=article)
 
-        MP.objects.create(id = int(mp_id),
+    # importar dados deputados
+    mps = json.loads(open(jsonfile, 'r').read())
+    for id in mps:
+        name = mps[id]['name']
+        print name
+        shortname = mps[id]['shortname']
+        if mps[id].get('birthdate'):
+            dob = dateutil.parser.parse(mps[id]['birthdate']).date()
+        party = mps[id]['party']
+        scrape_date = mps[id]['scrape_date']
+        if mps[id].get('occupation'):
+            if len(mps[id]['occupation']) == 1:
+                occupation = mps[id]['occupation'][0]
+            elif len(mps[id]['occupation']) > 1:
+                occupation = ''
+                for p in mps[id]['occupation']:
+                    occupation.append(p + '\n')
+            else:
+                occupation = ''
+        else:
+            occupation = ''
+        jobs = "\n".join(mps[id]['jobs']) if mps[id].get('jobs') else ''
+        education = "\n".join(mps[id]['education']) if mps[id].get('education') else ''
+        commissions = "\n".join(mps[id]['commissions'])
+        mp, mp_created = MP.objects.get_or_create(id = int(id),
                           name = name,
                           shortname = shortname,
-                          dob = d,
-                          occupation = occupation
+                          dob = dob,
+                          occupation = occupation,
+                          jobs = jobs,
+                          education = education,
+                          commissions = commissions,
                           )
+        # criar mandatos para deputado
+        from pprint import pprint
+        mandate_dicts = mps[id]['mandates']
+        for mandate in mandate_dicts:
+            mdict = mandate
+            print mp
+            m, m_created = Mandate.objects.get_or_create(mp=mp,
+                        party = Party.objects.get_or_create(abbrev=mdict['party'])[0],
+                        constituency = Constituency.objects.get(name=mdict['constituency']),
+                        legislature = Legislature.objects.get_or_create(number=mdict['legislature'])[0],
+                        date_begin = dateutil.parser.parse(mdict['start_date']).date(),
+                        date_end = dateutil.parser.parse(mdict['end_date']).date() if mdict['end_date'] else None,
+                        )
+
 
 def insert_mp_gender():
     genders = csv.reader(open(os.path.join(DATASET_DIR, GENDERS_FILE)), delimiter='|', quotechar='"')
@@ -114,7 +147,7 @@ def insert_facts(csvfile=os.path.join(DATASET_DIR, FACTS_FILE)):
 
 
 def insert_mandate(csvfile=os.path.join(DATASET_DIR, CAUCUS_FILE)):
-    print 'A processar círculos eleitorais...'
+    print 'A processar mandatos...'
     mandate = csv.reader(open(csvfile), delimiter='|', quotechar='"')
     for id, mp_id, legislature, dates, constituency, party, has_activity, has_registointeresses, date_added in mandate:
         if Party.objects.filter(abbrev=party):
@@ -166,11 +199,6 @@ def insert_mandate(csvfile=os.path.join(DATASET_DIR, CAUCUS_FILE)):
         else:
             print "Mandate sem deputado correspondente (%s)" % mp_id
 
-    constituency_file = csv.reader(open(os.path.join(DATASET_DIR, CONSTITUENCIES_FILE)), delimiter='|', quotechar='"')
-    for name, article in constituency_file:
-        c = Constituency.objects.get(name=name)
-        c.article = article
-        c.save()
 
 def insert_activities(csvfile=os.path.join(DATASET_DIR, ACTIVITIES_FILE)):
     print 'A processar actividades...'
@@ -312,6 +340,7 @@ def update_mps():
 if __name__ == '__main__':
     check_for_files()
     insert_mps()
+    '''
     insert_mp_gender()
     insert_facts()
     insert_mandate()
@@ -321,3 +350,4 @@ if __name__ == '__main__':
     insert_parties()
     insert_governments()
     update_mps()
+    '''
