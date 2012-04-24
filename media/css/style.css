@@ -1218,7 +1218,8 @@ padding: 5px 0 0;
   }
 
 .entry .right {
-width: 600px;
+width: 530px;
+margin-right: 15px;
 float: left;
 display: block;
 font-family: 'Linux Libertine O', Georgia, Times, serif;
@@ -1342,6 +1343,59 @@ z-index: 50000;
 .entry .right .entry-link .open {
 visibility: visible !important;
 }*/
+
+.entry .actionbar {
+  width: 150px;
+  float: left;
+  list-style-type: none;
+}
+
+.entry .actionbar-btn strong {
+  display: block;
+  cursor: pointer;
+  background-color: #cbd0d8;
+  padding: 3px 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.entry .actionbar-btn strong {
+  background: #B7BEC8 url("../img/collapse.png") no-repeat scroll 130px 5px;
+}
+
+.entry .actionbar-btn.open strong:hover {
+  background-position: 130px -26px;
+}
+
+.entry .actionbar-btn ul {
+  display: none;
+  list-style-type: none;
+  margin: 0;  
+}
+
+.entry .actionbar-btn.open ul {
+  display: block;
+}
+
+.entry .actionbar a {
+  display: block;
+  background: #cbd0d8;
+  padding: 3px 10px;
+  border-top: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+  .entry .actionbar a:first-child {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -moz-border-radius-bottomright: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+  }
 
 p.notice {
 border-top: 1px dotted #ccc;
