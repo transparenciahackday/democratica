@@ -16,36 +16,6 @@
     <script src="/media/js/jquery.jeditable.mini.js" type="text/javascript"></script>
     <script src="https://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
     <script type="text/javascript">
-        function join_with_previous(id, prev_id, next_id) {
-          // loading gif 
-          $('.entry#' + id).html('<img src="/media/img/loading.gif" />');
-          $.ajax({
-            url: '/sessoes/juntar/' + id + '/',
-            success: function(data) {
-              // apagar parent div
-              $('.entry#' + id).hide();
-              console.log(id)
-              soft_refresh(prev_id)
-              soft_refresh(next_id)
-              // FIXME: precisamos de colocar a textarea como editável novamente
-              $(".edit_area").editable("/sessoes/gravar/",
-                {
-                  cancel: "Cancelar",
-                  submit: "OK",
-                  tooltip: "Clique 2 vezes para fazer alterações.",
-                  loadurl: '/sessoes/raw/',
-                  type: "textarea",
-                  indicator: '<img src="/media/img/loading.gif" />',
-                  event: "dblclick",
-                  callback : function(value, settings) 
-                  {
-                    refresh(this.parentNode.id);
-                    return value;
-                  }
-                });
-              }
-            });
-          };
 
         // faz o reparse uma entrada individual
         function refresh(id) {
@@ -130,6 +100,36 @@
           });
         };
 
+        function join_with_previous(id, prev_id, next_id) {
+          // loading gif 
+          $('.entry#' + id).html('<img src="/media/img/loading.gif" />');
+          $.ajax({
+            url: '/sessoes/juntar/' + id + '/',
+            success: function(data) {
+              // apagar parent div
+              $('.entry#' + id).hide();
+              console.log(id)
+              soft_refresh(prev_id)
+              soft_refresh(next_id)
+              // FIXME: precisamos de colocar a textarea como editável novamente
+              $(".edit_area").editable("/sessoes/gravar/",
+                {
+                  cancel: "Cancelar",
+                  submit: "OK",
+                  tooltip: "Clique 2 vezes para fazer alterações.",
+                  loadurl: '/sessoes/raw/',
+                  type: "textarea",
+                  indicator: '<img src="/media/img/loading.gif" />',
+                  event: "dblclick",
+                  callback : function(value, settings) 
+                  {
+                    refresh(this.parentNode.id);
+                    return value;
+                  }
+                });
+              }
+            });
+          };
       $(document).ready(function(){  
         // CSRF protection
         $.ajaxSetup({

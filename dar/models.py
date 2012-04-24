@@ -14,6 +14,7 @@ from deputados.models import MP
 class Day(models.Model):
     date = models.DateField()
     top5words = JSONField(null=True)
+    parsed = models.BooleanField(default=False)
 
     def __unicode__(self):
         return str(self.date)
@@ -35,6 +36,13 @@ class Day(models.Model):
     @property
     def get_5words_list(self):
         return [d.keys()[0] for d in self.top5words['words']]
+
+    def parse_all_entries(self):
+        entries = Entry.objects.filter(day=self)
+        for e in entries:
+            e.parse_raw_text()
+        self.parsed = True
+        self.save()
 
     class Meta:
         ordering = ['date'] 

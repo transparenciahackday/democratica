@@ -6,8 +6,6 @@ from django_extensions.db.fields.json import JSONField
 from democratica.core import text_utils
 
 from south.modelsinspector import add_introspection_rules
-
-
 add_introspection_rules(
     [
         (
@@ -22,8 +20,8 @@ add_introspection_rules(
             },
         ),
     ],
-    ["^deputados.thumbs.ImageWithThumbsField",]
-    )
+    ["^democratica\.deputados\.thumbs\.ImageWithThumbsField",]
+)
 
 class MPManager(models.Manager):
      def get_query_set(self):

@@ -23,7 +23,7 @@ import json
 import datetime
 import dateutil.parser
 import logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 
 from democratica.deputados.models import MP, Party, GovernmentPost
 from democratica.dar.models import Entry, Day
@@ -131,8 +131,8 @@ def import_session(filename, force=False):
     #for e in day.entry_set.all():
     #        e.parse_raw_text()
 
-        # finally, get this session's top words
-        # day.calculate_top5words()
+    # finally, get this session's top words
+    day.calculate_top5words()
         
 def insert_favorite_words():
     logging.info('A calcular palavras preferidas...')
