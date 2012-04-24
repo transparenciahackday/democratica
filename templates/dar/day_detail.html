@@ -158,6 +158,14 @@
 
       });
     </script>
+    <script type="text/javascript">
+      $(document).ready(function() {        
+        $(".actionbar-btn").click(function(){
+            $(".actionbar-btn").next("ul").slideToggle("slow").toggleClass("open");
+            $(this).toggleClass("open"); return false;
+          });
+      });
+  </script>
 
 {% endblock %}
 
@@ -192,6 +200,16 @@
 
           <div class="entry" id="{{ entry.id }}">
             {% include 'dar/entry_snippet.html' %}
+            
+            <ul class="actionbar">
+              <li class="actionbar-btn"><strong>Ações</strong>
+                <ul>
+                  <li><a href="">Juntar à anterior</a></li>
+                  <li><a href="">Marcar como continuação</a></li>
+                </ul>
+              </li>
+            </ul>
+            
           </div> <!-- /entry -->
           {% if forloop.last %}
           </div> <!-- /intervention --> 
