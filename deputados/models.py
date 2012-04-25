@@ -46,7 +46,9 @@ class MP(models.Model):
 
     commissions = models.TextField('Comissões', blank=True, max_length=5000)
     education = models.TextField('Formação', blank=True, max_length=5000)
-    jobs = models.TextField('Cargos', blank=True, max_length=5000)
+    current_jobs = models.TextField('Cargos actuais', blank=True, max_length=5000)
+    jobs = models.TextField('Cargos exercidos', blank=True, max_length=5000)
+    awards = models.TextField('Condecorações', blank=True, max_length=5000)
 
     favourite_word = models.CharField('Palavra preferida', max_length=100, blank=True, null=True)
     news = JSONField(null=True)

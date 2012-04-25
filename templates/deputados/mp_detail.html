@@ -37,47 +37,40 @@
           <li>
             <h4>Dados</h4>
             <ul>
-              <li class="single-field"><h5>Nome completo:</h5> <p>{{ object.name }}</p></li>
-              <li class="single-field"><h5>Partido actual:</h5> <p>{{ object.current_party.abbrev }}</p></li>
+              <li class="single-field"><p>Nome completo:</p> <h5>{{ object.name }}</h5></li>
+              <li class="single-field"><p>Partido actual:</p> <h5>{{ object.current_party.abbrev }}</h5></li>
               {% if object.dob %}
-                <li class="single-field"><h5>Data de nascimento:</h5> <p>{{ object.dob }}</p></li>
+                <li class="single-field"><p>Data de nascimento:</p> <h5>{{ object.dob }}</h5></li>
               {% endif %}
               {% if object.occupation %}
-                <li class="single-field"><h5>Profissão:</h5> <p>{{ object.occupation }}</p></li>
+                <li class="single-field"><p>Profissão:</p> <h5>{{ object.occupation }}</h5></li>
               {% endif %}
             </ul>
           </li>
           
           <li>
-          {% if object.has_facts %}
             <h4>Habilitações e cargos</h4>
             <ul>
-              {% for fact in object.habilitacoes %}
-              {% if forloop.first %}<li><h5>Habilitações Literárias</h5></li> {% endif%}
-              <li>{{ fact.value }}</li>
-              {% endfor %}
+              {% if object.education %}
+              <li><h5>Habilitações Literárias</h5></li> 
+              <li>{{ object.education|linebreaks }}</li>
+              {% endif %}
 
-              {% for fact in object.cargos_actuais %}
-              {% if forloop.first %} <li><h5>Cargos Actuais</h5></li> {% endif%}
-              <li>{{ fact.value }}</li>
-              {% endfor %}
+              {% if object.current_jobs %}
+              <li><h5>Cargos actuais</h5></li> 
+              <li>{{ object.current_jobs|linebreaks }}</li>
+              {% endif %}
 
-              {% for fact in object.cargos_exercidos %}
-              {% if forloop.first %} <li><h5>Cargos Exercidos</h5></li> {% endif%}
-              <li>{{ fact.value }}</li>
-              {% endfor %}
+              {% if object.commissions %}
+              <li><h5>Comissões Parlamentares</h5></li> 
+              <li>{{ object.commissions|linebreaks }}</li>
+              {% endif %}
 
-              {% for fact in object.comissoes %}
-              {% if forloop.first %} <li><h5>Comissões Parlamentares</h5></li> {% endif%}
-              <li>{{ fact.value }}</li>
-              {% endfor %}
-
-              {% for fact in object.condecoracoes %}
-              {% if forloop.first %} <li><h5>Condecorações</h5></li> {% endif%}
-              <li>{{ fact.value }}</li>
-              {% endfor %}
+              {% if object.awards %}
+              <li><h5>Condecorações</h5></li> 
+              <li>{{ object.awards|linebreaks }}</li>
+              {% endif %}
             </ul>
-            {% endif %}
           </li>
           <li>
             <h4>Sessão Legislativa e Círculo Eleitoral / Partido:</h4>

@@ -146,6 +146,11 @@
                 {{ entry.text_as_html }}
               </div>
 
+            {# Voto #}
+            {% elif entry.type == "voto" %}
+            <div class="left"></div>
+            <div class="right edit_area vote-result" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+
             {# outros casos #}
             {% else %}
             <div class="left"> 

@@ -59,10 +59,11 @@ def insert_mps(jsonfile=os.path.join(DATASET_DIR, MP_FILE)):
     mps = json.loads(open(jsonfile, 'r').read())
     for id in mps:
         name = mps[id]['name']
-        print name
         shortname = mps[id]['shortname']
         if mps[id].get('birthdate'):
             dob = dateutil.parser.parse(mps[id]['birthdate']).date()
+        else:
+            dob = None
         party = mps[id]['party']
         scrape_date = mps[id]['scrape_date']
         if mps[id].get('occupation'):
@@ -88,12 +89,12 @@ def insert_mps(jsonfile=os.path.join(DATASET_DIR, MP_FILE)):
                           education = education,
                           commissions = commissions,
                           )
+        if mp_created: print mp.shortname
         # criar mandatos para deputado
         from pprint import pprint
         mandate_dicts = mps[id]['mandates']
         for mandate in mandate_dicts:
             mdict = mandate
-            print mp
             m, m_created = Mandate.objects.get_or_create(mp=mp,
                         party = Party.objects.get_or_create(abbrev=mdict['party'])[0],
                         constituency = Constituency.objects.get(name=mdict['constituency']),
@@ -101,9 +102,12 @@ def insert_mps(jsonfile=os.path.join(DATASET_DIR, MP_FILE)):
                         date_begin = dateutil.parser.parse(mdict['start_date']).date(),
                         date_end = dateutil.parser.parse(mdict['end_date']).date() if mdict['end_date'] else None,
                         )
+        mp.update_current_mandate()
+        mp.update_current_party()
 
 
 def insert_mp_gender():
+    print 'A determinar géneros dos deputados...'
     genders = csv.reader(open(os.path.join(DATASET_DIR, GENDERS_FILE)), delimiter='|', quotechar='"')
     for mp_id, gender in genders:
         if MP.objects.filter(id=mp_id):
@@ -111,6 +115,7 @@ def insert_mp_gender():
             mp.gender = gender
             mp.save()
 
+def import_mp_photos():
     print 'A associar fotos dos deputados...'
     from django.core.files.base import ContentFile
     for mp in MP.objects.all():
@@ -290,7 +295,7 @@ def insert_parties(csvfile=os.path.join(DATASET_DIR, PARTIES_FILE)):
 
 def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
     import dateutil.parser
-    print 'A processar governos...'
+    print 'A processar cargos em governos...'
 
     members = csv.reader(open(csvfile), delimiter='|', quotechar='"')
     for gov_number, mp_id, name, post, date_started, date_ended in members:
@@ -298,33 +303,21 @@ def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
             # ignorar primeira linha
             continue
         gov_number = int(gov_number.replace('GC', ''))
-        ds = dateutil.parser.parse(date_started).date()
-        de = dateutil.parser.parse(date_ended).date()
-        print name
-
-        if Government.objects.filter(number=gov_number):
-            gov = Government.objects.get(number=gov_number)
-            if ds < gov.date_started:
-                gov.date_started = ds
-                gov.save()
-            if de > gov.date_ended:
-                gov.date_ended = de
-                gov.save()
-
-        else:
-            gov = Government.objects.create(number=gov_number, date_started=ds, date_ended=de)
+        gov, created = Government.objects.get_or_create(number=gov_number)
+        gov.date_started = dateutil.parser.parse(date_started).date()
+        gov.date_ended = dateutil.parser.parse(date_ended).date()
+        gov.save()
 
         if mp_id:
             mp_id = int(mp_id)
             if MP.objects.filter(id=mp_id):
-                print 'Creating post'
                 GovernmentPost.objects.create(mp=MP.objects.get(id=int(mp_id)),
                                               government=gov,  
                                               name=post,
                                               date_started=ds,
                                               date_ended=de)
             else:
-                print 'No MP with given ID (%d)' % mp_id
+                print 'GovernmentPost: No MP with given ID (%d)' % mp_id
                 GovernmentPost.objects.create(mp=None,
                                               person_name=name,
                                               government=gov,  
@@ -332,22 +325,15 @@ def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
                                               date_started=ds,
                                               date_ended=de)
 
-def update_mps():
-    for mp in MP.all_objects.all():
-        mp.update_current_mandate()
-        mp.update_current_party()
-
 if __name__ == '__main__':
     check_for_files()
-    insert_mps()
-    '''
+    #insert_mps()
     insert_mp_gender()
-    insert_facts()
-    insert_mandate()
-    insert_activities()
-    insert_linksets()
-    insert_shortnames()
-    insert_parties()
-    insert_governments()
-    update_mps()
-    '''
+    import_mp_photos()
+    #insert_facts()
+    #insert_mandate()
+    #insert_activities()
+    #insert_linksets()
+    #insert_shortnames()
+    #insert_parties()
+    #insert_governments()
