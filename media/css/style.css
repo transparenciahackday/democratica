@@ -1222,15 +1222,20 @@ padding: 5px 0 0;
   }
 
 .entry .right {
-width: 530px;
-margin-right: 15px;
+width: 700px;
 float: left;
 display: block;
-font-family: 'Linux Libertine O', Georgia, Times, serif;
-font-size: 130%;
-line-height: 1.4em;
 padding: 5px 0 0;
 border-top: 1px dotted #ccc;
+}
+
+.entry .right .entry-content {
+  width: 530px;
+  float: left;
+  margin-right: 15px;
+  font-family: 'Linux Libertine O', Georgia, Times, serif;
+  font-size: 130%;
+  line-height: 1.4em;
 }
 
 .entry textarea {
@@ -1272,9 +1277,6 @@ margin-top: 0;
 }
 
 .entry .right .social {
-position: absolute;
-top: 5px;
-right: 0;
 display: none;
 }
 
@@ -1309,6 +1311,10 @@ border-radius: 3px;
   background-position: 8px -33px;
   }
   
+  .entry .right .social a.url {
+  background-position: 2px -70px;
+  }
+  
   .entry .right .social a.identica {
   background-position: 4px -105px;
   }
@@ -1319,7 +1325,7 @@ border-radius: 3px;
 background-color: #6f7c91;
 }
 
-.entry .right .social .entry-link {
+.entry .right .social .url {
 display: inline-block;
 width: 16px;
 height: 0;
@@ -1332,10 +1338,9 @@ background: #b7bec8 url(../img/icons/social-buttons.png) no-repeat 2px -70px;
 border-radius: 3px;
 }
 
-/*
-.entry .right .entry-link .popup {
+
+.entry .right .popup {
 display: none;
-visibility: hidden;
 background: red;
 
 position: absolute;
@@ -1343,10 +1348,6 @@ top: 25px;
 left: -10px;
 z-index: 50000;
 }
-
-.entry .right .entry-link .open {
-visibility: visible !important;
-}*/
 
 .entry .vote-result {
   background: #cbd0d8;
@@ -1364,6 +1365,7 @@ visibility: visible !important;
   float: left;
   list-style-type: none;
   padding: 2px 5px;
+  margin-top: 8px;
   background: #B7BEC8;
   border: 1px solid #ccc;
   -webkit-border-radius: 3px;
@@ -1376,9 +1378,13 @@ visibility: visible !important;
 }
 
 
-.actionbar a {
+#content .actionbar a {
   display: block;
   padding: 2px 0;
+}
+
+#content .actionbar a:hover {
+  color: #262f41;
 }
 
 p.notice {

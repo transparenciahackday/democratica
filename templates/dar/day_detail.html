@@ -172,25 +172,22 @@
                 return value;
                 }
             });
-
-      });
+       	$(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' });
+       });
     </script>
     <script type="text/javascript">
-      $(document).ready(function() {        
-        //$(".actionbar-btn").click(function(){
-          //  $(".actionbar-btn").next("ul").slideToggle("slow").toggleClass("open");
-           // $(this).toggleClass("open"); return false;
-          //});
-          
-          //fade dropdown
-	        $(".entry").hover(function(){
-		        $(this).next('ul.actionbar:hidden').fadeIn();
-	        },function(){
-		        $(this).next('ul.actionbar:first').fadeOut();
-	        });
-	      $(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' }); 
-	});
-  </script>
+      $(document).ready(function() {      
+          //actionbar
+	       // $(".entry").hover(function(){
+		     //   $(this).next('ul.actionbar:hidden').fadeIn();
+	       // },function(){
+		     //   $(this).next('ul.actionbar:first').fadeOut();
+	       // });
+	       //$('#url-' + id).click(function(){
+			   // $('.popup').fadeIn();
+		    //});      
+      });
+    </script>
 
 {% endblock %}
 
@@ -243,13 +240,7 @@
           {% endif %}
 
           <div class="entry" id="{{ entry.id }}">
-            {% include 'dar/entry_snippet.html' %}
-            
-            <ul class="actionbar">
-              <li><a href="">Juntar à anterior</a></li>
-              <li><a href="">Marcar como continuação</a></li>
-            </ul>
-            
+            {% include 'dar/entry_snippet.html' %}            
           </div> <!-- /entry -->
           {% if forloop.last %}
           </div> <!-- /intervention --> 
