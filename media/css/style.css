@@ -336,6 +336,10 @@ border-color: #6f7c91;
 /* ------------------------ footer
 --------------------------------*/
 
+#footer {
+  margin-bottom: 30px;
+}
+
 #footer-box {
 text-align: center;
 color: #b7bec8;
@@ -1344,6 +1348,16 @@ z-index: 50000;
 visibility: visible !important;
 }*/
 
+.entry .vote-result {
+  background: #fff;
+  color: #555;
+  width: 510px;
+  padding: 8px 10px;
+  font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-size: 105%;
+}
+
 .entry .actionbar {
   width: 150px;
   float: left;
@@ -1369,7 +1383,6 @@ visibility: visible !important;
 }
 
 .entry .actionbar-btn ul {
-  display: none;
   list-style-type: none;
   margin: 0;  
 }
