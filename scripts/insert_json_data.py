@@ -304,8 +304,10 @@ def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
             continue
         gov_number = int(gov_number.replace('GC', ''))
         gov, created = Government.objects.get_or_create(number=gov_number)
-        gov.date_started = dateutil.parser.parse(date_started).date()
-        gov.date_ended = dateutil.parser.parse(date_ended).date()
+        ds = dateutil.parser.parse(date_started).date()
+        de = dateutil.parser.parse(date_ended).date()
+        #gov.date_started = dateutil.parser.parse(date_started).date()
+        #gov.date_ended = dateutil.parser.parse(date_ended).date()
         gov.save()
 
         if mp_id:
@@ -328,12 +330,12 @@ def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
 if __name__ == '__main__':
     check_for_files()
     #insert_mps()
-    insert_mp_gender()
-    import_mp_photos()
+    #insert_mp_gender()
+    #import_mp_photos()
     #insert_facts()
     #insert_mandate()
     #insert_activities()
     #insert_linksets()
     #insert_shortnames()
     #insert_parties()
-    #insert_governments()
+    insert_governments()

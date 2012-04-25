@@ -181,6 +181,13 @@
           //  $(".actionbar-btn").next("ul").slideToggle("slow").toggleClass("open");
            // $(this).toggleClass("open"); return false;
           //});
+          
+          //fade dropdown
+	        $(".entry").hover(function(){
+		        $(this).next('ul.actionbar:hidden').fadeIn();
+	        },function(){
+		        $(this).next('ul.actionbar:first').fadeOut();
+	        });
 	      $(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' }); 
 	});
   </script>
@@ -219,7 +226,7 @@
                  <p>Adão José Fonseca Silva</p>
                  <p>Afonso Gonçalves da Silva Oliveira</p>
                  <p>Amadeu Albertino Marques Soares Albergaria</p>
-                 <p>Ana Sofia Fernandes Bettencourt</p> <p>Andreia Carina Machado da Silva Neto</p> <p>António Carlos Sousa Gomes da Silva Peixoto</p> <p>António Costa Rodrigues</p> <p>António Egrejas Leitão Amaro</p> <p>António Fernando Couto dos Santos</p> <p>António Manuel Pimenta Prôa</p> <p>António Pedro Roque da Visitação Oliveira</p> <p>Arménio dos Santos</p> <p>Bruno Jorge Viegas Vitorino</p> <p>Bruno Manuel Pereira Coimbra</p> <p>Carina João Reis Oliveira</p> <p>Carla Maria de Pinho Rodrigues</p> <p>Carlos Alberto Silva Gonçalves</p> <p>Carlos António Páscoa Gonçalves</p> <p>Carlos Eduardo Almeida de Abreu Amorim</p> <p>Carlos Henrique da Costa Neves</p> <p>Carlos Manuel Faia São Martinho Gomes</p> <p>Carlos Manuel dos Santos Batista da Silva</p> <p>Cláudia Sofia Gomes Monteiro de Aguiar</p> <p>Cristóvão Duarte Nunes Guerreiro Norte</p> <p>Cristóvão Simão Oliveira de Ribeiro</p> <p>Cristóvão da Conceição Ventura Crespo</p> <p>Duarte Filipe Batista de Matos Marques</p> <p>Duarte Rogério Matos Ventura Pacheco</p> <p>Eduardo Alexandre Ribeiro Gonçalves Teixeira</p> <p>Elsa Maria Simas Cordeiro</p> <p>Emídio Guerreiro</p> <p>Emília de Fátima Moreira dos Santos</p> <p>Fernando Luís de Sousa Machado Soares Vales</p> <p>Fernando Mimoso Negrão</p> <p>Fernando Nuno Fernandes Ribeiro dos Reis</p> <p>Fernando Ribeiro Marques</p> <p>Fernando Virgílio Cabral da Cruz Macedo</p> <p>Guilherme Henrique Valente Rodrigues da Silva</p> <p>Hugo Alexandre Lopes Soares</p> <p>Hugo José Teixeira Velosa</p> <p>Hélder António Guerra de Sousa Silva</p> <p>Joana Catarina Barata Reis Lopes</p> <p>Joaquim Carlos Vasconcelos da Ponte</p> <p>Jorge Paulo da Silva Oliveira</p>  </div>
+                 <p>Ana Sofia Fernandes Bettencourt</p> <p>Andreia Carina Machado da Silva Neto</p> <p>António Carlos Sousa Gomes da Silva Peixoto</p> <p>António Costa Rodrigues</p> <p>António Egrejas Leitão Amaro</p> <p>António Fernando Couto dos Santos</p> <p>António Manuel Pimenta Prôa</p> <p>António Pedro Roque da Visitação Oliveira</p> <p>Arménio dos Santos</p> <p>Bruno Jorge Viegas Vitorino</p> <p>Bruno Manuel Pereira Coimbra</p> <p>Carina João Reis Oliveira</p> <p>Carla Maria de Pinho Rodrigues</p> <p>Carlos Alberto Silva Gonçalves</p> <p>Carlos António Páscoa Gonçalves</p> <p>Carlos Eduardo Almeida de Abreu Amorim</p> <p>Carlos Henrique da Costa Neves</p> <p>Carlos Manuel Faia São Martinho Gomes</p> <p>Carlos Manuel dos Santos Batista da Silva</p> <p>Cláudia Sofia Gomes Monteiro de Aguiar</p> <p>Cristóvão Duarte Nunes Guerreiro Norte</p> <p>Cristóvão Simão Oliveira de Ribeiro</p> <p>Cristóvão da Conceição Ventura Crespo</p> <p>Duarte Filipe Batista de Matos Marques</p> <p>Duarte Rogério Matos Ventura Pacheco</p> <p>Eduardo Alexandre Ribeiro Gonçalves Teixeira</p> <p>Elsa Maria Simas Cordeiro</p> <p>Emídio Guerreiro</p> <p>Emília de Fátima Moreira dos Santos</p> <p>Fernando Luís de Sousa Machado Soares Vales</p> <p>Fernando Mimoso Negrão</p> <p>Fernando Nuno Fernandes Ribeiro dos Reis</p> <p>Fernando Ribeiro Marques</p> <p>Fernando Virgílio Cabral da Cruz Macedo</p> <p>Guilherme Henrique Valente Rodrigues da Silva</p> <p>Hugo Alexandre Lopes Soares</p> <p>Hugo José Teixeira Velosa</p> <p>Hélder António Guerra de Sousa Silva</p> <p>Joana Catarina Barata Reis Lopes</p> <p>Joaquim Carlos Vasconcelos da Ponte</p> <p>Jorge Paulo da Silva Oliveira</p>
               </div>
             </div>
         
@@ -239,12 +246,8 @@
             {% include 'dar/entry_snippet.html' %}
             
             <ul class="actionbar">
-              <li class="actionbar-btn"><strong>Ações</strong>
-                <ul>
-                  <li><a href="">Juntar à anterior</a></li>
-                  <li><a href="">Marcar como continuação</a></li>
-                </ul>
-              </li>
+              <li><a href="">Juntar à anterior</a></li>
+              <li><a href="">Marcar como continuação</a></li>
             </ul>
             
           </div> <!-- /entry -->
