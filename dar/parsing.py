@@ -22,9 +22,12 @@ def parse_mp_from_raw_text(text):
         return (None, text)
     speakerparty, text = re.split(re_separador[0], text, 1)
     speakerparty = remove_strings(speakerparty, HONORIFICS, once=True).strip()
-    # FIXME: SECRETARIO DE ESTADO
+
     if speakerparty.startswith(('Presidente', u'Secretári')):
         return (speakerparty, text)
+    if speakerparty.startswith(u'Secretári') and not "Estado" in speakerparty:
+        return (speakerparty, text)
+
     if '(' in speakerparty:
         speaker, party = speakerparty.split('(', 1)
         party = party.strip(')')
@@ -79,10 +82,13 @@ def determine_entry_tag(e):
             e.mp = MP.objects.get(shortname=pm_name)
             e.save()
             return 'pm_intervencao'
-
+        elif e.speaker.startswith(u'Secretári') and "Estado" in e.speaker:
+            return 'secestado_intervencao'
+        elif e.speaker.startswith('Ministr'):
+            return 'ministro_intervencao'
         elif e.speaker.startswith('Presidente'):
             return 'presidente'
-        elif e.speaker.startswith(u'Secretári'):
+        elif e.speaker.startswith(u'Secretári') and not "Estado" in e.speaker:
             return 'secretario'
     else:
         if e.text.startswith((u'Vozes', u'Uma voz d')):

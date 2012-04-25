@@ -20,7 +20,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'democratica.settings'
 
 import csv
 import datetime
-from democratica.deputados.models import Session
+from democratica.deputados.models import Legislature
 from democratica.settings import DATASET_DIR
 
 print 'A introduzir datas das legislaturas...'
@@ -31,7 +31,7 @@ for leg, year_start, year_end in legs:
     if leg.startswith('Núm'):
         continue
     year_start = int(year_start)
-    s = Session.objects.get(number=leg)
+    s = Legislature.objects.get(number=leg)
     s.date_start = datetime.date(year=year_start, month=1, day=1)
     if year_end:
         year_end = int(year_end)

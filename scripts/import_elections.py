@@ -27,7 +27,7 @@ print 'A importar datas de eleições...'
 f = os.path.join(settings.DATASET_DIR, 'eleicoes-datas.csv')
 lines = csv.reader(open(f), delimiter='|', quotechar='"')
 for el_type, date in lines:
-    d = dateutil.parser.parse(date, dayfirst=True)
+    d = dateutil.parser.parse(date, dayfirst=True).date()
     if Election.objects.filter(date=d):
         e = Election.objects.get(date=d)
         e.type = el_type
@@ -35,4 +35,3 @@ for el_type, date in lines:
         e.save()
     else:
         e = Election.objects.create(date=d, type=el_type)
-    print el_type, d
