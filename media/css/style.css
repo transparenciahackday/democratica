@@ -1340,13 +1340,12 @@ border-radius: 3px;
 
 
 .entry .right .popup {
-display: none;
-background: red;
-
-position: absolute;
-top: 25px;
-left: -10px;
-z-index: 50000;
+  display: none;
+  background: #fff;
+  padding: 4px 10px;
+  position: absolute;
+  top: -20px;
+  left: 530px;
 }
 
 .entry .vote-result {

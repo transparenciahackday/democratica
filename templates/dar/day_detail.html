@@ -186,9 +186,12 @@
 	       // },function(){
 		     //   $(this).next('ul.actionbar:first').fadeOut();
 	       // });
-	       //$('#url-' + id).click(function(){
-			   // $('.popup').fadeIn();
-		    //});      
+	       $('.url').click(function(){
+			    $(this).prev($('span.popup')).fadeIn();
+		    });
+		    $('.close').click(function(){
+		      $('.popup').fadeOut();
+	      });   
       });
     </script>
 
