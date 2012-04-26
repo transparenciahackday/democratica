@@ -175,7 +175,7 @@ def find_continuations(entries):
     pass
     
 def guess_if_continuation(e):
-    if e.type not in ('deputado_intervencao', 'pm_intervencao'):
+    if e.type not in ('deputado_intervencao', 'pm_intervencao', 'ministro_intervencao', 'secestado_intervencao'):
         return False
     prev_e = e.get_previous()
     if prev_e.type in ('deputado_aparte', 'presidente_aparte', 'pm_aparte', 'vozes_aparte', 'aplauso', 'protesto', 'riso'):

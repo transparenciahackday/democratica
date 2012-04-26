@@ -143,16 +143,30 @@
             </div>
             <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
-            {# Vozes (aparte) #}
+            {# Vozes #}
             {% elif entry.type == "vozes_aparte" %}
             <div class="left"> <p class="mini">{{ entry.speaker }}</p> </div>
             <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
             {# Aplausos, protestos, risos, pausas, notas, horas e outros eventos #}
-            {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "note" or entry.type == "time" %}
+            {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "nota" or entry.type == "hora" %}
               <div class="right edit_area interruption" id="Entry_raw_text_{{ entry.id }}">
                 {{ entry.text_as_html }}
               </div>
+
+            {# Sumário #}
+            {% elif entry.type == "sumario" %}
+            <div class="left"> </div>
+            <div class="right edit_area collapsible" id="Entry_raw_text_{{ entry.id }}">
+              {{ entry.text_as_html }}
+            </div>
+
+            {# Chamadas #}
+            {% elif entry.type == "chamada_presentes" or entry.type == "chamada_ausentes" or entry.type == "chamada_atrasados" or entry.type == "chamada_missao" %}
+            <div class="left"> </div>
+            <div class="right edit_area collapsible" id="Entry_raw_text_{{ entry.id }}">
+              {{ entry.text_as_html }}
+            </div>
 
             {# Voto #}
             {% elif entry.type == "voto" %}
