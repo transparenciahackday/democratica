@@ -7,6 +7,10 @@ from dar.models import Entry
 HONORIFICS = ('O Sr. ', u'A Sr.ª ')
 re_separador = (re.compile(ur'\: [\–\–\—\-] ', re.UNICODE), ': - ')
 
+re_concluir = re.compile(ur'(tempo esgotou-se)|(esgotou-se o( seu)? tempo)|((tem (mesmo )?de|queira) (terminar|concluir))|((ultrapassou|esgotou|terminou)[\w ,]* o( seu)? tempo)|((peço|solicito)(-lhe)? que (termine|conclua))|(atenção ao tempo)|(remate o seu pensamento)|(atenção para o tempo de que dispõe)|(peço desculpa mas quero inform)|(deixem ouvir o orador)|(faça favor de prosseguir( a sua)?)|(favor de (concluir|terminar))|(poder prosseguir a sua intervenção)|(faça( o)? favor de continuar|(queira[\w ,]* concluir))', re.UNICODE|re.IGNORECASE)
+
+re_voto = re.compile(ur'^Submetid[oa]s? à votação', re.UNICODE)
+
 def parse_mp_from_raw_text(text):
     # returns (None, text) if no match
     #         (mp_id, text) if MP match
@@ -15,6 +19,9 @@ def parse_mp_from_raw_text(text):
     mp_id = None
     text = text.strip()
     if not text.startswith(HONORIFICS):
+        if text.startswith(('Vozes', 'Uma voz d')):
+            speaker, text = re.split(re_separador[0], text, 1)
+            return (speaker, text)
         return (None, text)
     # ver se há separador
     has_sep = re.search(re_separador[0], text)
@@ -23,16 +30,31 @@ def parse_mp_from_raw_text(text):
     speakerparty, text = re.split(re_separador[0], text, 1)
     speakerparty = remove_strings(speakerparty, HONORIFICS, once=True).strip()
 
-    if speakerparty.startswith(('Presidente', u'Secretári')):
+    if speakerparty.startswith('Presidente'):
         return (speakerparty, text)
-    if speakerparty.startswith(u'Secretári') and not "Estado" in speakerparty:
+    elif speakerparty.startswith(u'Secretári') and not "Estado" in speakerparty:
         return (speakerparty, text)
 
+    # ugly but works
     if '(' in speakerparty:
         speaker, party = speakerparty.split('(', 1)
         party = party.strip(')')
     else:
+        if 'Primeiro' in speakerparty:
+            return ('pm', text)
+        if 'Ministr' in speakerparty or speakerparty.startswith('Ministr'):
+            return ('ministro: ' + speakerparty, text)
+        elif u'Secretári' in speakerparty or speakerparty.startswith(u'Secretári'):
+            return ('secestado: ' + speakerparty, text)
         return (speakerparty, text)
+
+    if 'Primeiro' in speaker:
+        return ('pm', text)
+    elif 'Ministr' in speaker or speaker.startswith('Ministr'):
+        return ('ministro: ' + speaker, text)
+    # já excluímos as entradas dos secretários antes
+    elif u'Secretári' in speaker or speaker.startswith(u'Secretári'):
+        return ('secestado: ' + speaker, text)
 
     # try to match the speaker name to an MP entry in the database
     matching_mps = MP.objects.filter(shortname=speaker)
@@ -57,11 +79,15 @@ def parse_mp_from_raw_text(text):
             mp = MP.objects.get(shortname=speaker)
             mp_id = mp.id
     else:
-        # FIXME: no MP's found, maybe a minister?
-        pass
-
+        if MP.objects.filter(aka_1=speaker).exists():
+            mp = MP.objects.get(aka_1=speaker)
+            mp_id = mp.id
+        elif MP.objects.filter(aka_2=speaker).exists():
+            mp = MP.objects.get(aka_2=speaker)
+            mp_id = mp.id
+            
     if not mp_id:
-        return (None, text)
+        return (speaker, text)
     else:
         return (int(mp_id), text)
     
@@ -71,8 +97,14 @@ def determine_entry_tag(e):
             return 'deputado_aparte'
         else:
             return 'deputado_intervencao'
+    elif e.mp and e.speaker.startswith('Primeiro-Ministro'):
+        if len(e.text) < 30:
+            return 'pm_aparte'
+        else:
+            return 'pm_intervencao'
     elif e.speaker:
         if e.speaker in ('O Orador' or 'A Oradora'):
+            # TODO: se já tiver MP, então usa esse!
             find_cont_speaker(e)
             return 'continuacao'
         if e.speaker.startswith('Primeiro-Ministro'):
@@ -87,29 +119,39 @@ def determine_entry_tag(e):
         elif e.speaker.startswith('Ministr'):
             return 'ministro_intervencao'
         elif e.speaker.startswith('Presidente'):
+            if re_concluir.search(e.text):
+                return 'presidente_aparte'
             return 'presidente'
         elif e.speaker.startswith(u'Secretári') and not "Estado" in e.speaker:
             return 'secretario'
-    else:
-        if e.text.startswith((u'Vozes', u'Uma voz d')):
-            has_sep = re.search(re_separador[0], e.text)
-            if not has_sep:
-                return 'vozes_aparte'
-            speaker, text = re.split(re_separador[0], e.text, 1)
-            e.speaker = speaker
-            e.text = text
-            e.save()
+        elif e.speaker.startswith(('Vozes', 'Uma voz d')):
             return 'vozes_aparte'
-        elif e.text.startswith(u'Aplauso'):
+    else:
+        if e.text.startswith(u'Aplauso'):
             return 'aplauso'
         elif e.text.startswith(u'Protesto'):
             return 'protesto'
         elif e.text.startswith(u'Risos'):
             return 'riso'
-        elif e.text.startswith(u'Submetido à votação'):
+        elif re_voto.search(e.text):
             return 'voto'
         elif e.text.strip() == 'Pausa.':
             return 'pausa'
+        elif not e.speaker and e.text.startswith('Entretanto, assumiu'):
+            return 'nota'
+        elif e.text.startswith((u'SUMÁRIO', u'S U M Á R I O')):
+            return 'sumario'
+        elif e.text.startswith(('ORDEM DO DIA', 'ANTES DA ORDEM DO DIA')):
+            return 'nota'
+        elif e.text.startswith('Eram ') and e.text.strip().endswith('minutos.'):
+            return 'hora'
+        elif e.text.strip(' :.').endswith((u'presentes à sessão', )):
+            return 'chamada_presentes'
+        elif e.text.endswith((u'faltaram à sessão:', )):
+            return 'chamada_ausentes'
+        elif e.text.endswith((u'por se encontrarem em missões internacionais:', )):
+            return 'chamada_missao'
+
     return ''
 
 def find_cont_speaker(e):
@@ -118,7 +160,7 @@ def find_cont_speaker(e):
     counter = 0
     # olha que queryset mai lindo, as entries anteriores ordenadas inversamente
     for prev_entry in Entry.objects.filter(day=e.day, position__lt=e.position).order_by('-position'):
-        if (prev_entry.type in ['deputado_intervencao', 'pm_intervencao', 'presidente_intervencao', 'presidente']) or \
+        if (prev_entry.type in ['deputado_intervencao', 'pm_intervencao', 'ministro_intervencao', 'secestado_intervencao', 'presidente_intervencao', 'presidente']) or \
            (prev_entry.type == 'continuacao' and prev_entry.mp):
             e.speaker = prev_entry.speaker
             e.type = 'continuacao'
@@ -137,6 +179,14 @@ def find_continuations(entries):
     # se é sem tipo identificado, mudar pra continuação e meter MP?
     pass
     
+def guess_if_continuation(e):
+    if e.type not in ('deputado_intervencao', 'pm_intervencao', 'ministro_intervencao', 'secestado_intervencao'):
+        return False
+    prev_e = e.get_previous()
+    if prev_e.type in ('deputado_aparte', 'presidente_aparte', 'pm_aparte', 'vozes_aparte', 'aplauso', 'protesto', 'riso'):
+        return True
+    return False
+
 
 
         

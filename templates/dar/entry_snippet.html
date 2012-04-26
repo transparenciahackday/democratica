@@ -1,3 +1,4 @@
+          {% load dartags %}
 
           {# Debug info #}
           {% comment %}
@@ -10,13 +11,12 @@
             {% if entry.type == 'deputado_intervencao' %}
             <!-- Intervencao de deputado - inicio -->
               <div class="left">
-                {% with entry.mp as mp %}
-                <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
+                {% with mpdict|lookup:entry.mp_id as mp %}
+                <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.party_abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
                 <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
                 {# {% if mp|get_post_on:gov %} <h4>{{ mp|get_post_on:gov }}</h4> {% endif %} #}
-                <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
-                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_mandate.constituency }}</p>
-                {% endwith %}
+                <p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>
+                <p class="circle {{ mp.party_abbrev|lower }}">{{ mp.constituency }}</p>
               </div> <!-- /left -->
               <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> 
                 <div class="entry-content">
@@ -29,7 +29,6 @@
                   Link directo <input type="text" value="https://demo.cratica.org{{ entry.get_absolute_url }}" />
                   <span class="close" href="#">X</span>
                   </li>
-                  <li class="url" id="url-{{ entry.id }}" title="Link direto">URL</li>
                 </ul>
                 <ul class="actionbar">
                   <li><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></li>
@@ -37,17 +36,17 @@
                   <li><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></li>
                 </ul>
               </div> <!-- /right -->
-
+                {% endwith %}
             <!-- Intervenção de Primeiro-Ministro - início -->
             
             {% elif entry.type == 'pm_intervencao' %}
               <div class="left">
-                {% with entry.mp as mp %}
-                <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
+                {% with mpdict|lookup:entry.mp_id as mp %}
+                <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.party_abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
                 <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
                 <h4>Primeiro-Ministro</h4>
-                <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
-                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_mandate.constituency }}</p>
+                <p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>
+                <p class="circle {{ mp.party_abbrev|lower }}">{{ mp.constituency }}</p>
                 <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
                 <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
                 <p><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></p>
@@ -57,49 +56,55 @@
 
             <!-- Intervencao de membro de governo - inicio -->
 
-            {% elif entry.type == 'secestado_intervencao' or entry.type == 'ministro_intervencao' %}
-              <div class="left">
-                {% with entry.mp as mp %}
-                <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
-                <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
-                <h4>{{ mp.get_post_in.day.date }}</h4>
-                <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
-                <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_mandate.constituency }}</p>
+              {% elif entry.type == 'secestado_intervencao' or entry.type == 'ministro_intervencao' %}
+                <div class="left">
+                  {% if entry.mp_id %}
+                  {% with mpdict|lookup:entry.mp_id as mp %}
+                  {% if mp.photo %}<p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.party_abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>{% endif %}
+                  <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
+                  <h4>{{ entry.party }}</h4>
+                  <p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>
+                  <p class="circle {{ mp.party_abbrev|lower }}">{{ mp.constituency }}</p>
+                  {% endwith %}
+                  {% else %}
+                  <h3 class="mp-name">{{ entry.speaker }}</h3>
+                  <h4>{{ entry.party }}</h4>
+                  {% endif %}
+                  <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
+                  <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
+                </div>
+                <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">{{ entry.text_as_html }}</div>
 
-                <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
+              <!-- Intervencao (não identificada) - início -->
 
+              {% elif entry.type == 'intervencao' %}
+                <div class="left">
+                  <h3 class="mp-name">{{ entry.speaker }}</h3>
+                  <p class="party">{{ entry.party }}</p>
+                </div>
+                <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+
+              <!-- Continuação -->
+
+              {% elif entry.type == 'continuacao' %}
+                {% if entry.mp_id %}
+                {% with mpdict|lookup:entry.mp_id as mp %}
+                <div class="left">
+                  <p class="party {{ mp.party_abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" />{#</a>#}</p>
+                  <p><a href="javascript:unmark_as_cont({{entry.id}})">Desmarcar como continuação</a></p>
+                  <p><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></p>
+                </div>
+                <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
                 {% endwith %}
-              </div>
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+                {% else %}
+                <div class="left">
+                  <p>{{ entry.speaker }}</p>
+                  <p class="party">{{ entry.party }}</p>
+                </div>
+                <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+                {% endif %}
 
-            <!-- Intervencao (não identificada) - início -->
-
-            {% elif entry.type == 'intervencao' %}
-              <div class="left">
-                <h3 class="mp-name">{{ entry.speaker }}</h3>
-                <p class="party">{{ entry.party }}</p>
-              </div>
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
-
-            <!-- Continuação -->
-
-            {% elif entry.type == 'continuacao' %}
-              {% if entry.mp %}
-              <div class="left">
-                <p class="party {{ entry.mp.current_party.abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="" />{#</a>#}</p>
-                <p><a href="javascript:unmark_as_cont({{entry.id}})">Desmarcar como continuação</a></p>
-                <p><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></p>
-              </div>
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
-              {% else %}
-              <div class="left">
-                <p>{{ entry.speaker }}</p>
-                <p class="party">{{ entry.party }}</p>
-              </div>
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
-              {% endif %}
-
-            {# Presidente -- intervencao #}
+              {# Presidente -- intervencao #}
             {% elif entry.type == 'presidente' %}
             <div class="left"> 
               <h3>Presidente</h3> 
@@ -128,27 +133,44 @@
 
             {# Aparte de deputado #}
             {% elif entry.type == 'deputado_aparte' or entry.type == 'pm_aparte' %}
+            {% if entry.mp_id %}
+              {% with mpdict|lookup:entry.mp_id as mp %}
             <div class="left">
-              {% if entry.mp %}
-              <p class="party {{ entry.mp.current_party.abbrev|lower }}"><a href="{% url mp_detail entry.mp.id %}">{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="" /></a></p>
-              {% else %}
-              <p class="party {{ entry.mp.current_party.abbrev|lower }}">{{ entry.mp.shortname }} <img src="{{ entry.mp.photo.url_18x25 }}" alt="" /></p>
-              {% endif %}
+              {#<p class="party {{ mp.party_abbrev|lower }}"><a href="{% url mp_detail mp.id %}">{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" /></a></p> #}
+              <p class="party {{ mp.party_abbrev|lower }}">{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" /></p>
+            {% endwith %}
+            {% else %}
+              <p class="party {{ e.party|lower }}">{{ e.speaker }}</p>
+            {% endif %}
               <p><a href="javascript:mark_as_main({{ entry.id }});">Marcar como <strong>intervenção</strong></a></p>
 
             </div>
             <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
-            {# Vozes (aparte) #}
+            {# Vozes #}
             {% elif entry.type == "vozes_aparte" %}
             <div class="left"> <p class="mini">{{ entry.speaker }}</p> </div>
             <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
 
             {# Aplausos, protestos, risos, pausas, notas, horas e outros eventos #}
-            {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "note" or entry.type == "time" %}
+            {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "nota" or entry.type == "hora" %}
               <div class="right edit_area interruption" id="Entry_raw_text_{{ entry.id }}">
                 {{ entry.text_as_html }}
               </div>
+
+            {# Sumário #}
+            {% elif entry.type == "sumario" %}
+            <div class="left"> </div>
+            <div class="right edit_area collapsible" id="Entry_raw_text_{{ entry.id }}">
+              {{ entry.text_as_html }}
+            </div>
+
+            {# Chamadas #}
+            {% elif entry.type == "chamada_presentes" or entry.type == "chamada_ausentes" or entry.type == "chamada_atrasados" or entry.type == "chamada_missao" %}
+            <div class="left"> </div>
+            <div class="right edit_area collapsible" id="Entry_raw_text_{{ entry.id }}">
+              {{ entry.text_as_html }}
+            </div>
 
             {# Voto #}
             {% elif entry.type == "voto" %}
@@ -160,8 +182,7 @@
             <div class="left"> 
               <p class="mini">{{ entry.speaker }}</p> 
               <p class="party">{{ entry.party }}</p> 
-              <p><a href='javascript:join_with_previous({{ entry.id }},{{ entry.get_previous.id }},{{ entry.get_next.id}});'>Juntar à anterior</a></p>
-              {# <p><a href='{% url join_entry_with_previous entry.id %}'>Juntar à anterior</a></p> #}
+              <p><a href='javascript:join_with_previous({{ entry.id }},{{ entry.prev_id }},{{ entry.next_id }});'>Juntar à anterior</a></p>
               <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
               <p><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></p>
             </div>

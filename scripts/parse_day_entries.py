@@ -20,9 +20,17 @@ from democratica.deputados.models import MP, Party, GovernmentPost
 from democratica.dar.models import Entry, Day
 from democratica.settings import TRANSCRIPTS_DIR
 
-for d in Day.objects.all():
-    entries = d.entry_set.all()
-    for e in entries:
-       e.parse_raw_text()
+DATE = sys.argv[1]
+
+if len(sys.argv) != 2:
+    print 'Usage: python parse_day_entries.py <yyyy-mm-dd>'
+    sys.exit()
+
+d = Day.objects.get(date=dateutil.parser.parse(DATE).date())
+entries = d.entry_set.all()
+for e in entries:
+    e.parse_raw_text()
+for e in entries:
+    e.calculate_neighbors()
 
 

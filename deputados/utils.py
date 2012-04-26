@@ -72,28 +72,61 @@ def get_news_for_mp(mp):
     return news
 
 def get_pm_from_date(dt):
-    import os, csv, dateutil.parser, datetime
-    from democratica.settings import PATH_DATASETS
-    from deputados.models import MP
-    pm_dataset = os.path.join(PATH_DATASETS, 'governos-pm.csv')
-    lines = csv.reader(open(pm_dataset), delimiter='|', quotechar='"')
-    for line in lines:
-        gov, start, end, name = line
-        if gov == 'GC': continue
-        datestart = dateutil.parser.parse(start).date()
-        dateend = dateutil.parser.parse(end).date()
-        if dt > datestart and dt < dateend:
-            return MP.objects.get(shortname=name)
+    from deputados.models import GovernmentPost
+    if GovernmentPost.objects.filter(name="Primeiro-Ministro", date_started__lt=dt, date_ended__gt=dt):
+        return GovernmentPost.objects.filter(name="Primeiro-Ministro", date_started__lt=dt, date_ended__gt=dt)[0].mp
+    elif GovernmentPost.objects.filter(name="Primeiro-Ministro", date_started__lt=dt):
+        # note slicing in order to speed up query, see http://stackoverflow.com/a/8328189
+        return GovernmentPost.objects.filter(name="Primeiro-Ministro", date_started__lt=dt).order_by('-government')[:1][0].mp
     return None
-    
+
+def get_minister(dt, mp_id=None, shortname=None, post=None):
+    from deputados.models import GovernmentPost
+    if shortname:
+        if 'Ministr' in shortname or 'Secret' in shortname:
+                # no, wrong arguments
+            post = shortname
+            shortname = None
+    if shortname:
+        if GovernmentPost.objects.filter(person_name=shortname, date_started__lt=dt, date_ended__gt=dt):
+            return GovernmentPost.objects.filter(person_name=shortname, date_started__lt=dt, date_ended__gt=dt)[0]
+        elif GovernmentPost.objects.filter(person_name=shortname, date_started__lt=dt):
+            # note slicing in order to speed up query, see http://stackoverflow.com/a/8328189
+            return GovernmentPost.objects.filter(person_name=shortname, date_started__lt=dt).order_by('-government')[:1][0]
+        return None
+    elif mp_id:
+        if GovernmentPost.objects.filter(mp_id=mp_id, date_started__lt=dt, date_ended__gt=dt):
+            return GovernmentPost.objects.filter(mp_id=mp_id, date_started__lt=dt, date_ended__gt=dt)[0]
+        elif GovernmentPost.objects.filter(mp_id=mp_id, date_started__lt=dt):
+            # note slicing in order to speed up query, see http://stackoverflow.com/a/8328189
+            return GovernmentPost.objects.filter(mp_id=mp_id, date_started__lt=dt).order_by('-government')[:1][0]
+        return None
+    elif post:
+        keyword = post
+        if GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt, date_ended__gt=dt):
+            return GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt, date_ended__gt=dt)[0]
+        elif GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt):
+            # note slicing in order to speed up query, see http://stackoverflow.com/a/8328189
+            return GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt).order_by('-government')[:1][0]
+        # Not found? This is very dumb logic, using the last word to find the post! Just to get by for now
+        keyword = post.split(' ')[-1]
+        if GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt, date_ended__gt=dt):
+            return GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt, date_ended__gt=dt)[0]
+        elif GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt):
+            # note slicing in order to speed up query, see http://stackoverflow.com/a/8328189
+            return GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt).order_by('-government')[:1][0]
+        return None
 
 
-from settings import FEMALE_NAMES_FILE
-female_names = open(FEMALE_NAMES_FILE).readlines()
 
 def get_gender_from_name(name):
+    from settings import FEMALE_NAMES_FILE
+    female_names = open(FEMALE_NAMES_FILE).readlines()
     if name + '\n' in female_names:
+        female_names.close()
         return 'F'
     else:
+        female_names.close()
         return 'M'
+    
 

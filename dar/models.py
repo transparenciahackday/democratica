@@ -60,6 +60,9 @@ class Entry(models.Model):
     text = models.TextField('Texto', max_length=10000, blank=True)
     type = models.CharField('Tipo', max_length=40, blank=True)
 
+    next_id = models.PositiveIntegerField(blank=True, null=True)
+    prev_id = models.PositiveIntegerField(blank=True, null=True)
+
     def extract_data(self):
         pass
 
@@ -71,6 +74,15 @@ class Entry(models.Model):
 
     def get_absolute_url(self): 
         return '/sessoes/%d/%d/%d/%d' % (self.day.date.year, self.day.date.month, self.day.date.day, self.position)
+
+    def calculate_neighbors(self):
+        previous = self.get_previous()
+        next = self.get_next()
+        if previous:
+            self.prev_id = previous.id
+        if next:
+            self.next_id = next.id
+        self.save()
 
     def get_previous(self):
         try:
@@ -86,29 +98,70 @@ class Entry(models.Model):
     def parse_raw_text(self):
         if not self.raw_text:
             return None
-        from parsing import parse_mp_from_raw_text
+        from parsing import parse_mp_from_raw_text, guess_if_continuation, find_cont_speaker
         speaker, text = parse_mp_from_raw_text(self.raw_text)
-        # special case
-        if not self.type == 'continuacao':
-            self.determine_type()
         self.normalize_text()
 
         if isinstance(speaker, int):
             self.mp = MP.objects.get(id=speaker)
             self.text = text
             self.save()
-            return self.mp
         elif speaker:
-            if len(speaker) > 100:
+            if speaker == 'pm':
+                from deputados.utils import get_pm_from_date
+                self.mp = get_pm_from_date(self.day.date)
+                self.speaker = 'Primeiro-Ministro'
+                self.party = self.mp.current_party
+                if self.type == 'deputado_intervencao':
+                    self.type = 'pm_intervencao'
+                self.save()
+            elif speaker.startswith('ministro: '):
+                from deputados.utils import get_minister
+                speaker = speaker.replace('ministro: ', '').strip()
+                if '(' in speaker:
+                    speaker = speaker.split('(')[1].rstrip(')')
+                    govpost = get_minister(self.day.date, shortname=speaker)
+                else:
+                    govpost = get_minister(self.day.date, post=speaker)
+                if govpost.mp:
+                    self.mp = govpost.mp
+                else:
+                    self.speaker = govpost.person_name
+                self.party = govpost.name
+                self.type = 'ministro_intervencao'
+            elif speaker.startswith('secestado: '):
+                from deputados.utils import get_minister
+                speaker = speaker.replace('secestado: ', '').strip()
+                if '(' in speaker:
+                    speaker = speaker.split('(')[1].rstrip(')')
+                    govpost = get_minister(self.day.date, shortname=speaker)
+                else:
+                    govpost = get_minister(self.day.date, post=speaker)
+                if govpost.mp:
+                    self.mp = govpost.mp
+                else:
+                    self.speaker = govpost.person_name
+                self.party = govpost.name
+                self.type = 'secestado_intervencao'
+
+            elif len(speaker) > 100:
                 speaker = speaker[:100]
-            self.speaker = speaker
+            else:
+                self.speaker = speaker
             self.text = text
             self.save()
-            return self.speaker
         else:
             self.text = self.raw_text
             self.save()
-            return None
+        # special case
+        if not self.type in ('continuacao', 'pm_intervencao', 'ministro_intervencao', 'secestado_intervencao'):
+            self.determine_type()
+
+        if guess_if_continuation(self):
+            self.type = 'continuacao'
+            self.save()
+            if not self.mp:
+                find_cont_speaker(self)
 
     def determine_type(self):
         from parsing import determine_entry_tag

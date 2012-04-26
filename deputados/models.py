@@ -40,6 +40,8 @@ class MP(models.Model):
     name = models.CharField('Nome completo', max_length=300)
     gender = models.CharField('Género', choices=GENDERS, max_length=1, default='X')
     shortname = models.CharField('Nome abreviado', max_length=200)
+    aka_1 = models.CharField('Nome abreviado (alternativa)', max_length=200, blank=True, null=True)
+    aka_2 = models.CharField('Nome abreviado (2ª alternativa)', max_length=200, blank=True, null=True)
     dob = models.DateField('Data de nascimento', blank=True, null=True)
     occupation = models.CharField('Profissão', max_length=300, blank=True)
     photo = ImageWithThumbsField('Fotografia', upload_to='fotos', sizes=((18,25), (60,79)), null=True)
@@ -174,6 +176,7 @@ class Government(models.Model):
         return toRoman(self.number)
     class Meta:
         verbose_name = 'governo'
+        ordering = ['number']
 
 class GovernmentPost(models.Model):
     name = models.CharField('Nome', max_length=200, blank=True)
@@ -185,6 +188,8 @@ class GovernmentPost(models.Model):
     
     def __unicode__(self):
         return 'GC%d: %s' % (self.government.number, self.name)
+    class Meta:
+        ordering = ['government__number']
 
 class Legislature(models.Model):
     number = models.PositiveIntegerField('Sessão legislativa')
