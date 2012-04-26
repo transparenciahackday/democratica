@@ -140,7 +140,7 @@ def determine_entry_tag(e):
             return 'nota'
         elif e.text.startswith('Eram ') and e.text.strip().endswith('minutos.'):
             return 'hora'
-        elif e.text.strip(' :.').endswith((u'presentes à sessão:', )):
+        elif e.text.strip(' :.').endswith((u'presentes à sessão', )):
             return 'chamada_presentes'
         elif e.text.endswith((u'faltaram à sessão:', )):
             return 'chamada_ausentes'

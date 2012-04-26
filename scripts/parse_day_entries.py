@@ -29,7 +29,8 @@ if len(sys.argv) != 2:
 d = Day.objects.get(date=dateutil.parser.parse(DATE).date())
 entries = d.entry_set.all()
 for e in entries:
-   e.parse_raw_text()
-   print e.speaker
+    e.parse_raw_text()
+for e in entries:
+    e.calculate_neighbors()
 
 

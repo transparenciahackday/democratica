@@ -60,6 +60,9 @@ class Entry(models.Model):
     text = models.TextField('Texto', max_length=10000, blank=True)
     type = models.CharField('Tipo', max_length=40, blank=True)
 
+    next_id = models.PositiveIntegerField(blank=True, null=True)
+    prev_id = models.PositiveIntegerField(blank=True, null=True)
+
     def extract_data(self):
         pass
 
@@ -71,6 +74,13 @@ class Entry(models.Model):
 
     def get_absolute_url(self): 
         return '/sessoes/%d/%d/%d/%d' % (self.day.date.year, self.day.date.month, self.day.date.day, self.position)
+
+    def calculate_neighbors(self):
+        if self.get_next():
+            self.next_id = self.get_next().id
+        if self.get_previous():
+            self.prev_id = self.get_previous().id
+        self.save()
 
     def get_previous(self):
         try:
