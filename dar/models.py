@@ -41,6 +41,8 @@ class Day(models.Model):
         entries = Entry.objects.filter(day=self)
         for e in entries:
             e.parse_raw_text()
+        for e in entries:
+            e.calculate_neighbors()
         self.parsed = True
         self.save()
 

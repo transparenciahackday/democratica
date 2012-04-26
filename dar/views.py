@@ -250,8 +250,6 @@ def fetch_raw_entry(request):
 def parse_session_entries(request, id):
     d = Day.objects.get(id=int(id))
     d.parse_entries()
-    for e in d.entry_set.all():
-        e.calculate_neighbors()
     return redirect('day_detail', year=d.date.year, month=d.date.month, day=d.date.day)
 
 def mark_as_cont(request, id):
