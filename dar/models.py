@@ -86,7 +86,7 @@ class Entry(models.Model):
     def parse_raw_text(self):
         if not self.raw_text:
             return None
-        from parsing import parse_mp_from_raw_text
+        from parsing import parse_mp_from_raw_text, guess_if_continuation, find_cont_speaker
         speaker, text = parse_mp_from_raw_text(self.raw_text)
         # special case
         if not self.type == 'continuacao':
@@ -97,18 +97,45 @@ class Entry(models.Model):
             self.mp = MP.objects.get(id=speaker)
             self.text = text
             self.save()
-            return self.mp
         elif speaker:
-            if len(speaker) > 100:
+            if speaker == 'pm':
+                from deputados.utils import get_pm_from_date
+                self.mp = get_pm_from_date(self.day.date)
+                self.speaker = 'Primeiro-Ministro'
+                self.party = self.mp.current_party
+                if self.type == 'deputado_intervencao':
+                    self.type = 'pm_intervencao'
+                self.save()
+            elif speaker.startswith('ministro: '):
+                from deputados.utils import get_minister
+                speaker = speaker.replace('ministro: ', '').strip()
+                if '(' in speaker:
+                    speaker = speaker.split('(')[1].rstrip(')')
+                    govpost = get_minister(self.day.date, shortname=speaker)
+                else:
+                    govpost = get_minister(self.day.date, post=speaker)
+                if govpost.mp:
+                    self.mp = govpost.mp
+                else:
+                    self.speaker = govpost.person_name
+                    self.party = govpost.name
+                self.type = 'ministro_intervencao'
+
+            elif len(speaker) > 100:
                 speaker = speaker[:100]
-            self.speaker = speaker
+            else:
+                self.speaker = speaker
             self.text = text
             self.save()
-            return self.speaker
         else:
             self.text = self.raw_text
             self.save()
-            return None
+
+        if guess_if_continuation(self):
+            self.type = 'continuacao'
+            self.save()
+            if not self.mp:
+                find_cont_speaker(self)
 
     def determine_type(self):
         from parsing import determine_entry_tag

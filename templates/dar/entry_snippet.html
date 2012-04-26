@@ -59,18 +59,21 @@
 
             {% elif entry.type == 'secestado_intervencao' or entry.type == 'ministro_intervencao' %}
               <div class="left">
+                {% if entry.mp %}
                 {% with entry.mp as mp %}
                 <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
                 <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
                 <h4>{{ mp.get_post_in.day.date }}</h4>
                 <p class="party {{ mp.current_party.abbrev|lower }}">{{ mp.current_party.abbrev }}</p>
                 <p class="circle {{ mp.current_party.abbrev|lower }}">{{ mp.current_mandate.constituency }}</p>
-
-                <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
-
                 {% endwith %}
+                {% else %}
+                <h3 class="mp-name">{{ entry.speaker }}</h3>
+                <h4>{{ entry.party }}</h4>
+                {% endif %}
+                <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
               </div>
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">{{ entry.text_as_html }}</div>
 
             <!-- Intervencao (não identificada) - início -->
 

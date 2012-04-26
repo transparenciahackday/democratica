@@ -68,19 +68,18 @@ def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
         if mp_id:
             mp_id = int(mp_id)
             if MP.objects.filter(id=mp_id):
-                GovernmentPost.objects.create(mp=MP.objects.get(id=int(mp_id)),
+                p, created = GovernmentPost.objects.get_or_create(mp=MP.objects.get(id=int(mp_id)),
                                               government=gov,  
                                               name=post,
                                               date_started=ds,
                                               date_ended=de)
-            else:
-                print 'GovernmentPost: No MP with given ID (%d)' % mp_id
-                GovernmentPost.objects.create(mp=None,
-                                              person_name=name,
-                                              government=gov,  
-                                              name=post,
-                                              date_started=ds,
-                                              date_ended=de)
+        else:
+            p, created = GovernmentPost.objects.get_or_create(mp=None,
+                                          person_name=name,
+                                          government=gov,  
+                                          name=post,
+                                          date_started=ds,
+                                          date_ended=de)
 
 if __name__ == '__main__':
     check_for_files()

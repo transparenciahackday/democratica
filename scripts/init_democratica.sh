@@ -1,5 +1,4 @@
 #!/bin/sh
-
 python import_mps.py
 python determine_mp_gender.py
 python import_mp_photos.py

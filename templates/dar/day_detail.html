@@ -230,7 +230,7 @@
           {% endif %}
 
           {# Verificar se temos de fechar a tag da intervencao anterior #}
-          {% if entry.type == 'deputado_intervencao' or entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' or entry.type == 'presidente_aberta' or entry.type == 'pm_intervencao' %}
+          {% if entry.type == 'deputado_intervencao' or entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' or entry.type == 'presidente_aberta' or entry.type == 'pm_intervencao' or entry.type == 'ministro_intervencao' %}
             </div> <!-- /intervention --> 
             {% if entry.type == 'deputado_intervencao' or entry.type == 'pm_intervencao' or entry.type == 'ministro_intervencao' %}
               <div class="intervention">

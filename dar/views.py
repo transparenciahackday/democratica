@@ -76,18 +76,15 @@ def day_detail(request, year, month, day):
     # gov = govs.filter(date_ended__gt=day.date)
 
     #mps = frozenset([entry.mp for entry in entries])
-    # mp_ids = frozenset(entries.values_list('mp', flat=True))
-    # mps = list(MP.objects.filter(id__in=mp_ids))
+    mp_ids = frozenset(entries.values_list('mp', flat=True))
+    mps = list(MP.objects.filter(id__in=mp_ids))
 
-    # mp_lookup = {}
-    # for mp in mps:
-    #    if not mp.id:
-    #        continue
-        #mp = mps.values('shortname', 'current_party', 'current_mandate', 'photo').get(id=mp_id)
-
-    #     mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'current_party': mp.current_party,
-    #             'current_mandate': mp.current_mandate, 'photo': mp.photo, 'id': mp.id}
-
+    mp_lookup = {}
+    for mp in mps:
+        if not mp.id:
+            continue
+        mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'current_party': mp.current_party,
+                 'current_mandate': mp.current_mandate, 'photo': mp.photo, 'id': mp.id}
 
     if govs:
         gov = govs[0]
@@ -97,7 +94,7 @@ def day_detail(request, year, month, day):
     return direct_to_template(request, 'dar/day_detail.html',
         extra_context={'day': day, 'entries': entries,
                        'gov': gov.number if gov else None,
-    #                   'mp_lookup': mp_lookup,
+                       'mp_lookup': mp_lookup,
                 })
 
 def day_statistics(request, year, month, day):
@@ -306,7 +303,7 @@ def correct_newlines(request, id):
     for line in lines:
         if not line.strip().endswith(('.', '?', '!')):
             output += line.strip() + ' '
-        elif len(line) > 65:
+        elif 65 < len(line) < 140:
             output += line.strip() + ' '
         else:
             output += line.strip() + '\n'
