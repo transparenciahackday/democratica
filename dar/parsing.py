@@ -30,9 +30,9 @@ def parse_mp_from_raw_text(text):
     speakerparty, text = re.split(re_separador[0], text, 1)
     speakerparty = remove_strings(speakerparty, HONORIFICS, once=True).strip()
 
-    if speakerparty.startswith(('Presidente', u'Secretári')):
+    if speakerparty.startswith('Presidente'):
         return (speakerparty, text)
-    if speakerparty.startswith(u'Secretári') and not "Estado" in speakerparty:
+    elif speakerparty.startswith(u'Secretári') and not "Estado" in speakerparty:
         return (speakerparty, text)
 
     # ugly but works
@@ -44,12 +44,17 @@ def parse_mp_from_raw_text(text):
             return ('pm', text)
         if 'Ministr' in speakerparty or speakerparty.startswith('Ministr'):
             return ('ministro: ' + speakerparty, text)
+        elif u'Secretári' in speakerparty or speakerparty.startswith(u'Secretári'):
+            return ('secestado: ' + speakerparty, text)
         return (speakerparty, text)
+
     if 'Primeiro' in speaker:
         return ('pm', text)
-    if 'Ministr' in speaker or speaker.startswith('Ministr'):
+    elif 'Ministr' in speaker or speaker.startswith('Ministr'):
         return ('ministro: ' + speaker, text)
-
+    # já excluímos as entradas dos secretários antes
+    elif u'Secretári' in speaker or speaker.startswith(u'Secretári'):
+        return ('secestado: ' + speaker, text)
 
     # try to match the speaker name to an MP entry in the database
     matching_mps = MP.objects.filter(shortname=speaker)

@@ -72,8 +72,8 @@ def day_detail(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
     day = Day.objects.get(date=d)
     entries = Entry.objects.filter(day=day).order_by('position')
-    # govs = Government.objects.filter(date_started__lt=day.date, date_ended__gt=day.date)
-    # gov = govs.filter(date_ended__gt=day.date)
+    govs = Government.objects.filter(date_started__lt=day.date, date_ended__gt=day.date)
+    gov = govs.filter(date_ended__gt=day.date)
 
     #mps = frozenset([entry.mp for entry in entries])
     mp_ids = frozenset(entries.values_list('mp', flat=True))
@@ -83,16 +83,17 @@ def day_detail(request, year, month, day):
     for mp in mps:
         if not mp.id:
             continue
-        mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'party_abbrev': mp.current_party.abbrev, 'constituency': mp.current_mandate.constituency.name,
-                 'current_mandate': mp.current_mandate, 'photo': mp.photo, 'id': int(mp.id)}
+        mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'party_abbrev': mp.current_party.abbrev, 
+                'constituency': mp.current_mandate.constituency.name,
+                'current_mandate': mp.current_mandate, 'photo': mp.photo, 'id': int(mp.id)}
 
-    # if govs:
-        # gov = govs[0]
-    # else:
-        # gov = govs[len(govs)-1] if govs else None
+    if govs:
+        gov = govs[0]
+    else:
+        gov = govs[len(govs)-1] if govs else None
     return direct_to_template(request, 'dar/day_detail.html',
         extra_context={'day': day, 'entries': entries,
-                       # 'gov': gov.number if gov else None,
+                       'gov': gov.number if gov else None,
                        'mpdict': mp_lookup,
                 })
 
@@ -289,8 +290,8 @@ def mark_as_aside(request, id):
 
 def join_entry_with_previous(request, id):
     e = Entry.objects.get(id = int(id))
-    prev_e = e.get_previous()
-    next_e = e.get_next()
+    prev_e = Entry.objects.get(id=e.prev_id)
+    next_e = Entry.objects.get(id=e.next_id)
     prev_e.raw_text += '\n' + e.raw_text
     if e.text and prev_e.text:
         prev_e.text += '\n' + e.text
@@ -326,6 +327,14 @@ def refresh(request, id):
     if not skip_parsing:
         e.parse_raw_text()
     from django.template import Context, loader
+    if e.mp:
+        mp = e.mp
+        mpdict = {}
+        mpdict[int(mp.id)] = {'shortname': mp.shortname, 'party_abbrev': mp.current_party.abbrev, 
+                'constituency': mp.current_mandate.constituency.name,
+                'current_mandate': mp.current_mandate, 'photo': mp.photo, 'id': int(mp.id)}
+        c = Context({'entry': e, 'mpdict': mpdict})
+    else:
+        c = Context({'entry': e})
     t = loader.get_template('dar/entry_snippet.html')
-    c = Context({'entry': e})
     return HttpResponse(t.render(c))

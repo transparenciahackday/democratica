@@ -28,6 +28,7 @@
               $('.entry#' + id).html(data);
               console.log(id)
               // FIXME: precisamos de colocar a textarea como editável novamente
+              $(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' });
               $(".edit_area").editable("/sessoes/gravar/",
                 {
                   cancel: "Cancelar",
@@ -58,6 +59,7 @@
             $('.entry#' + id).html(data);
             console.log(id)
             // FIXME: precisamos de colocar a textarea como editável novamente
+            $(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' });
             $(".edit_area").editable("/sessoes/gravar/",
               {
                 cancel: "Cancelar",
@@ -129,6 +131,7 @@
               soft_refresh(prev_id)
               soft_refresh(next_id)
               // FIXME: precisamos de colocar a textarea como editável novamente
+              $(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' });
               $(".edit_area").editable("/sessoes/gravar/",
                 {
                   cancel: "Cancelar",
@@ -211,9 +214,9 @@
           {% endif %}
 
           {# Verificar se temos de fechar a tag da intervencao anterior #}
-          {% if entry.type == 'deputado_intervencao' or entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' or entry.type == 'presidente_aberta' or entry.type == 'pm_intervencao' or entry.type == 'ministro_intervencao' %}
+          {% if entry.type == 'deputado_intervencao' or entry.type == 'presidente' or entry.type == 'secretario' or entry.type == 'presidente_temapalavra' or entry.type == 'presidente_aberta' or entry.type == 'pm_intervencao' or entry.type == 'ministro_intervencao' or entry.type == 'secestado_intervencao' %}
             </div> <!-- /intervention --> 
-            {% if entry.type == 'deputado_intervencao' or entry.type == 'pm_intervencao' or entry.type == 'ministro_intervencao' %}
+            {% if entry.type == 'deputado_intervencao' or entry.type == 'pm_intervencao' or entry.type == 'ministro_intervencao' or entry.type == 'secestado_intervencao' %}
               <div class="intervention">
             {% else %}
               <div class="intervention mini-intervention">

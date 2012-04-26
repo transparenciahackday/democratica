@@ -76,10 +76,12 @@ class Entry(models.Model):
         return '/sessoes/%d/%d/%d/%d' % (self.day.date.year, self.day.date.month, self.day.date.day, self.position)
 
     def calculate_neighbors(self):
-        if self.get_next():
-            self.next_id = self.get_next().id
-        if self.get_previous():
-            self.prev_id = self.get_previous().id
+        previous = self.get_previous()
+        next = self.get_next()
+        if previous:
+            self.prev_id = previous.id
+        if next:
+            self.next_id = next.id
         self.save()
 
     def get_previous(self):
@@ -98,9 +100,6 @@ class Entry(models.Model):
             return None
         from parsing import parse_mp_from_raw_text, guess_if_continuation, find_cont_speaker
         speaker, text = parse_mp_from_raw_text(self.raw_text)
-        # special case
-        if not self.type == 'continuacao':
-            self.determine_type()
         self.normalize_text()
 
         if isinstance(speaker, int):
@@ -128,8 +127,22 @@ class Entry(models.Model):
                     self.mp = govpost.mp
                 else:
                     self.speaker = govpost.person_name
-                    self.party = govpost.name
+                self.party = govpost.name
                 self.type = 'ministro_intervencao'
+            elif speaker.startswith('secestado: '):
+                from deputados.utils import get_minister
+                speaker = speaker.replace('secestado: ', '').strip()
+                if '(' in speaker:
+                    speaker = speaker.split('(')[1].rstrip(')')
+                    govpost = get_minister(self.day.date, shortname=speaker)
+                else:
+                    govpost = get_minister(self.day.date, post=speaker)
+                if govpost.mp:
+                    self.mp = govpost.mp
+                else:
+                    self.speaker = govpost.person_name
+                self.party = govpost.name
+                self.type = 'secestado_intervencao'
 
             elif len(speaker) > 100:
                 speaker = speaker[:100]
@@ -140,6 +153,9 @@ class Entry(models.Model):
         else:
             self.text = self.raw_text
             self.save()
+        # special case
+        if not self.type in ('continuacao', 'pm_intervencao', 'ministro_intervencao', 'secestado_intervencao'):
+            self.determine_type()
 
         if guess_if_continuation(self):
             self.type = 'continuacao'
