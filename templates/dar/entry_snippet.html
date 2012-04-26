@@ -7,9 +7,8 @@
 
             <!-- {{ entry.type }} -->
 
-            <!-- Intervencao de deputado - inicio -->
-
             {% if entry.type == 'deputado_intervencao' %}
+            <!-- Intervencao de deputado - inicio -->
               <div class="left">
                 {% with entry.mp as mp %}
                 <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.current_party.abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
@@ -20,15 +19,16 @@
                 {% endwith %}
               </div> <!-- /left -->
               <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> 
-                <ul class="popup" id="popup-button-{{ entry.id }}">
-                  <li><p>Link directo <input type="text" value="https://demo.cratica.org{{ entry.get_absolute_url }}" /><a class="close" href="#">X</a></p></li>
-                </ul>
                 <div class="entry-content">
                   {{ entry.text_as_html }}
                 </div>
                 <ul class="social">
                   <li><a href="http://www.facebook.com/sharer.php?u=https://demo.cratica.org{{ entry.get_absolute_url }}&amp;t=Demo.cratica" class="facebook" name="fb_share" id="facebook-{{ entry.id }}" title="Partilhar no Facebook">Facebook</a></li>
                   <li><a href="http://twitter.com/share?text={% if entry.mp %}{{ entry.mp }}{% else %}{{ entry.speaker }}{% endif %}: {{ entry.text|truncatewords:5 }}&amp;via=demo_cratica&amp;url=https://demo.cratica.org{{ entry.get_absolute_url }}" class="twitter" id="twitter-{{ entry.id }}" title="Partilhar no Twitter" target="_blank">Tweet</a></li>
+                  <li class="popup" id="popup-button-{{ entry.id }}">
+                  Link directo <input type="text" value="https://demo.cratica.org{{ entry.get_absolute_url }}" />
+                  <span class="close" href="#">X</span>
+                  </li>
                   <li class="url" id="url-{{ entry.id }}" title="Link direto">URL</li>
                 </ul>
                 <ul class="actionbar">
