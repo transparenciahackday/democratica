@@ -186,8 +186,8 @@
 	       // },function(){
 		     //   $(this).next('ul.actionbar:first').fadeOut();
 	       // });
-	       $('.url').click(function(){
-			    $(this).prev($('span.popup')).fadeIn();
+	       $('#url-' + id).click(function(){
+			    $(this).prev($('#popup-btn-' + id)).fadeIn();
 		    });
 		    $('.close').click(function(){
 		      $('.popup').fadeOut();

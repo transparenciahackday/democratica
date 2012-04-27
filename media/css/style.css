@@ -1277,7 +1277,8 @@ margin-top: 0;
 }
 
 .entry .right .social {
-display: none;
+  display: none;
+  margin-bottom: 8px;
 }
 
 .active .right .social {
@@ -1364,7 +1365,6 @@ border-radius: 3px;
   float: left;
   list-style-type: none;
   padding: 2px 5px;
-  margin-top: 8px;
   background: #B7BEC8;
   border: 1px solid #ccc;
   -webkit-border-radius: 3px;
