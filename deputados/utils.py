@@ -118,6 +118,15 @@ def get_minister(dt, mp_id=None, shortname=None, post=None):
         return None
 
 
+def get_mandate_for_date(mp, dt):
+    from deputados.models import Mandate
+    if Mandate.objects.filter(mp=mp, date_begin__lt=dt, date_end__gt=dt):
+        return Mandate.objects.filter(mp=mp, date_begin__lt=dt, date_end__gt=dt)[0]
+    elif Mandate.objects.filter(mp=mp, date_begin__lt=dt):
+        # note slicing in order to speed up query, see http://stackoverflow.com/a/8328189
+        return Mandate.objects.filter(mp=mp, date_begin__lt=dt).order_by('-date_begin')[:1][0]
+    return None
+
 
 def get_gender_from_name(name):
     from settings import FEMALE_NAMES_FILE
