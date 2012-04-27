@@ -101,7 +101,7 @@
                 {% if entry.mp_id %}
                 {% with mpdict|lookup:entry.mp_id as mp %}
                 <div class="left">
-                  <p class="party {{ mp.party_abbrev|lower }}">{#<a href="{% url mp_detail entry.mp.id %}">#}{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" />{#</a>#}</p>
+                  <p class="party {{ mp.party_abbrev|lower }}"><a href="{{ mp.url }}">{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" /></a></p>
                 </div>
                 <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"><div class="entry-content"> {{ entry.text_as_html }} </div></div>
                 {% endwith %}
@@ -157,8 +157,7 @@
             {% if entry.mp_id %}
               {% with mpdict|lookup:entry.mp_id as mp %}
             <div class="left">
-              {#<p class="party {{ mp.party_abbrev|lower }}"><a href="{% url mp_detail mp.id %}">{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" /></a></p> #}
-              <p class="party {{ mp.party_abbrev|lower }}">{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" /></p>
+              <p class="party {{ mp.party_abbrev|lower }}"><a href="{{ mp.url }}">{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" /></a></p>
             {% endwith %}
             {% else %}
               <p class="party {{ e.party|lower }}">{{ e.speaker }}</p>

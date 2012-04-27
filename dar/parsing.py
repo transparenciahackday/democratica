@@ -19,6 +19,9 @@ def parse_mp_from_raw_text(text):
     mp_id = None
     text = text.strip()
     if not text.startswith(HONORIFICS):
+        if text.startswith(('O Orador:','A Oradora:')):
+            speaker, text = re.split(re_separador[0], text, 1)
+            return (speaker, text)
         if text.startswith(('Vozes', 'Uma voz d')):
             speaker, text = re.split(re_separador[0], text, 1)
             return (speaker, text)
@@ -103,8 +106,8 @@ def determine_entry_tag(e):
         else:
             return 'pm_intervencao'
     elif e.speaker:
-        if e.speaker in ('O Orador' or 'A Oradora'):
-            # TODO: se já tiver MP, então usa esse!
+        if e.speaker in ('O Orador', 'A Oradora'):
+
             find_cont_speaker(e)
             return 'continuacao'
         if e.speaker.startswith('Primeiro-Ministro'):
@@ -145,7 +148,7 @@ def determine_entry_tag(e):
             return 'nota'
         elif e.text.startswith('Eram ') and e.text.strip().endswith('minutos.'):
             return 'hora'
-        elif e.text.strip(' :.').endswith((u'presentes à sessão', )):
+        elif e.text.strip(' :.').endswith((u'presentes à sessão', )) or e.text.startswith('Estavam presentes os seguintes Srs. Deputados:'):
             return 'chamada_presentes'
         elif e.text.endswith((u'faltaram à sessão:', )):
             return 'chamada_ausentes'
@@ -162,6 +165,9 @@ def find_cont_speaker(e):
     for prev_entry in Entry.objects.filter(day=e.day, position__lt=e.position).order_by('-position'):
         if (prev_entry.type in ['deputado_intervencao', 'pm_intervencao', 'ministro_intervencao', 'secestado_intervencao', 'presidente_intervencao', 'presidente']) or \
            (prev_entry.type == 'continuacao' and prev_entry.mp):
+            # há casos em que o presidente interrompe
+            if not counter and prev_entry.type in ('presidente', 'presidente_intervencao'):
+                continue
             e.speaker = prev_entry.speaker
             e.type = 'continuacao'
             if prev_entry.mp:

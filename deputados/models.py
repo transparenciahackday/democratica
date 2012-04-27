@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.core.urlresolvers import reverse
 from thumbs import ImageWithThumbsField
 from django_extensions.db.fields.json import JSONField
 from democratica.core import text_utils
@@ -129,6 +130,8 @@ class MP(models.Model):
              self.favourite_word = text_utils.most_frequent_word(self.entry_set.all())
              self.save()
 
+    def get_absolute_url(self):
+        return reverse('mp_detail', args=[self.id])
     def __unicode__(self): return self.shortname
     class Meta:
         verbose_name = 'deputado'
