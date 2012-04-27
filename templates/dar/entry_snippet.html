@@ -18,19 +18,19 @@
                 <p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>
                 <p class="circle {{ mp.party_abbrev|lower }}">{{ mp.constituency }}</p>
               </div> <!-- /left -->
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> 
+              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">
+                <p class="popup" id="popup-button-{{ entry.id }}">
+                  Link directo <input type="text" value="https://demo.cratica.org{{ entry.get_absolute_url }}" />
+                  <span class="close" href="#">X</span>
+                </p>  
                 <div class="entry-content">
                   {{ entry.text_as_html }}
                 </div>
                 <ul class="social">
                   <li><a href="http://www.facebook.com/sharer.php?u=https://demo.cratica.org{{ entry.get_absolute_url }}&amp;t=Demo.cratica" class="facebook" name="fb_share" id="facebook-{{ entry.id }}" title="Partilhar no Facebook">Facebook</a></li>
                   <li><a href="http://twitter.com/share?text={% if entry.mp %}{{ entry.mp }}{% else %}{{ entry.speaker }}{% endif %}: {{ entry.text|truncatewords:5 }}&amp;via=demo_cratica&amp;url=https://demo.cratica.org{{ entry.get_absolute_url }}" class="twitter" id="twitter-{{ entry.id }}" title="Partilhar no Twitter" target="_blank">Tweet</a></li>
-                  
-                  
-                  <li class="url" id="url-{{ entry.id }}">Link</li>
-                  <li class="popup" id="popup-button-{{ entry.id }}">
-                  Link directo <input type="text" value="https://demo.cratica.org{{ entry.get_absolute_url }}" />
-                  <span class="close" href="#">X</span>
+                  <li>
+                    <a class="url" id="url-{{ entry.id }}" href="javascript:showonlyone('popup-button-{{ entry.id }}');">Link</a>
                   </li>
                 </ul>
                 <ul class="actionbar">
@@ -48,8 +48,6 @@
                 <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.party_abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
                 <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
                 <h4>Primeiro-Ministro</h4>
-                <p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>
-                <p class="circle {{ mp.party_abbrev|lower }}">{{ mp.constituency }}</p>
                 {% endwith %}
               </div> <!-- /left -->
               <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">
