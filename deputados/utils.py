@@ -82,7 +82,6 @@ def get_pm_from_date(dt):
 
 def get_minister(dt, mp_id=None, shortname=None, post=None):
     from deputados.models import GovernmentPost
-    print shortname, post
     if shortname:
         if 'Ministr' in shortname or 'Secret' in shortname:
                 # no, wrong arguments
@@ -104,6 +103,12 @@ def get_minister(dt, mp_id=None, shortname=None, post=None):
         return None
     elif post:
         keyword = post
+        if GovernmentPost.objects.filter(name=keyword, date_started__lt=dt, date_ended__gt=dt):
+            return GovernmentPost.objects.filter(name=keyword, date_started__lt=dt, date_ended__gt=dt)[0]
+        elif GovernmentPost.objects.filter(name=keyword, date_started__lt=dt):
+            # note slicing in order to speed up query, see http://stackoverflow.com/a/8328189
+            return GovernmentPost.objects.filter(name=keyword, date_started__lt=dt).order_by('-government')[:1][0]
+        # another run with more permissive search
         if GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt, date_ended__gt=dt):
             return GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt, date_ended__gt=dt)[0]
         elif GovernmentPost.objects.filter(name__icontains=keyword, date_started__lt=dt):
