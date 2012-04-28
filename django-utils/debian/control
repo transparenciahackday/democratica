@@ -1,0 +1,12 @@
+Source: python-django-utils
+Section: python
+Priority: extra
+Maintainer: Joe Stump <joe@joestump.net>
+Build-Depends: debhelper (>= 6), python (>= 2.5), python-support, python-setuptools
+Standards-Version: 3.8.3
+Homepage: https://github.com/coleifer/django-utils
+
+Package: python-django-utils
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.5), python-django (>= 1.2.0), python-imaging, libjpeg62
+Description: A collection of tools to help with Django development.

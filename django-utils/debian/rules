@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+DEB_PYTHON_SYSTEM=pysupport
+PREFIX=debian/python-django-utils
+
+include /usr/share/python/python.mk
+
+%:
+	dh $@

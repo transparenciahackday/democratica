@@ -1,0 +1,4 @@
+<tr class="empty-row {{ formset.prefix }}">
+  {% for field in fields %}<td>{{ field }}</td>{% endfor %}
+  <td><a href="javascript:void(0)" class="{{ formset.prefix }}-delete-row">Remove</a></td>
+</tr>
