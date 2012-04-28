@@ -1160,7 +1160,7 @@ overflow: auto;
 .entry .left {
 width: 150px;
 margin-right: 15px;
-float: left;
+position: absolute;
 display: block;
 text-align: right;
 font-size: 90%;
@@ -1224,6 +1224,7 @@ padding: 5px 0 0;
 .entry .right {
 width: 700px;
 float: left;
+margin-left: 165px;
 display: block;
 padding: 5px 0 0;
 border-top: 1px dotted #ccc;
@@ -1281,10 +1282,6 @@ border-top: 1px dotted #ccc;
 border: 0;
 }
 
-  .entry .interruption {
-  margin-left: 165px;
-  }
-  
   .applause .right strong,
   .laughs .right strong,
   .protests .right strong,
@@ -1306,6 +1303,15 @@ margin-top: 0;
     color: #777;
     font-size: 75%;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.entry .right .notas {
+  background: rgba(255, 255, 255, 0.4);
+  padding: 5px;
+  font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 85%;
+  text-transform: uppercase;
+  color: #535D6C;
 }
 
 .entry .right .social {
@@ -1381,8 +1387,28 @@ background-color: #6f7c91;
   width: 510px;
   padding: 8px 10px;
   font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: normal;
   font-size: 105%;
+}
+
+.entry .collapsible .more_0,
+.entry .collapsible .hide_0 {
+  padding: 4px 5px;
+  background: #cbd0d8;
+  text-decoration: none;
+  display: block;
+  font-family: 'Lato-bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 80%;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 5px 0 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.entry .collapsible .more_0:hover,
+.entry .collapsible .hide_0:hover {
+  background: #B7BEC8;
 }
 
 .entry .actionbar {

@@ -177,26 +177,25 @@
             {# Aplausos, protestos, risos, pausas, notas, horas e outros eventos #}
             {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "nota" or entry.type == "hora" %}
               <div class="right">
-                <div class="entry-content edit_area interruption" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+                <div class="entry-content edit_area interruption" id="Entry_raw_text_{{ entry.id }}">
+                  <div class="notas">{{ entry.text_as_html }}</div>
+                </div>
               </div>
 
             {# Sumário #}
             {% elif entry.type == "sumario" %}
-            <div class="left"> </div>
             <div class="right">
               <div class="entry-content edit_area collapsible" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
             </div>
 
             {# Chamadas #}
             {% elif entry.type == "chamada_presentes" or entry.type == "chamada_ausentes" or entry.type == "chamada_atrasados" or entry.type == "chamada_missao" %}
-            <div class="left"> </div>
             <div class="right">
               <div class="entry-content edit_area collapsible" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
             </div>
 
             {# Voto #}
             {% elif entry.type == "voto" %}
-            <div class="left"></div>
             <div class="right">
               <div class="entry-content edit_area vote-result" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
             </div>
