@@ -28,7 +28,7 @@
               $('.entry#' + id).html(data);
               console.log(id)
               // FIXME: precisamos de colocar a textarea como editável novamente
-              $(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' });
+              $(".collapsible").truncatable({	limit: 100, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
               $(".edit_area").editable("/sessoes/gravar/",
                 {
                   cancel: "Cancelar",
@@ -59,7 +59,7 @@
             $('.entry#' + id).html(data);
             console.log(id)
             // FIXME: precisamos de colocar a textarea como editável novamente
-            $(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' });
+            $(".collapsible").truncatable({	limit: 100, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
             $(".edit_area").editable("/sessoes/gravar/",
               {
                 cancel: "Cancelar",
@@ -131,7 +131,7 @@
               soft_refresh(prev_id)
               soft_refresh(next_id)
               // FIXME: precisamos de colocar a textarea como editável novamente
-              $(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' });
+              $(".collapsible").truncatable({	limit: 100, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
               $(".edit_area").editable("/sessoes/gravar/",
                 {
                   cancel: "Cancelar",
@@ -175,7 +175,7 @@
                 return value;
                 }
             });
-       	$(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' });
+       	$(".collapsible").truncatable({	limit: 100, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
        });
     </script>
     <script type="text/javascript">      
