@@ -178,17 +178,18 @@
        	$(".collapsible").truncatable({	limit: 100, more: '[Mostrar tudo]', less: true, hideText: '[Esconder]' });
        });
     </script>
-    <script type="text/javascript">
-      $(document).ready(function() {      
-          //actionbar
-	       // $(".entry").hover(function(){
-		     //   $(this).next('ul.actionbar:hidden').fadeIn();
-	       // },function(){
-		     //   $(this).next('ul.actionbar:first').fadeOut();
-	       // });
-	       $('#url-' + id).click(function(){
-			    $(this).prev($('#popup-btn-' + id)).fadeIn();
-		    });
+    <script type="text/javascript">      
+      function showonlyone(thechosenone) {
+        $('p.popup').each(function(index) {
+          if ($(this).attr("id") == thechosenone) {
+              $(this).fadeIn(200);
+          }
+          else {
+              $(this).hide(600);
+          }
+        });
+      }
+      $(document).ready(function() {
 		    $('.close').click(function(){
 		      $('.popup').fadeOut();
 	      });   

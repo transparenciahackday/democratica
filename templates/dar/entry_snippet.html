@@ -18,19 +18,19 @@
                 <p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>
                 <p class="circle {{ mp.party_abbrev|lower }}">{{ mp.constituency }}</p>
               </div> <!-- /left -->
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> 
-                <div class="entry-content">
+              <div class="right">
+                <p class="popup" id="popup-button-{{ entry.id }}">
+                  Link directo <input type="text" value="https://demo.cratica.org{{ entry.get_absolute_url }}" />
+                  <span class="close" href="#">X</span>
+                </p>  
+                <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}">
                   {{ entry.text_as_html }}
                 </div>
                 <ul class="social">
                   <li><a href="http://www.facebook.com/sharer.php?u=https://demo.cratica.org{{ entry.get_absolute_url }}&amp;t=Demo.cratica" class="facebook" name="fb_share" id="facebook-{{ entry.id }}" title="Partilhar no Facebook">Facebook</a></li>
                   <li><a href="http://twitter.com/share?text={% if entry.mp %}{{ entry.mp }}{% else %}{{ entry.speaker }}{% endif %}: {{ entry.text|truncatewords:5 }}&amp;via=demo_cratica&amp;url=https://demo.cratica.org{{ entry.get_absolute_url }}" class="twitter" id="twitter-{{ entry.id }}" title="Partilhar no Twitter" target="_blank">Tweet</a></li>
-                  
-                  
-                  <li class="url" id="url-{{ entry.id }}">Link</li>
-                  <li class="popup" id="popup-button-{{ entry.id }}">
-                  Link directo <input type="text" value="https://demo.cratica.org{{ entry.get_absolute_url }}" />
-                  <span class="close" href="#">X</span>
+                  <li>
+                    <a class="url" id="url-{{ entry.id }}" href="javascript:showonlyone('popup-button-{{ entry.id }}');">Link</a>
                   </li>
                 </ul>
                 <ul class="actionbar">
@@ -48,12 +48,10 @@
                 <p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.party_abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>
                 <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
                 <h4>Primeiro-Ministro</h4>
-                <p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>
-                <p class="circle {{ mp.party_abbrev|lower }}">{{ mp.constituency }}</p>
                 {% endwith %}
               </div> <!-- /left -->
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">
-                <div class="entry-content"> {{ entry.text_as_html }} </div>
+              <div class="right">
+                <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
                <ul class="actionbar">
                 <li><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></li>
                 <li><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></li>
@@ -77,11 +75,9 @@
                   <h3 class="mp-name">{{ entry.speaker }}</h3>
                   <h4>{{ entry.party }}</h4>
                   {% endif %}
-                  <p><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></p>
-                  <p><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></p>
                 </div>
-                <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">
-                  <div class="entry-content"> {{ entry.text_as_html }} </div>
+                <div class="right">
+                  <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
                    <ul class="actionbar">
                     <li><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></li>
                     <li><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></li>
@@ -95,7 +91,7 @@
                   <h3 class="mp-name">{{ entry.speaker }}</h3>
                   <p class="party">{{ entry.party }}</p>
                 </div>
-                <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"><div class="entry-content"> {{ entry.text_as_html }} </div></div>
+                <div class="right"><div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div></div>
 
               <!-- Continuação -->
 
@@ -105,15 +101,15 @@
                 <div class="left">
                   <p class="party {{ mp.party_abbrev|lower }}"><a href="{{ mp.url }}">{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" /></a></p>
                 </div>
-                <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"><div class="entry-content"> {{ entry.text_as_html }} </div></div>
+                <div class="right"><div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div></div>
                 {% endwith %}
                 {% else %}
                 <div class="left">
                   <p>{{ entry.speaker }}</p>
                   <p class="party">{{ entry.party }}</p>
                 </div>
-                <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">
-                  <div class="entry-content"> {{ entry.text_as_html }}</div>
+                <div class="right">
+                  <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }}</div>
                   <ul class="actionbar">
                     <li><a href="javascript:unmark_as_cont({{entry.id}})">Desmarcar como continuação</a></li>
                     <li><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></li>
@@ -126,8 +122,8 @@
             <div class="left"> 
               <h3>Presidente</h3> 
             </div>
-            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">
-              <div class="entry-content">
+            <div class="right">
+              <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}">
                   {{ entry.text_as_html }}
               </div>
               <ul class="actionbar">
@@ -138,13 +134,13 @@
 
             {# Presidente -- aparte ou pedido de conclusao #}
             {% elif entry.type == 'presidente_aparte' %}
-            <div class="left"> <p class="mini">Presidente</p></h3> </div>
-            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"><div class="entry-content"> {{ entry.text_as_html }} </div></div>
+            <div class="left"> <p class="mini">Presidente</p></div>
+            <div class="right"><div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div></div>
 
             {# Presidente -- tem a palavra #}
             {% elif entry.type == 'presidente_temapalavra' %}
               <div class="left"> <h3>Presidente</h3> </div>
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"><div class="entry-content"> {{ entry.text_as_html }} </div></div>
+              <div class="right"><div class="entry-content  edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div></div>
 
             {# Secretário #}
             {% elif entry.type == "secretario" %}
@@ -152,7 +148,7 @@
                 <h3>Secretário</h3> 
                 <p class="party">{{ entry.party }}</p>
               </div>
-              <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"><div class="entry-content"> {{ entry.text_as_html }} </div></div>
+              <div class="right"><div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div></div>
 
             {# Aparte de deputado #}
             {% elif entry.type == 'deputado_aparte' or entry.type == 'pm_aparte' or entry.type == 'ministro_aparte' or entry.type == 'secestado_aparte' %}
@@ -176,33 +172,33 @@
             {# Vozes #}
             {% elif entry.type == "vozes_aparte" %}
             <div class="left"> <p class="mini">{{ entry.speaker }}</p> </div>
-            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+            <div class="right"><div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div></div>
 
             {# Aplausos, protestos, risos, pausas, notas, horas e outros eventos #}
             {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "nota" or entry.type == "hora" %}
-              <div class="right edit_area interruption" id="Entry_raw_text_{{ entry.id }}">
-                <div class="entry-content"> {{ entry.text_as_html }} </div>
+              <div class="right">
+                <div class="entry-content edit_area interruption" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
               </div>
 
             {# Sumário #}
             {% elif entry.type == "sumario" %}
             <div class="left"> </div>
-            <div class="right edit_area collapsible" id="Entry_raw_text_{{ entry.id }}">
-              <div class="entry-content"> {{ entry.text_as_html }} </div>
+            <div class="right">
+              <div class="entry-content edit_area collapsible" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
             </div>
 
             {# Chamadas #}
             {% elif entry.type == "chamada_presentes" or entry.type == "chamada_ausentes" or entry.type == "chamada_atrasados" or entry.type == "chamada_missao" %}
             <div class="left"> </div>
-            <div class="right edit_area collapsible" id="Entry_raw_text_{{ entry.id }}">
-              <div class="entry-content"> {{ entry.text_as_html }} </div>
+            <div class="right">
+              <div class="entry-content edit_area collapsible" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
             </div>
 
             {# Voto #}
             {% elif entry.type == "voto" %}
             <div class="left"></div>
-            <div class="right edit_area vote-result" id="Entry_raw_text_{{ entry.id }}">
-              <div class="entry-content"> {{ entry.text_as_html }} </div>
+            <div class="right">
+              <div class="entry-content edit_area vote-result" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
             </div>
 
             {# outros casos #}
@@ -211,8 +207,8 @@
               <p class="mini">{{ entry.speaker }}</p> 
               <p class="party">{{ entry.party }}</p>
             </div>
-            <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">
-              <div class="entry-content"> {{ entry.text_as_html }} </div>
+            <div class="right">
+              <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
               <ul class="actionbar">
                 <li><a href='javascript:join_with_previous({{ entry.id }},{{ entry.prev_id }},{{ entry.next_id }});'>Juntar à anterior</a></li>
                 <li><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></li>
