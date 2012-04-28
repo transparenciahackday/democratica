@@ -28,11 +28,11 @@
 
 {% block content %}
     <div id="content-box">
-      <h2 class="wordlist-search">Do que se falou?</h2>
+      <h2 id="wordlist-search">Do que se falou?</h2>
             
       <ul id="wordlist">
       {% for year in wordlist %}
-      <li><h2>{{ year }}</h2>
+      <li><h3>{{ year }}</h3>
         <ul>
          {% for day in wordlist|lookup:year %}
          <a href="{{ day }}">{% for word in wordlist|lookup:year|lookup:day %}<li>{{ word }}</li>{% endfor %}</a>

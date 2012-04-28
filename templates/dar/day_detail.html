@@ -21,7 +21,7 @@
         // faz o reparse uma entrada individual
         function refresh(id) {
           // loading gif 
-          $('.entry#' + id).html('<img src="/media/img/loading.gif" />');
+          $('.entry#' + id).html('<img src="/media/img/icons/loading-16px.gif" />');
           $.ajax({
             url: '/sessoes/reprocessar/' + id + '/',
             success: function(data) {
@@ -36,7 +36,7 @@
                   tooltip: "Clique 2 vezes para fazer alterações.",
                   loadurl: '/sessoes/raw/',
                   type: "textarea",
-                  indicator: '<img src="/media/img/loading.gif" />',
+                  indicator: '<img src="/media/img/icons/loading-16px.gif" />',
                   event: "dblclick",
                   callback : function(value, settings) 
                   {
@@ -51,7 +51,7 @@
         // vai apenas buscar o valor actual da entrada
         function soft_refresh(id) {
           // loading gif 
-          $('.entry#' + id).html('<img src="/media/img/loading.gif" />');
+          $('.entry#' + id).html('<img src="/media/img/icons/loading-16px.gif" />');
           $.ajax({
             url: '/sessoes/reprocessar/' + id + '/?skip_parsing=1',
           // FIXME: Error response
@@ -121,7 +121,7 @@
 
         function join_with_previous(id, prev_id, next_id) {
           // loading gif 
-          $('.entry#' + id).html('<img src="/media/img/loading.gif" />');
+          $('.entry#' + id).html('<img src="/media/img/icons/loading-16px.gif" />');
           $.ajax({
             url: '/sessoes/juntar/' + id + '/',
             success: function(data) {
@@ -139,7 +139,7 @@
                   tooltip: "Clique 2 vezes para fazer alterações.",
                   loadurl: '/sessoes/raw/',
                   type: "textarea",
-                  indicator: '<img src="/media/img/loading.gif" />',
+                  indicator: '<img src="/media/img/icons/loading-16px.gif" />',
                   event: "dblclick",
                   callback : function(value, settings) 
                   {
@@ -168,7 +168,7 @@
             tooltip: "Clique 2 vezes para fazer alterações.",
             loadurl: '/sessoes/raw/',
             type: "textarea",
-            indicator: '<img src="/media/img/loading.gif" />',
+            indicator: '<img src="/media/img/icons/loading-16px.gif" />',
             event: "dblclick",
             callback : function(value, settings) {
                 refresh(this.parentNode.id);

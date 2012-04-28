@@ -130,7 +130,7 @@ font-size: 100%;
 --------------------------------*/
 
 #menu {
-background: #373e48;
+background: #373e48 url(../img/backgrounds/menu-shadow.png) repeat-x 0 bottom;
 min-width: 950px;
 padding: 0 20px;
 }
@@ -252,7 +252,6 @@ background-color: #6f7c91;
 --------------------------------*/
 
 #content {
-background: transparent url(../img/backgrounds/menu-shadow.png) repeat-x 0 0;
 padding-top: 38px;
 min-width: 950px;
 padding: 0 20px;
@@ -702,16 +701,18 @@ background-color: #fff;
 form#quicksearch {
 float: left;
 margin: 0 15px 0 0;
+position: relative;
 }
 
 form#quicksearch input[type="text"] {
-width: 160px;
+width: 140px;
+padding-right: 20px;
 }
 
 form#quicksearch #loader {
 position: absolute;
-top: 10px;
-right: 18px;
+top: 5px;
+right: 3px;
 z-index: 20;
 }
 
@@ -1952,25 +1953,36 @@ border-color: #607454; }
 /* ------------------------ wordlist
 --------------------------------*/
 
-.wordlist-search form#quicksearch {
+.no-background #content-box #wordlist-search {
+  text-align: left;
+  margin: 0 160px 15px;
+}
+
+#wordlist-search form#quicksearch {
   float: none;
   display: inline-block;
   vertical-align: top;
-  margin-top: -3px;
-  margin-left: 15px;
+  margin: -3px 0 0 20px;
+}
+
+#wordlist-search form#quicksearch input[type="text"] {
+  width: 420px;
+  padding: 5px;
 }
 
 #wordlist {
   list-style-type: none;
   text-align: center;
+  margin: 0 160px;
 }
 
-#content-box #wordlist h2 {
-  font-size: 32px;
+#content-box #wordlist h3 {
+  font-size: 26px;
   line-height: 1;
-  margin: 5px 0;
+  font-family: 'Lato-light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 20px 0 5px;
   padding: 4px 0 6px;
-  border-top: 1px solid #939DAC;
+  background: rgba(255,255,255,0.1);
   border-bottom: 1px solid #939DAC;
 }
 
@@ -1979,14 +1991,12 @@ border-color: #607454; }
   display: block;
   padding: 5px 0 0;
   margin: 0;
-  border-bottom: 0;
   color: #939DAC;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid #939dac;
 }
 
 #wordlist li a:hover {
-  color: #040a12;
+  color: #fff;
   -webkit-transition: color 0.3s ease-out;
   -moz-transition: color 0.3s ease-out;
   -o-transition: color 0.3s ease-out;
