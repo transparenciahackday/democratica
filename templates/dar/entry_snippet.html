@@ -155,7 +155,7 @@
               <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}"><div class="entry-content"> {{ entry.text_as_html }} </div></div>
 
             {# Aparte de deputado #}
-            {% elif entry.type == 'deputado_aparte' or entry.type == 'pm_aparte' %}
+            {% elif entry.type == 'deputado_aparte' or entry.type == 'pm_aparte' or entry.type == 'ministro_aparte' or entry.type == 'secestado_aparte' %}
             {% if entry.mp_id %}
               {% with mpdict|lookup:entry.mp_id as mp %}
             <div class="left">

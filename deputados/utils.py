@@ -82,6 +82,7 @@ def get_pm_from_date(dt):
 
 def get_minister(dt, mp_id=None, shortname=None, post=None):
     from deputados.models import GovernmentPost
+    print shortname, post
     if shortname:
         if 'Ministr' in shortname or 'Secret' in shortname:
                 # no, wrong arguments

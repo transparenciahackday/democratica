@@ -95,19 +95,14 @@ def parse_mp_from_raw_text(text):
         return (int(mp_id), text)
     
 def determine_entry_tag(e):
-    if e.mp and not e.speaker.startswith('Primeiro-Ministro'):
+
+    if e.mp and not e.speaker.startswith('Primeiro-Ministro') and not e.speaker.startswith('Ministr') and not (e.speaker.startswith(u'Secretári') and "Estado" in e.speaker) :
         if len(e.text) < 60:
             return 'deputado_aparte'
         else:
             return 'deputado_intervencao'
-    elif e.mp and e.speaker.startswith('Primeiro-Ministro'):
-        if len(e.text) < 30:
-            return 'pm_aparte'
-        else:
-            return 'pm_intervencao'
     elif e.speaker:
         if e.speaker in ('O Orador', 'A Oradora'):
-
             find_cont_speaker(e)
             return 'continuacao'
         if e.speaker.startswith('Primeiro-Ministro'):
@@ -116,11 +111,20 @@ def determine_entry_tag(e):
             pm_name = get_pm_from_date(e.day.date)
             e.mp = MP.objects.get(shortname=pm_name)
             e.save()
-            return 'pm_intervencao'
+            if len(e.text) < 30:
+                return 'pm_aparte'
+            else:
+                return 'pm_intervencao'
         elif e.speaker.startswith(u'Secretári') and "Estado" in e.speaker:
-            return 'secestado_intervencao'
+            if len(e.text) < 30:
+                return 'secestado_aparte'
+            else:
+                return 'secestado_intervencao'
         elif e.speaker.startswith('Ministr'):
-            return 'ministro_intervencao'
+            if len(e.text) < 30:
+                return 'ministro_aparte'
+            else:
+                return 'ministro_intervencao'
         elif e.speaker.startswith('Presidente'):
             if re_concluir.search(e.text):
                 return 'presidente_aparte'
@@ -189,7 +193,7 @@ def guess_if_continuation(e):
     if e.type not in ('deputado_intervencao', 'pm_intervencao', 'ministro_intervencao', 'secestado_intervencao'):
         return False
     prev_e = e.get_previous()
-    if prev_e.type in ('deputado_aparte', 'presidente_aparte', 'pm_aparte', 'vozes_aparte', 'aplauso', 'protesto', 'riso'):
+    if prev_e.type in ('deputado_aparte', 'presidente_aparte', 'pm_aparte', 'ministro_aparte', 'secestado_aparte', 'vozes_aparte', 'aplauso', 'protesto', 'riso'):
         return True
     return False
 

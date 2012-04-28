@@ -100,7 +100,7 @@ class Entry(models.Model):
     def parse_raw_text(self):
         if not self.raw_text:
             return None
-        from parsing import parse_mp_from_raw_text, guess_if_continuation, find_cont_speaker
+        from parsing import parse_mp_from_raw_text, find_cont_speaker
         speaker, text = parse_mp_from_raw_text(self.raw_text)
         self.normalize_text()
 
@@ -125,11 +125,14 @@ class Entry(models.Model):
                     govpost = get_minister(self.day.date, shortname=speaker)
                 else:
                     govpost = get_minister(self.day.date, post=speaker)
-                if govpost.mp:
-                    self.mp = govpost.mp
+                if govpost:
+                    if govpost.mp:
+                        self.mp = govpost.mp
+                    else:
+                        self.speaker = govpost.person_name
+                    self.party = govpost.name
                 else:
-                    self.speaker = govpost.person_name
-                self.party = govpost.name
+                    self.speaker = speaker
                 self.type = 'ministro_intervencao'
             elif speaker.startswith('secestado: '):
                 from deputados.utils import get_minister
@@ -139,11 +142,20 @@ class Entry(models.Model):
                     govpost = get_minister(self.day.date, shortname=speaker)
                 else:
                     govpost = get_minister(self.day.date, post=speaker)
-                if govpost.mp:
-                    self.mp = govpost.mp
+                if govpost:
+                    if govpost.mp:
+                        print 'MP'
+                        print govpost.mp
+                        self.mp = govpost.mp
+                    else:
+                        print 'No MP in govpost'
+                        print govpost.person_name
+                        self.speaker = govpost.person_name
+                    self.party = govpost.name
                 else:
-                    self.speaker = govpost.person_name
-                self.party = govpost.name
+                    self.speaker = speaker
+                print self.mp
+                print self.party
                 self.type = 'secestado_intervencao'
 
             elif len(speaker) > 100:
@@ -159,6 +171,7 @@ class Entry(models.Model):
         if not self.type in ('continuacao', 'pm_intervencao', 'ministro_intervencao', 'secestado_intervencao'):
             self.determine_type()
 
+        from parsing import guess_if_continuation
         if guess_if_continuation(self):
             self.type = 'continuacao'
             self.save()
@@ -197,10 +210,7 @@ class Entry(models.Model):
         paras = txt.split('\n')
         output = ''
         for para in paras:
-            if self.is_interruption:
-                output += '<p class="mini">%s</p> ' % para 
-            else:
-                output += '<p>%s</p> ' % para 
+            output += '<p>%s</p> ' % para 
         return mark_safe(output)
 
     @property
