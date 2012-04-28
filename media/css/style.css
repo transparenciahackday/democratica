@@ -1145,7 +1145,7 @@ border-top: 0;
 }
 
 .entry {
-padding: 5px 0;
+padding: 10px 0;
 clear: both;
 position: relative;
 overflow: auto;
@@ -1955,19 +1955,29 @@ border-color: #607454; }
 
 .no-background #content-box #wordlist-search {
   text-align: left;
-  margin: 0 160px 15px;
+  margin: 0 120px 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  background: rgba(255,255,255,0.2);
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 #wordlist-search form#quicksearch {
   float: none;
   display: inline-block;
   vertical-align: top;
-  margin: -3px 0 0 20px;
+  margin: -3px 0 0 15px;
 }
 
 #wordlist-search form#quicksearch input[type="text"] {
-  width: 420px;
+  width: 405px;
   padding: 5px;
+  font-size: 14px;
 }
 
 #wordlist {
@@ -1977,12 +1987,11 @@ border-color: #607454; }
 }
 
 #content-box #wordlist h3 {
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1;
   font-family: 'Lato-light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin: 20px 0 5px;
   padding: 4px 0 6px;
-  background: rgba(255,255,255,0.1);
   border-bottom: 1px solid #939DAC;
 }
 
