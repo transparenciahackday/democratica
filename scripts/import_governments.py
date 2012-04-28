@@ -65,21 +65,17 @@ def insert_governments(csvfile=os.path.join(DATASET_DIR, GOVERNMENT_FILE)):
             gov.date_ended = de
             gov.save()
 
+        if GovernmentPost.objects.filter(government=gov, name=post, date_started=ds, date_ended=de):
+            p = GovernmentPost.objects.filter(government=gov, name=post, date_started=ds, date_ended=de)[0]
+        else:
+            p = GovernmentPost.objects.create(government=gov, name=post, date_started=ds, date_ended=de)
         if mp_id:
             mp_id = int(mp_id)
             if MP.objects.filter(id=mp_id):
-                p, created = GovernmentPost.objects.get_or_create(mp=MP.objects.get(id=int(mp_id)),
-                                              government=gov,  
-                                              name=post,
-                                              date_started=ds,
-                                              date_ended=de)
+                p.mp = MP.objects.get(id=int(mp_id))
         else:
-            p, created = GovernmentPost.objects.get_or_create(mp=None,
-                                          person_name=name,
-                                          government=gov,  
-                                          name=post,
-                                          date_started=ds,
-                                          date_ended=de)
+                p.person_name = name
+        p.save()
 
 if __name__ == '__main__':
     check_for_files()

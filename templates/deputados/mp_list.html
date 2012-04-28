@@ -44,7 +44,7 @@
     {% endif %}
     {# Legislatura + Partido #}
     {% if legislature != 'all' and party != 'all' and constituency == 'all' %}
-    <h2 class="ribbon">Deputados do {{ party|upper }} na {{ legislature|toroman }} Legislatura</h2>
+    <h2 class="ribbon">Deputados do {{ party|upper }} na {{ legislature|toroman }} Legislatura ({{ legislature.date_start.year }}-{{ legislature.date_end.year }})</h2>
     {% endif %}
     {# Legislatura + Círculo #}
     {% if legislature != 'all' and party == 'all' and constituency != 'all' %}

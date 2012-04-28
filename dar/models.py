@@ -144,18 +144,12 @@ class Entry(models.Model):
                     govpost = get_minister(self.day.date, post=speaker)
                 if govpost:
                     if govpost.mp:
-                        print 'MP'
-                        print govpost.mp
                         self.mp = govpost.mp
                     else:
-                        print 'No MP in govpost'
-                        print govpost.person_name
                         self.speaker = govpost.person_name
                     self.party = govpost.name
                 else:
                     self.speaker = speaker
-                print self.mp
-                print self.party
                 self.type = 'secestado_intervencao'
 
             elif len(speaker) > 100:
