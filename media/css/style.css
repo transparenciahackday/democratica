@@ -1187,7 +1187,7 @@ padding: 5px 0 0;
   }
   
   .entry .left h3 {
-  margin: 4px 0;
+  margin: 0 0 4px 0;
   }
   
   .entry .left h3 a {
@@ -1238,10 +1238,42 @@ border-top: 1px dotted #ccc;
   line-height: 1.4em;
 }
 
+.entry form {
+  width: 510px;
+  background: #cbd0d8;
+  color: #3f485a;
+  padding: 10px 10px;
+}
+
 .entry textarea {
-font-family: 'Linux Libertine O', Georgia, Times, serif;
-font-size: 100%;
-line-height: 1.4em;
+  font-family: 'Linux Libertine O', Georgia, Times, serif;
+  font-size: 100%;
+  line-height: 1.4em;
+  padding: 5px 8px 10px;
+  width: 492px !important;
+  border: 1px solid #B7BEC8;
+  margin-bottom: 5px;  
+  -moz-box-shadow: inset 2px 2px 3px #888;
+  -webkit-box-shadow: inset 2px 2px 3px #888;
+  box-shadow: inset 2px 2px 3px #888;
+}
+
+.entry form input[type="submit"],
+.entry form input[type="button"],
+.entry form button {
+  color: #EDEDEE;
+  text-shadow: 1px 0 1px #151E2B;
+  background: #535D6C;
+  font-family: 'Lato-bold', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border: 0;
+  padding: 5px 8px;
+  margin: 0 8px 0 0;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 2px 2px 2px #888;
+  -webkit-box-shadow: 2px 2px 2px #888;
+  box-shadow: 2px 2px 2px #888;
 }
 
 
