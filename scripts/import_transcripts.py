@@ -199,6 +199,7 @@ if __name__ == '__main__':
                         logging.error('Picky option set, quitting.')
                         sys.exit()
 
+
     # tudo acabado, calcular palavras preferidas
     # insert_favorite_words()
 
