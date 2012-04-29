@@ -250,9 +250,12 @@ def fetch_raw_entry(request):
     return HttpResponse(raw_text)
 
 def parse_session_entries(request, id):
+    from django.contrib import messages
+    from dar.tasks import parse_entries_task
+    t = parse_entries_task.delay(id)
+    messages.info(request, "Catalogação agendada! Demora uns 5 minutos.")
     d = Day.objects.get(id=int(id))
-    d.parse_entries()
-    return redirect('day_detail', year=d.date.year, month=d.date.month, day=d.date.day)
+    return day_list(request, year=d.date.year)
 
 def mark_as_cont(request, id):
     e = Entry.objects.get(id=int(id))
