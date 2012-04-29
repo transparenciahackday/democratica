@@ -171,6 +171,11 @@ if __name__ == '__main__':
                   help='Process file even if the output file already exists',
                   )
 
+    # -d date
+    # -n number + session + leg
+    # -f file
+    # -d dir
+
     options, remainder = parser.parse_args()
     input = options.input
     verbose = options.verbose
