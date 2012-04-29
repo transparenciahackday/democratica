@@ -1,9 +1,8 @@
+/celery
 /localsettings.py
-/debug_profiling.py
 *.swp
 *.pyc
 
-settings.py*
 media/mp-photos
 media/fotos
 media/js/high*
