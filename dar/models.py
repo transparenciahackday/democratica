@@ -13,8 +13,11 @@ from deputados.models import MP
 
 class Day(models.Model):
     date = models.DateField()
-    top5words = JSONField(null=True)
-    parsed = models.BooleanField(default=False)
+    top5words = JSONField(null=True, editable=False)
+    parsed = models.BooleanField(default=False, editable=False)
+    missing = models.BooleanField(default=False, editable=False)
+    diary_series = models.PositiveIntegerField('Série do DAR', null=True)
+    diary_number = models.PositiveIntegerField('Número do diário', null=True)
 
     def __unicode__(self):
         return str(self.date)
@@ -47,6 +50,8 @@ class Day(models.Model):
         self.save()
 
     class Meta:
+        verbose_name = 'sessão'
+        verbose_name_plural = 'sessões'
         ordering = ['date'] 
 
 class Entry(models.Model):
@@ -70,9 +75,9 @@ class Entry(models.Model):
 
     def __unicode__(self):
         if len(self.raw_text) > 30:
-            return "<Entry: %s...>" % self.raw_text[:30]
+            return "%s..." % self.raw_text[:30]
         else:
-            return "<Entry: %s>" % self.raw_text
+            return "%s" % self.raw_text
 
     def get_absolute_url(self): 
         return '/sessoes/%d/%d/%d/%d' % (self.day.date.year, self.day.date.month, self.day.date.day, self.position)
@@ -214,5 +219,6 @@ class Entry(models.Model):
         return False
 
     class Meta:
+        verbose_name = 'entrada'
         ordering = ['day', 'position'] 
 

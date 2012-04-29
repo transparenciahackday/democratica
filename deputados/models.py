@@ -53,13 +53,13 @@ class MP(models.Model):
     jobs = models.TextField('Cargos exercidos', blank=True, max_length=5000)
     awards = models.TextField('Condecorações', blank=True, max_length=5000)
 
-    favourite_word = models.CharField('Palavra preferida', max_length=100, blank=True, null=True)
-    news = JSONField(null=True)
-    tweets = JSONField(null=True)
+    favourite_word = models.CharField('Palavra preferida', max_length=100, blank=True, null=True, editable=False)
+    news = JSONField(null=True, editable=False)
+    tweets = JSONField(null=True, editable=False)
 
     is_active = models.BooleanField('Activo', default=True)
-    current_party = models.ForeignKey('Party', verbose_name='Último partido', null=True)
-    current_mandate = models.ForeignKey('Mandate', related_name='current', null=True)
+    current_party = models.ForeignKey('Party', verbose_name='Último partido', null=True, editable=False)
+    current_mandate = models.ForeignKey('Mandate', related_name='current', null=True, editable=False)
 
     objects = MPManager()
     all_objects = MPAllManager()
@@ -228,8 +228,7 @@ class Mandate(models.Model):
 
     def __unicode__(self): return '%s (%s - %s)' % (self.mp.shortname, self.legislature, self.party.abbrev)
     class Meta:
-        verbose_name = 'mandate'
-        verbose_name_plural = 'mandatees'
+        verbose_name = 'mandato'
         ordering = ['-legislature__number']
 
 class Activity(models.Model):
@@ -247,8 +246,8 @@ class Activity(models.Model):
         verbose_name = 'actividade'
 
 class LinkSet(models.Model):
-    mp = models.OneToOneField(MP)
-    active = models.BooleanField(default=True)
+    mp = models.OneToOneField(MP, verbose_name="Deputado")
+    active = models.BooleanField(default=True, editable=False)
     email = models.EmailField('E-mail', blank=True)
     wikipedia_url = models.URLField('Wikipedia', blank=True)
     facebook_url = models.URLField('Facebook', blank=True)
@@ -260,3 +259,6 @@ class LinkSet(models.Model):
     radio_url = models.CharField('Programa de rádio', max_length=200, blank=True)
     tv_url = models.CharField('Programa de televisão', max_length=200, blank=True)
 
+    class Meta:
+        verbose_name = 'conjunto de links'
+        verbose_name_plural = 'conjuntos de links'
