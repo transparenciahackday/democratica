@@ -25,7 +25,7 @@ import dateutil.parser
 import logging
 logging.basicConfig(level=logging.WARNING)
 
-from democratica.deputados.models import MP, Party, GovernmentPost
+from democratica.deputados.models import MP, Party, GovernmentPost, Legislature
 from democratica.dar.models import Entry, Day
 from democratica.settings import TRANSCRIPTS_DIR
 
@@ -101,10 +101,10 @@ def import_session(filename, force=False):
     # extract date
     slug = os.path.basename(filename).split('.')[0]
     try:
-        dar, serie, leg, sess, date = slug.split('_')
+        dar, leg, sess, number, date = slug.split('_')
         dt = dateutil.parser.parse(date)
     except ValueError:
-        print 'Could not parse date from filename %s. Skipping.' % f
+        logging.error('Could not parse date from filename %s. Skipping.' % f)
         return 1
     if Day.objects.filter(date=dt):
         if force:
@@ -115,7 +115,10 @@ def import_session(filename, force=False):
             logging.warning("There's already a record for %s, not overwriting." % str(date))
             return
     # create the Day instance
-    day = Day.objects.create(date=dt)
+    # FIXME: quando tivermos outras séries, é preciso detectar...
+    day = Day.objects.create(date=dt, 
+                             diary_series=1, diary_number=number,
+                             legislature=Legislature.objects.get(number=int(leg)), legislative_session=int(sess))
 
     # check format and call appropriate function
     if filename.endswith('.txt'):

@@ -162,6 +162,7 @@
       <ul id="dar-tabs" class="tabs">
         <li><a href="{% url day_detail day.date.year day.date.month day.date.day %}" title="">Sessão</a></li>
         <li><span>Estatísticas</span></li>
+        <li><a href="{% url day_revisions day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
       </ul>
        
       <h2 class="ribbon">{{ day.date }}</h2>

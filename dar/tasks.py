@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from celery.schedules import crontab  
 from celery.task import task, periodic_task  
 
@@ -16,22 +18,19 @@ def test(id):
 
 @task
 def parse_entries_task(id):
-    print 'Starting task'
     from dar.models import Day, Entry
     d = Day.objects.get(id=int(id))
-    print 'Getting entries from ' + str(d)
+    print 'Beginning parsing of day ' + str(d)
     entries = Entry.objects.filter(day=d)
-    print 'Beginning parsing'
     for e in entries:
         e.parse_raw_text()
-    print 'Calculating neighbors'
     for e in entries:
         e.calculate_neighbors()
-    print 'Setting parse state'
     d.parsed = True
-    print 'Saving'
     d.save()
-    print 'Done!'
+    #from django.core.mail import send_mail
+    #send_mail('%s: Catalogação completa!' % str(d.date), 'A catalogação da sessão do dia %s está completa. Agora é só preciso rever e editar! <link>', 'from@example.com',
+    #        ['to@example.com'], fail_silently=False)
     return "Day " + str(d) + ' parsed!'
 
 

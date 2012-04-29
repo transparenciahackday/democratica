@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import escape
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import redirect, render_to_response
+import reversion
 from dar.models import Day, Entry
 from deputados.models import Government, Party, MP
 from elections.models import Election
@@ -199,6 +200,44 @@ def day_statistics(request, year, month, day):
                            'nextdate': next_date, 'prevdate': prev_date,
                 })
 
+def day_revisions(request, year, month, day):
+    from reversion.helpers import generate_patch_html
+    d = datetime.date(year=int(year), month=int(month), day=int(day))
+    day = Day.objects.get(date=d)
+    entries = Entry.objects.filter(day=day).order_by('position')
+    all_versions = []
+    for e in entries:
+        versions = list(reversion.get_for_object(e))
+        if len(versions) > 1:
+            count = 0
+            for v in versions:
+                try:
+                    next_v = versions[versions.index(v)-1]
+                    if count:
+                        diffstr = generate_patch_html(v, next_v, "raw_text", cleanup="efficiency") 
+                    else:
+                        diffstr = ''
+                except IndexError:
+                    next_v = None
+                    diffstr = ''
+                # if not v.revision.comment == "Initial version.":
+                all_versions.append((v, diffstr))
+                count += 1
+
+    '''
+    from reversion.helpers import generate_patch
+    # Get the page object to generate diffs for.
+    page = Page.objects.all()[0]
+    # Get the two versions to compare.
+    available_versions = Version.objects.get_for_object(page)
+    old_version = available_versions[0]
+    new_version = available_versions[1]
+    '''
+
+    return direct_to_template(request, 'dar/day_revisions.html',
+        extra_context={'day': day, 'revs': all_versions,
+                })
+
 def statement_detail(request, id=None):
     if not id:
         raise Http404
@@ -227,6 +266,7 @@ def wordlist(request):
 
 #@ajax_login_required
 @ensure_csrf_cookie
+@reversion.create_revision()
 def entry_save(request):
     try:
         div_id = request.POST[u'id']
@@ -257,6 +297,7 @@ def parse_session_entries(request, id):
     d = Day.objects.get(id=int(id))
     return day_list(request, year=d.date.year)
 
+@reversion.create_revision()
 def mark_as_cont(request, id):
     e = Entry.objects.get(id=int(id))
     if e.type == '':
@@ -265,17 +306,20 @@ def mark_as_cont(request, id):
     e.type = 'continuacao'
     e.save()
     return HttpResponse('<p>%s</p>' % e.type)
+@reversion.create_revision()
 def mark_as_main(request, id):
     e = Entry.objects.get(id=int(id))
     e.type = 'deputado_intervencao'
     e.save()
     return HttpResponse('<p>%s</p>' % e.type)
 
+@reversion.create_revision()
 def unmark_as_cont(request, id):
     e = Entry.objects.get(id = int(id))
     e.determine_type()
     return HttpResponse('<p>%s</p>' % e.type)
 
+@reversion.create_revision()
 def mark_as_aside(request, id):
     e = Entry.objects.get(id=int(id))
     if e.type == 'deputado_intervencao':
@@ -291,6 +335,7 @@ def mark_as_aside(request, id):
     e.save()
     return HttpResponse('<p>%s</p>' % e.type)
 
+@reversion.create_revision()
 def join_entry_with_previous(request, id):
     e = Entry.objects.get(id = int(id))
     prev_e = Entry.objects.get(id=e.prev_id)
@@ -304,6 +349,7 @@ def join_entry_with_previous(request, id):
     next_e.calculate_neighbors()
     return HttpResponse('<p>OK</p>')
 
+@reversion.create_revision()
 def correct_newlines(request, id):
     e = Entry.objects.get(id = int(id))
     lines = e.raw_text.split('\n')
@@ -324,6 +370,7 @@ def correct_newlines(request, id):
     return HttpResponse('<p>OK</p>')
 
 
+@reversion.create_revision()
 def refresh(request, id):
     skip_parsing = request.GET.get('skip_parsing')
     e = Entry.objects.get(id=int(id))

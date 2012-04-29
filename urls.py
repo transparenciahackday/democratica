@@ -32,6 +32,7 @@ urlpatterns = patterns('',
     url(r'^sessoes/$', darviews.day_list, name='calendar'),
     url(r'^sessoes/(?P<year>\d+)/$', darviews.day_list, name='calendar_year'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', darviews.day_detail, name='day_detail'),
+    url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/edicoes/$', darviews.day_revisions, name='day_revisions'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/stats$', darviews.day_statistics, name='day_stats'),
     url(r'^sessoes/intervencao/(?P<id>\d+)/$', darviews.statement_detail, name='statement_detail'),
 
@@ -61,5 +62,4 @@ urlpatterns = patterns('',
     (r'^404/$', direct_to_template, {'template': '404.html'}),
     (r'^500/$', direct_to_template, {'template': '500.html'}),
     (r'^502/$', direct_to_template, {'template': '502.html'}),
-
 )
