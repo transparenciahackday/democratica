@@ -202,8 +202,9 @@
       <div id="content-box">
         
         <ul id="dar-tabs" class="tabs">
-          <li><span>Sessão</span></li>
+          <li><span>Transcrição</span></li>
           <li><a href="stats" title="">Estatísticas</a></li>
+          <li><a href="{% url day_revisions day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
         </ul>
          
         <h2 class="ribbon">{{ day.date }}</h2>
@@ -241,6 +242,13 @@
       </div><!-- /#content-box -->
       
       <div id="toolbar">
+        <ul class="left">
+          {% if messages %}
+          {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+          {% endif %}
+        </ul>
         <ul>
           <li><a href="">Abrir PDF original</a></li>
           <li><a href="{% url parse_session_entries day.id %}">{% if day.parsed %}Re-catalogar sessão{% else %}Catalogar sessão{% endif %} (demora um bocadinho)</a></li>

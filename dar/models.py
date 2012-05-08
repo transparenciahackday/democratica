@@ -9,12 +9,17 @@ from django.core.urlresolvers import reverse
 from django_extensions.db.fields.json import JSONField
 from django.shortcuts import redirect
 from democratica.core import text_utils
-from deputados.models import MP
+from deputados.models import MP, Legislature
 
 class Day(models.Model):
     date = models.DateField()
-    top5words = JSONField(null=True)
-    parsed = models.BooleanField(default=False)
+    top5words = JSONField(null=True, editable=False)
+    parsed = models.BooleanField(default=False, editable=False)
+    missing = models.BooleanField(default=False, editable=False)
+    legislature = models.ForeignKey(Legislature, verbose_name="Legislatura", null=True)
+    legislative_session = models.PositiveIntegerField('Sessão Legislativa', null=True)
+    diary_series = models.PositiveIntegerField('Série DAR', null=True)
+    diary_number = models.PositiveIntegerField('Número do diário', null=True)
 
     def __unicode__(self):
         return str(self.date)
@@ -47,32 +52,32 @@ class Day(models.Model):
         self.save()
 
     class Meta:
+        verbose_name = 'sessão'
+        verbose_name_plural = 'sessões'
         ordering = ['date'] 
 
 class Entry(models.Model):
     day = models.ForeignKey(Day)
     position = models.PositiveIntegerField(default=0)
     raw_text = models.TextField('Texto original', max_length=100000)
-    html = models.TextField('Texto formatado em HTML', max_length=300000, blank=True)
     
-    data = JSONField(null=True)
     mp = models.ForeignKey(MP, blank=True, null=True)
     speaker = models.CharField('Orador', max_length=200, blank=True)
     party = models.CharField('Partido', max_length=200, blank=True)
     text = models.TextField('Texto', max_length=10000, blank=True)
     type = models.CharField('Tipo', max_length=40, blank=True)
 
-    next_id = models.PositiveIntegerField(blank=True, null=True)
-    prev_id = models.PositiveIntegerField(blank=True, null=True)
+    next_id = models.PositiveIntegerField(blank=True, null=True, editable=False)
+    prev_id = models.PositiveIntegerField(blank=True, null=True, editable=False)
 
     def extract_data(self):
         pass
 
     def __unicode__(self):
         if len(self.raw_text) > 30:
-            return "<Entry: %s...>" % self.raw_text[:30]
+            return "%s..." % self.raw_text[:30]
         else:
-            return "<Entry: %s>" % self.raw_text
+            return "%s" % self.raw_text
 
     def get_absolute_url(self): 
         return '/sessoes/%d/%d/%d/%d' % (self.day.date.year, self.day.date.month, self.day.date.day, self.position)
@@ -214,5 +219,6 @@ class Entry(models.Model):
         return False
 
     class Meta:
+        verbose_name = 'entrada'
         ordering = ['day', 'position'] 
 

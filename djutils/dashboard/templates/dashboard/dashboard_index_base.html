@@ -1,0 +1,54 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block extended_scripts %}
+  <script src="http://flot.googlecode.com/svn/trunk/jquery.flot.js" type="text/javascript"></script>
+  <script src="/static/js/dashboard.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+    jQuery(document).ready(function($) {
+      /* create 3 instances of the dashboard updater for the 3 aggregate types */
+      var d_m = new Dashboard('{% url djutils_dashboard_data_minute %}', 'minute', 30),/* every 30s */
+          d_h = new Dashboard('{% url djutils_dashboard_data_hour %}', 'hour', 60*15), /* every 15 mins */
+          d_d = new Dashboard('{% url djutils_dashboard_data_day %}', 'day', 4*60*60); /* every 4 hours */
+    });
+  </script>
+  
+  <link rel="stylesheet" type="text/css" href="/static/css/dashboard.css" />
+{% endblock %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content_header %}Dashboard{% endblock %}
+
+{% block content %}
+  <div id="dashboard">
+    {% for panel in panel_list %}
+      <div class="panel-group">
+        {% block panel_data_minute %}
+        <div class="panel minute">
+          <h3>{{ panel.title }}</h3>
+          <div class="panel-data panel-data-minute" id="dashboard-minute-{{ panel.id }}">
+          </div>
+          <div class="panel-legend" id="legend-minute-{{ panel.id }}"></div>
+        </div>
+        {% endblock %}
+        {% block panel_data_hour %}
+        <div class="panel hour">
+          <h3>{{ panel.title }} (hourly)</h3>
+          <div class="panel-data panel-data-hour" id="dashboard-hour-{{ panel.id }}">
+          </div>
+          <div class="panel-legend" id="legend-hour-{{ panel.id }}"></div>
+        </div>
+        {% endblock %}
+        {% block panel_data_day %}
+        <div class="panel day">
+          <h3>{{ panel.title }} (daily)</h3>
+          <div class="panel-data panel-data-day" id="dashboard-day-{{ panel.id }}">
+          </div>
+          <div class="panel-legend" id="legend-day-{{ panel.id }}"></div>
+        </div>
+        {% endblock %}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

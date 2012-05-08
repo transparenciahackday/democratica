@@ -1,0 +1,5 @@
+div.panel-group { clear: left; border-top: 1px solid #999; margin-top: 10px; }
+div.panel { float: left; margin: 0 15px 15px 0; }
+div.panel-data { width: 450px; height: 300px; }
+div.panel-legend { padding: 0 20px; }
+div.panel td.legendLabel { font-size: 10.5px; }
