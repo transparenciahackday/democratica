@@ -132,7 +132,7 @@ font-size: 100%;
 #menu {
 background: #373e48 url(../img/backgrounds/menu-shadow.png) repeat-x 0 bottom;
 min-width: 950px;
-padding: 0 20px;
+padding: 0 20px 3px;
 }
 
 #menu-box {
@@ -437,7 +437,6 @@ text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
 position: relative;
 height: 100%;
 min-height: 610px;
-background: transparent url(../img/backgrounds/menu-shadow.png) repeat-x 0 0;
 }
 
 #page #content {
@@ -1306,12 +1305,9 @@ margin-top: 0;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.entry .right .notas {
-  background: rgba(255, 255, 255, 0.4);
-  padding: 5px;
-  font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 85%;
-  text-transform: uppercase;
+.entry .right .interruption {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 115%;
   color: #535D6C;
 }
 
@@ -1632,6 +1628,7 @@ color: #939dac;
 #content-box .year-nav {
 background-color: #373e48;
 padding: 0;
+overflow: auto;
 text-align: center;
 border-bottom: 1px solid #535d6c;
 border-top: 1px solid #535d6c;
@@ -1640,7 +1637,22 @@ font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 #content-box .year-nav li {
 list-style-type: none;
-display: inline;
+display: block;
+float: left;
+}
+
+#content-box .year-nav .previous,
+#content-box .year-nav .next {
+width: 100px;
+}
+
+#content-box .years {
+width: 750px;
+}
+
+#content-box .years ul {
+display: inline-block;
+text-align: left;
 }
 
 #content-box .year-nav a {
@@ -1660,11 +1672,6 @@ font-family: 'Lato-black', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 #content-box .year-nav a:focus,
 #content-box .year-nav a:hover {
 background: #535d6c;
-}
-
-#content-box .year-nav li {
-list-style-type: none;
-display: inline;
 }
 
 .no-background #content-box > h2:first-child {

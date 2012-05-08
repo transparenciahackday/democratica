@@ -178,7 +178,7 @@
             {% elif entry.type == "presidente_troca" or entry.type == "aplauso" or entry.type == "protesto" or entry.type == "riso" or entry.type == "pausa" or entry.type == "nota" or entry.type == "hora" %}
               <div class="right">
                 <div class="entry-content edit_area interruption" id="Entry_raw_text_{{ entry.id }}">
-                  <div class="notas">{{ entry.text_as_html }}</div>
+                  {{ entry.text_as_html }}
                 </div>
               </div>
 
