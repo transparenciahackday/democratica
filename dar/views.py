@@ -45,7 +45,6 @@ def day_list(request, year=datetime.date.today().year):
     extra = {}
 
     from democratica.dar.utils import days_for_year, all_years, elections_for_year
-
     all_days = days_for_year(year)
     words = {}
     for d in all_days:
@@ -104,44 +103,53 @@ def day_statistics(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
     day = Day.objects.get(date=d)
     all_days = Day.objects.all()
-    entries = Entry.objects.filter(day=day).order_by('id')
-    govs = Government.objects.filter(date_started__gt=day.date)
+    entries = Entry.objects.filter(day=day).order_by('position')
+    govs = Government.objects.filter(date_started__lt=day.date, date_ended__gt=day.date)
     gov = govs.filter(date_ended__gt=day.date)
-    if gov:
-        gov = gov[0]
+    if govs:
+        gov = govs[0]
     else:
         gov = govs[len(govs)-1] if govs else None
 
+    from deputados.models import Mandate
+    from deputados.utils import get_legislature_for_date
+    leg = get_legislature_for_date(d)
     # generate party speaking chart
     party_counts = {}
-    for party in set(entries.values_list('party', flat=True)):
-        if party == 'Os Verdes':
-            party = 'PEV'
+    mb_counts = {}
+    mp_ids = frozenset(entries.values_list('mp__id', flat=True))
+    mps = MP.objects.filter(id__in=mp_ids)
+    for mp in mps:
+        # determine party at time of session
+        mandate = Mandate.objects.get(mp=mp, legislature=leg)
+        party = mandate.party
+        # get entries
+        mp_entries = entries.filter(mp__id=mp.id)
+        muitobem_count = mp_entries.filter(text__icontains='Muito bem!').count()
+        # we need lowercase party names and no hyphens because we reuse them as css classes
+        party_abbrev = party.abbrev.lower()
+        if party_abbrev == 'cds-pp':
+            party_abbrev = 'cdspp'
+        if not mb_counts.get(party_abbrev):
+            mb_counts[party_abbrev] = 0
+        mb_counts[party_abbrev] += muitobem_count
+        texts = mp_entries.values_list('text', flat=True)
+        charcount = len(" ".join(texts))
+        if not party_counts.get(party_abbrev):
+            party_counts[party_abbrev] = {}
+        party_counts[party_abbrev][mp.shortname] = charcount
+        if not party_counts[party_abbrev].get('total'):
+            party_counts[party_abbrev]['total'] = 0
+        party_counts[party_abbrev]['total'] += charcount
 
-        if Party.objects.filter(abbrev=party):
-            if party == 'CDS-PP':
-                party = 'CDSPP'
-            party_counts[party.lower()] = {}
-            #if party == 'PEV':
-            #    party = 'Os Verdes'
-            if party == 'CDSPP':
-                party = 'CDS-PP'
-            if party == 'PEV':
-                party = 'Os Verdes'
-            party_entries = entries.filter(party=party)
-            total_charcount = 0
-            for mpname in frozenset(party_entries.all().values_list('mp__shortname', flat=True)):
-                texts = party_entries.filter(mp__shortname=mpname).values_list('text', flat=True)
-                mp_charcount = len(" ".join(texts))
-                total_charcount += mp_charcount
-                if party == 'CDS-PP':
-                    party = 'CDSPP'
-                if party == 'Os Verdes':
-                    party = 'PEV'
-                party_counts[party.lower()][mpname] = mp_charcount
-
-
-            party_counts[party.lower()]['total'] = total_charcount
+    # Vozes
+    for party_abbrev in party_counts:
+        if party_abbrev == 'cdspp':
+            party_abbrev = 'cds-pp'
+        mb_party = entries.filter(speaker__contains=party_abbrev.upper(), text__icontains='Muito bem!').count()
+        if party_abbrev == 'cds-pp':
+            party_abbrev = 'cdspp'
+        mb_counts[party_abbrev] += mb_party
 
     # sum must be 100
     total = 0
@@ -155,22 +163,7 @@ def day_statistics(request, year, month, day):
             for mpname in party_counts[party]:
                 party_counts[party][mpname] = party_counts[party][mpname] * factor  
 
-    # Muito bem!
-    mb_counts = {}
-    for party in set(entries.values_list('party', flat=True)):
-        if party == 'Os Verdes':
-            party = 'PEV'
-        if Party.objects.filter(abbrev=party):
-            if party == 'PEV':
-                party = 'Os Verdes'
-            mbs = entries.filter(party=party, text__icontains='Muito bem!') | entries.filter(speaker__contains=party, text__icontains='Muito bem!')
-            mbs = mbs.distinct()
-            if party == 'Os Verdes':
-                party = 'PEV'
-            if party == 'CDS-PP':
-                party = 'CDSPP'
-            mb_counts[party.lower()] = len(mbs)
-
+    # FIXME: isto podia estar bem melhor optimizado
     # dia seguinte e anterior pró paginador
     next_date = None
     prev_date = None
@@ -188,6 +181,12 @@ def day_statistics(request, year, month, day):
     except (IndexError, AttributeError):
         pass
     
+    # criar dic de palavras mais mencionadas neste dia
+    if day.top5words:
+        # ugly ugly way to get the (unknown name) key from a dict
+        words = day.top5words['words'][0].items()[0][0]
+    else:
+        words = {}
 
     return object_detail(request, all_days, day.id,
             template_object_name = 'day', template_name='dar/day_detail_statistics.html',
@@ -196,7 +195,7 @@ def day_statistics(request, year, month, day):
                            'party_counts': party_counts,
                            'party_colors': PARTY_COLORS,
                            'mb_counts': mb_counts,
-                           'top5words': day.top5words['words'],
+                           'top5words': words,
                            'nextdate': next_date, 'prevdate': prev_date,
                 })
 

@@ -4,6 +4,7 @@ from democratica import settings
 from democratica.deputados.models import MP, Party, Mandate, LinkSet, Legislature, Fact, FactType, Activity
 import democratica.deputados.views as views
 import democratica.dar.views as darviews
+import django.contrib.auth.views as authviews
 
 # Enable admin interface
 from django.contrib import admin
@@ -53,6 +54,7 @@ urlpatterns = patterns('',
 
     (r'^pesquisa/', include('dar.urls')),
 
+    (r'^login/', authviews.login),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
     # (r'^databrowse/(.*)', databrowse.site.root),

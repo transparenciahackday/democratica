@@ -133,6 +133,14 @@ def get_mandate_for_date(mp, dt):
         return Mandate.objects.filter(mp=mp, date_begin__lt=dt).order_by('-date_begin')[:1][0]
     return None
 
+def get_legislature_for_date(dt):
+    from deputados.models import Legislature
+    if Legislature.objects.filter(date_start__lt=dt, date_end__gt=dt):
+        return Legislature.objects.filter(date_start__lt=dt, date_end__gt=dt)[0]
+    elif Legislature.objects.filter(date_start__lt=dt):
+        # note slicing in order to speed up query, see http://stackoverflow.com/a/8328189
+        return Legislature.objects.filter(date_start__lt=dt).order_by('-date_start')[:1][0]
+    return None
 
 def get_gender_from_name(name):
     from settings import FEMALE_NAMES_FILE

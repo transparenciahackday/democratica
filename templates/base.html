@@ -72,6 +72,21 @@
     {% block contentdiv %}{% endblock %}
   </div> <!-- /#content -->
   
+  <div id="toolbar">
+    {% block toolbar_contents %}
+    <ul class="left">
+      {% if messages %}
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+      {% endif %}
+    </ul>
+    <ul>
+      <li><a href="">Logout?</a>
+    </ul>
+    {% endblock %}
+  </div>
+
   <div id="footer">
     <div id="footer-box">
       <p class="follow-twitter">Estamos no <a href="http://identi.ca/demo_cratica">identi.ca </a> e no <a href="http://twitter.com/demo_cratica">twitter</a></p>

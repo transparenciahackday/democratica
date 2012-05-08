@@ -95,7 +95,7 @@ class MP(models.Model):
         return None
 
     def mandate_on(self, legislature_number):
-        return self.mandate_set.objects.get(legislature__number=legislature_number)
+        return self.mandate_set.get(legislature__number=legislature_number)
 
     def has_post_on(self, gov_number):
         if gov_number:

@@ -42,6 +42,9 @@ class Day(models.Model):
     def get_5words_list(self):
         return [d.keys()[0] for d in self.top5words['words']]
 
+    def get_top_word(self):
+        return self.get_5words_list()[0]
+
     def parse_entries(self):
         entries = Entry.objects.filter(day=self)
         for e in entries:
@@ -111,6 +114,7 @@ class Entry(models.Model):
 
         if isinstance(speaker, int):
             self.mp = MP.objects.get(id=speaker)
+            self.party = self.mp.mandate_on(self.day.legislature.number).party.abbrev
             self.text = text
             self.save()
         elif speaker:

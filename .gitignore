@@ -1,3 +1,4 @@
+/temp.pid
 /celery
 /localsettings.py
 *.swp

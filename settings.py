@@ -2,7 +2,7 @@
 
 from localsettings import *
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 TEMPLATE_STRING_IF_INVALID = 'LOOKUP FAILED'
 
@@ -18,6 +18,9 @@ PHOTO_DIR = os.path.join(DATASET_DIR, 'fotos_deputados/')
 TRANSCRIPTS_DIR = os.path.join(DATASET_DIR, 'transcricoes/csv/')
 FEMALE_NAMES_FILE = os.path.join(os.path.abspath(PATH_REPO_TRANSPARENCIA), 'scripts/php-utils/nomes_f_unicode.txt')
 STOPWORD_FILE = os.path.join(BASE_DIR, 'core/stopwords.txt')
+
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
 
 DATABASES = {
     'default': {
