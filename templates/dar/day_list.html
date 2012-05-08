@@ -4,6 +4,9 @@
 
 {% block title %}Sessões parlamentares em {{ year }} &mdash; Demo.cratica (Beta){% endblock %}
 
+{% block extrascripts %}
+{% endblock %}
+
 {% block extrabodyclass %}no-background{% endblock %}
 
 {% block content %}
@@ -11,9 +14,15 @@
       <h2>Sessões parlamentares em {{ year }}</h2>
       
       <ul class="year-nav">
-      {% for y in years %}
-        <li><a {% ifequal y year %}class="selected"{%endifequal%} href="{% url calendar_year y %}">{{ y }}</a></li>
-      {% endfor %}
+        <li class="previous"><a href="">Anterior</a></li>
+        <li class="years">
+          <ul>
+            {% for y in years %}
+              <li><a {% ifequal y year %}class="selected"{%endifequal%} href="{% url calendar_year y %}">{{ y }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>        
+        <li class="next"><a href="">Próximo</a></li>
       </ul>
     		
 		  <div id="calendar">
