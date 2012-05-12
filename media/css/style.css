@@ -2025,6 +2025,145 @@ border-color: #607454; }
 }
 
 
+/* ------------------------ admin
+--------------------------------*/
+
+.admin #content-box {
+  padding: 30px 20px;
+  margin-top: 20px;
+  color: #B7BEC8;
+  text-shadow: 0 0 2px #151E2B;
+  overflow: auto;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.3);
+  -moz-box-shadow: inset 0px 0px 10px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0px 0px 10px rgba(0,0,0,3.0);
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+.admin #content-box a {
+  color: #B7BEC8;
+}
+
+#login #header {
+  width: 435px;
+  margin-right: 20px;
+  float: left;
+}
+
+#login h1 {
+  background: url("../img/democratica-big.png") no-repeat scroll 0 0;
+  display: block;
+  height: 0;
+  overflow: hidden;
+  padding: 282px 0 0;
+  width: 384px;
+}
+
+#login form {
+  width: 435px;
+  float: left;
+  padding-left: 20px;
+  border-left: 1px solid #B7BEC8;
+}
+
+#content form p {
+  padding: 20px 0 0;
+}
+
+#content form fieldset {
+  border: 0;
+}
+
+#content form label {
+  display: block;
+  margin: 0 4px 6px;
+  font-size: 120%;
+}
+
+#content form input[type="text"].placeholder { color: #344051; }
+#content form input[type="text"]:-moz-placeholder { color: #344051; }
+#content form input[type="text"]::-webkit-input-placeholder { color: #344051; }
+
+.admin #content form input[type="text"],
+.admin #content form input[type="password"] {
+  display: block;
+  border: 4px solid #586170;
+  padding: 4px;
+  background-color: #fff;
+  margin: 4px 0 0;
+  text-shadow: 0 0 0 transparent;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+}
+
+.admin #content form input[type="text"]:focus,
+.admin #content form input[type="password"]:focus {
+  color: #151E2B;
+  box-shadow: 0 0 0 transparent;
+  -moz-box-shadow: 0 0 5px #DBDEE3;
+  -webkit-box-shadow: 0 0 0 transparent;
+}
+
+#content #login input[type="text"],
+#content #login input[type="password"] {
+  width: 288px;
+}
+
+.admin #content-box form .button {
+  color: #151E2B;
+  text-shadow: 0 0 0 transparent;
+}
+
+/*
+#content form input[type="submit"] {
+  color: #373E48;
+  font-weight: bold;
+  text-shadow: 0 0 0 transparent;
+  background-color: #939DAC;
+  border: 1px solid #939DAC;
+  padding: 6px 10px;
+  margin: 0 5px 0 0;
+  cursor: pointer;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+  -moz-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+  -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
+}
+
+.admin #content form input[type="submit"] {
+  color: #B7BEC8;
+  background: #2c3645;
+  border: 0;
+}
+*/
+
+.admin #content h3 {
+margin: 0 0 10px;
+}
+
+/* ------------------------ Dashboard
+--------------------------------*/
+
+.admin #content .col {
+  float: left;
+  margin: 5px 46px 20px 0;
+  width: 272px;
+}
+
+.admin #content .last {
+  margin-right: 0;
+}
+
+
+
+
+
+
 
 
 
