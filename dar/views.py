@@ -85,9 +85,10 @@ def day_detail(request, year, month, day):
             continue
         from deputados.utils import get_mandate_for_date
         mandate = get_mandate_for_date(mp, d)
-        mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'party_abbrev': mandate.party.abbrev, 
-                'constituency': mandate.constituency.name,
-                'current_mandate': mandate, 'photo': mp.photo, 'id': int(mp.id), 'url': mp.get_absolute_url()}
+        if mandate:
+            mp_lookup[int(mp.id)] = {'shortname': mp.shortname, 'party_abbrev': mandate.party.abbrev, 
+                    'constituency': mandate.constituency.name,
+                    'current_mandate': mandate, 'photo': mp.photo, 'id': int(mp.id), 'url': mp.get_absolute_url()}
 
     if govs:
         gov = govs[0]
