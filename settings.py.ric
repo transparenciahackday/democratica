@@ -1,6 +1,52 @@
 # -*- coding: utf-8 -*-
 
-from localsettings import *
+# Configuração do demo.cratica
+# Em apenas dois passos, o demo.cratica estará configurado para o teu computador.
+
+# 1. Localização dos directórios
+# É só mudar os directórios aqui em baixo, relativamente ao directório democratica/.
+
+# Localização do repositório dos datasets
+PATH_DATASETS = '/home/rlafuente/proj/thd/datasets'
+
+# Localização do repositório dos scripts do Transparência
+PATH_REPO_TRANSPARENCIA = '/home/rlafuente/proj/thd/repo'
+
+# 2. Configuração da base de dados
+
+# Tipo da base de dados
+# Pode ser 'mysql', 'postgresql_psycopg2' ou 'sqlite3'
+DB_TYPE = 'mysql'
+
+# Nome da BD
+DB_NAME = 'democratica'
+# Nome do utilizador da BD
+DB_USER = 'rlafuente'
+# Palavra-passe do utilizador da BD
+DB_PASSWORD = '1q2w3e'
+
+# Hostname da BD (vazio = localhost)
+DB_HOST = ''
+# Porta da BD (vazio = valor por omissão da BD)
+DB_PORT = ''
+
+# Já não é preciso mudar mais nada a seguir! ##
+#
+# Corre o script para inicializar a base de dados:
+#   ./reset.sh
+#
+# Vai demorar um pouco; se tiveres erros, confirma que os directórios
+# acima indicados estão correctos! Senão, vem avisar-nos desse bug.
+#
+# Agora corre o comando
+#   python manage.py runserver
+#
+# E no teu browser, acede ao endereço
+#   http://127.0.0.1:8000
+#
+# E se tudo estiver correcto, verás a página de abertura do demo.cratica.
+
+#########################################################################
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -18,9 +64,6 @@ PHOTO_DIR = os.path.join(DATASET_DIR, 'fotos_deputados/')
 TRANSCRIPTS_DIR = os.path.join(DATASET_DIR, 'transcricoes/csv/')
 FEMALE_NAMES_FILE = os.path.join(os.path.abspath(PATH_REPO_TRANSPARENCIA), 'scripts/php-utils/nomes_f_unicode.txt')
 STOPWORD_FILE = os.path.join(BASE_DIR, 'core/stopwords.txt')
-
-LOGIN_URL = '/login'
-LOGIN_REDIRECT_URL = '/'
 
 DATABASES = {
     'default': {
@@ -44,7 +87,7 @@ USE_L10N = True
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = 'http://localhost:8000/media/'
-ADMIN_MEDIA_PREFIX = '/media/admin/'
+ADMIN_MEDIA_PREFIX = '/admin-media/'
 SECRET_KEY = 'u=+o$bugq9iiq0@3=-y#5ahm%r6pxo=3*qvqp7in0w1donajl8'
 
 TEMPLATE_LOADERS = (
@@ -62,8 +105,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.transaction.TransactionMiddleware',
-    'reversion.middleware.RevisionMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
@@ -88,23 +129,14 @@ INSTALLED_APPS = (
     'haystack',
     'south',
     'debug_toolbar',
-#    'kombu.transport.django',  
-    'djcelery',
-    'reversion',
-)  
-  
-# Celery
-BROKER_URL = "django://" # tell kombu to use the Django database as the message queue  
-CELERY_IMPORTS = ("dar.tasks",)
-import djcelery  
-djcelery.setup_loader() 
-# Haystack
+)
+
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
         },
     }
-    # HAYSTACK_XAPIAN_PATH = '/home/rlafuente/code/transparencia/index_democratica'
-    # HAYSTACK_CUSTOM_HIGHLIGHTER = 'democratica.dar.utils.MyHighlighter'
+# HAYSTACK_XAPIAN_PATH = '/home/rlafuente/code/transparencia/index_democratica'
+# HAYSTACK_CUSTOM_HIGHLIGHTER = 'democratica.dar.utils.MyHighlighter'
 
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False} 
