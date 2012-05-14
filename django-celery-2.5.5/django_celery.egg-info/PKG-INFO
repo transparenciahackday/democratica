@@ -1,4 +1,4 @@
-Metadata-Version: 1.0
+Metadata-Version: 1.1
 Name: django-celery
 Version: 2.5.5
 Summary: Django Celery Integration.

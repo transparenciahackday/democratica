@@ -7,7 +7,6 @@ MANIFEST.in
 README
 README.rst
 THANKS
-TODO
 setup.cfg
 setup.py
 bin/djcelerymon
