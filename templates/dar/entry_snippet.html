@@ -20,8 +20,7 @@
               </div> <!-- /left -->
               <div class="right">
                 <p class="popup" id="popup-button-{{ entry.id }}">
-                  Link directo <input type="text" value="http://demo.cratica.org{{ entry.get_absolute_url }}" />
-                  <span class="close" href="#">X</span>
+                  <label>Link desta intervenção:</label> <input type="text" value="http://demo.cratica.org{{ entry.get_absolute_url }}" /><span class="close">X</span>
                 </p>  
                 <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}">
                   {{ entry.text_as_html }}

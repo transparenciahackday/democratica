@@ -1145,7 +1145,6 @@ border-top: 0;
 }
 
 .entry {
-padding: 10px 0;
 clear: both;
 position: relative;
 overflow: auto;
@@ -1159,14 +1158,13 @@ overflow: auto;
   }
 
 .entry .left {
+display: block;
+float: left;
 width: 150px;
 margin-right: 15px;
-position: absolute;
-display: block;
 text-align: right;
 font-size: 90%;
-line-height: 1.1;
-padding: 5px 0 0;
+padding: 9px 0 8px;
 }
 
   .applause .left,
@@ -1221,13 +1219,16 @@ padding: 5px 0 0;
   width: 12px;
   height: auto;
   }
+  
+  .left .mini {
+  padding-top: 2px;
+  }
 
 .entry .right {
 width: 700px;
-float: left;
-margin-left: 165px;
+float: right;
 display: block;
-padding: 5px 0 0;
+padding: 8px 0;
 border-top: 1px dotted #ccc;
 }
 
@@ -1313,8 +1314,8 @@ margin-top: 0;
 }
 
 .entry .right .social {
-  display: none;
   margin-bottom: 8px;
+  display: none;
 }
 
 .active .right .social {
@@ -1322,15 +1323,15 @@ display: block;
 }
 
 .entry .right .social li {
-display: inline;
+display: inline-block;
 }
 
 .entry .right .social li > a {
 display: inline-block;
 text-decoration: none;
-width: 16px;
+width: 18px;
 height: 0;
-padding: 18px 2px 2px 2px;
+padding: 20px 2px 4px 2px;
 overflow: hidden;
 background: #b7bec8 url(../img/icons/social-buttons.png) no-repeat 0 2px;
 
@@ -1340,15 +1341,15 @@ border-radius: 3px;
 }
   
   .entry .right .social a.twitter {
-  background-position: 4px 2px;
+  background-position: 4px 4px;
   }
 
   .entry .right .social a.facebook {
-  background-position: 8px -33px;
+  background-position: 8px -32px;
   }
   
   .entry .right .social a.url {
-  background-position: 2px -70px;
+  background-position: 3px -68px;
   }
   
   .entry .right .social a.identica {
@@ -1363,19 +1364,57 @@ background-color: #6f7c91;
 
 .entry .right .popup {
   display: none;
-  background: #fff;
-  padding: 4px 20px 4px 10px;
-  position: relative;
-  
+  padding: 0 0 8px;
+  width: 530px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  position: relative; 
+  float: left;
+}
+
+.entry .right .popup label {
+  font-weight: bold;
+}
+
+.entry .right .popup input[type=text] {
+  min-width: 360px;
+  margin: 0 0 0 5px;
+  display: inline-block;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
 }
 
 .entry .right .popup .close {
   display: inline-block;
-  padding: 5px;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 2px 5px;
+  font-size: 12px;
+  font-weight: bold;
   cursor: pointer;
-  position: absolute;
-  right: 0;  
+  background: #ccc;
+  border-color: #aaa;
+  border-style: solid;
+  border-width: 1px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+}
+
+.entry .right .popup .close:hover {
+  background: #aaa;
+  border-color: #666;
 }
 
 .entry .vote-result {
@@ -1918,12 +1957,12 @@ display: block;
 /* ------------------------ party colours and avatar-colorbar
 --------------------------------*/
 
-.ps { color: #d888bb; }
-.psd { color: #cb8d41; }
-.pcp { color: #c74343; }
-.be { color: #671717; }
-.cds-pp { color: #606798; }
-.pev { color: #607454; }
+.ps, #content .ps > a { color: #d888bb; }
+.psd, #content .psd > a { color: #cb8d41; }
+.pcp, #content .pcp > a { color: #c74343; }
+.be, #content .be > a { color: #671717; }
+.cds-pp, #content .cds-pp a { color: #606798; }
+.pev, #content .pev > a { color: #607454; }
 
 
 a.avatar-colorbar.ps img {
@@ -1942,7 +1981,7 @@ a.avatar-colorbar.be img {
 border-color: #671717; }
 
 
-a.avatar-colorbar.cds-pp img {
+a.avatar-colorbar.cds-pp {
 border-color: #606798; }
 
 a.avatar-colorbar.pev img {
