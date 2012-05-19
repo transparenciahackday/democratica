@@ -546,6 +546,7 @@ margin: -145px auto 0;
 min-width: 715px;
 clear: both;
 position: relative;
+z-index: 2000;
 }
 
 #about p.follow-twitter {
@@ -603,14 +604,13 @@ display: block;
 /* ------------------------ browser update page
 --------------------------------*/
 
-#error #header {
+#error #content {
 text-align: center;
 }
 
 #error #header h1 {
-background: transparent url(../img/democratica-error.png) no-repeat 0 center;
+background: transparent url(../img/democratica-error.png) no-repeat center center;
 padding-top: 140px;
-width: 214px;
 height: 0;
 overflow: hidden;
 }
@@ -630,6 +630,10 @@ box-shadow: 2px 2px 3px rgba(55,62,72,.8);
 -moz-box-shadow: 2px 2px 3px rgba(55,62,72,.8);
 -webkit-box-shadow: 2px 2px 3px rgba(55,62,72,.8);
 }
+
+  #error #header div.box {
+  margin: 0 100px;
+  }
 
 #header div.box h2 {
 color: #535d6c;
