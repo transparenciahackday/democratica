@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <meta property="og:image" content="http://demo.cratica.org:7080/media/img/democratica-white-small.png"/>
+    <meta property="og:title" content="Demo.cratica"/>
+    <meta property="og:description" content="A forma fácil de ler o Parlamento. Um site independente para saber quem são e o que dizem os deputados da Assembleia da República Portuguesa."/>
+
+    <title>Demo.cratica (Beta)</title>
+
+    <link rel="stylesheet" href="media/js/uniform/css/uniform.default.css" type="text/css" />
+    <link rel="stylesheet" href="media/css/style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="media/css/print.css" type="text/css" media="print" />
+  
+    <link rel="shortcut icon" href="/media/img/favicon.ico" />
+   
+    <script type="text/javascript" src="media/js/css_browser_selector.js"></script>
+    <script type="text/javascript" src="media/js/jquery-1.5.2.min.js"></script>
+		<script type="text/javascript" src="media/js/jquery.localscroll-1.2.7-min.js"></script>
+		<script type="text/javascript" src="media/js/jquery.scrollTo-1.4.2-min.js"></script>
+		
+<script type="text/javascript">
+
+$.fn.infiniteCarousel = function () {
+
+    function repeat(str, num) {
+        return new Array( num + 1 ).join( str );
+    }
+  
+    return this.each(function () {
+        var $wrapper = $('> div', this).css('overflow', 'hidden'),
+            $slider = $wrapper.find('> ul'),
+            $items = $slider.find('> li'),
+            $single = $items.filter(':first'),
+            
+            singleWidth = $single.outerWidth(), 
+            visible = Math.ceil($wrapper.innerWidth() / singleWidth), // note: doesn't include padding or border
+            currentPage = 1,
+            pages = Math.ceil($items.length / visible);            
+
+
+        // 1. Pad so that 'visible' number will always be seen, otherwise create empty items
+        if (($items.length % visible) != 0) {
+            $slider.append(repeat('<li class="empty" />', visible - ($items.length % visible)));
+            $items = $slider.find('> li');
+        }
+
+        // 2. Top and tail the list with 'visible' number of items, top has the last section, and tail has the first
+        $items.filter(':first').before($items.slice(- visible).clone().addClass('cloned'));
+        $items.filter(':last').after($items.slice(0, visible).clone().addClass('cloned'));
+        $items = $slider.find('> li'); // reselect
+        
+        // 3. Set the left position to the first 'real' item
+        $wrapper.scrollLeft(singleWidth * visible);
+        
+        // 4. paging function
+        function gotoPage(page) {
+            var dir = page < currentPage ? -1 : 1,
+                n = Math.abs(currentPage - page),
+                left = singleWidth * dir * visible * n;
+            
+            $wrapper.filter(':not(:animated)').animate({
+                scrollLeft : '+=' + left
+            }, 500, function () {
+                if (page == 0) {
+                    $wrapper.scrollLeft(singleWidth * visible * pages);
+                    page = pages;
+                } else if (page > pages) {
+                    $wrapper.scrollLeft(singleWidth * visible);
+                    // reset back to start position
+                    page = 1;
+                } 
+
+                currentPage = page;
+            });                
+            
+            return false;
+        }
+        
+        $wrapper.before('<a class="arrow back">Anterior</a>');
+        $wrapper.after('<a class="arrow forward">Próximo</a>');
+        
+        // 5. Bind to the forward and back buttons
+        $('a.back', this).click(function () {
+            return gotoPage(currentPage - 1);                
+        });
+        
+        $('a.forward', this).click(function () {
+            return gotoPage(currentPage + 1);
+        });
+        
+        // create a public interface to move to a specific page
+        $(this).bind('goto', function (event, page) {
+            gotoPage(page);
+        });
+    });  
+};
+
+$(document).ready(function () {
+  $('.infiniteCarousel').infiniteCarousel();
+});
+</script>
+    
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-23418283-1']);
+      _gaq.push(['_setDomainName', '.cratica.org']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+
+<body class="admin">
+
+ <div id="menu">
+    <ul id="menu-box">
+      <li id="homepage"><a href="/">Demo.cratica</a></li>
+      <li><a href="/" class="active">Início</a></li>
+      <li><a href="/deputados/">Deputados</a></li>
+      <li><a href="/sessoes/">Sessões</a></li>
+      <li><a href="https://demo.cratica.org/blog">Blog</a></li>
+      <li><a href="/acerca/">Acerca</a></li>
+      
+      <li id="search">
+            <form method="get" action="/pesquisa/">
+              <input type="text" name="q" value="Pesquisa..." class="searchbox placeholder" /><input type="submit" class="search-btn" value="Ir" />
+          </form>
+      </li>
+    </ul> <!-- /#menu-box -->
+  </div> <!-- /#menu -->
+
+  <div id="content">
+    <div id="content-box">
+    
+      <div class="infiniteCarousel">
+      <div class="wrapper">
+        <ul class="years">
+          <li><a href="#">1976</a></li>
+          <li><a href="#">1977</a></li>
+          <li><a href="#">1978</a></li>
+          <li><a href="#">1979</a></li>
+          <li><a href="#">1980</a></li>
+          <li><a href="#">1981</a></li>
+          <li><a href="#">1982</a></li>
+          <li><a href="#">1983</a></li>
+          <li><a href="#">1984</a></li>
+          <li><a href="#">1985</a></li>
+          <li><a href="#">1986</a></li>
+          <li><a href="#">1987</a></li>
+          <li><a href="#">1988</a></li>
+          <li><a href="#">1989</a></li>
+          <li><a href="#">1990</a></li>
+          <li><a href="#">1991</a></li>
+          <li><a href="#">1992</a></li>
+          <li><a href="#">1993</a></li>
+          <li><a href="#">1994</a></li>
+          <li><a href="#">1995</a></li>
+          <li><a href="#">1996</a></li>
+          <li><a href="#">1997</a></li>
+          <li><a href="#">1998</a></li>
+          <li><a href="#">1999</a></li>
+          <li><a href="#">2000</a></li>
+          <li><a href="#">2001</a></li>
+          <li><a href="#">2002</a></li>
+          <li><a href="#">2003</a></li>
+          <li><a href="#">2004</a></li>
+          <li><a href="#">2005</a></li>
+          <li><a href="#">2006</a></li>
+          <li><a href="#">2007</a></li>
+          <li><a href="#">2008</a></li>
+          <li><a href="#">2009</a></li>
+          <li><a href="#">2010</a></li>
+          <li><a href="#">2011</a></li>
+          <li><a href="#">2012</a></li>
+        </ul>
+      </div>
+      </div>
+    
+    
+    
+      <header id="header">
+        <h2>Oláre e bem vindo ao Demo.cratica</h2>
+        <p>Alguma dúvida? Vá ao Google ou à Wikipedia.</p>
+      </header>
+      
+      <div class="col">
+        <h3>A feed mais fixe à esquerda</h3>
+        <p>Feed 1</p>
+      </div>
+      <div class="col">
+        <h3>Feed altamente ao centro!</h3>
+        <p>Feed 2</p>
+      </div>
+      <div class="col last">
+        <p>Botoezolas</p>
+      </div>
+    </div>
+  </div> <!-- /#content -->
+
+</body>
+</html>
+
