@@ -130,9 +130,9 @@ font-size: 100%;
 --------------------------------*/
 
 #menu {
-background: #373e48 url(../img/backgrounds/menu-shadow.png) repeat-x 0 bottom;
+background: #373e48;
 min-width: 950px;
-padding: 0 20px 3px;
+padding: 0 20px;
 }
 
 #menu-box {
@@ -142,7 +142,6 @@ font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 #menu-box li {
-list-style-type: none;
 display: block;
 float: left;
 }
@@ -187,33 +186,34 @@ background-color: #535d6c;
 position: absolute;
 right: 0;
 top: 6px;
-border: 1px solid #373e48;
+border: 1px solid #292f36;
+-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
+}
+
+#menu-box li#search form {
+overflow: hidden;
+position: relative;
+}
+
+#menu-box li#search form .searchbox {
+display: block;
+float: left;
+background-color: #dbdee3;
+border: 0;
+color: #373e48;
+width: 150px;
+height: 16px;
+padding: 4px 24px 4px 4px;
+font-size: 12px;
 
 -webkit-border-radius: 4px;
 -moz-border-radius: 4px;
 border-radius: 4px;
-}
-
-#menu-box li#search form {
-overflow: auto;
-}
-
-#menu-box li#search form .searchbox {
-background-color: #dbdee3;
-float: left;
-border: 0;
-color: #373e48;
-width: 130px;
-padding: 4px 2px 5px;
-font-size: 11px;
-line-height: 1;
-
--webkit-border-top-left-radius: 2px;
--webkit-border-bottom-left-radius: 2px;
--moz-border-radius-topleft: 2px;
--moz-border-radius-bottomleft: 2px;
-border-top-left-radius: 2px;
-border-bottom-left-radius: 2px;
+box-shadow: inset 0 0 3px #111419;
+-moz-box-shadow: inset 0 0 3px #111419;
+-webkit-box-shadow: inset 0 0 3px #111419;
 }
 
 #menu-box li#search form *.placeholder {
@@ -226,27 +226,25 @@ color: #373e48;
 }
 
 #menu-box li#search form .search-btn {
-background: #939dac url(../img/icons/search.png) no-repeat center 4px;
-width: 21px;
+position: absolute;
+right: 1px;
+top: 2px;
+background: transparent url(../img/icons/search.png) no-repeat center center;
+width: 24px;
 height: 0;
-display: block;
-float: left;
-padding: 20px 0px 3px;
+overflow: hidden;
+padding-top: 20px;
 border: 0;
+border-left: 1px solid #B7BEC8;
 cursor: pointer;
 
--webkit-border-top-right-radius: 2px;
--webkit-border-bottom-right-radius: 2px;
--moz-border-radius-topright: 2px;
--moz-border-radius-bottomright: 2px;
-border-top-right-radius: 2px;
-border-bottom-right-radius: 2px;
+border-top-right-radius: 4px;
+border-bottom-right-radius: 4px;
+-moz-border-radius-topright: 4px;
+-moz-border-radius-bottomright: 4px;
+-webkit-border-top-right-radius: 4px;
+-webkit-border-bottom-right-radius: 4px;
 }
-
-#menu-box li#search form .search-btn:hover {
-background-color: #6f7c91;
-}
-
 
 /* ------------------------ content
 --------------------------------*/
@@ -255,14 +253,15 @@ background-color: #6f7c91;
 padding-top: 38px;
 min-width: 950px;
 padding: 0 20px;
+background: transparent url(../img/backgrounds/menu-shadow.png) repeat-x 0 0;
 }
 
-  .home #content,
+  #home #content,
   .default #content {
   padding-top: 20px;
   }
   
-  .ie7 .home #content,
+  .ie7 #home #content,
   .ie7 .default #content {
   padding-top: 40px;
   }
@@ -370,7 +369,6 @@ text-transform: uppercase;
   }
 
 #footer-box li {
-list-style-type: none;
 display: inline;
 }
 
@@ -417,7 +415,6 @@ position: relative;
 }
 
 #navigation li {
-list-style-type: none;
 display: inline;
 }
 
@@ -433,13 +430,14 @@ text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
 /* ------------------------ homepage
 --------------------------------*/
 
-#page {
+#home #content {
 position: relative;
 height: 100%;
 min-height: 610px;
+padding: 0;
 }
 
-#page #content {
+#home #content-box {
 background-color: transparent;
 background-image: none;
 width: 720px;
@@ -450,7 +448,7 @@ margin: 0 auto;
 padding: 20px 0 0;
 }
 
-#page #header {
+#home #header {
 text-align: center;
 color: #fff;
 background-color: transparent;
@@ -458,7 +456,7 @@ padding: 0 2px 0 8px;
 width: 710px;
 }
 
-#page #header h1 {
+#home #header h1 {
 font-size: 100%;
 line-height: 1;
 display: block;
@@ -470,13 +468,13 @@ background: transparent url(../img/democratica-big.png) no-repeat 0 center;
 overflow: hidden;
 }
 
-#page #header p {
+#home #header p {
 font-size: 115%;
 font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 margin-bottom: 8px;
 }
 
-#page #header p.beta {
+#home #header p.beta {
 font-size: 95%;
 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 line-height: 1.1;
@@ -484,12 +482,12 @@ margin: 0 auto;
 max-width: 485px;
 }
 
-#page #header p.beta a {
+#home #header p.beta a {
 display: inline-block;
 color: #fff;
 }
 
-#page #header p.beta a:hover {
+#home #header p.beta a:hover {
 color: #192230;
 }
 
@@ -584,6 +582,7 @@ color: #fff;
 text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
 padding: 22px 0;
 height: 16px;
+cursor: pointer;
 }
 
 #about #reveal-button {
@@ -604,10 +603,16 @@ display: block;
 /* ------------------------ browser update page
 --------------------------------*/
 
+#error #header {
+text-align: center;
+}
+
 #error #header h1 {
 background: transparent url(../img/democratica-error.png) no-repeat 0 center;
 padding-top: 140px;
 width: 214px;
+height: 0;
+overflow: hidden;
 }
 
 #header div.box {
@@ -751,7 +756,6 @@ margin-right: 0;
 }
 
 ul.mp-list li {
-list-style-type: none;
 display: block;
 clear: both;
 }
@@ -811,7 +815,6 @@ overflow: auto;
 }
 
 .mp-details {
-list-style-type: none;
 margin: 0 0 30px 50px;
 width: 430px;
 float: left;
@@ -1002,7 +1005,6 @@ height: 27px;
 
 #content .tabs li {
 display: inline;
-list-style-type: none;
 margin: 0 0 0 2px;
 }
 
@@ -1052,7 +1054,6 @@ margin: 20px 0 0;
 padding: 8px 0;
 overflow: auto;
 position: relative;
-list-style-type: none;
 min-height: 18px;
 color: #b7bec8;
 }
@@ -1321,7 +1322,6 @@ display: block;
 }
 
 .entry .right .social li {
-list-style-type: none;
 display: inline;
 }
 
@@ -1411,11 +1411,9 @@ background-color: #6f7c91;
 .entry .actionbar {
   display: none;
   width: 140px;
-  float: right;
-  list-style-type: none;
+  float: left;
   padding: 2px 5px;
   background: #B7BEC8;
-  border: 1px solid #ccc;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1463,7 +1461,6 @@ margin: 15px 0 0;
 }
 
 #toolbar ul {
-  list-style-type: none;
   float: right;
 }
 
@@ -1636,7 +1633,6 @@ font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 #content-box .year-nav li {
-list-style-type: none;
 display: block;
 float: left;
 }
@@ -1711,7 +1707,6 @@ float: left;
 }
 
 #calendar ol li {
-list-style-type: none;
 display: inline;
 }
 
@@ -1885,10 +1880,6 @@ float: left;
 padding-top: 10px;
 }
 
-.search li {
-list-style-type: none;
-}
-
 .search a {
 text-decoration: none;
 }
@@ -1988,7 +1979,6 @@ border-color: #607454; }
 }
 
 #wordlist {
-  list-style-type: none;
   text-align: center;
   margin: 0 160px;
 }
@@ -2116,31 +2106,6 @@ border-color: #607454; }
   color: #151E2B;
   text-shadow: 0 0 0 transparent;
 }
-
-/*
-#content form input[type="submit"] {
-  color: #373E48;
-  font-weight: bold;
-  text-shadow: 0 0 0 transparent;
-  background-color: #939DAC;
-  border: 1px solid #939DAC;
-  padding: 6px 10px;
-  margin: 0 5px 0 0;
-  cursor: pointer;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
-  -moz-box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
-  -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
-}
-
-.admin #content form input[type="submit"] {
-  color: #B7BEC8;
-  background: #2c3645;
-  border: 0;
-}
-*/
 
 .admin #content h3 {
 margin: 0 0 10px;
