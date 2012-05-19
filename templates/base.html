@@ -9,6 +9,7 @@
     <meta property="og:type" content="{% block ogtype %}website{% endblock %}"/>
     <title>{% block title %}Demo.cratica (Beta){% endblock %}</title>
 
+    <link rel="stylesheet" href="/media/css/reset.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/media/js/uniform/css/uniform.default.css" type="text/css" />
     <link rel="stylesheet" href="/media/css/tipsy.css" type="text/css" />
     <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen" />
@@ -51,7 +52,7 @@
   </head>
 
 <body class="{% block extrabodyclass %}default{% endblock %}">  
-  <div id="menu">
+  <nav id="menu">
     <ul id="menu-box">
       <li id="homepage"><a href="/">Demo.cratica</a></li>
       <li><a href="/">Início</a></li>
@@ -66,7 +67,7 @@
           </form>
       </li>
     </ul><!-- /#menu-box -->
-  </div> <!-- /#menu -->
+  </nav> <!-- /#menu -->
   
   <div id="content">
     {% block contentdiv %}{% endblock %}
