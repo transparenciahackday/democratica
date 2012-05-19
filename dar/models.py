@@ -25,6 +25,7 @@ class Day(models.Model):
         return str(self.date)
     def get_absolute_url(self):
         return reverse('day_detail', args=[self.date.year, self.date.month, self.date.day])
+
     def calculate_top5words(self):
         if self.entry_set.all():
              top5words = text_utils.most_frequent_word(self.entry_set.all(), 5)
@@ -35,10 +36,10 @@ class Day(models.Model):
              self.top5words = wordict
              self.save()
              output = u""
-             for w in self.get_5words_list:
+             for w in self.get_5words_list():
                  output += ' ' + w
              print output
-    @property
+
     def get_5words_list(self):
         return [d.keys()[0] for d in self.top5words['words']]
 

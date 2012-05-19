@@ -33,11 +33,13 @@
                     <a class="url" id="url-{{ entry.id }}" href="javascript:showonlyone('popup-button-{{ entry.id }}');">Link</a>
                   </li>
                 </ul>
+                {% comment %}                
                 <ul class="actionbar">
                   <li><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></li>
                   <li><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></li>
                   <li><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></li>
                 </ul>
+                {% endcomment %}                
               </div> <!-- /right -->
                 {% endwith %}
             <!-- Intervenção de Primeiro-Ministro - início -->
@@ -52,11 +54,13 @@
               </div> <!-- /left -->
               <div class="right">
                 <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+              {% comment %}                
                <ul class="actionbar">
                 <li><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></li>
                 <li><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></li>
                 <li><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></li>
               </ul>
+                {% endcomment %}                
               </div> <!-- /right -->
 
             <!-- Intervencao de membro de governo - inicio -->
@@ -78,10 +82,12 @@
                 </div>
                 <div class="right">
                   <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+                {% comment %}                
                    <ul class="actionbar">
                     <li><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></li>
                     <li><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></li>
                   </ul>
+                {% endcomment %}                
                 </div>
 
               <!-- Intervencao (não identificada) - início -->
@@ -110,10 +116,12 @@
                 </div>
                 <div class="right">
                   <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }}</div>
+                {% comment %}                
                   <ul class="actionbar">
                     <li><a href="javascript:unmark_as_cont({{entry.id}})">Desmarcar como continuação</a></li>
                     <li><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></li>
                   </ul>
+                {% endcomment %}                
                  </div>
                 {% endif %}
 
@@ -126,10 +134,12 @@
               <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}">
                   {{ entry.text_as_html }}
               </div>
+                {% comment %}                
               <ul class="actionbar">
                 <li><a href="javascript:mark_as_aside({{ entry.id }});">Marcar como <strong>aparte</strong></a></li>
                 <li><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></li>
               </ul>
+                {% endcomment %}                
             </div>
 
             {# Presidente -- aparte ou pedido de conclusao #}
@@ -164,9 +174,11 @@
             </div>
             <div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">
               <div class="entry-content"> {{ entry.text_as_html }} </div>
+                {% comment %}                
               <ul class="actionbar">
                 <li><a href="javascript:mark_as_main({{ entry.id }});">Marcar como <strong>intervenção</strong></a></li>
               </ul>
+                {% endcomment %}                
             </div>
 
             {# Vozes #}
@@ -208,11 +220,13 @@
             </div>
             <div class="right">
               <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
+                {% comment %}                
               <ul class="actionbar">
                 <li><a href='javascript:join_with_previous({{ entry.id }},{{ entry.prev_id }},{{ entry.next_id }});'>Juntar à anterior</a></li>
                 <li><a href="javascript:mark_as_cont({{ entry.id }});">Marcar como <strong>continuação</strong></a></li>
                 <li><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></li>
               </ul>
+                {% endcomment %}                
             </div>
 
             {% endif %}
