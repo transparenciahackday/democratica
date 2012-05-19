@@ -54,7 +54,8 @@ urlpatterns = patterns('',
 
     (r'^pesquisa/', include('dar.urls')),
 
-    (r'^login/', authviews.login),
+    url(r'^login/', authviews.login, name='login'),
+    url(r'^logout/', authviews.logout, name='logout'),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
     # (r'^databrowse/(.*)', databrowse.site.root),

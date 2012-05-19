@@ -1,0 +1,20 @@
+{% load dartags %}
+{% if entry.mp_id %}
+
+{% with mpdict|lookup:entry.mp_id as mp %}
+<div class="left">
+  <p class="party {{ mp.party_abbrev|lower }}"><a href="{{ mp.url }}">{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" /></a></p>
+{% endwith %}
+
+{% else %}
+  <p class="party {{ e.party|lower }}">{{ e.speaker }}</p>
+{% endif %}
+</div>
+<div class="right edit_area" id="Entry_raw_text_{{ entry.id }}">
+  <div class="entry-content"> {{ entry.text_as_html }} </div>
+  {% if request.user.is_authenticated %}                
+  <ul class="actionbar">
+    <li><a href="javascript:mark_as_main({{ entry.id }});">Marcar como <strong>intervenção</strong></a></li>
+  </ul>
+  {% endif %}                
+</div>

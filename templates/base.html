@@ -72,7 +72,8 @@
   <div id="content">
     {% block contentdiv %}{% endblock %}
   </div> <!-- /#content -->
-   
+  
+  {% if request.user.is_authenticated %}  
   <div id="toolbar">
     {% block toolbar_contents %}
     <ul class="left">
@@ -83,10 +84,11 @@
       {% endif %}
     </ul>
     <ul>
-      <li><a href="">Logout?</a>
+      <li><a href="{% url logout %}">Logout?</a>
     </ul>
     {% endblock %}
   </div>
+  {% endif %}
 
   <footer id="footer">
     <div id="footer-box">

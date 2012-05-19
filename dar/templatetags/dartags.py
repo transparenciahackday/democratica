@@ -61,6 +61,12 @@ def session_url(day):
     return d.get_absolute_url()
 
 @register.filter
+def get_template_from_entry_type(t):
+    if not t:
+        return 'dar/entry_snippets/outra.html'
+    return 'dar/entry_snippets/' + t + '.html'
+
+@register.filter
 def day_padding(day):
     output = ''
     for x in range(day.weekday()):
