@@ -2057,9 +2057,12 @@ border-color: #607454; }
 /* ------------------------ admin
 --------------------------------*/
 
+.admin #content {
+  padding-top: 20px;
+}
+
 .admin #content-box {
   padding: 30px 20px;
-  margin-top: 20px;
   color: #B7BEC8;
   text-shadow: 0 0 2px #151E2B;
   overflow: auto;
@@ -2123,9 +2126,9 @@ border-color: #607454; }
   background-color: #fff;
   margin: 4px 0 0;
   text-shadow: 0 0 0 transparent;
-  border-radius: 8px;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
 }
 
 .admin #content form input[type="text"]:focus,
