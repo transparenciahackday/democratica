@@ -256,7 +256,7 @@ def wordlist(request):
         all_days = Day.objects.filter(date__gt=first_day_of_year, date__lt=last_day_of_year)
         for day in all_days:
             try:
-                words[day.get_absolute_url()] = day.get_5words_list
+                words[day.get_absolute_url()] = day.get_5words_list()
             except KeyError:
                 continue
         wordlist[year] = words
