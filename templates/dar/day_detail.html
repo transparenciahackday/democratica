@@ -29,6 +29,7 @@
               console.log(id)
               // FIXME: precisamos de colocar a textarea como editável novamente
               $(".collapsible").truncatable({	limit: 100, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
+              {% if request.user.is_authenticated %}
               $(".edit_area").editable("/sessoes/gravar/",
                 {
                   cancel: "Cancelar",
@@ -44,6 +45,7 @@
                     return value;
                   }
                 });
+              {% endif %}
               }
             });
           };
@@ -60,6 +62,7 @@
             console.log(id)
             // FIXME: precisamos de colocar a textarea como editável novamente
             $(".collapsible").truncatable({	limit: 100, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
+            {% if request.user.is_authenticated %}
             $(".edit_area").editable("/sessoes/gravar/",
               {
                 cancel: "Cancelar",
@@ -74,6 +77,7 @@
                     return value;
                     }
               });
+            {% endif %}
             }
           });
         };
@@ -161,6 +165,7 @@
         });
 
         // jeditable
+        {% if request.user.is_authenticated %}
         $(".edit_area").editable("/sessoes/gravar/",
           {
             cancel: "Cancelar",
@@ -175,6 +180,7 @@
                 return value;
                 }
             });
+        {% endif %}
        	$(".collapsible").truncatable({	limit: 76, more: 'Mostrar tudo', less: true, hideText: 'Esconder' });
        });
     </script>
