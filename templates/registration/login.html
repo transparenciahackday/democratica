@@ -28,28 +28,27 @@
     <header id="header">
       <h1>Demo.cratica</h1>
     </header>
-    <form>
-      <h3>Login para editores e administradores</h3>
-      <form method="post">{% csrf_token %}
-        <fieldset>
-          {% if not form.this_is_the_login_form.errors %}{{ form.username.errors }}{% endif %}
-          <p>
-            <label for="id_username" class="required">Utilizador:</label> {{ form.username }}</p>
-            {% if not form.this_is_the_login_form.errors %}{{ form.password.errors }}{% endif %}
-          <p>
-            <label for="id_password" class="required">Palavra-passe:</label> {{ form.password }}
-            <input type="hidden" name="this_is_the_login_form" value="1" />
-            <input type="hidden" name="next" value="{{ next }}" />
-          </p>
-          <p>
-            <input type="submit" value="Entrar" />
-            {% url 'admin_password_reset' as password_reset_url %}
-            {% if password_reset_url %}
-            <a href="{{ password_reset_url }}">Bolas, esqueci-me da palavra-passe!</a>
-            {% endif %}
-          </p>
-        </fieldset>
-      </form>
+    <h3>Login para editores e administradores</h3>
+    <form method="post">{% csrf_token %}
+      <fieldset>
+        {% if not form.this_is_the_login_form.errors %}{{ form.username.errors }}{% endif %}
+        <p>
+          <label for="id_username" class="required">Utilizador:</label> {{ form.username }}</p>
+          {% if not form.this_is_the_login_form.errors %}{{ form.password.errors }}{% endif %}
+        <p>
+          <label for="id_password" class="required">Palavra-passe:</label> {{ form.password }}
+          <input type="hidden" name="this_is_the_login_form" value="1" />
+          <input type="hidden" name="next" value="{{ next }}" />
+        </p>
+        <p>
+          <input type="submit" value="Entrar" />
+          {% url 'admin_password_reset' as password_reset_url %}
+          {% if password_reset_url %}
+          <a href="{{ password_reset_url }}">Bolas, esqueci-me da palavra-passe!</a>
+          {% endif %}
+        </p>
+      </fieldset>
+    </form>
   </div>
 </div>
 
