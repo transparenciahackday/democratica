@@ -1,0 +1,24 @@
+{% load dartags %}
+
+{% if entry.mp_id %}
+{% with mpdict|lookup:entry.mp_id as mp %}
+<div class="left">
+  <p class="party {{ mp.party_abbrev|lower }}"><a href="{{ mp.url }}">{{ mp.shortname }} <img src="{{ mp.photo.url_18x25 }}" alt="" /></a></p>
+</div>
+<div class="right"><div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div></div>
+{% endwith %}
+{% else %}
+<div class="left">
+  <p>{{ entry.speaker }}</p>
+  <p class="party">{{ entry.party }}</p>
+</div>
+<div class="right">
+  <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }}</div>
+    {% if request.user.is_authenticated %}                
+    <ul class="actionbar">
+      <li><a href="javascript:unmark_as_cont({{entry.id}})">Desmarcar como continuação</a></li>
+      <li><a href="javascript:correct_newlines({{entry.id}})">Corrigir quebras de linha</a></li>
+    </ul>
+  {% endif %}
+ </div>
+{% endif %}
