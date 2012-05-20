@@ -9,7 +9,9 @@ import django.contrib.auth.views as authviews
 # Enable admin interface
 from django.contrib import admin
 admin.autodiscover()
-
+from haystack.query import SearchQuerySet
+from haystack.views import SearchView, search_view_factory
+sqs = SearchQuerySet().filter(order_by='-day')
 
 urlpatterns = patterns('',
     (r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
@@ -56,6 +58,10 @@ urlpatterns = patterns('',
     (r'^404/$', direct_to_template, {'template': '404.html'}),
     (r'^500/$', direct_to_template, {'template': '500.html'}),
     (r'^502/$', direct_to_template, {'template': '502.html'}),
+
+    url(r'^$', search_view_factory(
+            searchqueryset=sqs,
+        ), name='haystack_search'),
 )
 
 # Enable Databrowse
