@@ -105,6 +105,7 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(os.path.dirname(__file__), 'xapian_index'),
         },
     }
+HAYSTACK_ITERATOR_LOAD_PER_QUERY = 100
 # HAYSTACK_CUSTOM_HIGHLIGHTER = 'democratica.dar.utils.MyHighlighter'
 
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False} 

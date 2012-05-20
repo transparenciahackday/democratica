@@ -32,8 +32,6 @@
             {% if result.object.mp %}<strong class="party {{ result.object.mp.current_party.abbrev|lower }}">{{ result.object.mp.shortname }}</strong>: {% endif %}{% highlight result.object.text_as_html with query max_length 100 cssclass 'highlight' %} 
             </p>
           </li>
-          {% empty %}
-          <li><p>Não encontrámos resultados :-(</p></li>         
           {% endfor %}
         </ul>
 
