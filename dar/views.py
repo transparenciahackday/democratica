@@ -386,5 +386,6 @@ def refresh(request, id):
         c = Context({'entry': e, 'mpdict': mpdict})
     else:
         c = Context({'entry': e})
-    t = loader.get_template('dar/entry_snippet.html')
+    from dar.templatetags.dartags import get_template_from_entry_type
+    t = loader.get_template(get_template_from_entry_type(e.type))
     return HttpResponse(t.render(c))

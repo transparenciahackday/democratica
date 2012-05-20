@@ -104,7 +104,7 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
         },
     }
-    # HAYSTACK_XAPIAN_PATH = '/home/rlafuente/code/transparencia/index_democratica'
-    # HAYSTACK_CUSTOM_HIGHLIGHTER = 'democratica.dar.utils.MyHighlighter'
+# HAYSTACK_XAPIAN_PATH = '/home/rlafuente/code/transparencia/index_democratica'
+# HAYSTACK_CUSTOM_HIGHLIGHTER = 'democratica.dar.utils.MyHighlighter'
 
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False} 
