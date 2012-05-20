@@ -30,11 +30,13 @@ def elections_for_year(year):
     elections = Election.objects.filter(date__gte=first_day_of_year, date__lte=last_day_of_year)
     return elections
 
-def all_years():
+def all_years(reverse=False):
     '''Returns all years for which there are saved Days.'''
     from democratica.dar.models import Day
     years = list(set([d['date'].year for d in Day.objects.all().values('date')]))
     years.sort()
+    if reverse:
+        years.reverse()
     return years
 
 

@@ -58,7 +58,7 @@ def day_list(request, year=datetime.date.today().year):
 
     all_dates = all_days.values_list('date', flat=True)
     extra['year'] = year
-    extra['years'] = all_years
+    extra['years'] = all_years(reverse=True)
     extra['session_dates'] = all_dates
 
     election_dates = {}
