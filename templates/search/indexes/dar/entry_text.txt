@@ -1,2 +1,10 @@
+{% if object.mp %}
 {{ object.mp.shortname }}
+{% else %}
+{{ object.speaker }}
+{% endif %}
+{% if object.text %}
 {{ object.text }}
+{% else %}
+{{ object.raw_text }}
+{% endif %}

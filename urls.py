@@ -10,18 +10,7 @@ import django.contrib.auth.views as authviews
 from django.contrib import admin
 admin.autodiscover()
 
-# Enable Databrowse
-'''
-from django.contrib import databrowse
-databrowse.site.register(MP)
-databrowse.site.register(Party)
-databrowse.site.register(Mandate)
-databrowse.site.register(LinkSet)
-databrowse.site.register(Fact)
-databrowse.site.register(FactType)
-databrowse.site.register(Activity)
-databrowse.site.register(Legislature)
-'''
+
 urlpatterns = patterns('',
     (r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
     (r'^acerca/$', 'django.views.generic.simple.direct_to_template', {'template': 'acerca.html'}),
@@ -33,9 +22,10 @@ urlpatterns = patterns('',
     url(r'^sessoes/$', darviews.day_list, name='calendar'),
     url(r'^sessoes/(?P<year>\d+)/$', darviews.day_list, name='calendar_year'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', darviews.day_detail, name='day_detail'),
+    url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/(?P<position>\d+)$', darviews.entry_detail, name='entry_detail'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/edicoes/$', darviews.day_revisions, name='day_revisions'),
     url(r'^sessoes/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/stats$', darviews.day_statistics, name='day_stats'),
-    url(r'^sessoes/intervencao/(?P<id>\d+)/$', darviews.statement_detail, name='statement_detail'),
+    # url(r'^sessoes/intervencao/(?P<id>\d+)/$', darviews.statement_detail, name='statement_detail'),
 
     url(r'^sessoes/marcar/(?P<id>\d+)/$', darviews.mark_as_cont, name='mark_as_cont'),
     url(r'^sessoes/marcar_aparte/(?P<id>\d+)/$', darviews.mark_as_aside, name='mark_as_aside'),
@@ -52,7 +42,7 @@ urlpatterns = patterns('',
 
     (ur'^doquesefalou/$', darviews.wordlist),
 
-    (r'^pesquisa/', include('dar.urls')),
+    (r'^pesquisa/', include('haystack.urls')),
 
     url(r'^login/', authviews.login, name='login'),
     url(r'^logout/', authviews.logout, name='logout'),
@@ -66,3 +56,16 @@ urlpatterns = patterns('',
     (r'^500/$', direct_to_template, {'template': '500.html'}),
     (r'^502/$', direct_to_template, {'template': '502.html'}),
 )
+
+# Enable Databrowse
+'''
+from django.contrib import databrowse
+databrowse.site.register(MP)
+databrowse.site.register(Party)
+databrowse.site.register(Mandate)
+databrowse.site.register(LinkSet)
+databrowse.site.register(Fact)
+databrowse.site.register(FactType)
+databrowse.site.register(Activity)
+databrowse.site.register(Legislature)
+'''

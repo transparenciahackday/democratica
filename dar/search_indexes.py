@@ -1,16 +1,16 @@
 import datetime
-from haystack.indexes import *
+from haystack import indexes
 from dar.models import Entry
 
-class EntryIndex(SearchIndex):
-    text = CharField(document=True, use_template=True)
-    author = CharField(model_attr='mp', null=True, faceted=True)
-    day = DateField(model_attr='day__date', faceted=True)
+class EntryIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    author = indexes.CharField(model_attr='mp', null=True)
+    day = indexes.DateField(model_attr='day__date')
 
     def get_model(self):
         return Entry
 
-    def index_queryset(self):
-        """Used when the entire index for model is updated."""
-        return self.get_model().objects.filter(day__date__lte=datetime.date.today())
+    #def index_queryset(self):
+    #    """Used when the entire index for model is updated."""
+    #    return self.get_model().objects.filter(day__date__lte=datetime.date.today())
 

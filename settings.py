@@ -2,7 +2,7 @@
 
 from localsettings import *
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 TEMPLATE_STRING_IF_INVALID = 'LOOKUP FAILED'
 
@@ -101,10 +101,10 @@ djcelery.setup_loader()
 # Haystack
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+        'ENGINE': 'haystack.backends.xapian_backend.XapianEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'xapian_index'),
         },
     }
-# HAYSTACK_XAPIAN_PATH = '/home/rlafuente/code/transparencia/index_democratica'
 # HAYSTACK_CUSTOM_HIGHLIGHTER = 'democratica.dar.utils.MyHighlighter'
 
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False} 

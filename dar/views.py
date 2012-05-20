@@ -100,6 +100,17 @@ def day_detail(request, year, month, day):
                        'mpdict': mp_lookup,
                 })
 
+def entry_detail(request, year, month, day, position):
+    d = datetime.date(year=int(year), month=int(month), day=int(day))
+    day = Day.objects.get(date=d)
+    try:
+        e = Entry.objects.get(day=day, position=position)
+    except Entry.DoesNotExist:
+        e = Entry.objects.filter(day=day, position__lt=position).order_by('-position')[0]
+    url = day.get_absolute_url() + '#' + str(e.position)
+    return redirect_to(request=request, url=url)
+
+
 def day_statistics(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
     day = Day.objects.get(date=d)
@@ -237,13 +248,6 @@ def day_revisions(request, year, month, day):
     return direct_to_template(request, 'dar/day_revisions.html',
         extra_context={'day': day, 'revs': all_versions,
                 })
-
-def statement_detail(request, id=None):
-    if not id:
-        raise Http404
-    e = Entry.objects.get(id=id)
-    url = e.day.get_absolute_url() + '#' + str(e.id)
-    return redirect_to(request=request, url=url)
 
 def wordlist(request):
     wordlist = {}
