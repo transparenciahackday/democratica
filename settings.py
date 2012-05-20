@@ -102,7 +102,7 @@ djcelery.setup_loader()
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.xapian_backend.XapianEngine',
-        'PATH': os.path.join(os.path.dirname(__file__), 'xapian_index'),
+        'PATH': os.path.join(os.path.abspath(os.path.dirname(__file__)), 'xapian_index'),
         },
     }
 HAYSTACK_ITERATOR_LOAD_PER_QUERY = 100
