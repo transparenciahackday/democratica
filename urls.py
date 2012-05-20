@@ -40,8 +40,6 @@ urlpatterns = patterns('',
     (ur'^sessoes/raw/$', darviews.fetch_raw_entry),
     (ur'^sessoes/reprocessar/(?P<id>\d+)/$', darviews.refresh),
 
-    (ur'^doquesefalou/$', darviews.wordlist),
-
     (r'^pesquisa/', include('haystack.urls')),
 
     url(r'^login/', authviews.login, name='login'),
@@ -50,6 +48,9 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     # (r'^databrowse/(.*)', databrowse.site.root),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+
+    (r'^labs/$', direct_to_template, {'template': 'labs/labs_list.html'}),
+    (ur'^labs/doquesefalou/$', darviews.wordlist),
 
     (r'^ie6/$', direct_to_template, {'template': 'browser-update.html'}),
     (r'^404/$', direct_to_template, {'template': '404.html'}),
