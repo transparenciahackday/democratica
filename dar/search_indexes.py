@@ -1,5 +1,5 @@
 import datetime
-from haystack import indexes
+from haystack import indexes, site
 from dar.models import Entry
 
 class EntryIndex(indexes.SearchIndex):

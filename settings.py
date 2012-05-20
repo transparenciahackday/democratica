@@ -108,7 +108,6 @@ HAYSTACK_CONNECTIONS = {
     }
 '''
 HAYSTACK_SITECONF = 'democratica.search_sites'
-HAYSTACK_XAPIAN_PATH = '/home/www_data/xapian_index'
 HAYSTACK_SEARCH_ENGINE = 'xapian'
 HAYSTACK_ITERATOR_LOAD_PER_QUERY = 100
 # HAYSTACK_CUSTOM_HIGHLIGHTER = 'democratica.dar.utils.MyHighlighter'
