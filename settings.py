@@ -88,7 +88,7 @@ INSTALLED_APPS = (
     'haystack',
     'south',
     'debug_toolbar',
-#    'kombu.transport.django',  
+    'kombu.transport.django',  
     'djcelery',
     'reversion',
 )  

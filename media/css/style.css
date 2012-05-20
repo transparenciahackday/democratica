@@ -1498,12 +1498,16 @@ margin: 15px 0 0;
   min-width: 600px;
   position: fixed;
   bottom: 0;
-  width: 950px;
-  padding: 0 20px;
+  width: 990px;
   z-index: 99999;
 }
 
-#toolbar ul {
+#toolbar ul.left {
+  float: left;
+  padding: 0 10px;
+}
+
+#toolbar ul.right {
   float: right;
 }
 
@@ -1517,7 +1521,31 @@ margin: 15px 0 0;
   height: 32px;
   padding: 0 10px;
   color: #EDEDEE;
+  background-color: #373E48;
   text-shadow: 1px 1px 2px #151E2B;
+  text-decoration: none;
+  border-left: 1px solid #151e2b;
+  border-right: 1px solid #535D6C;
+}
+  
+  #toolbar li:last-child a {
+  border-right: 0;
+  }
+
+
+#toolbar li a:hover {
+  background-color: #292f36;
+  -moz-box-shadow: inset 0 0 3px rgba(0,0,0,.5);
+}
+
+#toolbar .left .info {
+  padding: 2px 5px;
+  background-color: #f2f1da;
+  display: inline;
+  float: none;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 /* ------------------------ About snippet
