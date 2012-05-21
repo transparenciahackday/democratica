@@ -19,16 +19,16 @@
       </div>
       
       
-      <h3>Resultados da pesquisa por <span>&ldquo;{{ query }}&rdquo;</span></h3>
       
       {% if page.object_list %}
+      <h3>{{ page.object_list|length }} resultados para <span>&ldquo;{{ query }}&rdquo;</span>:</h3>
       <div id="results">
         <ul id="results-left">
 
           {% for result in page.object_list %}
           <li>
             <p>
-            <a href="{{ result.object.get_absolute_url }}">{{ result.object.day.date|date:"d M y" }}</a>
+            <a href="{{ result.object.get_absolute_url }}">{{ result.object.day.date|date:"d M Y" }}</a>
             {% if result.object.mp %}<strong class="party {{ result.object.mp.current_party.abbrev|lower }}">{{ result.object.mp.shortname }}</strong>: {% endif %}{% highlight result.object.text_as_html with query max_length 100 cssclass 'highlight' %} 
             </p>
           </li>
@@ -54,7 +54,7 @@
       
       {% else %}
         
-        <p>Não foram encontrados resultados</p>
+      <h3>Não foram encontrados resultados para <span>&ldquo;{{ query }}&rdquo;</span>.</h3>
       
       {% endif %}
     

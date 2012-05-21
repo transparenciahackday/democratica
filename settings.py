@@ -98,14 +98,18 @@ BROKER_URL = "django://" # tell kombu to use the Django database as the message 
 CELERY_IMPORTS = ("dar.tasks",)
 import djcelery  
 djcelery.setup_loader() 
-# Haystack
+# Haystack 2.0 stuff, but we're using 1.2.7
+'''
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.xapian_backend.XapianEngine',
-        'PATH': os.path.join(os.path.dirname(__file__), 'xapian_index'),
+        'PATH': os.path.join(os.path.abspath(os.path.dirname(__file__)), 'xapian_index'),
         },
     }
-HAYSTACK_ITERATOR_LOAD_PER_QUERY = 100
+'''
+HAYSTACK_SITECONF = 'democratica.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'xapian'
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 100
 # HAYSTACK_CUSTOM_HIGHLIGHTER = 'democratica.dar.utils.MyHighlighter'
 
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False} 

@@ -14,8 +14,12 @@ class MissingDependency(HaystackError):
     """Raised when a library a backend depends on can not be found."""
     pass
 
-class NotHandled(HaystackError):
-    """Raised when a model is not handled by the router setup."""
+class AlreadyRegistered(HaystackError):
+    """Raised when a model is already registered with a site."""
+    pass
+
+class NotRegistered(HaystackError):
+    """Raised when a model is not registered with a site."""
     pass
 
 class MoreLikeThisError(HaystackError):
@@ -24,8 +28,4 @@ class MoreLikeThisError(HaystackError):
 
 class FacetingError(HaystackError):
     """Raised when incorrect arguments have been provided for faceting."""
-    pass
-
-class SpatialError(HaystackError):
-    """Raised when incorrect arguments have been provided for spatial."""
     pass
