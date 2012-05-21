@@ -209,8 +209,10 @@
         
         <ul id="dar-tabs" class="tabs">
           <li><span>Transcrição</span></li>
+          {% comment %}
           <li><a href="stats" title="">Estatísticas</a></li>
           <li><a href="{% url day_revisions day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
+          {% endcomment %}
         </ul>
          
         <h2 class="ribbon">{{ day.date }}</h2>
