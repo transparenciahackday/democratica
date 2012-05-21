@@ -19,9 +19,9 @@
       </div>
       
       
-      <h3>Resultados da pesquisa por <span>&ldquo;{{ query }}&rdquo;</span></h3>
       
       {% if page.object_list %}
+      <h3>{{ page.object_list|length }} resultados para <span>&ldquo;{{ query }}&rdquo;</span>:</h3>
       <div id="results">
         <ul id="results-left">
 
@@ -54,7 +54,7 @@
       
       {% else %}
         
-        <p>Não foram encontrados resultados</p>
+      <h3>Não foram encontrados resultados para <span>&ldquo;{{ query }}&rdquo;</span>.</h3>
       
       {% endif %}
     
