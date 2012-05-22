@@ -10,5 +10,5 @@ media/js/high*
 media/js/adapters
 media/js/themes
 media/js/modules
+xapian-index/
 xapian_index/
-xapian_index
