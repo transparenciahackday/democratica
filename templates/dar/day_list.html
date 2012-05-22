@@ -4,34 +4,20 @@
 
 {% block title %}Sessões parlamentares em {{ year }} &mdash; Demo.cratica (Beta){% endblock %}
 
-{% block extrascripts %}
-    <script src="/media/js/jquery.infiniteCarrousel.js" type="text/javascript"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-		    $('.infiniteCarousel').infiniteCarousel();  
-      });
-    </script>
-
-{% endblock %}
 
 {% block extrabodyclass %}no-background{% endblock %}
 
 {% block content %}
     <div id="content-box">
       <h2>Sessões parlamentares em {{ year }}</h2>
-      
-      <div class="infiniteCarousel">
-      <div class="wrapper">
-        <ul class="years">
-          {% for y in years %}
-            <li><a {% ifequal y year %}class="selected"{%endifequal%} href="{% url calendar_year y %}">{{ y }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-      </div>
-    		
+ 
+       <ul class="year-nav">
+        {% for y in years %}
+          <li><a {% ifequal y year %}class="selected"{%endifequal%} href="{% url calendar_year y %}">{{ y }}</a></li>
+        {% endfor %}
+      </ul>
+         		
 		  <div id="calendar">
-		
 		    <div class="year">
           {% for month in year|months_for_year %}
 		      <div class="month">
