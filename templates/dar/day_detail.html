@@ -218,6 +218,7 @@
         <h2 class="ribbon">{{ day.date }}</h2>
 
         <p><strong>Nota:</strong> As transcrições ainda estão em desenvolvimento. Pode haver inconsistências e erros de processamento.</p>
+        {% if pdf_url %}<p>Consultar o <a href="{{ pdf_url }}">PDF original</a> da transcrição desta sessão.</p>{% endif %}
 
         {% for entry in entries %}
           {% if forloop.first %}
