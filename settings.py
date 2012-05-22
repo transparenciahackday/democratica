@@ -4,7 +4,8 @@ from localsettings import *
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-TEMPLATE_STRING_IF_INVALID = 'LOOKUP FAILED'
+if DEBUG:
+    TEMPLATE_STRING_IF_INVALID = 'LOOKUP FAILED'
 
 import os
 

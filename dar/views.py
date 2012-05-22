@@ -94,10 +94,18 @@ def day_detail(request, year, month, day):
         gov = govs[0]
     else:
         gov = govs[len(govs)-1] if govs else None
+
+    if day.legislature.number >= 7:
+        from democratica.core.darpdfurls import encode_url
+        pdf_url = encode_url(day.legislature.number, day.legislative_session, day.diary_number)
+    else:
+        pdf_url = None
+
     return direct_to_template(request, 'dar/day_detail.html',
         extra_context={'day': day, 'entries': entries,
                        'gov': gov.number if gov else None,
                        'mpdict': mp_lookup,
+                       'pdf_url': pdf_url,
                 })
 
 def entry_detail(request, year, month, day, position):
