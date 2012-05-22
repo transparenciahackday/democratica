@@ -1535,7 +1535,9 @@ margin: 15px 0 0;
 
 #toolbar li a:hover {
   background-color: #292f36;
+  box-shadow: inset 0 0 3px rgba(0,0,0,.5);
   -moz-box-shadow: inset 0 0 3px rgba(0,0,0,.5);
+  -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.5);
 }
 
 #toolbar .left .info {
@@ -1693,53 +1695,106 @@ color: #939dac;
 /* ------------------------ vista de calendário
 --------------------------------*/
 
-#content-box .year-nav {
-background-color: #373e48;
-padding: 0;
-overflow: auto;
-text-align: center;
-border-bottom: 1px solid #535d6c;
-border-top: 1px solid #535d6c;
-font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+#content-box .infiniteCarousel {
+  width: 950px;
+  position: relative;
+  border-bottom: 1px solid #535d6c;
+  border-top: 1px solid #535d6c;
+  background-color: #373e48;
 }
 
-#content-box .year-nav li {
-display: block;
-float: left;
+#content-box .infiniteCarousel .wrapper {
+  width: 790px; /* .infiniteCarousel width - (.wrapper margin-left + .wrapper margin-right) */
+  overflow: auto;
+  min-height: 3.5em;
+  margin: 0 78px;
+  position: relative;
+  box-shadow: inset 0 0 6px #292f36;
+  -moz-box-shadow: inset 0 0 6px #292f36;
+  -webkit-box-shadow: inset 0 0 6px #292f36;
 }
 
-#content-box .year-nav .previous,
-#content-box .year-nav .next {
-width: 100px;
+#content-box .infiniteCarousel .back,
+#content-box .infiniteCarousel .forward {
+  color: #B7BEC8;
+  background-color: #535D6C;
+  font-weight: bold;
+  display: block;
+  padding: 2px 8px;
+  position: absolute;
+  top: 8px;
+  text-align: center;
+  cursor: pointer;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 3px rgba(0,0,0,.3);
+  -moz-box-shadow: inset 0 0 3px rgba(0,0,0,.3);
+  -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.3);
+}
+
+#content-box .infiniteCarousel .forward {
+  right: 10px;
+}
+
+#content-box .infiniteCarousel .back {
+  left: 10px;
+}
+
+#content-box .infiniteCarousel .forward:hover,
+#content-box .infiniteCarousel .back:hover {
+  color: #fff;
+  background-color: #292f36;
 }
 
 #content-box .years {
-width: 750px;
+text-align: center;
+font-family: 'Lato-regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+width: 9999px;
+list-style-image: none;
+list-style-position: outside;
+list-style-type: none;
+margin:0;
+padding:0;
+position: absolute;
+top: 0;
 }
 
-#content-box .years ul {
-display: inline-block;
-text-align: left;
+#content-box .years li {
+display: block;
+float: left;
+padding: 0 10px;
+width: 24px;
 }
 
-#content-box .year-nav a {
-display: inline-block;
+#content-box .years li.empty {
+display: block;
+float: left;
 padding: 10px;
-text-decoration: none;
-color: #b7bec8;
-border-bottom: 0;
+width: 24px;
 }
 
-#content-box .year-nav a.selected {
+#content-box .years a {
+color: #b7bec8;
+display: block;
+float: left;
+padding: 14px 10px;
+margin: 0 -10px;
+line-height: 1;
+}
+
+#content-box .years a.selected {
 background: #535d6c;
 color: #fff;
 font-family: 'Lato-black', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-#content-box .year-nav a:focus,
-#content-box .year-nav a:hover {
-background: #535d6c;
+#content-box .years a:focus,
+#content-box .years a:hover {
+background: #292f36;
 }
+
 
 .no-background #content-box > h2:first-child {
 text-align: center;
@@ -2197,6 +2252,7 @@ margin: 0 0 10px;
 .admin #content .last {
   margin-right: 0;
 }
+
 
 
 
