@@ -3,6 +3,9 @@
   <p class="party">{{ entry.party }}</p>
 </div>
 <div class="right">
+  <p class="popup" id="popup-button-{{ entry.id }}">
+    <label>Link desta intervenção:</label> <input type="text" value="http://demo.cratica.org{{ entry.get_absolute_url }}" /><span class="close">X</span>
+  </p>  
   <div class="entry-content edit_area" id="Entry_raw_text_{{ entry.id }}"> {{ entry.text_as_html }} </div>
   <ul class="social">
     <li><a href="https://www.facebook.com/dialog/feed?app_id=220055821445206&link=http://demo.cratica.org{{ entry.get_absolute_url }}&picture=http://demo.cratica.org:7080/media/img/democratica-white-small.png&name=Demo.cratica&caption={{ entry.day.date }}&description={{ entry.raw_text|truncatewords:40 }}&redirect_uri=http://demo.cratica.org{{ entry.get_absolute_url }}" class="facebook" name="fb_share" id="facebook-{{ entry.id }}" title="Partilhar no Facebook">Facebook</a></li>
