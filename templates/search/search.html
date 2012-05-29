@@ -76,9 +76,29 @@
 
     {% if page.has_previous or page.has_next %}
     <ul class="pagination">
-      <li id="previous">{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Anterior{% if page.has_previous %}</a>{% endif %}</li>
+      <li id="previous">{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Página anterior{% if page.has_previous %}</a>{% endif %}</li>
       
-      <li id="next">{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Seguinte  &raquo;{% if page.has_next %}</a>{% endif %}</li>
+      <li id="pg-nav">
+      {% for n in page.paginator.page_range %}
+         {% if forloop.first %}
+         <li class="first">
+         {% else %}
+           {% if forloop.last %}
+           <li class="last">
+           {% else %}
+           <li>
+           {% endif %}
+         {% endif %}
+         {% if page.number == n %}
+         <a href="?q={{ query }}&amp;page={{ n }}" class="on">{{ n }}</a>
+         {% else %}
+         <a href="?q={{ query }}&amp;page={{ n }}">{{ n }}</a>
+         {% endif %}
+         </li>
+         {% endfor %}
+      </li>
+
+      <li id="next">{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Página seguinte  &raquo;{% if page.has_next %}</a>{% endif %}</li>
     </ul>
     {% endif %}
 
