@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     'kombu.transport.django',  
     'djcelery',
     'reversion',
+    'tastypie',
 )  
   
 # Celery
