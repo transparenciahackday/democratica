@@ -14,8 +14,13 @@ from haystack.views import SearchView, search_view_factory
 sqs = SearchQuerySet().filter(order_by='-day')
 
 # Enable API's
-from deputados.api import MPResource
-mp_resource = MPResource()
+from tastypie.api import Api
+from deputados.api import MPResource, LinkResource
+v1_api = Api(api_name='v1')
+v1_api.register(MPResource())
+v1_api.register(LinkResource())
+
+
 
 urlpatterns = patterns('',
     (r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
@@ -58,7 +63,7 @@ urlpatterns = patterns('',
     (r'^labs/$', direct_to_template, {'template': 'labs/labs_list.html'}),
     (ur'^labs/doquesefalou/$', darviews.wordlist),
 
-    (r'^api/', include(mp_resource.urls)),
+    (r'^api/', include(v1_api.urls)),
 
     (r'^ie6/$', direct_to_template, {'template': 'browser-update.html'}),
     (r'^404/$', direct_to_template, {'template': '404.html'}),
