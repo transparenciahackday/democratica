@@ -18,16 +18,19 @@ class PrettyJSONSerializer(Serializer):
                                 sort_keys=True, ensure_ascii=False, indent=self.json_indent)
 
 class LinkResource(ModelResource):
+    # mp = fields.ForeignKey('deputados.api.resources.MPResource', 'mp', related_name="links")
     class Meta:
         queryset = LinkSet.objects.all()
-        resource_name = 'linkset'
+        resource_name = 'links'
+        allowed_methods = ['get']
 
 class MPResource(ModelResource):
-    # linkset = fields.ForeignKey(LinkResource, 'linkset')
+    linkset = fields.ToOneField(LinkResource, "linkset", null=True)
     class Meta:
         queryset = MP.objects.all()
         resource_name = 'deputado'
         excludes = ['aka_1', 'aka_2', 'favourite_word', 'is_active', 'tweets', 'news']
+        allowed_methods = ['get']
 
     def prepend_urls(self):
         return [
