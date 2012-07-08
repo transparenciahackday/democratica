@@ -31,6 +31,7 @@ class MPResource(ModelResource):
         resource_name = 'deputado'
         excludes = ['aka_1', 'aka_2', 'favourite_word', 'is_active', 'tweets', 'news']
         allowed_methods = ['get']
+        serializer = PrettyJSONSerializer()
 
     def prepend_urls(self):
         return [
