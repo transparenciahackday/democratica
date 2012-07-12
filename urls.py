@@ -15,11 +15,11 @@ sqs = SearchQuerySet().filter(order_by='-day')
 
 # Enable API's
 from tastypie.api import Api
-from deputados.api import MPResource, LinkResource
+from deputados.api import *
 v1_api = Api(api_name='v1')
 v1_api.register(MPResource())
-v1_api.register(LinkResource())
-
+v1_api.register(PartyResource())
+v1_api.register(ConstituencyResource())
 
 
 urlpatterns = patterns('',
