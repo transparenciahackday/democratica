@@ -7,11 +7,12 @@ import sys
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from django.conf import settings
+from django.utils import importlib
 
 from south import exceptions
 from south.migration.utils import depends, dfs, flatten, get_app_label
 from south.orm import FakeORM
-from south.utils import memoize, ask_for_it_by_name
+from south.utils import memoize, ask_for_it_by_name, datetime_utils
 from south.migration.utils import app_label_to_app_module
 
 
@@ -111,11 +112,11 @@ class Migrations(list):
         """
         module_path = self.migrations_module()
         try:
-            module = __import__(module_path, {}, {}, [''])
+            module = importlib.import_module(module_path)
         except ImportError:
             # There's no migrations module made yet; guess!
             try:
-                parent = __import__(".".join(module_path.split(".")[:-1]), {}, {}, [''])
+                parent = importlib.import_module(".".join(module_path.split(".")[:-1]))
             except ImportError:
                 # The parent doesn't even exist, that's an issue.
                 raise exceptions.InvalidMigrationModule(
@@ -149,12 +150,12 @@ class Migrations(list):
         self._application = application
         if not hasattr(application, 'migrations'):
             try:
-                module = __import__(self.migrations_module(), {}, {}, [''])
+                module = importlib.import_module(self.migrations_module())
                 self._migrations = application.migrations = module
             except ImportError:
                 if force_creation:
                     self.create_migrations_directory(verbose_creation)
-                    module = __import__(self.migrations_module(), {}, {}, [''])
+                    module = importlib.import_module(self.migrations_module())
                     self._migrations = application.migrations = module
                 else:
                     raise exceptions.NoMigrations(application)
@@ -271,6 +272,12 @@ class Migration(object):
     def __repr__(self):
         return u'<Migration: %s>' % unicode(self)
 
+    def __eq__(self, other):
+        return self.app_label() == other.app_label() and self.name() == other.name()
+
+    def __hash__(self):
+        return hash(str(self))
+
     def app_label(self):
         return self.migrations.app_label()
 
@@ -298,7 +305,7 @@ class Migration(object):
                 raise exceptions.BrokenMigration(self, sys.exc_info())
         # Override some imports
         migration._ = lambda x: x  # Fake i18n
-        migration.datetime = datetime
+        migration.datetime = datetime_utils
         return migration
     migration = memoize(migration)
 
@@ -411,6 +418,8 @@ class Migration(object):
             return False
 
     def prev_orm(self):
+        if getattr(self.migration_class(), 'symmetrical', False):
+            return self.orm()
         previous = self.previous()
         if previous is None:
             # First migration? The 'previous ORM' is empty.
