@@ -1298,6 +1298,10 @@ border: 0;
   color: #555;
   }
 
+.entry .right .aside {
+    color: #777;
+}
+
 .entry .right p {
 margin-top: 10px;
 }
@@ -1986,7 +1990,7 @@ display: block;
 .psd, #content .psd > a { color: #cb8d41; }
 .pcp, #content .pcp > a { color: #c74343; }
 .be, #content .be > a { color: #671717; }
-.cds-pp, #content .cds-pp a { color: #606798; }
+.cds-pp, #content .cds-pp > a { color: #606798; }
 .pev, #content .pev > a { color: #607454; }
 
 
@@ -2006,7 +2010,7 @@ a.avatar-colorbar.be img {
 border-color: #671717; }
 
 
-a.avatar-colorbar.cds-pp {
+a.avatar-colorbar.cds-pp img {
 border-color: #606798; }
 
 a.avatar-colorbar.pev img {
