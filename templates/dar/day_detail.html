@@ -237,6 +237,7 @@
 
           <div class="entry" id="{{ entry.position }}">
             {# Incluir snippet de acordo com o tipo #}
+            <!-- {{entry.type}} -->
             {% if not entry.type %}
               {% include 'dar/entry_snippets/outra.html' %}
             {% else %}

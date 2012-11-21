@@ -1,12 +1,13 @@
 {% load dartags %}
-{% with mpdict|lookup:entry.mp_id as mp %}
 <div class="left">
   {% if entry.mp_id %}
+  {% with mpdict|lookup:entry.mp_id as mp %}
   {% if mp.photo %}<p class="mp-photo"><a href="/deputados/{{ mp.id }}" class="avatar-colorbar {{ mp.party_abbrev|lower }}"><img src="{{ mp.photo.url_60x79 }}" alt="{{ mp.shortname }}" /></a></p>{% endif %}
   <h3 class="mp-name"><a href="/deputados/{{ mp.id }}">{{ mp.shortname }}</a></h3>
   <h4>{{ entry.party }}</h4>
-  <p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>
+  {% if entry.party %}<p class="party {{ mp.party_abbrev|lower }}">{{ mp.party_abbrev }}</p>{% endif %}
   <p class="circle {{ mp.party_abbrev|lower }}">{{ mp.constituency }}</p>
+  {% endwith %}
   {% else %}
   <h3 class="mp-name">{{ entry.speaker }}</h3>
   <h4>{{ entry.party }}</h4>
@@ -21,4 +22,3 @@
   </ul>
   {% endif %}                
 </div>
-{% endwith %}
