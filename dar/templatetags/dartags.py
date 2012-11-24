@@ -88,8 +88,7 @@ def floatise(s):
 def lookup(dict, index):
     if index in dict:
         return dict[index]
-    assert False
-    return ''
+    return None
 
 @register.filter
 def lookuplookup(dict, index1, index2):

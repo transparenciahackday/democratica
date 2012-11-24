@@ -27,7 +27,11 @@ def qs_token_iterator(queryset, statement_separator=None):
     for statement in queryset.iterator():
         # changed the following line from statement.raw_text() to statement.text
         # for this to work with demo.cratica. -- ricardo
-        for x in text_token_iterator(statement.raw_text, statement_separator):
+        if statement.raw_text:
+            t = statement.raw_text
+        else:
+            t = statement.text
+        for x in text_token_iterator(t, statement_separator):
             yield x
 
 STOPWORDS = frozenset([word.strip() for word in open(STOPWORD_FILE, 'r').readlines()])

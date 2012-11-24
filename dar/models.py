@@ -12,7 +12,7 @@ from democratica.core import text_utils
 from deputados.models import MP, Legislature
 
 class Day(models.Model):
-    date = models.DateField()
+    date = models.DateField(unique=True)
     top5words = JSONField(null=True, editable=False)
     parsed = models.BooleanField(default=False, editable=False)
     missing = models.BooleanField(default=False, editable=False)
@@ -63,11 +63,11 @@ class Day(models.Model):
 class Entry(models.Model):
     day = models.ForeignKey(Day)
     position = models.PositiveIntegerField(default=0)
-    raw_text = models.TextField('Texto original', max_length=100000)
+    raw_text = models.TextField('Texto original', max_length=100000, blank=True)
     
     mp = models.ForeignKey(MP, blank=True, null=True)
-    speaker = models.CharField('Orador', max_length=200, blank=True)
-    party = models.CharField('Partido', max_length=200, blank=True)
+    speaker = models.CharField('Orador', max_length=200, blank=True, null=True)
+    party = models.CharField('Partido', max_length=200, blank=True, null=True)
     text = models.TextField('Texto', max_length=10000, blank=True)
     type = models.CharField('Tipo', max_length=40, blank=True)
 
@@ -211,6 +211,10 @@ class Entry(models.Model):
             txt = self.raw_text
         else:
             txt = self.text
+        # número par de underscores?
+        while '_' in txt and not bool(txt.count('_') % 2):
+            parts = txt.split('_', 2)
+            txt = parts[0] + '<em>' + parts[1] + '</em>' + parts[2]
         paras = txt.split('\n')
         output = ''
         for para in paras:

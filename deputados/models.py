@@ -8,20 +8,8 @@ from democratica.core import text_utils
 
 from south.modelsinspector import add_introspection_rules
 add_introspection_rules(
-    [
-        (
-            (ImageWithThumbsField, ),
-            [],
-            {
-                "verbose_name": ["verbose_name", {"default": None}],
-                "name":         ["name",         {"default": None}],
-                "width_field":  ["width_field",  {"default": None}],
-                "height_field": ["height_field", {"default": None}],
-                "sizes":        ["sizes",        {"default": None}],
-            },
-        ),
-    ],
-    ["^democratica\.deputados\.thumbs\.ImageWithThumbsField",]
+    [([ImageWithThumbsField], [], {"sizes": ["sizes", {}]})],
+    ["^deputados.thumbs.ImageWithThumbsField"]
 )
 
 class MPManager(models.Manager):
@@ -126,8 +114,11 @@ class MP(models.Model):
     def comissoes(self): return self.facts_by_type('Comissoes')
 
     def calculate_favourite_word(self):
-        if self.entry_set.all():
-             self.favourite_word = text_utils.most_frequent_word(self.entry_set.all())
+        # NOTA: Só procura na XII legislatura
+        import datetime
+        d = datetime.date(day=20, month=6, year=2011)
+        if self.entry_set.filter(day__date__gt=d):
+             self.favourite_word = text_utils.most_frequent_word(self.entry_set.filter(day__date__gt=d))
              self.save()
 
     def get_absolute_url(self):
@@ -145,8 +136,6 @@ class Party(models.Model):
     has_mps = models.BooleanField('Tem ou teve deputados?', default=True)
     #primary_color = models.CharField('Cor principal', max_length=10)
     #secondary_color = models.CharField('Cor principal', max_length=10)
-
-
 
     def __unicode__(self): return self.abbrev
     class Meta:

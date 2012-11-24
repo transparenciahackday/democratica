@@ -22,7 +22,9 @@ from democratica.dar.models import Day
 
 print 'A calcular palavras mais frequentes...'
 print 
-for day in Day.objects.all():
+import dateutil.parser
+d = dateutil.parser.parse('2011-06-20')
+for day in Day.objects.filter(date__gt=d):
     print day.date
     day.calculate_top5words()
 
