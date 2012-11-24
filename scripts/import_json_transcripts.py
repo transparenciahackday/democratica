@@ -29,17 +29,24 @@ from democratica.deputados.models import MP, Party, GovernmentPost, Legislature
 from democratica.dar.models import Entry, Day
 from democratica.settings import TRANSCRIPTS_DIR
 
+# suppress django's annoying debug output
+from democratica import settings
+tmp_debug = settings.DEBUG
+settings.DEBUG = False
+
 def parse_long_name(speaker):
     # correct cases where names are too long (a sign that parsing didn't catch
     # the separator before)
     logging.error('MP name too long! (%s)' % speaker)
     return speaker[:20]
 
-def insert_entry(speaker, party, text, type, day):
+def insert_entry(speaker, party, text, type, position, day):
+    if speaker == "Presidente":
+        Entry.objects.create(speaker=speaker, party=party, text=text, day=day, type=type, position=position)
+        return
     # make sure the party name is well formatted
-    if len(speaker) > 100: 
+    if speaker and len(speaker) > 100: 
         speaker = parse_long_name(speaker)
-    party = party.strip('-')
     # try to match the speaker name to an MP entry in the database
     matching_mps = MP.objects.filter(shortname=speaker)
     if matching_mps:
@@ -59,13 +66,13 @@ def insert_entry(speaker, party, text, type, day):
                     mp = MP.objects.filter(shortname=speaker, mandate__party__abbrev=p).distinct()[0]
                 except MP.MultipleObjectsReturned:
                     logging.warning('More than 1 result for name %s in party %s. Assigning first MP instance.' % (speaker, party))
-                    Entry.objects.create(speaker=speaker, party=party, text=text, day=day, type=type)
+                    Entry.objects.create(speaker=speaker, party=party, text=text, day=day, type=type, position=position)
         else:
             # oh, this was easy, we found them quickly
             mp = MP.objects.get(shortname=speaker)
         # finally, create the Entry object assigned to the correct MP
         try:
-            Entry.objects.create(mp=mp, party=party, text=text, day=day, type=type)
+            Entry.objects.create(mp=mp, party=party, text=text, day=day, type=type, position=position)
         except:
             logging.error('Could not create Entry, even though I thought all was going fine...')
             print mp
@@ -76,43 +83,42 @@ def insert_entry(speaker, party, text, type, day):
         if speaker and GovernmentPost.objects.filter(person_name=speaker, date_started__lt=day.date, date_ended__gt=day.date):
             try:
                 mp = MP.objects.get(governmentpost__person_name=speaker, governmentpost__date_started__lt=day.date, governmentpost__date_ended__gt=day.date)
+                Entry.objects.create(mp=mp, party=party, text=text, day=day, type=type, position=position)
             except MP.DoesNotExist:
                 # couldn't find one
-                print 
+                Entry.objects.create(speaker=speaker, party=party, text=text, day=day, type=type, position=position)
             except MP.MultipleObjectsReturned:
                 print speaker
                 print MP.objects.filter(governmentpost__person_name=speaker, governmentpost__date_started__lt=day.date, governmentpost__date_ended__gt=day.date)
                 raise
 
-            Entry.objects.create(mp=mp, party=party, text=text, day=day, type=type)
         elif speaker and speaker not in ('Primeiro-Ministro', 'Presidente', u'Secretário', u'Secretária') and not speaker.startswith('Vozes'):
             # Speaker appears to not be in our database, logging a warning
             logging.warning('Speaker %s not found in our database. Creating Entry without speaker link.' % speaker)
-            Entry.objects.create(speaker=speaker, party=party, text=text, day=day, type=type)
+            Entry.objects.create(speaker=speaker, party=party, text=text, day=day, type=type, position=position)
         else:
-            Entry.objects.create(speaker=speaker, party=party, text=text, day=day, type=type)
+            Entry.objects.create(speaker=speaker, party=party, text=text, day=day, type=type, position=position)
 
 def import_session(filename, force=False):
     '''Does a check for existing records and, if all is OK, 
     calls the import_csv_session or import_json_session to parse
     the file.'''
 
-    print filename
-    # extract date
-    slug = os.path.basename(filename).split('.')[0]
-    try:
-        dar, leg, sess, number, date = slug.split('_')
-        dt = dateutil.parser.parse(date)
-    except ValueError:
-        logging.error('Could not parse date from filename %s. Skipping.' % f)
-        return 1
+    s = json.loads(open(filename).read())
+    dt = dateutil.parser.parse(s['session-date'], dayfirst=True)
+    print "%s %s" % (str(dt), filename.rsplit('/')[-1])
+
+    # extract session numbers
+    slug = os.path.basename(filename.replace('-proc', '')).split('.')[0]
+    dar, leg, sess, number = slug.split('_')
+
     if Day.objects.filter(date=dt):
         if force:
             # we're overwriting
             d = Day.objects.get(date=dt)
             d.delete()
         else:
-            logging.warning("There's already a record for %s, not overwriting." % str(date))
+            logging.warning("There's already a record for %s, not overwriting." % str(dt))
             return
     # create the Day instance
     # FIXME: quando tivermos outras séries, é preciso detectar...
@@ -120,19 +126,18 @@ def import_session(filename, force=False):
                              diary_series=1, diary_number=number,
                              legislature=Legislature.objects.get(number=int(leg)), legislative_session=int(sess))
 
-    # check format and call appropriate function
-    if filename.endswith('.txt'):
-        lines = open(filename).read().split('\n\n')
-        # import each row
-        position = 100
-        for item in lines:
-            raw_text = item.strip()
-            Entry.objects.create(raw_text=raw_text, position=position, day=day)
-            position += 100
-
-    # process raw text
-    #for e in day.entry_set.all():
-    #        e.parse_raw_text()
+    # import each row
+    position = 100
+    from dateutil import parser
+    for e in s['entries']:
+        insert_entry(text=e.get('text'), 
+                     speaker=e.get('speaker'),
+                     party=e.get('party'),
+                     type=e.get('type'),
+                     position=position,
+                     day=day,
+                     )
+        position += 100
 
     # finally, get this session's top words
     day.calculate_top5words()

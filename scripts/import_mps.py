@@ -53,9 +53,10 @@ def insert_mps(jsonfile=os.path.join(DATASET_DIR, MP_FILE)):
     # criar círculos eleitorais
     constituency_file = csv.reader(open(os.path.join(DATASET_DIR, CONSTITUENCIES_FILE)), delimiter='|', quotechar='"')
     for name, article in constituency_file:
-        c, created = Constituency.objects.get_or_create(name=name, article=article)
-
-    # importar dados deputados
+        c, created = Constituency.objects.get_or_create(name=name)
+        c.article = article
+        c.save()
+    # importar dados dos deputados
     mps = json.loads(open(jsonfile, 'r').read())
     for id in mps:
         name = mps[id]['name']
@@ -80,28 +81,31 @@ def insert_mps(jsonfile=os.path.join(DATASET_DIR, MP_FILE)):
         jobs = "\n".join(mps[id]['jobs']) if mps[id].get('jobs') else ''
         education = "\n".join(mps[id]['education']) if mps[id].get('education') else ''
         commissions = "\n".join(mps[id]['commissions'])
-        mp, mp_created = MP.objects.get_or_create(id = int(id),
-                          name = name,
-                          shortname = shortname,
-                          dob = dob,
-                          occupation = occupation,
-                          jobs = jobs,
-                          education = education,
-                          commissions = commissions,
-                          )
+
+        mp, mp_created = MP.objects.get_or_create(id = int(id))
+        mp.name = name
+        mp.shortname = shortname
+        mp.dob = dob
+        mp.occupation = occupation
+        mp.jobs = jobs
+        mp.education = education
+        mp.commissions = commissions
+        mp.save()
+
         if mp_created: print mp.shortname
         # criar mandatos para deputado
         from pprint import pprint
         mandate_dicts = mps[id]['mandates']
         for mandate in mandate_dicts:
             mdict = mandate
-            m, m_created = Mandate.objects.get_or_create(mp=mp,
-                        party = Party.objects.get_or_create(abbrev=mdict['party'])[0],
-                        constituency = Constituency.objects.get(name=mdict['constituency']),
-                        legislature = Legislature.objects.get_or_create(number=mdict['legislature'])[0],
-                        date_begin = dateutil.parser.parse(mdict['start_date']).date(),
-                        date_end = dateutil.parser.parse(mdict['end_date']).date() if mdict['end_date'] else None,
-                        )
+            m, m_created = Mandate.objects.get_or_create(mp=mp, 
+                    legislature = Legislature.objects.get_or_create(number=mdict['legislature'])[0], 
+                    constituency = Constituency.objects.get(name=mdict['constituency']), 
+                    party = Party.objects.get_or_create(abbrev=mdict['party'])[0],)
+            m.date_begin = dateutil.parser.parse(mdict['start_date']).date()
+            m.date_end = dateutil.parser.parse(mdict['end_date']).date() if mdict['end_date'] else None
+            m.save()
+                        
         mp.update_current_mandate()
         mp.update_current_party()
 

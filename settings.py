@@ -2,7 +2,7 @@
 
 from localsettings import *
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 if DEBUG:
     TEMPLATE_STRING_IF_INVALID = 'LOOKUP FAILED'
