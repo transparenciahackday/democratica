@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 from democratica import settings
 from democratica.deputados.models import MP, Party, Mandate, LinkSet, Legislature, Fact, FactType, Activity
 import democratica.deputados.views as views
@@ -63,7 +63,10 @@ urlpatterns = patterns('',
     (r'^labs/$', direct_to_template, {'template': 'labs/labs_list.html'}),
     (ur'^labs/doquesefalou/$', darviews.wordlist),
 
+    # api
     (r'^api/', include(v1_api.urls)),
+    url(r'^deputados/(?P<id>\d+)/json/$', redirect_to, {'url': '/api/v1/deputados/%(id)d/?format=json'}),
+    url(r'^deputados/(?P<id>\d+)/xml/$', redirect_to, {'url': '/api/v1/deputados/%(id)d/?format=xml'}),
 
     (r'^ie6/$', direct_to_template, {'template': 'browser-update.html'}),
     (r'^404/$', direct_to_template, {'template': '404.html'}),

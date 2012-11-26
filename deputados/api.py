@@ -61,7 +61,9 @@ class MPResource(ModelResource):
 
     def prepend_urls(self):
         return [
-            url(ur"^(?P<resource_name>%s)/(?P<shortname>[\w ]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            url(ur"^deputados/(?P<id>\d+)/$", self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+            # FIXME: o url seguinte não é reconhecido
+            url(ur"^deputados/(?P<shortname>[\w ]+)/$", self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
         ]
 
 class PartyResource(ModelResource):
