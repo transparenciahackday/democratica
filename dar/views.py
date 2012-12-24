@@ -141,7 +141,11 @@ def day_statistics(request, year, month, day):
     mps = MP.objects.filter(id__in=mp_ids)
     for mp in mps:
         # determine party at time of session
-        mandate = Mandate.objects.get(mp=mp, legislature=leg)
+        try:
+            mandate = Mandate.objects.get(mp=mp, legislature=leg)
+        except Mandate.DoesNotExist:
+            # TODO: não tem mandato = ministro ou sec.estado
+            continue
         party = mandate.party
         # get entries
         mp_entries = entries.filter(mp__id=mp.id)
@@ -200,13 +204,6 @@ def day_statistics(request, year, month, day):
         prev_date = prev_day.date
     except (IndexError, AttributeError):
         pass
-    
-    # criar dic de palavras mais mencionadas neste dia
-    if day.top5words:
-        # ugly ugly way to get the (unknown name) key from a dict
-        words = day.top5words['words'][0].items()[0][0]
-    else:
-        words = {}
 
     return object_detail(request, all_days, day.id,
             template_object_name = 'day', template_name='dar/day_detail_statistics.html',
@@ -215,7 +212,6 @@ def day_statistics(request, year, month, day):
                            'party_counts': party_counts,
                            'party_colors': PARTY_COLORS,
                            'mb_counts': mb_counts,
-                           'top5words': words,
                            'nextdate': next_date, 'prevdate': prev_date,
                 })
 

@@ -179,10 +179,10 @@
         </div>
         
         <div class="col">
-          {% if top5words %}
+          {% if day.top5words %}
           <h4>Palavras do dia</h4>
           <p>A palavra do dia foi</p>
-            {% for w in top5words %}
+            {% for w in day.top5words.words %}
               {# aqui usamos dicts de um só objecto, meio derpy mas tem de ser para obter os valores #}
               {% if forloop.first %}
                 {% for word,count in w.items %}
