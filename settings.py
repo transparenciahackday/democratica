@@ -2,7 +2,7 @@
 
 from localsettings import *
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 if DEBUG:
     TEMPLATE_STRING_IF_INVALID = 'LOOKUP FAILED'
@@ -44,7 +44,6 @@ USE_I18N = True
 USE_L10N = True
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = 'http://localhost:8000/media/'
 ADMIN_MEDIA_PREFIX = '/media/admin/'
 SECRET_KEY = 'u=+o$bugq9iiq0@3=-y#5ahm%r6pxo=3*qvqp7in0w1donajl8'
 

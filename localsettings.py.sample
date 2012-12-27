@@ -1,0 +1,54 @@
+# -*- coding: utf-8 -*-
+
+HAYSTACK_XAPIAN_PATH = '/home/user/democratica/xapian-index'
+
+# Configuração do demo.cratica
+# Em apenas dois passos, o demo.cratica estará configurado para o teu computador.
+
+# 1. Localização dos directórios
+# É só mudar os directórios aqui em baixo, relativamente ao directório democratica/.
+
+# Localização do repositório dos datasets
+PATH_DATASETS = '/home/user/datasets'
+
+# Localização do repositório dos scripts do Transparência
+PATH_REPO_TRANSPARENCIA = u'/home/user/transparenciapt'
+
+# Onde estão os ficheiros estáticos; este valor serve para instalações locais.
+MEDIA_URL = 'http://localhost:8000/media/'
+
+# 2. Configuração da base de dados
+
+# Tipo da base de dados
+# Pode ser 'mysql', 'postgresql_psycopg2' ou 'sqlite3'
+DB_TYPE = 'mysql'
+
+# Nome da BD
+DB_NAME = 'democratica'
+# Nome do utilizador da BD
+DB_USER = 'user'
+# Palavra-passe do utilizador da BD
+DB_PASSWORD = 'pass'
+
+# Hostname da BD (vazio = localhost)
+DB_HOST = ''
+# Porta da BD (vazio = valor por omissão da BD)
+DB_PORT = ''
+
+# Já não é preciso mudar mais nada a seguir! ##
+#
+# Corre o script para inicializar a base de dados:
+#   ./reset.sh
+#
+# Vai demorar um pouco; se tiveres erros, confirma que os directórios
+# acima indicados estão correctos! Senão, vem avisar-nos desse bug.
+#
+# Agora corre o comando
+#   python manage.py runserver
+#
+# E no teu browser, acede ao endereço
+#   http://127.0.0.1:8000
+#
+# E se tudo estiver correcto, verás a página de abertura do demo.cratica.
+
+#########################################################################
