@@ -1,12 +1,14 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
 from django.conf.urls.defaults import url
-
-from tastypie import fields
-from tastypie.resources import ModelResource
-from deputados.models import MP, LinkSet, Mandate, Legislature, GovernmentPost, Party, Constituency
-
 from django.core.serializers import json
 from django.utils import simplejson
+from tastypie import fields
+from tastypie.resources import ModelResource
 from tastypie.serializers import Serializer
+
+from deputados.models import MP, LinkSet, Mandate, Legislature, GovernmentPost, Party, Constituency
+
 
 class PrettyJSONSerializer(Serializer):
     json_indent = 2
