@@ -9,7 +9,8 @@
     <p class="party {{ e.party|lower }}">{{ e.speaker }}</p>
   {% endif %}
 {% else %}
-  <p class="party {{ e.party|lower }}">{{ e.speaker }}</p>
+  <div class "left">
+    <p class="party{% if e.party %} {{ e.party|lower }}{% endif %}">{{ e.speaker }}</p>
 {% endif %}
 </div>
 
