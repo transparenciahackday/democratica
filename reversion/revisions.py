@@ -1,12 +1,9 @@
 """Revision management for django-reversion."""
 
-
-try:
-    from functools import wraps
-except ImportError:
-    from django.utils.functional import wraps  # Python 2.4 fallback.
+from __future__ import unicode_literals
 
 import operator, sys
+from functools import wraps, reduce
 from threading import local
 from weakref import WeakValueDictionary
 
@@ -18,8 +15,9 @@ from django.db import models, DEFAULT_DB_ALIAS, connection
 from django.db.models import Q, Max
 from django.db.models.query import QuerySet
 from django.db.models.signals import post_save, pre_delete
+from django.utils.encoding import force_text
 
-from reversion.models import Revision, Version, VERSION_ADD, VERSION_CHANGE, VERSION_DELETE, has_int_pk, deprecated, pre_revision_commit, post_revision_commit
+from reversion.models import Revision, Version, VERSION_ADD, VERSION_CHANGE, VERSION_DELETE, has_int_pk, pre_revision_commit, post_revision_commit
 
 
 class VersionAdapter(object):
@@ -76,7 +74,10 @@ class VersionAdapter(object):
                 for related_obj in related.all():
                     yield related_obj
             elif related is not None:
-                raise TypeError, "Cannot follow the relationship %r. Expected a model or QuerySet, found %r" % (relationship, related)
+                raise TypeError("Cannot follow the relationship {relationship}. Expected a model or QuerySet, found {related}".format(
+                    relationship = relationship,
+                    related = related,
+                ))
     
     def get_serialization_format(self):
         """Returns the serialization format to use."""
@@ -92,7 +93,7 @@ class VersionAdapter(object):
         
     def get_version_data(self, obj, type_flag, db=None):
         """Creates the version data to be saved to the version model."""
-        object_id = unicode(obj.pk)
+        object_id = force_text(obj.pk)
         db = db or DEFAULT_DB_ALIAS
         content_type = ContentType.objects.db_manager(db).get_for_model(obj)
         if has_int_pk(obj.__class__):
@@ -105,7 +106,7 @@ class VersionAdapter(object):
             "content_type": content_type,
             "format": self.get_serialization_format(),
             "serialized_data": self.get_serialized_data(obj),
-            "object_repr": unicode(obj),
+            "object_repr": force_text(obj),
             "type": type_flag
         }
 
@@ -168,12 +169,12 @@ class RevisionContextManager(local):
             try:
                 if not self.is_invalid():
                     # Save the revision data.
-                    for manager, manager_context in self._objects.iteritems():
+                    for manager, manager_context in self._objects.items():
                         manager.save_revision(
                             dict(
                                 (obj, callable(data) and data() or data)
                                 for obj, data
-                                in manager_context.iteritems()
+                                in manager_context.items()
                             ),
                             user = self._user,
                             comment = self._comment,
@@ -348,8 +349,6 @@ class RevisionManager(object):
         self._revision_context_manager = revision_context_manager
         # Proxies to common context methods.
         self._revision_context = revision_context_manager.create_revision()
-        self.create_on_success = deprecated("@revision.create_on_success", "@reversion.create_revision")(self._revision_context)
-        self.add_meta = deprecated("revision.add_meta()", "reversion.add_meta()")(revision_context_manager.add_meta)
 
     # Registration methods.
 
@@ -362,19 +361,21 @@ class RevisionManager(object):
     
     def get_registered_models(self):
         """Returns an iterable of all registered models."""
-        return self._registered_models.keys()
+        return list(self._registered_models.keys())
         
     def register(self, model, adapter_cls=VersionAdapter, **field_overrides):
         """Registers a model with this revision manager."""
         # Prevent multiple registration.
         if self.is_registered(model):
-            raise RegistrationError, "%r has already been registered with django-reversion" % model
+            raise RegistrationError("{model} has already been registered with django-reversion".format(
+                model = model,
+            ))
         # Prevent proxy models being registered.
         if model._meta.proxy:
             raise RegistrationError("Proxy models cannot be used with django-reversion, register the parent class instead")
         # Perform any customization.
         if field_overrides:
-            adapter_cls = type("Custom" + adapter_cls.__name__, (adapter_cls,), field_overrides)
+            adapter_cls = type(adapter_cls.__name__, (adapter_cls,), field_overrides)
         # Perform the registration.
         adapter_obj = adapter_cls(model)
         self._registered_models[model] = adapter_obj
@@ -386,12 +387,16 @@ class RevisionManager(object):
         """Returns the registration information for the given model class."""
         if self.is_registered(model):
             return self._registered_models[model]
-        raise RegistrationError, "%r has not been registered with django-reversion" % model
+        raise RegistrationError("{model} has not been registered with django-reversion".format(
+            model = model,
+        ))
         
     def unregister(self, model):
         """Removes a model from version control."""
         if not self.is_registered(model):
-            raise RegistrationError, "%r has not been registered with django-reversion" % model
+            raise RegistrationError("{model} has not been registered with django-reversion".format(
+                model = model,
+            ))
         del self._registered_models[model]
         post_save.disconnect(self._post_save_receiver, model)
         pre_delete.disconnect(self._pre_delete_receiver, model)
@@ -430,12 +435,12 @@ class RevisionManager(object):
         # Create the revision.
         if objects:
             # Follow relationships.
-            for obj in self._follow_relationships(objects.iterkeys()):
+            for obj in self._follow_relationships(objects.keys()):
                 if not obj in objects:
                     adapter = self.get_adapter(obj.__class__)
                     objects[obj] = adapter.get_version_data(obj, VERSION_CHANGE)
             # Create all the versions without saving them
-            ordered_objects = list(objects.iterkeys())
+            ordered_objects = list(objects.keys())
             new_versions = [Version(**objects[obj]) for obj in ordered_objects]
             # Check if there's some change in all the revision's objects.
             save_revision = True
@@ -480,35 +485,8 @@ class RevisionManager(object):
                     revision = revision,
                     versions = new_versions,
                 )
-    
-    # Context management.
-    
-    @deprecated("reversion.revision", "reversion.create_revision()")
-    def __enter__(self, *args, **kwargs):
-        """Enters a revision management block."""
-        return self._revision_context.__enter__(*args, **kwargs)
-        
-    @deprecated("reversion.revision", "reversion.create_revision()")
-    def __exit__(self, *args, **kwargs):
-        """Leaves a block of revision management."""
-        return self._revision_context.__exit__(*args, **kwargs)
-    
-    # Revision meta data.
-    
-    user = property(
-        deprecated("revision.user", "reversion.get_user()")(lambda self: self._revision_context_manager.get_user()),
-        deprecated("revision.user", "reversion.set_user()")(lambda self, user: self._revision_context_manager.set_user(user)),
-    )
-    
-    comment = property(
-        deprecated("revision.comment", "reversion.get_comment()")(lambda self: self._revision_context_manager.get_comment()),
-        deprecated("revision.comment", "reversion.set_comment()")(lambda self, comment: self._revision_context_manager.set_comment(comment)),
-    )
-    
-    ignore_duplicates = property(
-        deprecated("revision.ignore_duplicates", "reversion.get_ignore_duplicates()")(lambda self: self._revision_context_manager.get_ignore_duplicates()),
-        deprecated("revision.ignore_duplicates", "reversion.set_ignore_duplicates()")(lambda self, ignore_duplicates: self._revision_context_manager.set_ignore_duplicates(ignore_duplicates))
-    )
+                # Return the revision.
+                return revision
     
     # Revision management API.
     
@@ -529,7 +507,7 @@ class RevisionManager(object):
             versions = versions.filter(object_id_int=object_id_int)
         else:
             # We can't do this using an index. Never mind.
-            object_id = unicode(object_id)
+            object_id = force_text(object_id)
             versions = versions.filter(object_id=object_id)
         versions = versions.order_by("-pk")
         return versions

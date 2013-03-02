@@ -4,7 +4,7 @@ Tests for the django-reversion API.
 These tests require Python 2.5 to run.
 """
 
-from __future__ import with_statement
+from __future__ import unicode_literals
 
 import datetime, os
 
@@ -12,26 +12,43 @@ from django.db import models
 from django.test import TestCase
 from django.core.management import call_command
 from django.conf import settings
-from django.conf.urls.defaults import *
+from django.conf.urls import url, patterns, include
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.utils.decorators import decorator_from_middleware
 from django.http import HttpResponse
 from django.utils.unittest import skipUnless
+from django.utils.encoding import force_text, python_2_unicode_compatible
 
 import reversion
-from reversion.revisions import RegistrationError, RevisionManager, RevisionManagementError
+from reversion.revisions import RegistrationError, RevisionManager
 from reversion.models import Revision, Version, VERSION_ADD, VERSION_CHANGE, VERSION_DELETE
 from reversion.middleware import RevisionMiddleware
 
 
+ZERO = datetime.timedelta(0)
+
+
+class UTC(datetime.tzinfo):
+    """UTC"""
+
+    def utcoffset(self, dt):
+        return ZERO
+
+    def tzname(self, dt):
+        return "UTC"
+
+    def dst(self, dt):
+        return ZERO
+
+@python_2_unicode_compatible
 class ReversionTestModelBase(models.Model):
 
     name = models.CharField(
         max_length = 100,
     )
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -49,7 +66,7 @@ str_pk_gen = 0;
 def get_str_pk():
     global str_pk_gen
     str_pk_gen += 1;
-    return str(str_pk_gen)
+    return force_text(str_pk_gen)
     
     
 class ReversionTestModel2(ReversionTestModelBase):
@@ -141,6 +158,9 @@ class ReversionTestBase(TestCase):
         del self.user
         # Delete the revisions index.
         Revision.objects.all().delete()
+        # Unregister all remaining models.
+        for registered_model in reversion.get_registered_models():
+            reversion.unregister(registered_model)
         # Re-register initial registered models.
         for initial_model, adapter in self.initial_registered_models:
             reversion.register(initial_model, adapter_cls=adapter)
@@ -298,15 +318,16 @@ class ApiTest(RevisionTestBase):
         self.assertEqual(len(reversion.get_unique_for_object(self.test21)), 2)
         
     def testCanGetForDate(self):
-        now = datetime.datetime.now()
-        # Test a model with an int pk.
-        version = reversion.get_for_date(self.test11, now)
-        self.assertEqual(version.field_dict["name"], "model1 instance1 version2")
-        self.assertRaises(Version.DoesNotExist, lambda: reversion.get_for_date(self.test11, datetime.datetime(1970, 1, 1)))
-        # Test a model with a str pk.
-        version = reversion.get_for_date(self.test21, now)
-        self.assertEqual(version.field_dict["name"], "model2 instance1 version2")
-        self.assertRaises(Version.DoesNotExist, lambda: reversion.get_for_date(self.test21, datetime.datetime(1970, 1, 1)))
+        with self.settings(USE_TZ=True):
+            now = datetime.datetime.now(UTC())
+            # Test a model with an int pk.
+            version = reversion.get_for_date(self.test11, now)
+            self.assertEqual(version.field_dict["name"], "model1 instance1 version2")
+            self.assertRaises(Version.DoesNotExist, lambda: reversion.get_for_date(self.test11, datetime.datetime(1970, 1, 1, tzinfo=UTC())))
+            # Test a model with a str pk.
+            version = reversion.get_for_date(self.test21, now)
+            self.assertEqual(version.field_dict["name"], "model2 instance1 version2")
+            self.assertRaises(Version.DoesNotExist, lambda: reversion.get_for_date(self.test21, datetime.datetime(1970, 1, 1, tzinfo=UTC())))
         
     def testCanGetDeleted(self):
         with reversion.create_revision():
@@ -415,8 +436,6 @@ class MultiTableInheritanceApiTest(RevisionTestBase):
     
     def tearDown(self):
         super(MultiTableInheritanceApiTest, self).tearDown()
-        reversion.unregister(ReversionTestModel1Child)
-        ReversionTestModel1Child.objects.all().delete()
         del self.testchild1
 
 
@@ -629,13 +648,14 @@ class ParentTestAdminModel(models.Model):
         app_label = "auth"  # Hack: Cannot use an app_label that is under South control, due to http://south.aeracode.org/ticket/520
 
 
+@python_2_unicode_compatible
 class ChildTestAdminModel(ParentTestAdminModel):
 
     child_name = models.CharField(
         max_length = 200,
     )
     
-    def __unicode__(self):
+    def __str__(self):
         return self.child_name
     
     class Meta:
@@ -696,7 +716,18 @@ class VersionAdminTest(TestCase):
         )
         self.user.set_password("bar")
         self.user.save()
-        self.client.login(username="foo", password="bar")
+        # Log the user in.
+        if hasattr(self, "settings"):
+            with self.settings(INSTALLED_APPS=tuple(set(tuple(settings.INSTALLED_APPS) + ("django.contrib.sessions",)))):  # HACK: Without this the client won't log in, for some reason.
+                self.client.login(
+                    username = "foo",
+                    password = "bar",
+                )
+        else:
+            self.client.login(
+                username = "foo",
+                password = "bar",
+            )
 
     @skipUnless('django.contrib.admin' in settings.INSTALLED_APPS,
                 "django.contrib.admin not activated")
@@ -805,13 +836,3 @@ class PatchTest(RevisionTestBase):
         super(PatchTest, self).tearDown()
         del self.version1
         del self.version2
-
-
-# Import the deprecated tests.
-from reversion import tests_deprecated
-
-for name, value in vars(tests_deprecated).iteritems():
-    if isinstance(value, type) and issubclass(value, TestCase):
-        globals()[name] = value
-del name
-del value

@@ -1,8 +1,10 @@
 """A number of useful helper functions to automate common tasks."""
 
+from __future__ import unicode_literals
 
 from django.contrib import admin
 from django.contrib.admin.sites import NotRegistered
+from django.utils.encoding import force_text
 
 from reversion.admin import VersionAdmin
 
@@ -19,7 +21,9 @@ def patch_admin(model, admin_site=None):
     try:
         ModelAdmin = admin_site._registry[model].__class__
     except KeyError:
-        raise NotRegistered, "The model %r has not been registered with the admin site." % model
+        raise NotRegistered("The model {model} has not been registered with the admin site.".format(
+            model = model,
+        ))
     # Unregister existing admin class.
     admin_site.unregister(model)
     # Register patched admin class.
@@ -44,10 +48,10 @@ else:
     def generate_diffs(old_version, new_version, field_name, cleanup):
         """Generates a diff array for the named field between the two versions."""
         # Extract the text from the versions.
-        old_text = old_version.field_dict[field_name] or u""
-        new_text = new_version.field_dict[field_name] or u""
+        old_text = old_version.field_dict[field_name] or ""
+        new_text = new_version.field_dict[field_name] or ""
         # Generate the patch.
-        diffs = dmp.diff_main(unicode(old_text), unicode(new_text))
+        diffs = dmp.diff_main(force_text(old_text), force_text(new_text))
         if cleanup == "semantic":
             dmp.diff_cleanupSemantic(diffs)
         elif cleanup == "efficiency":
@@ -57,7 +61,7 @@ else:
         else:
             raise ValueError("cleanup parameter should be one of 'semantic', 'efficiency' or None.")
         return diffs
-    
+
     def generate_patch(old_version, new_version, field_name, cleanup=None):
         """
         Generates a text patch of the named field between the two versions.
@@ -68,7 +72,7 @@ else:
         diffs = generate_diffs(old_version, new_version, field_name, cleanup)
         patch = dmp.patch_make(diffs)
         return dmp.patch_toText(patch)
-    
+
     def generate_patch_html(old_version, new_version, field_name, cleanup=None):
         """
         Generates a pretty html version of the differences between the named 
@@ -79,4 +83,4 @@ else:
         """
         diffs = generate_diffs(old_version, new_version, field_name, cleanup)
         return dmp.diff_prettyHtml(diffs)
-    
+
