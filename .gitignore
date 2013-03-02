@@ -1,9 +1,10 @@
-/temp.pid
-/celery
-/localsettings.py
+temp.pid
+celery
+localsettings.py
 *.swp
 *.pyc
 
+sitestatic/
 media/mp-photos
 media/fotos
 media/js/high*

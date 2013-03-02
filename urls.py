@@ -26,6 +26,8 @@ urlpatterns = patterns('',
     (r'^$', TemplateView.as_view(template_name='index.html')),
     (r'^acerca/$', TemplateView.as_view(template_name='acerca.html')),
 
+
+
     url(r'^deputados/$', views.mp_list, name='mp_list'),
     url(r'^deputados/(?P<object_id>\d+)/$', views.mp_detail, name='mp_detail'),
     url(r'^deputados/(?P<object_id>\d+)/stats$', views.mp_statistics, name='mp_stats'),
@@ -52,6 +54,7 @@ urlpatterns = patterns('',
     (ur'^sessoes/reprocessar/(?P<id>\d+)/$', darviews.refresh),
 
     (r'^pesquisa/', include('haystack.urls')),
+    (r'^grappelli/', include('grappelli.urls')),
 
     url(r'^login/', authviews.login, name='login'),
     url(r'^logout/', authviews.logout, name='logout'),
