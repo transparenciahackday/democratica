@@ -3,6 +3,7 @@
 
 from django.http import HttpResponse, Http404
 from django.views.generic import TemplateView, RedirectView, ListView, DetailView
+from django.shortcuts import render
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import escape
@@ -64,8 +65,9 @@ def day_list(request, year=datetime.date.today().year):
     for el in elections_for_year(year):
         election_dates[el.date] = el.type
     extra['election_dates'] = election_dates
+    extra['object_list'] = all_days
     
-    return ListView.as_view(request, all_days, extra_context=extra)
+    return render(request, 'dar/day_list.html', extra)
 
 def day_detail(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
@@ -100,12 +102,13 @@ def day_detail(request, year, month, day):
     else:
         pdf_url = None
 
-    return TemplateView.as_view(url='dar/day_detail.html',
-                        extra_context={'day': day, 'entries': entries,
-                       'gov': gov.number if gov else None,
-                       'mpdict': mp_lookup,
-                       'pdf_url': pdf_url,
-                })
+    context = {'day': day, 'entries': entries,
+               'gov': gov.number if gov else None,
+               'mpdict': mp_lookup,
+               'pdf_url': pdf_url,
+                }
+
+    return render(request, 'dar/day_detail.html', context)
 
 def entry_detail(request, year, month, day, position):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
@@ -115,8 +118,8 @@ def entry_detail(request, year, month, day, position):
     except Entry.DoesNotExist:
         e = Entry.objects.filter(day=day, position__lt=position).order_by('-position')[0]
     url = day.get_absolute_url() + '#' + str(e.position)
-    return RedirectView.as_view(request=request, url=url)
-
+    from django.http import HttpResponseRedirect
+    return HttpResponseRedirect(url)
 
 def day_statistics(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
