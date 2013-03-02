@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse, Http404
-from django.views.generic.list_detail import object_list, object_detail
-from django.views.generic.simple import direct_to_template, redirect_to
+from django.views.generic import TemplateView, RedirectView, ListView, DetailView
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import escape
@@ -66,7 +65,7 @@ def day_list(request, year=datetime.date.today().year):
         election_dates[el.date] = el.type
     extra['election_dates'] = election_dates
     
-    return object_list(request, all_days, extra_context=extra)
+    return ListView.as_view(request, all_days, extra_context=extra)
 
 def day_detail(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
@@ -101,8 +100,8 @@ def day_detail(request, year, month, day):
     else:
         pdf_url = None
 
-    return direct_to_template(request, 'dar/day_detail.html',
-        extra_context={'day': day, 'entries': entries,
+    return TemplateView.as_view(url='dar/day_detail.html',
+                        extra_context={'day': day, 'entries': entries,
                        'gov': gov.number if gov else None,
                        'mpdict': mp_lookup,
                        'pdf_url': pdf_url,
@@ -116,7 +115,7 @@ def entry_detail(request, year, month, day, position):
     except Entry.DoesNotExist:
         e = Entry.objects.filter(day=day, position__lt=position).order_by('-position')[0]
     url = day.get_absolute_url() + '#' + str(e.position)
-    return redirect_to(request=request, url=url)
+    return RedirectView.as_view(request=request, url=url)
 
 
 def day_statistics(request, year, month, day):
@@ -205,7 +204,7 @@ def day_statistics(request, year, month, day):
     except (IndexError, AttributeError):
         pass
 
-    return object_detail(request, all_days, day.id,
+    return DetailView.as_view(request, all_days, day.id,
             template_object_name = 'day', template_name='dar/day_detail_statistics.html',
             extra_context={'entries': entries,
                            'gov': gov.number if gov else None,
@@ -249,7 +248,7 @@ def day_revisions(request, year, month, day):
     new_version = available_versions[1]
     '''
 
-    return direct_to_template(request, 'dar/day_revisions.html',
+    return TemplateView.as_view(request, 'dar/day_revisions.html',
         extra_context={'day': day, 'revs': all_versions,
                 })
 
@@ -269,7 +268,7 @@ def wordlist(request):
                 continue
         wordlist[year] = words
 
-    return direct_to_template(request, 'dar/wordlist.html',
+    return TemplateView.as_view(request, 'dar/wordlist.html',
         extra_context={'wordlist': wordlist, })
 
 #@ajax_login_required
@@ -376,7 +375,6 @@ def correct_newlines(request, id):
     e.type = current_type
     e.save()
     return HttpResponse('<p>OK</p>')
-
 
 @reversion.create_revision()
 def refresh(request, id):

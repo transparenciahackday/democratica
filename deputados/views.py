@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from democratica.deputados.models import MP, Legislature, Party, Constituency
-
-from django.views.generic.list_detail import object_list, object_detail
-from django.views.generic.simple import direct_to_template
-
-
-def index(request):
-    return direct_to_template('index.html')
+from django.views.generic import TemplateView, ListView, DetailView
 
 def mp_list(request):
     legislature_number = request.GET.get('legislature', Legislature.objects.order_by('-number')[0].number)
@@ -56,14 +50,13 @@ def mp_list(request):
     extra['constituency'] = int(constituency_id) if constituency_id != 'all' else 'all'
     extra['constituencies'] = Constituency.objects.all()
 
-    return object_list(request, queryset,
-                       extra_context=extra,
-                       ) 
+    return ListView.as_view(request, queryset,
+                            extra_context=extra,
+                            ) 
 
 def mp_detail(request, object_id):
     queryset = MP.objects.select_related().all()
-
-    return object_detail(request, queryset, object_id)
+    return DetailView.as_view(request, queryset, object_id)
 
 def mp_statistics(request, object_id):
     queryset = MP.objects.all()
