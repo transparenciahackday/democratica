@@ -68,10 +68,10 @@ urlpatterns = patterns('',
     url(r'^deputados/(?P<id>\d+)/json/$', RedirectView.as_view(url='/api/v1/deputados/%(id)d/?format=json')),
     url(r'^deputados/(?P<id>\d+)/xml/$', RedirectView.as_view(url='/api/v1/deputados/%(id)d/?format=xml')),
 
-    (r'^ie6/$', direct_to_template, {'template': 'browser-update.html'}),
-    (r'^404/$', direct_to_template, {'template': '404.html'}),
-    (r'^500/$', direct_to_template, {'template': '500.html'}),
-    (r'^502/$', direct_to_template, {'template': '502.html'}),
+    (r'^ie6/$', TemplateView.as_view(template_name='browser-update.html')),
+    (r'^404/$', TemplateView.as_view(template_name='404.html')),
+    (r'^500/$', TemplateView.as_view(template_name='500.html')),
+    (r'^502/$', TemplateView.as_view(template_name='502.html')),
 
     url(r'^$', search_view_factory(
             searchqueryset=sqs,

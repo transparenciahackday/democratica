@@ -9,7 +9,7 @@
 {% block title %}{{ day.date }} &mdash; Demo.cratica (Beta){% endblock %}
 
 {% block ogtitle %}{{ day.date }} &mdash; Demo.cratica (Beta){% endblock %}
-{% block ogurl %}{% url day_detail day.date.year day.date.month day.date.day %}{% endblock %}
+{% block ogurl %}{% url "day_detail" day.date.year day.date.month day.date.day %}{% endblock %}
 {% block ogtype %}transcript{% endblock %}
 
 {% block extrascripts %}
@@ -19,7 +19,7 @@
       <div id="content-box">
         
         <ul id="dar-tabs" class="tabs">
-          <li><a href="{% url day_detail day.date.year day.date.month day.date.day %}">Transcrição</a></li>
+          <li><a href="{% url "day_detail" day.date.year day.date.month day.date.day %}">Transcrição</a></li>
           <li><a href="stats" title="">Estatísticas</a></li>
           <li><span>Revisões</span></li>
         </ul>
@@ -48,7 +48,7 @@
         </ul>
         <ul>
           <li><a href="">Abrir PDF original</a></li>
-          <li><a href="{% url parse_session_entries day.id %}">{% if day.parsed %}Re-catalogar sessão{% else %}Catalogar sessão{% endif %} (demora um bocadinho)</a></li>
+          <li><a href="{% url "parse_session_entries" day.id %}">{% if day.parsed %}Re-catalogar sessão{% else %}Catalogar sessão{% endif %} (demora um bocadinho)</a></li>
           <li><a href="">Logout?</a></li>
         </ul>
       </div><!-- /#toolbar -->
