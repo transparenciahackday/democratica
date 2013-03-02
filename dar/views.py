@@ -207,15 +207,16 @@ def day_statistics(request, year, month, day):
     except (IndexError, AttributeError):
         pass
 
-    return DetailView.as_view(request, all_days, day.id,
-            template_object_name = 'day', template_name='dar/day_detail_statistics.html',
-            extra_context={'entries': entries,
-                           'gov': gov.number if gov else None,
-                           'party_counts': party_counts,
-                           'party_colors': PARTY_COLORS,
-                           'mb_counts': mb_counts,
-                           'nextdate': next_date, 'prevdate': prev_date,
-                })
+    context = {'day': day,
+               'entries': entries,
+               'gov': gov.number if gov else None,
+               'party_counts': party_counts,
+               'party_colors': PARTY_COLORS,
+               'mb_counts': mb_counts,
+               'nextdate': next_date, 'prevdate': prev_date,
+              }
+
+    return render(request, 'dar/day_detail_statistics.html', context)
 
 def day_revisions(request, year, month, day):
     from reversion.helpers import generate_patch_html
@@ -251,9 +252,7 @@ def day_revisions(request, year, month, day):
     new_version = available_versions[1]
     '''
 
-    return TemplateView.as_view(request, 'dar/day_revisions.html',
-        extra_context={'day': day, 'revs': all_versions,
-                })
+    return render(request, 'dar/day_revisions.html', {'day': day, 'revs': all_versions})
 
 def wordlist(request):
     wordlist = {}
@@ -271,8 +270,7 @@ def wordlist(request):
                 continue
         wordlist[year] = words
 
-    return TemplateView.as_view(request, 'dar/wordlist.html',
-        extra_context={'wordlist': wordlist, })
+    return render(request, 'dar/wordlist.html', {'wordlist': wordlist})
 
 #@ajax_login_required
 @ensure_csrf_cookie
