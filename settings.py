@@ -43,8 +43,8 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-ADMIN_MEDIA_PREFIX = '/admin-media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
+ADMIN_MEDIA_PREFIX = 'http:/localhost:8000/admin-media/'
 SECRET_KEY = 'u=+o$bugq9iiq0@3=-y#5ahm%r6pxo=3*qvqp7in0w1donajl8'
 
 TEMPLATE_LOADERS = (
@@ -96,7 +96,7 @@ INSTALLED_APPS = (
     'tastypie',
 )  
   
-STATIC_URL = 'media/'
+STATIC_URL = '/media/'
 
 # Celery
 BROKER_URL = "django://" # tell kombu to use the Django database as the message queue  
