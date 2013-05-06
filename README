@@ -5,6 +5,41 @@ A web application for visualising parliamentary information. Originally
 developed for the Portuguese Parliament; this version of the application can be
 seen in action at http://demo.cratica.org
 
+Want to use this?
+-----------------
+
+If you're interested in this software, awesome!
+
+However, you'll probably need our help to get it going. So you just need to ping us at contacto (at) cratica (dot) org and we'll be glad to help get you up to speed -- and use the excuse to writer proper docs so everyone can benefit.
+
+Below we hastily specify the steps to get it going, mostly for our own reference. We'll document this better as soon as someone lets us know they need it.
+
+Bootstrapping after install
+---------------------------
+
+	python manage.py syncdb
+	python manage.py migrate --all
+	
+	cd scripts
+	python import_mps.py
+	python import_parties.py
+	python import_governments.py
+	python import_linksets.py
+	python import_mp_photos.py
+	python import_legislatures.py
+	python determine_mp_gender.py
+	for f in ~/repos/dar-json/12/*.json; do python import_json_transcripts.py -i ${f} -f; done
+
+Updating after git pull
+-----------------------
+
+	python manage.py migrate --all
+
+	cd scripts
+	python import_mps.py
+	python import_mp_photos.py
+	for f in ~/repos/dar/12/*.json; do python import_json_transcripts.py -i ${f} -f; done
+	
 Rights and licencing
 --------------------
 
