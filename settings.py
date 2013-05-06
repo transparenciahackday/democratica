@@ -43,8 +43,8 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-ADMIN_MEDIA_PREFIX = '/media/admin/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
+ADMIN_MEDIA_PREFIX = 'http:/localhost:8000/admin-media/'
 SECRET_KEY = 'u=+o$bugq9iiq0@3=-y#5ahm%r6pxo=3*qvqp7in0w1donajl8'
 
 TEMPLATE_LOADERS = (
@@ -77,9 +77,11 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'grappelli.dashboard',
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'django.contrib.databrowse',
     'democratica.core',
     'democratica.deputados',
     'democratica.dar',
@@ -94,6 +96,8 @@ INSTALLED_APPS = (
     'tastypie',
 )  
   
+STATIC_URL = '/media/'
+
 # Celery
 BROKER_URL = "django://" # tell kombu to use the Django database as the message queue  
 CELERY_IMPORTS = ("dar.tasks",)
@@ -114,3 +118,5 @@ HAYSTACK_SEARCH_RESULTS_PER_PAGE = 100
 # HAYSTACK_CUSTOM_HIGHLIGHTER = 'democratica.dar.utils.MyHighlighter'
 
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False} 
+
+GRAPPELLI_INDEX_DASHBOARD = 'democratica.dashboard.CustomIndexDashboard'

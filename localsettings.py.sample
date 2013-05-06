@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 HAYSTACK_XAPIAN_PATH = '/home/user/democratica/xapian-index'
+STATIC_ROOT = '/home/user/democratica/sitestatic/'
 
 # Configuração do demo.cratica
 # Em apenas dois passos, o demo.cratica estará configurado para o teu computador.

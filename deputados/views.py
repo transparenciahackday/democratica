@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from democratica.deputados.models import MP, Legislature, Party, Constituency
-
-from django.views.generic.list_detail import object_list, object_detail
-from django.views.generic.simple import direct_to_template
-
-
-def index(request):
-    return direct_to_template('index.html')
+from django.views.generic import TemplateView, ListView, DetailView
+from django.shortcuts import render
 
 def mp_list(request):
     legislature_number = request.GET.get('legislature', Legislature.objects.order_by('-number')[0].number)
@@ -42,35 +37,29 @@ def mp_list(request):
     queryset_1 = queryset[:rowcount1]
     queryset_2 = queryset[rowcount1:rowcount1+rowcount2]
     queryset_3 = queryset[rowcount1+rowcount2:]
-    extra = {}
-    extra['querysets'] = [queryset_1, queryset_2, queryset_3]
+    context = {}
+    context['querysets'] = [queryset_1, queryset_2, queryset_3]
 
-    # extra['legislatures'] = Legislature.objects.order_by('-number').values('id', 'number')
-    extra['legislatures'] = Legislature.objects.order_by('-number')
-    extra['legislature'] = int(legislature_number) if legislature_number != 'all' else 'all'
+    # context['legislatures'] = Legislature.objects.order_by('-number').values('id', 'number')
+    context['legislatures'] = Legislature.objects.order_by('-number')
+    context['legislature'] = int(legislature_number) if legislature_number != 'all' else 'all'
 
-    # extra['parties'] = Party.objects.filter(has_mps=True).values('id', 'abbrev')
-    extra['parties'] = Party.objects.filter(has_mps=True)
-    extra['party'] = party
+    # context['parties'] = Party.objects.filter(has_mps=True).values('id', 'abbrev')
+    context['parties'] = Party.objects.filter(has_mps=True)
+    context['party'] = party
 
-    extra['constituency'] = int(constituency_id) if constituency_id != 'all' else 'all'
-    extra['constituencies'] = Constituency.objects.all()
+    context['constituency'] = int(constituency_id) if constituency_id != 'all' else 'all'
+    context['constituencies'] = Constituency.objects.all()
+    context['object_list'] = queryset
 
-    return object_list(request, queryset,
-                       extra_context=extra,
-                       ) 
+    return render(request, 'deputados/mp_list.html', context) 
 
 def mp_detail(request, object_id):
-    queryset = MP.objects.select_related().all()
-
-    return object_detail(request, queryset, object_id)
+    return render(request, 'deputados/mp_detail.html', {'mp': mp})
 
 def mp_statistics(request, object_id):
-    queryset = MP.objects.all()
-    mp = MP.objects.get(id=object_id)
-
-    return object_detail(request, queryset, object_id,
-            template_name="deputados/mp_detail_statistics.html", )
+    mp = get_object_or_404(MP, pk=object_id)
+    return render(request, 'deputados/mp_detail_statistics.html', {'mp': mp})
 
 def mp_search(request, query=''):
     if not query:
@@ -87,7 +76,4 @@ def mp_search(request, query=''):
     #relevant_results
     #partial_results
 
-    return direct_to_template(request, 'mp_search.html',
-                              extra_context={
-                                  'results': results,
-                                  })
+    return render(request, 'deputados/mp_search.html', {'results': results})

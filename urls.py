@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template, redirect_to
+from django.views.generic import TemplateView, RedirectView
 from democratica import settings
 from democratica.deputados.models import MP, Party, Mandate, LinkSet, Legislature, Fact, FactType, Activity
 import democratica.deputados.views as views
@@ -23,8 +23,10 @@ v1_api.register(ConstituencyResource())
 
 
 urlpatterns = patterns('',
-    (r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
-    (r'^acerca/$', 'django.views.generic.simple.direct_to_template', {'template': 'acerca.html'}),
+    (r'^$', TemplateView.as_view(template_name='index.html')),
+    (r'^acerca/$', TemplateView.as_view(template_name='acerca.html')),
+
+
 
     url(r'^deputados/$', views.mp_list, name='mp_list'),
     url(r'^deputados/(?P<object_id>\d+)/$', views.mp_detail, name='mp_detail'),
@@ -52,6 +54,7 @@ urlpatterns = patterns('',
     (ur'^sessoes/reprocessar/(?P<id>\d+)/$', darviews.refresh),
 
     (r'^pesquisa/', include('haystack.urls')),
+    (r'^grappelli/', include('grappelli.urls')),
 
     url(r'^login/', authviews.login, name='login'),
     url(r'^logout/', authviews.logout, name='logout'),
@@ -60,18 +63,18 @@ urlpatterns = patterns('',
     # (r'^databrowse/(.*)', databrowse.site.root),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
-    (r'^labs/$', direct_to_template, {'template': 'labs/labs_list.html'}),
+    (r'^labs/$', TemplateView.as_view(template_name='labs/labs_list.html')),
     (ur'^labs/doquesefalou/$', darviews.wordlist),
 
     # api
     (r'^api/', include(v1_api.urls)),
-    url(r'^deputados/(?P<id>\d+)/json/$', redirect_to, {'url': '/api/v1/deputados/%(id)d/?format=json'}),
-    url(r'^deputados/(?P<id>\d+)/xml/$', redirect_to, {'url': '/api/v1/deputados/%(id)d/?format=xml'}),
+    url(r'^deputados/(?P<id>\d+)/json/$', RedirectView.as_view(url='/api/v1/deputados/%(id)d/?format=json')),
+    url(r'^deputados/(?P<id>\d+)/xml/$', RedirectView.as_view(url='/api/v1/deputados/%(id)d/?format=xml')),
 
-    (r'^ie6/$', direct_to_template, {'template': 'browser-update.html'}),
-    (r'^404/$', direct_to_template, {'template': '404.html'}),
-    (r'^500/$', direct_to_template, {'template': '500.html'}),
-    (r'^502/$', direct_to_template, {'template': '502.html'}),
+    (r'^ie6/$', TemplateView.as_view(template_name='browser-update.html')),
+    (r'^404/$', TemplateView.as_view(template_name='404.html')),
+    (r'^500/$', TemplateView.as_view(template_name='500.html')),
+    (r'^502/$', TemplateView.as_view(template_name='502.html')),
 
     url(r'^$', search_view_factory(
             searchqueryset=sqs,

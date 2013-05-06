@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse, Http404
-from django.views.generic.list_detail import object_list, object_detail
-from django.views.generic.simple import direct_to_template, redirect_to
+from django.views.generic import TemplateView, RedirectView, ListView, DetailView
+from django.shortcuts import render
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import escape
@@ -65,8 +65,9 @@ def day_list(request, year=datetime.date.today().year):
     for el in elections_for_year(year):
         election_dates[el.date] = el.type
     extra['election_dates'] = election_dates
+    extra['object_list'] = all_days
     
-    return object_list(request, all_days, extra_context=extra)
+    return render(request, 'dar/day_list.html', extra)
 
 def day_detail(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
@@ -101,12 +102,13 @@ def day_detail(request, year, month, day):
     else:
         pdf_url = None
 
-    return direct_to_template(request, 'dar/day_detail.html',
-        extra_context={'day': day, 'entries': entries,
-                       'gov': gov.number if gov else None,
-                       'mpdict': mp_lookup,
-                       'pdf_url': pdf_url,
-                })
+    context = {'day': day, 'entries': entries,
+               'gov': gov.number if gov else None,
+               'mpdict': mp_lookup,
+               'pdf_url': pdf_url,
+                }
+
+    return render(request, 'dar/day_detail.html', context)
 
 def entry_detail(request, year, month, day, position):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
@@ -116,8 +118,8 @@ def entry_detail(request, year, month, day, position):
     except Entry.DoesNotExist:
         e = Entry.objects.filter(day=day, position__lt=position).order_by('-position')[0]
     url = day.get_absolute_url() + '#' + str(e.position)
-    return redirect_to(request=request, url=url)
-
+    from django.http import HttpResponseRedirect
+    return HttpResponseRedirect(url)
 
 def day_statistics(request, year, month, day):
     d = datetime.date(year=int(year), month=int(month), day=int(day))
@@ -205,15 +207,16 @@ def day_statistics(request, year, month, day):
     except (IndexError, AttributeError):
         pass
 
-    return object_detail(request, all_days, day.id,
-            template_object_name = 'day', template_name='dar/day_detail_statistics.html',
-            extra_context={'entries': entries,
-                           'gov': gov.number if gov else None,
-                           'party_counts': party_counts,
-                           'party_colors': PARTY_COLORS,
-                           'mb_counts': mb_counts,
-                           'nextdate': next_date, 'prevdate': prev_date,
-                })
+    context = {'day': day,
+               'entries': entries,
+               'gov': gov.number if gov else None,
+               'party_counts': party_counts,
+               'party_colors': PARTY_COLORS,
+               'mb_counts': mb_counts,
+               'nextdate': next_date, 'prevdate': prev_date,
+              }
+
+    return render(request, 'dar/day_detail_statistics.html', context)
 
 def day_revisions(request, year, month, day):
     from reversion.helpers import generate_patch_html
@@ -249,9 +252,7 @@ def day_revisions(request, year, month, day):
     new_version = available_versions[1]
     '''
 
-    return direct_to_template(request, 'dar/day_revisions.html',
-        extra_context={'day': day, 'revs': all_versions,
-                })
+    return render(request, 'dar/day_revisions.html', {'day': day, 'revs': all_versions})
 
 def wordlist(request):
     wordlist = {}
@@ -269,8 +270,7 @@ def wordlist(request):
                 continue
         wordlist[year] = words
 
-    return direct_to_template(request, 'dar/wordlist.html',
-        extra_context={'wordlist': wordlist, })
+    return render(request, 'dar/wordlist.html', {'wordlist': wordlist})
 
 #@ajax_login_required
 @ensure_csrf_cookie
@@ -376,7 +376,6 @@ def correct_newlines(request, id):
     e.type = current_type
     e.save()
     return HttpResponse('<p>OK</p>')
-
 
 @reversion.create_revision()
 def refresh(request, id):

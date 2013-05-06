@@ -160,9 +160,9 @@
     <div id="content-box">
       
       <ul id="dar-tabs" class="tabs">
-        <li><a href="{% url day_detail day.date.year day.date.month day.date.day %}" title="">Sessão</a></li>
+        <li><a href="{% url "day_detail" day.date.year day.date.month day.date.day %}" title="">Sessão</a></li>
         <li><span>Estatísticas</span></li>
-        <li><a href="{% url day_revisions day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
+        <li><a href="{% url "day_revisions" day.date.year day.date.month day.date.day %}" title="">Revisões</a></li>
       </ul>
        
       <h2 class="ribbon">{{ day.date }}</h2>
@@ -198,10 +198,10 @@
 
       <ul class="pagination">
         {% if prevdate %}
-        <li id="previous"><a href="{% url day_stats prevdate.year prevdate.month prevdate.day %}">&laquo; Dia anterior</a></li>
+        <li id="previous"><a href="{% url "day_stats" prevdate.year prevdate.month prevdate.day %}">&laquo; Dia anterior</a></li>
         {% endif %}
         {% if nextdate %}
-        <li id="next"><a href="{% url day_stats nextdate.year nextdate.month nextdate.day %}">Dia seguinte &raquo;</a></li>
+        <li id="next"><a href="{% url "day_stats" nextdate.year nextdate.month nextdate.day %}">Dia seguinte &raquo;</a></li>
         {% endif %}
       </ul><!-- /pagination-->
         

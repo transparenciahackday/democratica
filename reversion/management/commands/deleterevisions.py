@@ -1,3 +1,5 @@
+from __future__ import unicode_literals, print_function
+
 import datetime, operator, sys
 from optparse import make_option
 
@@ -7,6 +9,7 @@ from django.db.models import Q, Count
 from django.contrib.contenttypes.models import ContentType
 
 from reversion.models import Revision, Version
+from django.db.utils import DatabaseError
 
 
 class Command(BaseCommand):
@@ -153,7 +156,7 @@ Examples:
         # Prepare message if verbose
         if verbosity > 0:
             if not date and not app_labels and not keep:
-                print "All revisions will be deleted for all models."
+                print("All revisions will be deleted for all models.")
             else:
                 date_msg = ""
                 if date:
@@ -175,9 +178,9 @@ Examples:
                     version_query = Version.objects.all()
                     if date or app_labels or keep:
                         version_query = version_query.filter(revision__in=revision_query)
-                    print "%s revision(s)%s%swill be deleted%s.\n%s model version(s) will be deleted." % (revision_count, date_msg, models_msg, keep_msg, version_query.count())
+                    print("%s revision(s)%s%swill be deleted%s.\n%s model version(s) will be deleted." % (revision_count, date_msg, models_msg, keep_msg, version_query.count()))
                 else:
-                    print "No revision%s%sto delete%s.\nDone" % (date_msg, models_msg, keep_msg)
+                    print("No revision%s%sto delete%s.\nDone" % (date_msg, models_msg, keep_msg))
                     sys.exit()
 
 
@@ -185,11 +188,19 @@ Examples:
         if confirmation:
             choice = raw_input("Are you sure you want to delete theses revisions? [y|N] ")
             if choice.lower() != "y":
-                print "Aborting revision deletion."
+                print("Aborting revision deletion.")
                 sys.exit()
 
 
         # Delete versions and revisions
-        print "Deleting revisions..."
-        revision_query.delete()
-        print "Done"
+        print("Deleting revisions...")
+        
+        try:
+            revision_query.delete()
+        except DatabaseError:
+            # may fail on sqlite if the query is too long
+            print("Delete failed. Trying again with slower method.")
+            for item in revision_query:
+                item.delete()
+                
+        print("Done")
