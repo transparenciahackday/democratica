@@ -1,4 +1,9 @@
 Próximas acções
+===============
+
+* Resolver o bug dos ficheiros estáticos não serem usados
+  https://docs.djangoproject.com/en/dev/howto/static-files/
+  
 
 1. Correr novamente o script das fotos do Eduardo
 2. Correr o scraper dos deputados para JSON
