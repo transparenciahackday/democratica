@@ -38,7 +38,7 @@ Below we hastily specify the steps to get it going, mostly for our own reference
 	
 ## Rights and licencing
 
-Copyright (c) 2010-2011 - [Ana Carvalho](ana@manufacturaindependente.org) & [Ricardo
+Copyright (c) 2010-2011 - [Ana Isabel Carvalho](ana@manufacturaindependente.org) & [Ricardo
 Lafuente](ricardo@manufacturaindependente.org).
 
 This program is free software: you can redistribute it and/or modify
@@ -52,7 +52,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see (http://www.gnu.org/licenses).
+along with this program.  If not, see http://www.gnu.org/licenses
 
 The full license text can be found inside the AGPL.txt file inside this directory.
 
