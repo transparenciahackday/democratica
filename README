@@ -1,12 +1,10 @@
-Demo.cratica
-============
+# Demo.cratica
 
 A web application for visualising parliamentary information. Originally
 developed for the Portuguese Parliament; this version of the application can be
 seen in action at http://demo.cratica.org
 
-Want to use this?
------------------
+## Want to use this?
 
 If you're interested in this software, awesome!
 
@@ -14,8 +12,7 @@ However, you'll probably need our help to get it going. So you just need to ping
 
 Below we hastily specify the steps to get it going, mostly for our own reference. We'll document this better as soon as someone lets us know they need it.
 
-Bootstrapping after install
----------------------------
+## Bootstrapping after install
 
 	python manage.py syncdb
 	python manage.py migrate --all
@@ -30,8 +27,7 @@ Bootstrapping after install
 	python determine_mp_gender.py
 	for f in ~/repos/dar-json/12/*.json; do python import_json_transcripts.py -i ${f} -f; done
 
-Updating after git pull
------------------------
+## Updating after git pull
 
 	python manage.py migrate --all
 
@@ -40,11 +36,10 @@ Updating after git pull
 	python import_mp_photos.py
 	for f in ~/repos/dar/12/*.json; do python import_json_transcripts.py -i ${f} -f; done
 	
-Rights and licencing
---------------------
+## Rights and licencing
 
-Copyright (c) 2010-2011 - Ana Carvalho <ana@manufacturaindependente.org> & Ricardo
-Lafuente <ricardo@manufacturaindependente.org>.
+Copyright (c) 2010-2011 - [Ana Carvalho](ana@manufacturaindependente.org) & [Ricardo
+Lafuente](ricardo@manufacturaindependente.org).
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -57,7 +52,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see (http://www.gnu.org/licenses).
 
 The full license text can be found inside the AGPL.txt file inside this directory.
 
